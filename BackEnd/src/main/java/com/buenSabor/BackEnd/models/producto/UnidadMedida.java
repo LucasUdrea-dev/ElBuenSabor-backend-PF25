@@ -36,7 +36,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Unidad_Medida")
 public class UnidadMedida extends Bean {
 

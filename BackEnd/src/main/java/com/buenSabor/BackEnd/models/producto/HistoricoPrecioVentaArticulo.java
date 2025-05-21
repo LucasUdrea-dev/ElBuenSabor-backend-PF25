@@ -35,7 +35,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Historico_Precio_Venta_Articulo")
 public class HistoricoPrecioVentaArticulo extends Bean {
 

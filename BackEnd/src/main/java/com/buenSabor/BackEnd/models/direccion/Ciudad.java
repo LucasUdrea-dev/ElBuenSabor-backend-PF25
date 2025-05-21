@@ -35,7 +35,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Ciudad")
 public class Ciudad extends Bean {
 

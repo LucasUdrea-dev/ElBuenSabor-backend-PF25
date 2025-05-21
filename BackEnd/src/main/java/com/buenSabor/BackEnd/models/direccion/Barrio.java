@@ -32,7 +32,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Barrio")
 public class Barrio extends Direccion {
 

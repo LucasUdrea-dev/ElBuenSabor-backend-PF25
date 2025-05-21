@@ -32,7 +32,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Pais")
 public class Pais extends Bean {
 

@@ -39,7 +39,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Rol")
 public class Rol extends Bean {
 

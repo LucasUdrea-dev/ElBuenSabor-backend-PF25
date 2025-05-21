@@ -35,7 +35,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Telefono")
 public class Telefono extends Bean {
 

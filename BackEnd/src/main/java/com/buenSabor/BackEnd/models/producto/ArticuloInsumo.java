@@ -33,7 +33,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "ArticuloInsumo")
 public class ArticuloInsumo extends Articulo {
 

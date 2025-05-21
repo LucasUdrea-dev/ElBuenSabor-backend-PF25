@@ -33,8 +33,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
-@EqualsAndHashCode(of = "id")
 @Table(name = "Empresa")
 public class Empresa extends Bean {
 

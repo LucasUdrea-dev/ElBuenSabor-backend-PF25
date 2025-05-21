@@ -44,7 +44,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Usuario")
 public class Usuario extends Bean {

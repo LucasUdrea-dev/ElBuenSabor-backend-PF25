@@ -36,7 +36,6 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Empleado")
 public class Empleado extends User {
 

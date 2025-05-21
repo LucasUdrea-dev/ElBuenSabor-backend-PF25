@@ -40,7 +40,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Direccion")
 public class Direccion extends Bean {

@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import lombok.ToString;
 
 @MappedSuperclass
 @Getter
 @Setter
+@ToString(of = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Bean implements Serializable {

@@ -40,7 +40,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Table(name = "Sucursal")
 public class Sucursal extends Bean {
 
