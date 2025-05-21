@@ -34,14 +34,9 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MercadoPago extends Bean {
+public class MercadoPago  extends Bean{
 
-    /*private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "mpPaymentId")
-    private Long mpPaymentId;*/
+   
 
     @Column(name = "mpMerchantOrderId")
     private Integer mpMerchantOrderId;
@@ -55,30 +50,6 @@ public class MercadoPago extends Bean {
     @ManyToOne(fetch = FetchType.EAGER)
     private TipoPago tipoPago;
 
-    /*
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (mpPaymentId != null ? mpPaymentId.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MercadoPago)) {
-            return false;
-        }
-        MercadoPago other = (MercadoPago) object;
-        if ((this.mpPaymentId == null && other.mpPaymentId != null) || (this.mpPaymentId != null && !this.mpPaymentId.equals(other.mpPaymentId))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.buenSabor.BackEnd.models.direccion.MercadoPago[ mpPaymentId=" + mpPaymentId + " ]";
-    }*/
+    
     
 }

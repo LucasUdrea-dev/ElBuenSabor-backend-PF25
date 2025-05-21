@@ -1,7 +1,7 @@
 package com.buenSabor.BackEnd.controllers.bean;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.services.enums.bean.BeanServiceImpl;
+import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

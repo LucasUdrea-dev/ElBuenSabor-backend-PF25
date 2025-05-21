@@ -1,4 +1,4 @@
-package com.buenSabor.BackEnd.services.enums.bean;
+package com.buenSabor.BackEnd.services.bean;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import org.springframework.data.domain.Page;
