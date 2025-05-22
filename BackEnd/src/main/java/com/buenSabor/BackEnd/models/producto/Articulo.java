@@ -52,9 +52,9 @@ public class Articulo extends Bean {
     private Long id;*/
 
     @Column(name = "nombre")
-    private String nombre;
+    protected String nombre;
     @Column(name = "descripcion")
-    private String descripcion;
+    protected String descripcion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "precio")
     private Double precio;
@@ -62,7 +62,7 @@ public class Articulo extends Bean {
     private Boolean existe;
     @Column(name = "es_para_elaborar")
     private Boolean esParaElaborar;
-    
+    private String imagenArticulo;
     
     
     @ManyToMany(mappedBy = "articuloList", fetch = FetchType.EAGER)
@@ -78,10 +78,8 @@ public class Articulo extends Bean {
 //    private List<ArticuloInsumo> articuloInsumoList;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Categoria categoria;
+    private Subcategoria subCategoria;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    private ImagenArticulo imagenArticulo;
     
     @ManyToOne(fetch = FetchType.EAGER)
     private UnidadMedida unidadMedida;

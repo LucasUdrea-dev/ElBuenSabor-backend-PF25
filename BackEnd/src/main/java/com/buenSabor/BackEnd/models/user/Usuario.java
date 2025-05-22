@@ -63,6 +63,7 @@ public class Usuario extends Bean {
     private String email;
     @Column(name = "existe")
     private Boolean existe;
+    private String imagenUsuario;
     
     @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER)
     private List<Telefono> telefonoList = new ArrayList<>();
@@ -79,9 +80,6 @@ public class Usuario extends Bean {
         inverseJoinColumns = @JoinColumn(name = "id_direccion"))
     private List<Direccion> direccionList;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_imagen")
-    private ImagenUsuario imagenUsuario;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_userAuth")
