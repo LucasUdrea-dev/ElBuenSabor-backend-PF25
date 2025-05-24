@@ -5,7 +5,7 @@
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.services.enums.TypeState;
+import com.buenSabor.BackEnd.enums.TypeState;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

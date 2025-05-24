@@ -5,7 +5,7 @@
 package com.buenSabor.BackEnd.models.seguridad;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.services.enums.TypeRol;
+import com.buenSabor.BackEnd.enums.TypeRol;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

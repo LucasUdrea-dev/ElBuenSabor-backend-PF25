@@ -6,7 +6,7 @@ package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.producto.Articulo;
-import com.buenSabor.BackEnd.services.enums.Measument;
+import com.buenSabor.BackEnd.enums.Measument;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

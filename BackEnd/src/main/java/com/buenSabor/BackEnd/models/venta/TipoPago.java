@@ -5,7 +5,7 @@
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.services.enums.TypePay;
+import com.buenSabor.BackEnd.enums.TypePay;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
