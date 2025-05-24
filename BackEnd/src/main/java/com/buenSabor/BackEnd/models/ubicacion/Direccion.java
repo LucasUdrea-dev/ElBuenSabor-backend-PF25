@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.models.direccion;
+package com.buenSabor.BackEnd.models.ubicacion;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.buenSabor.BackEnd.models.empresa.Sucursal;
+import com.buenSabor.BackEnd.models.user.Usuario;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +14,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToMany;
@@ -35,8 +40,9 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Ciudad")
-public class Ciudad extends Bean {
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "Direccion")
+public class Direccion extends Bean {
 
     /*private static final long serialVersionUID = 1L;
     @Id
@@ -44,15 +50,30 @@ public class Ciudad extends Bean {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;*/
-    @Column(name = "nombre")
-    private String nombre;
+
+    @Column(name = "existe")
+    protected Boolean existe;
+    @Column(name = "nombre_calle")
+    protected String nombreCalle;
+    @Column(name = "numeracion")
+    protected String numeracion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "latitud")
+    protected Double latitud;
+    @Column(name = "longitud")
+    protected Double longitud;
     
-    @OneToMany(mappedBy = "ciudad", fetch = FetchType.EAGER)
-    private List<Direccion> direccionList;
-   
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Provincia provincia;
+    @ManyToOne
+    @JoinColumn(name = "id_ciudad")
+    protected Ciudad ciudad;
 
     
-    
+    @ManyToMany(mappedBy = "direccionList", fetch = FetchType.EAGER)
+    protected List<Usuario> usuarioList;
+
+  
+    @OneToMany(mappedBy = "direccion", fetch = FetchType.EAGER)
+    protected List<Sucursal> sucursalList;
+
+   
 }

@@ -24,6 +24,6 @@ public class Bean implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Long id;
+    protected Long id;
 
 }

@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.models.direccion;
+package com.buenSabor.BackEnd.models.ubicacion;
 
+import com.buenSabor.BackEnd.models.bean.Bean;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,12 +12,11 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +32,8 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Barrio")
-public class Barrio extends Direccion {
+@Table(name = "Pais")
+public class Pais extends Bean {
 
     /*private static final long serialVersionUID = 1L;
     @Id
@@ -43,10 +43,9 @@ public class Barrio extends Direccion {
     private Long id;*/
     @Column(name = "nombre")
     private String nombre;
-    @Column(name = "manzana")
-    private String manzana;
-    @Column(name = "numero")
-    private Integer numero;
     
+    @OneToMany(mappedBy = "pais", fetch = FetchType.EAGER)
+    private List<Provincia> provinciaList;
+
     
 }

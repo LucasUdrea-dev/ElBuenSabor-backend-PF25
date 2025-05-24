@@ -37,14 +37,14 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Empleado")
-public class Empleado extends User {
+public class Empleado extends Usuario {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;
+//    private static final long serialVersionUID = 1L;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Basic(optional = false)
+//    @Column(name = "id")
+//    private Long id;
 
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "sueldo")

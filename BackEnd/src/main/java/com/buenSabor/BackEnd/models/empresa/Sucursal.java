@@ -5,7 +5,7 @@
 package com.buenSabor.BackEnd.models.empresa;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.models.direccion.Direccion;
+import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.models.venta.Promocion;
 import com.buenSabor.BackEnd.models.user.Empleado;

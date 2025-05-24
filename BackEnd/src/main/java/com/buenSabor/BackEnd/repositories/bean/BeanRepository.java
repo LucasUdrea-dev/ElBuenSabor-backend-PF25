@@ -1,4 +1,4 @@
-package com.buenSabor.BackEnd.repositories;
+package com.buenSabor.BackEnd.repositories.bean;
 
 
 import com.buenSabor.BackEnd.models.bean.Bean;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.models.direccion;
+package com.buenSabor.BackEnd.models.ubicacion;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -32,8 +32,8 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Departamento")
-public class Departamento extends Direccion {
+@Table(name = "Barrio")
+public class Barrio extends Direccion {
 
     /*private static final long serialVersionUID = 1L;
     @Id
@@ -41,11 +41,12 @@ public class Departamento extends Direccion {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;*/
-    @Column(name = "piso")
-    private Integer piso;
-    @Column(name = "numero_departamento")
-    private String numeroDepartamento;
-
+    @Column(name = "nombre")
+    private String nombre;
+    @Column(name = "manzana")
+    private String manzana;
+    @Column(name = "numero")
+    private Integer numero;
     
     
 }

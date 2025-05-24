@@ -5,7 +5,7 @@
 package com.buenSabor.BackEnd.models.user;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.models.direccion.Direccion;
+import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.models.seguridad.Rol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
@@ -48,44 +48,39 @@ import lombok.ToString;
 @Table(name = "Usuario")
 public class Usuario extends Bean {
 
-    /*private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;*/
+   
 
     @Column(name = "nombre")
-    private String nombre;
+    protected String nombre;
     @Column(name = "apellido")
-    private String apellido;
+    protected String apellido;
     @Column(name = "email")
-    private String email;
+    protected String email;
     @Column(name = "existe")
-    private Boolean existe;
-    private String imagenUsuario;
+    protected Boolean existe;
+    protected String imagenUsuario;
     
     @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER)
-    private List<Telefono> telefonoList = new ArrayList<>();
+    protected List<Telefono> telefonoList = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Rol_Usuario",
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_rol"))
-    private List<Rol> rolList;
+    protected List<Rol> rolList;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Usuario_Direccion",
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_direccion"))
-    private List<Direccion> direccionList;
+    protected List<Direccion> direccionList;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_userAuth")
-    private UserAuthentication userAuthentication;
+    protected UserAuthentication userAuthentication;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    private List<Pedido> pedidoList;
+    protected List<Pedido> pedidoList;
     
 }

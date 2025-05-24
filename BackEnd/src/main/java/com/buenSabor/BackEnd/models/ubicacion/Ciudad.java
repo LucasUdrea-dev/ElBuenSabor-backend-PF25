@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.models.direccion;
+package com.buenSabor.BackEnd.models.ubicacion;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import jakarta.persistence.Basic;
@@ -35,24 +35,24 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Provincia")
-public class Provincia extends Bean {
+@Table(name = "Ciudad")
+public class Ciudad extends Bean {
 
-   /* private static final long serialVersionUID = 1L;
+    /*private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;*/
-
     @Column(name = "nombre")
     private String nombre;
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Pais pais;
-    
-    @OneToMany(mappedBy = "provincia", fetch = FetchType.EAGER)
-    private List<Ciudad> ciudadList;
-
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.EAGER)
+    private List<Direccion> direccionList;
    
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Provincia provincia;
+
+    
+    
 }

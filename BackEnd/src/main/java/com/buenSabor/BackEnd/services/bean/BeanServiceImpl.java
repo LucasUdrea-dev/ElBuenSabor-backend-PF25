@@ -1,7 +1,7 @@
 package com.buenSabor.BackEnd.services.bean;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.repositories.BeanRepository;
+import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

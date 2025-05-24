@@ -57,36 +57,36 @@ public class Articulo extends Bean {
     protected String descripcion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "precio")
-    private Double precio;
+    protected Double precio;
     @Column(name = "existe")
-    private Boolean existe;
+    protected Boolean existe;
     @Column(name = "es_para_elaborar")
-    private Boolean esParaElaborar;
-    private String imagenArticulo;
+    protected Boolean esParaElaborar;
+    protected String imagenArticulo;
     
     
     @ManyToMany(mappedBy = "articuloList", fetch = FetchType.EAGER)
-    private List<Pedido> pedidoList;
+    protected List<Pedido> pedidoList;
     //
 //    @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER)
 //    private List<ArticuloManufacturado> articuloManufacturadoList;
     //
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
-    private List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
+    protected List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
     //
 //    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
 //    private List<ArticuloInsumo> articuloInsumoList;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Subcategoria subCategoria;
+    protected Subcategoria subCategoria;
     
     
     @ManyToOne(fetch = FetchType.EAGER)
-    private UnidadMedida unidadMedida;
+    protected UnidadMedida unidadMedida;
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
-    private List<PromocionArticulo> promocionArticuloList;
+    protected List<PromocionArticulo> promocionArticuloList;
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
-    private List<DetalleArticulo> detalleArticuloList;
+    protected List<DetalleArticulo> detalleArticuloList;
 
    
     
