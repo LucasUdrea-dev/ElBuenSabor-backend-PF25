@@ -5,24 +5,17 @@
 package com.buenSabor.BackEnd.models.empresa;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import jakarta.persistence.Basic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.io.Serializable;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  *
@@ -49,6 +42,7 @@ public class Empresa extends Bean {
     @Column(name = "cuil")
     private String cuil;
     @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER)
+   @JsonIgnore
     private List<Sucursal> sucursalList;
 
 }

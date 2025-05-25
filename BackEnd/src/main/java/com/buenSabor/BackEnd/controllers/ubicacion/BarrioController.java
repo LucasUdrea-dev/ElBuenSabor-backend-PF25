@@ -5,8 +5,8 @@
 package com.buenSabor.BackEnd.controllers.ubicacion;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
-import com.buenSabor.BackEnd.models.ubicacion.Direccion;
-import com.buenSabor.BackEnd.services.ubicacion.DireccionService;
+import com.buenSabor.BackEnd.models.ubicacion.Barrio;
+import com.buenSabor.BackEnd.services.ubicacion.BarrioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author oscarloha
  */
 @RestController
-@RequestMapping("api/Direccion")
-@Tag(name = "Direccion", description = "Operaciones relacionadas con entidad Direccion")
-public class DireccionController extends BeanControllerImpl<Direccion,DireccionService> {
+@RequestMapping("api/Barrio")
+@Tag(name = "Barrio", description = "Operaciones relacionadas con entidad Barrio")
+public class BarrioController extends BeanControllerImpl<Barrio,BarrioService>{
     
 }

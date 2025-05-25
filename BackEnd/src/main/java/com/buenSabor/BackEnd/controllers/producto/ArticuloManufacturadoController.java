@@ -7,6 +7,7 @@ package com.buenSabor.BackEnd.controllers.producto;
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
 import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
 import com.buenSabor.BackEnd.services.producto.ArticuloManufacturadoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author oscarloha
  */
 @RestController
-@RequestMapping("api/manufacturado")
+@RequestMapping("api/ArticuloManufacturado")
+@Tag(name = "ArticuloManufacturado", description = "Operaciones relacionadas con entidad ArticuloManufacturado")
 public class ArticuloManufacturadoController extends
         BeanControllerImpl<ArticuloManufacturado,ArticuloManufacturadoService>{
     
