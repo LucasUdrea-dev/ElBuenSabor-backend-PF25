@@ -18,6 +18,7 @@ public class OpenAiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI(); // Config base si querés personalizar
     }
+//http://localhost:8080/swagger-ui.html
 
     @Bean
     public GroupedOpenApi publicApi() {

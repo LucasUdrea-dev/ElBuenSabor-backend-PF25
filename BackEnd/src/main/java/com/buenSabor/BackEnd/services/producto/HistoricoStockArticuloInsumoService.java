@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
  * @author oscarloha
  */
 @Service
-public class HistoricoStockArticuloInsumoService extends 
+public class HistoricoStockArticuloInsumoService extends
         BeanServiceImpl<HistoricoStockArticuloInsumo,Long>{
     
-    public HistoricoStockArticuloInsumoService(BeanRepository<HistoricoStockArticuloInsumo, Long> beanRepository) {
+    public HistoricoStockArticuloInsumoService
+        (BeanRepository<HistoricoStockArticuloInsumo, Long> beanRepository) {
         super(beanRepository);
     }
     
