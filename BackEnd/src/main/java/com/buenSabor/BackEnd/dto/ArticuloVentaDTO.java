@@ -4,17 +4,18 @@
  */
 package com.buenSabor.BackEnd.dto;
 
+import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.Subcategoria;
+import java.util.ArrayList;
 import java.util.Date;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
 /**
  *
  * @author oscarloha
  */
 
-public class ProductoVenta {
+public class ArticuloVentaDTO {
     
     public class ArticuloDto {
 
@@ -30,6 +31,8 @@ public class ProductoVenta {
     private Long unidadMedidaId; // (Articulo)
     // ----- ArticuloManufacturado -----
     private Date tiempoEstimado; // (ArticuloManufacturado)
+    //detalle 
+    private List<ArticuloInsumo> insumos = new ArrayList<>();
 
         public ArticuloDto() {
         }
@@ -46,6 +49,17 @@ public class ProductoVenta {
             this.unidadMedidaId = unidadMedidaId;
             this.tiempoEstimado = tiempoEstimado;
         }
+
+        public List<ArticuloInsumo> getInsumos() {
+            return insumos;
+        }
+
+        public void setInsumos(List<ArticuloInsumo> insumos) {
+            this.insumos = insumos;
+        }
+
+        
+       
 
         public Long getId() {
             return id;
