@@ -24,7 +24,6 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         this.articuloRepository = articuloRepository;
     }
 
-    // Buscar artículos por nombre
     public List<Articulo> buscarPorNombre(String nombre) throws Exception {
         try {
             return articuloRepository.findByNombreContainingIgnoreCase(nombre);
@@ -33,7 +32,6 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    // Buscar artículos por subcategoría
     public List<Articulo> buscarPorSubcategoria(Long subCategoriaId) throws Exception {
         try {
             return articuloRepository.findBySubCategoria_Id(subCategoriaId);
@@ -42,7 +40,6 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    // Obtener solo los disponibles
     public List<Articulo> listarDisponibles() throws Exception {
         try {
             return articuloRepository.findByExisteTrue();
@@ -51,7 +48,6 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    // Obtener artículos que son para elaborar
     public List<Articulo> listarParaElaborar() throws Exception {
         try {
             return articuloRepository.findByEsParaElaborarTrue();
@@ -60,7 +56,6 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    // Filtro combinado
     public List<Articulo> buscarDisponiblesPorSubcategoria(Long subCategoriaId) throws Exception {
         try {
             return articuloRepository.findBySubCategoria_IdAndExisteTrue(subCategoriaId);
