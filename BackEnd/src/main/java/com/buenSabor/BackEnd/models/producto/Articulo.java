@@ -85,8 +85,7 @@ public class Articulo extends Bean {
     protected UnidadMedida unidadMedida;
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
     protected List<PromocionArticulo> promocionArticuloList;
-    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
-    protected List<DetalleArticulo> detalleArticuloList;
+
 
    
     
