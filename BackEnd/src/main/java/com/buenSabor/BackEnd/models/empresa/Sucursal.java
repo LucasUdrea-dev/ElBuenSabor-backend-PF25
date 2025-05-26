@@ -8,6 +8,7 @@ import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.models.venta.Promocion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.models.user.Empleado;
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
 import jakarta.persistence.Basic;
@@ -19,6 +20,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -63,16 +65,25 @@ public class Sucursal extends Bean {
     
     //----
     @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Empleado> empleadoList;
+
     @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
+
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Pedido> pedidoList;
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @OneToOne(fetch = FetchType.EAGER)
     private Direccion direccion;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     private Empresa empresa;
+
     @OneToMany(mappedBy = "sucursalId", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Promocion> promocionList;
 
 }

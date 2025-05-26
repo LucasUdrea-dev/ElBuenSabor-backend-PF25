@@ -7,6 +7,8 @@ package com.buenSabor.BackEnd.models.producto;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -66,12 +68,14 @@ public class Articulo extends Bean {
     
     
     @ManyToMany(mappedBy = "articuloList", fetch = FetchType.EAGER)
+    @JsonIgnore
     protected List<Pedido> pedidoList;
     //
 //    @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER)
 //    private List<ArticuloManufacturado> articuloManufacturadoList;
     //
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
+    @JsonIgnore
     protected List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
     //
 //    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
@@ -84,6 +88,7 @@ public class Articulo extends Bean {
     @ManyToOne(fetch = FetchType.EAGER)
     protected UnidadMedida unidadMedida;
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
+    @JsonIgnore
     protected List<PromocionArticulo> promocionArticuloList;
 
 

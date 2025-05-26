@@ -42,7 +42,7 @@ public class Empresa extends Bean {
     @Column(name = "cuil")
     private String cuil;
     @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER)
-   @JsonIgnore
+    @JsonIgnore
     private List<Sucursal> sucursalList;
 
 }

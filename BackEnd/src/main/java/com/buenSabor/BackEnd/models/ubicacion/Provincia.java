@@ -5,6 +5,8 @@
 package com.buenSabor.BackEnd.models.ubicacion;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -52,6 +54,7 @@ public class Provincia extends Bean {
     private Pais pais;
     
     @OneToMany(mappedBy = "provincia", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Ciudad> ciudadList;
 
    

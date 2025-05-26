@@ -5,6 +5,8 @@
 package com.buenSabor.BackEnd.models.ubicacion;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,6 +50,7 @@ public class Ciudad extends Bean {
     private String nombre;
     
     @OneToMany(mappedBy = "ciudad", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Direccion> direccionList;
    
     @ManyToOne(fetch = FetchType.EAGER)

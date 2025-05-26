@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.producto.Articulo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.enums.Measument;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -50,6 +51,7 @@ public class UnidadMedida extends Bean {
     @Column(name = "unidad")
     private Measument unidad;
     @OneToMany(mappedBy = "unidadMedida", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Articulo> articuloList;
 
    

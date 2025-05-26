@@ -25,6 +25,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.buenSabor.BackEnd.models.empresa.Sucursal;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,6 +61,9 @@ public class ArticuloManufacturado extends Articulo {
     private String preparacion;
     @OneToMany(mappedBy = "articuloManufacturado", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ArticuloManufacturadoDetalleInsumo> detalleInsumos = new ArrayList<>();
+
+    @ManyToOne
+    private Sucursal sucursal;
 
    
 }

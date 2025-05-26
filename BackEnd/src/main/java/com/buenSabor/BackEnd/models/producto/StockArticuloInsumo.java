@@ -6,6 +6,8 @@ package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.empresa.Sucursal;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,15 +49,20 @@ public class StockArticuloInsumo extends Bean {
 
     @Column(name = "max_stock")
     private Integer maxStock;
+
     @Column(name = "cantidad")
     private Integer cantidad;
+
     @JoinColumn(name = "id_articulo_insumo", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private ArticuloInsumo idArticuloInsumo;
+
     @JoinColumn(name = "id_sucursal", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal idSucursal;
+
     @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<HistoricoStockArticuloInsumo> historicoStockArticuloInsumoList;
 
     

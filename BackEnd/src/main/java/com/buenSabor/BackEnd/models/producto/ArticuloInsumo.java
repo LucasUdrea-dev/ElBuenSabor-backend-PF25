@@ -21,6 +21,9 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,9 +55,12 @@ public class ArticuloInsumo extends Articulo {
    
     @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
     private List<StockArticuloInsumo> stockArticuloInsumoList;
+
     @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<HistoricoPrecioCostoArticuloInsumo> historicoPrecioCostoArticuloInsumoList;
     @OneToMany(mappedBy = "articuloInsumo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ArticuloManufacturadoDetalleInsumo> detalleManufacturas = new ArrayList<>();
 
 }

@@ -7,6 +7,8 @@ package com.buenSabor.BackEnd.models.ubicacion;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.empresa.Sucursal;
 import com.buenSabor.BackEnd.models.user.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +24,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
@@ -69,11 +72,13 @@ public class Direccion extends Bean {
 
     
     @ManyToMany(mappedBy = "direccionList", fetch = FetchType.EAGER)
+    @JsonIgnore
     protected List<Usuario> usuarioList;
 
   
-    @OneToMany(mappedBy = "direccion", fetch = FetchType.EAGER)
-    protected List<Sucursal> sucursalList;
+    @OneToOne(mappedBy = "direccion", fetch = FetchType.EAGER)
+    @JsonIgnore
+    protected Sucursal sucursal;
 
    
 }

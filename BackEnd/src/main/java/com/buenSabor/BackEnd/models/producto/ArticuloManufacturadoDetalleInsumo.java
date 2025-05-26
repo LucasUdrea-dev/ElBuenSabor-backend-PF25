@@ -5,6 +5,8 @@
 package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -26,8 +28,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticuloManufacturadoDetalleInsumo extends Bean{
-     @ManyToOne
+    
+    @ManyToOne
     @JoinColumn(name = "id_articulo_manufacturado")
+    @JsonIgnore
     private ArticuloManufacturado articuloManufacturado;
 
     @ManyToOne
