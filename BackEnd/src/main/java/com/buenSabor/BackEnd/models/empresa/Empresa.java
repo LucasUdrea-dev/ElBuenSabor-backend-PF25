@@ -17,10 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author oscarloha
- */
+
 @Entity
 @Getter
 @Setter
@@ -29,12 +26,7 @@ import lombok.Setter;
 @Table(name = "Empresa")
 public class Empresa extends Bean {
 
-    /*private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;*/
+   
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "razon_social")
