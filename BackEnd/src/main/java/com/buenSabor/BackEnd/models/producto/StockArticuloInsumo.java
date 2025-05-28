@@ -5,7 +5,7 @@
 package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.models.empresa.Sucursal;
+import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

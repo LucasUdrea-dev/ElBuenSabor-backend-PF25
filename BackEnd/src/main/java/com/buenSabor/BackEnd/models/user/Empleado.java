@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.models.user;
 
-import com.buenSabor.BackEnd.models.empresa.Sucursal;
+import com.buenSabor.BackEnd.models.company.Sucursal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

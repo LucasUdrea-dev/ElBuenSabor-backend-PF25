@@ -16,7 +16,7 @@ import jakarta.persistence.TemporalType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.buenSabor.BackEnd.models.empresa.Sucursal;
+import com.buenSabor.BackEnd.models.company.Sucursal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
