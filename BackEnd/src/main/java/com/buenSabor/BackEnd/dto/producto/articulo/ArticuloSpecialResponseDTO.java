@@ -36,6 +36,7 @@ public class ArticuloSpecialResponseDTO {
     private SubcategoriaSimplDTO subcategoria;  
     private UnidadMedidaResponseDTO unidadMedida;  
     
+    //MANUFACTURADO
     private String tiempoEstimado;
     private  List<ArticuloManufacturadoDetalleInsumoResponseDTO>detalleInsumos;
     

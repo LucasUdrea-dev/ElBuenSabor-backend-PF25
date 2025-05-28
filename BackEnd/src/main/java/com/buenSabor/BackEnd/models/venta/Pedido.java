@@ -73,6 +73,9 @@ public class Pedido extends Bean {
     @ManyToOne(fetch = FetchType.EAGER)
     private Usuario usuario;
 
+    @JoinColumn(name = "id_promocion", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Promocion promocion;
 
 
 }

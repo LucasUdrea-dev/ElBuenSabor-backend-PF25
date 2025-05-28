@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.user.rol;
+package com.buenSabor.BackEnd.dto.venta.estado;
 
-import com.buenSabor.BackEnd.dto.user.tiporol.TipoRolResponseDTO;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,17 @@ import lombok.Setter;
  *
  * @author oscarloha
  */
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
-public class RolResponseDTO {
+
+@Entity
+@Table(name = "Estado_Pedido")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EstadoPedidoResponseDTO {
     
     private Long id;
-    private String fechaAlta;
-    private TipoRolResponseDTO tipoRol;
+    private String estado;
+    
+    
 }

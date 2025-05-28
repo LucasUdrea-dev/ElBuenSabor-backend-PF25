@@ -64,6 +64,8 @@ public class Promocion extends Bean {
     private TipoPromocion idTipoPromocion;
     @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER)
     private List<PromocionArticulo> promocionArticuloList;
+    @OneToMany(mappedBy = "promocion", fetch = FetchType.LAZY)
+    private List<Pedido> pedidos;
 
 
 

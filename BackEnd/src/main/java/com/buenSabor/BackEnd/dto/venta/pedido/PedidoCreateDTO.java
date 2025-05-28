@@ -5,8 +5,10 @@
 package com.buenSabor.BackEnd.dto.venta.pedido;
 
 import com.buenSabor.BackEnd.dto.venta.envio.TipoEnvioCreateDTO;
+import com.buenSabor.BackEnd.dto.venta.estado.EstadoPedidoCreateDTO;
 import com.buenSabor.BackEnd.dto.venta.pago.TipoPagoCreateDTO;
 import com.buenSabor.BackEnd.dto.venta.pedidodetalle.PedidoDetalleCreateDTO;
+import com.buenSabor.BackEnd.models.venta.Promocion;
 import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -33,10 +35,10 @@ public class PedidoCreateDTO {
     
     
     private List<PedidoDetalleCreateDTO> detalles;
-//    private EstadoPedido estadoPedido;
+    private EstadoPedidoCreateDTO estadoPedido;
     private Long sucursalId;
     private TipoEnvioCreateDTO tipoEnvio;
     private TipoPagoCreateDTO tipoPago;
     private Long usuarioId;
-    
+    private Long promocionId;
 }

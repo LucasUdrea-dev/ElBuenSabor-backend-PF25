@@ -5,8 +5,8 @@
 package com.buenSabor.BackEnd.dto.user.usuario;
 
 import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionResponseDTO;
-import com.buenSabor.BackEnd.dto.user.autenticacion.UserAuthenticationResponseDTO;
-import com.buenSabor.BackEnd.dto.user.rol.RolResponseDTO;
+import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
+import com.buenSabor.BackEnd.dto.seguridad.rol.RolResponseDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoResponseDTO;
 import com.buenSabor.BackEnd.dto.venta.pedido.PedidoResponseDTO;
 import java.util.List;
