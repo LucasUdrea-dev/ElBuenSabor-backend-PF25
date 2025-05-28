@@ -4,10 +4,29 @@
  */
 package com.buenSabor.BackEnd.dto.ubicacion.direccion;
 
+import com.buenSabor.BackEnd.dto.ubicacion.ciudad.CiudadCreateDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  *
  * @author oscarloha
  */
+@Getter  
+@Setter  
+@NoArgsConstructor  
+@AllArgsConstructor  
 public class DireccionCreateDTO {
+    
+    
+    protected Boolean existe;
+    protected String nombreCalle;
+    protected String numeracion;
+    protected Double latitud;
+    protected Double longitud;
+    
+    protected CiudadCreateDTO ciudad;
     
 }

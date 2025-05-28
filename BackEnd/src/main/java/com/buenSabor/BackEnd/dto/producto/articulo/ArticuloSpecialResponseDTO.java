@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.producto.articulo;
 
-import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDetalleInsumoResponseDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleInsumoResponseDTO;
 import com.buenSabor.BackEnd.dto.producto.medida.UnidadMedidaResponseDTO;
 import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaSimplDTO;
 import java.util.List;

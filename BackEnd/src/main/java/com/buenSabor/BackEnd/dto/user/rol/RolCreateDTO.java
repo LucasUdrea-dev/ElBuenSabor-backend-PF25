@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.ubicacion.pais;
+package com.buenSabor.BackEnd.dto.user.rol;
 
-import com.buenSabor.BackEnd.dto.ubicacion.ciudad.CiudadDTO;
-import java.util.List;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +17,9 @@ import lombok.Setter;
 @Getter  
 @Setter  
 @NoArgsConstructor  
-@AllArgsConstructor  
-public class PaisDTO {
-   
-    private Long id;
-    private String nombre;
-    
-    private List<CiudadDTO>ciudades;
+@AllArgsConstructor 
+public class RolCreateDTO {
+
+    private Date fechaAlta;
+    private Long TipoRolResponse;
 }

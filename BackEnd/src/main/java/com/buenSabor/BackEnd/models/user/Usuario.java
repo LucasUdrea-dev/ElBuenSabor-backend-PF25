@@ -17,8 +17,8 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +64,10 @@ public class Usuario extends Bean {
     protected List<Direccion> direccionList;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_userAuth")
     protected UserAuthentication userAuthentication;
+
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     protected List<Pedido> pedidoList;

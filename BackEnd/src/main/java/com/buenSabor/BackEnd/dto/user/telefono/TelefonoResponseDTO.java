@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.ubicacion.provincia;
+package com.buenSabor.BackEnd.dto.user.telefono;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +17,10 @@ import lombok.Setter;
 @Setter  
 @NoArgsConstructor  
 @AllArgsConstructor  
-public class ProvinciaDTO {
+public class TelefonoResponseDTO {
     
-    private String nombre;
+    private Long id;
+    private Long numero;
+    
     
 }

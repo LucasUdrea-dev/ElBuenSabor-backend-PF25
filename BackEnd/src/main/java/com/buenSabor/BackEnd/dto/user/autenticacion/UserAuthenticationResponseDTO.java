@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.producto.manufacturado;
+package com.buenSabor.BackEnd.dto.user.autenticacion;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,12 +16,11 @@ import lombok.Setter;
 @Getter  
 @Setter  
 @NoArgsConstructor  
-@AllArgsConstructor  
-public class ArticuloManufacturadoDetalleInsumoCreateDTO {
+@AllArgsConstructor 
+public class UserAuthenticationResponseDTO {
     
-    private int cantidad;
-    
-    private Long articuloInsumoId;  
-    
+    private Long id;
+    private String password;
+    private String username;
     
 }

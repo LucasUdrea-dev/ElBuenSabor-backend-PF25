@@ -4,6 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.producto.manufacturado;
 
+import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleInsumoCreateDTO;
 import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloCreateDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;

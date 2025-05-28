@@ -9,9 +9,8 @@ import com.buenSabor.BackEnd.models.user.Usuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +32,8 @@ public class UserAuthentication extends Bean {
     private String password;
     @Column(name = "username")
     private String username;
-    @OneToMany(mappedBy = "userAuthentication", fetch = FetchType.EAGER)
-    private List<Usuario> usuarioList;
+    @OneToOne(mappedBy = "userAuthentication", fetch = FetchType.EAGER)
+    private Usuario usuario;
 
     
 }
