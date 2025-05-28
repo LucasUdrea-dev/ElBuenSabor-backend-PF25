@@ -8,6 +8,7 @@ import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.models.producto.Articulo;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,9 +16,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,11 +50,8 @@ public class Pedido extends Bean {
     @Temporal(TemporalType.DATE)
     private Date fecha;
 
-    @JoinTable(name = "Detalle_Pedido",
-    joinColumns = @JoinColumn(name = "id_pedido", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name = "id_articulo", referencedColumnName = "id"))
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Articulo> articuloList;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<DetallePedido> detallePedidoList = new ArrayList<>();
 
     @JoinColumn(name = "id_estado_pedido", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)

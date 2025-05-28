@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.venta.pedido;
+package com.buenSabor.BackEnd.dto.venta.mercadopago;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,10 +13,16 @@ import lombok.Setter;
  *
  * @author oscarloha
  */
+
 @Getter  
 @Setter  
 @NoArgsConstructor  
 @AllArgsConstructor 
-public class PedidoResponseDTO {
+public class MercadoPagoResponseDTO {
+    
     private Long id;
+    private Integer mpMerchantOrderId;
+    private String mpPreferenceId;
+    private String mpPaymentType;
+    
 }

@@ -5,6 +5,7 @@
 package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.buenSabor.BackEnd.models.venta.DetallePedido;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,6 +20,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,9 +52,9 @@ public class Articulo extends Bean {
     protected String imagenArticulo;
     
     
-    @ManyToMany(mappedBy = "articuloList", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER)
     @JsonIgnore
-    protected List<Pedido> pedidoList;
+    private List<DetallePedido> detallePedidoList = new ArrayList<>();
 
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
     @JsonIgnore
