@@ -16,8 +16,7 @@ import lombok.Setter;
  * @author oscarloha
  */
 
-@Entity
-@Table(name = "Estado_Pedido")
+
 @Getter
 @Setter
 @AllArgsConstructor

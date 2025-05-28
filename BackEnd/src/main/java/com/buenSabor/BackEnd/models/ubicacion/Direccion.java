@@ -45,6 +45,11 @@ public class Direccion extends Bean {
     protected Double latitud;
     @Column(name = "longitud")
     protected Double longitud;
+    @Column(name = "alias")
+    protected String alias;
+
+    @Column(name = "descripcion_entrega", columnDefinition = "TEXT")
+    protected String descripcionEntrega;
     
     @ManyToOne
     @JoinColumn(name = "id_ciudad")

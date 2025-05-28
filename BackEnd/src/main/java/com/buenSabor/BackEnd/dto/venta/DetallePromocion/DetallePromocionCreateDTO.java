@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.ubicacion.direccion;
+package com.buenSabor.BackEnd.dto.venta.DetallePromocion;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,15 +17,9 @@ import lombok.Setter;
 @Setter  
 @NoArgsConstructor  
 @AllArgsConstructor  
-public class DireccionSimplDTO {
+public class DetallePromocionCreateDTO {
     
-    private Long id; 
-    private Boolean existe;
-    private String nombreCalle;
-    private String numeracion;
-    private Double latitud;
-    private Double longitud;
-    private Long ciudadId;
-    private String alias;
-    private String descripcionEntrega;       
+     private int cantidad;
+     private Long promoId;
+    
 }

@@ -2,44 +2,42 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.models.seguridad;
+package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.models.user.Usuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ *
+ * @author oscarloha
+ */
 @Entity
+@Table(name = "Detalle_Pedido")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Rol")
-public class Rol extends Bean {
-
+public class DetallePromocion extends Bean{
     
-
-    @Column(name = "fecha_alta")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaAlta;
-    @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY)
-    private List<Usuario> usuarioList = new ArrayList<>();
+    
     @ManyToOne(fetch = FetchType.EAGER)
-    private TipoRol tipoRol;
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
 
-   
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "promocion_id")
+    private Promocion promocion;
+
+    @Column(name = "cantidad")
+    private int cantidad;
     
 }

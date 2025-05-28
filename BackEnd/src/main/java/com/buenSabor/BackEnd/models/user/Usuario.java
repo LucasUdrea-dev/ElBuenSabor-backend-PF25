@@ -17,6 +17,7 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -51,11 +52,9 @@ public class Usuario extends Bean {
     @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER)
     protected List<Telefono> telefonoList = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "Rol_Usuario",
-        joinColumns = @JoinColumn(name = "id_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_rol"))
-    protected List<Rol> rolList;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_rol", referencedColumnName = "id")
+    protected Rol rol;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Usuario_Direccion",

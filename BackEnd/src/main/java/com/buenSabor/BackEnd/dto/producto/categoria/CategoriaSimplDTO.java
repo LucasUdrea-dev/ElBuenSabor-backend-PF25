@@ -24,5 +24,5 @@ public class CategoriaSimplDTO {
      
     private String denominacion;
     private String imagen;
-   
+    private List<SubcategoriaSimplDTO>subcategorias;
 }

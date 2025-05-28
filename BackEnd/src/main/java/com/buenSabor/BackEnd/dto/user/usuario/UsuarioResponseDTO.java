@@ -33,7 +33,7 @@ public class UsuarioResponseDTO {
     
     protected List<TelefonoResponseDTO>telefonos;
     protected UserAuthenticationResponseDTO autenticacion;
-    protected List<RolResponseDTO>roles;
+    protected RolResponseDTO rol;
     protected List<DireccionResponseDTO> direcciones;
     
 }

@@ -32,7 +32,7 @@ public class UsuarioUpdateDTO {
     
       protected List<TelefonoCreateByUserDTO>telefonos;
     protected UserAuthenticationCreateDTO autenticacion;
-    protected List<RolCreateDTO>roles;
+    protected RolCreateDTO rol;
     protected List<DireccionCreateDTO> direcciones;
     
     

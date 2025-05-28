@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.company.Sucursal;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,6 +16,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,13 +61,17 @@ public class Promocion extends Bean {
     @JoinColumn(name = "sucursal_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursalId;
+    
     @JoinColumn(name = "id_tipo_promocion", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private TipoPromocion idTipoPromocion;
+    
     @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER)
     private List<PromocionArticulo> promocionArticuloList;
-    @OneToMany(mappedBy = "promocion", fetch = FetchType.LAZY)
-    private List<Pedido> pedidos;
+    
+    @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DetallePromocion> detallePromocionList = new ArrayList<>();
+
 
 
 

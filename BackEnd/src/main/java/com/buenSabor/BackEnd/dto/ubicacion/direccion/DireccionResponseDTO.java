@@ -26,6 +26,9 @@ public class DireccionResponseDTO {
     private String numeracion;
     private Double latitud;
     private Double longitud;
+    private String alias;
+    private String descripcionEntrega;       
+    
     
     private CiudadResponseDTO ciudad;
     

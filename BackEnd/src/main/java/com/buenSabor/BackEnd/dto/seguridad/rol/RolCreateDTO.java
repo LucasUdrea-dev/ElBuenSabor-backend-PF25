@@ -21,5 +21,5 @@ import lombok.Setter;
 public class RolCreateDTO {
 
     private Date fechaAlta;
-    private Long TipoRolResponse;
+    private Long TipoRolId;
 }

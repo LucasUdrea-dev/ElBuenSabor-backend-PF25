@@ -21,12 +21,14 @@ import lombok.Setter;
 public class DireccionCreateDTO {
     
     
-    protected Boolean existe;
-    protected String nombreCalle;
-    protected String numeracion;
-    protected Double latitud;
-    protected Double longitud;
+    private Boolean existe;
+    private String nombreCalle;
+    private String numeracion;
+    private Double latitud;
+    private Double longitud;
+    private String alias;
+    private String descripcionEntrega;       
     
-    protected CiudadCreateDTO ciudad;
+    private CiudadCreateDTO ciudad;
     
 }
