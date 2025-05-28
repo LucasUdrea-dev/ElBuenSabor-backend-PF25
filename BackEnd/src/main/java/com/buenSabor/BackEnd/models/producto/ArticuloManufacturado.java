@@ -34,8 +34,7 @@ public class ArticuloManufacturado extends Articulo {
 
 
     @Column(name = "tiempo_estimado")
-    @Temporal(TemporalType.TIME)
-    private Date tiempoEstimado;
+    private String tiempoEstimado;
     @Column(name = "preparacion")
     private String preparacion;
     @OneToMany(mappedBy = "articuloManufacturado", cascade = CascadeType.ALL, orphanRemoval = true)

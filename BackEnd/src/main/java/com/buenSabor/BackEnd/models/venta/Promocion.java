@@ -52,6 +52,10 @@ public class Promocion extends Bean {
     private Double precioRebajado;
     @Column(name = "existe")
     private Boolean existe;
+    
+    
+    
+    
     @JoinColumn(name = "sucursal_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursalId;

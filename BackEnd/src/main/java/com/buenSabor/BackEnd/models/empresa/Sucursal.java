@@ -45,10 +45,10 @@ public class Sucursal extends Bean {
     private String nombre;
     @Column(name = "hora_apertura")
     @Temporal(TemporalType.TIME)
-    private Date horaApertura;
+    private String horaApertura;
     @Column(name = "hora_cierre")
     @Temporal(TemporalType.TIME)
-    private Date horaCierre;
+    private String horaCierre;
     @Column(name = "existe")
     private Boolean existe;
     

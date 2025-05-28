@@ -25,7 +25,7 @@ import lombok.Setter;
 public class PromocionArticulo extends Bean {
 
 
-
+    private int cantidad; 
     @JoinColumn(name = "id_articulo", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Articulo idArticulo;
