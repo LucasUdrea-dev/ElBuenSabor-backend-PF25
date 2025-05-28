@@ -4,6 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.producto.subcategoria;
 
+import com.buenSabor.BackEnd.dto.producto.categoria.CategoriaSimplDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,6 @@ import lombok.Setter;
 public class SubcategoriaSimplDTO {
     
       private Long id;  
-      private String nombre;  
-    
+      private String denominacion;  
+      private CategoriaSimplDTO categoria;
 }

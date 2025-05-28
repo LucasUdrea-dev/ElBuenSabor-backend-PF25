@@ -5,7 +5,7 @@
 package com.buenSabor.BackEnd.dto.producto.articulo;
 
 import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaSimplDTO;
-import com.buenSabor.BackEnd.dto.producto.medida.UnidadMedidaSimplDTO;
+import com.buenSabor.BackEnd.dto.producto.medida.UnidadMedidaResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +32,5 @@ public class ArticuloResponseDTO {
       
    
     protected SubcategoriaSimplDTO subcategoria;  
-    protected UnidadMedidaSimplDTO unidadMedida;  
+    protected UnidadMedidaResponseDTO unidadMedida;  
 }

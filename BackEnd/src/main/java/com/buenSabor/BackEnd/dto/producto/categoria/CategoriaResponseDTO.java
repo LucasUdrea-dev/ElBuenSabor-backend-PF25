@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.producto.categoria;
 
-import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaSimplDTO;
+import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaResponseDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +22,8 @@ import lombok.Setter;
 public class CategoriaResponseDTO {
     
     private Long id;
-    private String nombre;
-    
-    private List<SubcategoriaSimplDTO>subcategorias;
+    private String denominacion;
+    private String imagen;
+    private List<SubcategoriaResponseDTO>subcategorias;
     
 }

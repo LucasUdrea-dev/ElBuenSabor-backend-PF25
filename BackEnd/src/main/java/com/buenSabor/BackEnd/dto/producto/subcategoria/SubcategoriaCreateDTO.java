@@ -4,10 +4,22 @@
  */
 package com.buenSabor.BackEnd.dto.producto.subcategoria;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  *
  * @author oscarloha
  */
+@Getter  
+@Setter  
+@NoArgsConstructor  
+@AllArgsConstructor  
 public class SubcategoriaCreateDTO {
+    
+    private String denominacion;
+    private long categoriaId;
     
 }
