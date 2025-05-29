@@ -4,23 +4,28 @@
  */
 package com.buenSabor.BackEnd.controllers.otros;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
 
 /**
  *
@@ -31,74 +36,88 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/imagenes")
 public class ImagenController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ImagenController.class);
+
+    @Value("${imagenes.ruta:images}")
+    private String rutaImagenes;
+
     @PostMapping
-    public String subirImagen(@RequestParam("imagen") MultipartFile imagen){
-
+    public ResponseEntity<String> subirImagen(@RequestParam("imagen") MultipartFile imagen) {
         try {
-            
-            String directorioDestino = System.getProperty("user.dir") + File.separator + "images";
-            File carpetaDestino = new File(directorioDestino);
-
-            if (!carpetaDestino.exists()) {
-                carpetaDestino.mkdirs();
+            if (imagen.isEmpty()) {
+                return ResponseEntity.badRequest().body("No se recibió ningún archivo.");
             }
 
-            File archivoDestino = new File(carpetaDestino, imagen.getOriginalFilename());
-            imagen.transferTo(archivoDestino);
+            if (!imagen.getContentType().startsWith("image/")) {
+                return ResponseEntity.badRequest().body("El archivo no es una imagen válida.");
+            }
 
-            return "Imagen subida exitosamente: " + archivoDestino.getAbsolutePath();
+            String extension = StringUtils.getFilenameExtension(imagen.getOriginalFilename());
+            String nombreArchivo = UUID.randomUUID().toString() + "." + extension;
+
+            Path carpetaDestino = Paths.get(rutaImagenes).toAbsolutePath().normalize();
+            Files.createDirectories(carpetaDestino);
+
+            Path rutaArchivo = carpetaDestino.resolve(nombreArchivo);
+            imagen.transferTo(rutaArchivo.toFile());
+
+            return ResponseEntity.ok("Imagen subida exitosamente: " + rutaArchivo.toString());
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return "Error al subir la imagen";
+            logger.error("Error al subir la imagen", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al subir la imagen");
         }
-
     }
 
     @DeleteMapping("/{nombreImagen}")
-    public String borrarImagen(@PathVariable String nombreImagen){
+    public ResponseEntity<String> borrarImagen(@PathVariable String nombreImagen) {
+        try {
+            String nombreSanitizado = Paths.get(nombreImagen).getFileName().toString();
+            Path rutaArchivo = Paths.get(rutaImagenes).toAbsolutePath().resolve(nombreSanitizado);
 
-        String directorioDestino = System.getProperty("user.dir") + File.separator + "images";
-        File archivoAEliminar = new File(directorioDestino, nombreImagen);
-
-        if (archivoAEliminar.exists()) {
-            
-            if (archivoAEliminar.delete()) {
-                return "Imagen eliminada exitosamente: " + nombreImagen;
-            } else {
-                return "Error al eliminar la imagen: " + nombreImagen;
+            File archivo = rutaArchivo.toFile();
+            if (!archivo.exists()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La imagen no existe: " + nombreImagen);
             }
 
-        } else {
-            return "La imagen no existe" + nombreImagen;
-        }
+            if (archivo.delete()) {
+                return ResponseEntity.ok("Imagen eliminada exitosamente: " + nombreImagen);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo eliminar la imagen");
+            }
 
+        } catch (Exception e) {
+            logger.error("Error al eliminar la imagen", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar la imagen");
+        }
     }
 
     @GetMapping("/{nombreImagen}")
-    public ResponseEntity<Resource> obtenerImagen(@PathVariable String nombreImagen){
-
+    public ResponseEntity<Resource> obtenerImagen(@PathVariable String nombreImagen) {
         try {
-            
-            Path rutaImagen = Paths.get(System.getProperty("user.dir")).resolve("images").resolve(nombreImagen).normalize();
+            String nombreSanitizado = Paths.get(nombreImagen).getFileName().toString();
+            Path rutaArchivo = Paths.get(rutaImagenes).toAbsolutePath().resolve(nombreSanitizado).normalize();
 
-            Resource recurso = new UrlResource(rutaImagen.toUri());
+            Resource recurso = new UrlResource(rutaArchivo.toUri());
 
             if (recurso.exists() && recurso.isReadable()) {
-                
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + nombreImagen + "\"")
-                        .body(recurso);
+                String mimeType = Files.probeContentType(rutaArchivo);
+                mimeType = mimeType != null ? mimeType : "application/octet-stream";
 
-            }else{
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(mimeType))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + nombreSanitizado + "\"")
+                        .body(recurso);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            logger.error("URL malformada al intentar acceder a la imagen", e);
             return ResponseEntity.badRequest().build();
+        } catch (IOException e) {
+            logger.error("Error al detectar el tipo MIME", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
     }
-
 }
