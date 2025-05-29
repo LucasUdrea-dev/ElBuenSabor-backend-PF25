@@ -26,12 +26,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-
 /**
  *
  * @author oscarloha
  */
-
 @RestController
 @RequestMapping("/api/imagenes")
 public class ImagenController {
@@ -52,8 +50,7 @@ public class ImagenController {
                 return ResponseEntity.badRequest().body("El archivo no es una imagen válida.");
             }
 
-            String extension = StringUtils.getFilenameExtension(imagen.getOriginalFilename());
-            String nombreArchivo = UUID.randomUUID().toString() + "." + extension;
+            String nombreArchivo = StringUtils.cleanPath(imagen.getOriginalFilename());
 
             Path carpetaDestino = Paths.get(rutaImagenes).toAbsolutePath().normalize();
             Files.createDirectories(carpetaDestino);
