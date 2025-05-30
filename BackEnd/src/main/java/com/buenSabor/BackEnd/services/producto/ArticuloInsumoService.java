@@ -5,8 +5,10 @@
 package com.buenSabor.BackEnd.services.producto;
 
 
+import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
+import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloInsumoRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,4 +25,21 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo,Long>{
         super(beanRepository);
     }
 
+    @Autowired
+    SucursalRepository sucursalRepository;
+    @Autowired
+    ArticuloInsumoRepository insumoRepository;
+    
+    public ArticuloInsumo crearInsumo(ArticuloInsumo insumo,Long id) {
+
+        Sucursal sucursal = sucursalRepository.findById(id)
+                .orElseThrow(() -> {
+                    return new RuntimeException("Sucursal no encontrada con id: " + id);
+                });
+        
+        insumo.getStockArticuloInsumo().setSucursal(sucursal);
+
+        return insumoRepository.save(insumo);
+    }
+    
 }

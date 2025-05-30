@@ -15,17 +15,15 @@ import org.mapstruct.Mapping;
  */
 @Mapper(componentModel = "spring")
 public interface StockArticuloInsumoMapper {
-@Mapping(source = "idArticuloInsumo.id", target = "idArticuloInsumo")
-    @Mapping(source = "idArticuloInsumo.nombre", target = "nombreArticuloInsumo")
-    @Mapping(source = "idSucursal.id", target = "idSucursal")
-    @Mapping(source = "idSucursal.nombre", target = "nombreSucursal")
+
+    @Mapping(target = "sucursalId", ignore = true)
     StockDTO toDTO(StockArticuloInsumo entity);
 
-    @Mapping(target = "idArticuloInsumo.id", source = "idArticuloInsumo")
-    @Mapping(target = "idSucursal.id", source = "idSucursal")
-    @Mapping(target = "idArticuloInsumo", ignore = true) // lo puedes setear manualmente si lo traes desde base de datos
-    @Mapping(target = "idSucursal", ignore = true)       // igual aquí
+   
+    
     @Mapping(target = "historicoStockArticuloInsumoList", ignore = true)
-              @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "articuloInsumo", ignore = true)
+    @Mapping(target = "sucursal", ignore = true)
     StockArticuloInsumo toEntity(StockDTO dto);
 }

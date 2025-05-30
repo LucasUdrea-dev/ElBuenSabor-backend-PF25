@@ -24,9 +24,6 @@ public class StockDTO {
     private Integer maxStock;
     private Integer cantidad;
 
-    private Long idArticuloInsumo;
-    private String nombreArticuloInsumo;
+    private Long sucursalId;
 
-    private Long idSucursal;
-    private String nombreSucursal;
 }

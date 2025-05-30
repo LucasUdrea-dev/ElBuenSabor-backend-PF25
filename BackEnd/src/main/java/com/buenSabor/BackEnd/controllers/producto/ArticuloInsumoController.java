@@ -38,15 +38,17 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
 
     
 
-   @Operation(summary = "Crear un artículo insumo")
-    @PostMapping("/insumo")
-    public ResponseEntity<?> crearInsumo(@RequestBody InsumoDTO dto) {
+  @Operation(summary = "Guardar una nuevo insumo a partir de un DTO")
+    @PostMapping("/crear")
+    public ResponseEntity<?> saveFromDTO(@RequestBody InsumoDTO dto) {
         try {
-            ArticuloInsumo saved = articuloInsumoService.save(articuloMapper.toEntity(dto));
-            return ResponseEntity.ok(saved);
+            Long id = dto.getStockArticuloInsumo().getSucursalId();
+            ArticuloInsumo savedInsumo = 
+                    articuloInsumoService.crearInsumo(articuloMapper.toEntity(dto),id);
+            return ResponseEntity.status(HttpStatus.OK).body(savedInsumo);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("{\"error\":\"Error al guardar el artículo insumo.\"}");
+                                 .body("{\"error\":\"Error al guardar la manufacturado.\"}");
         }
     }
     

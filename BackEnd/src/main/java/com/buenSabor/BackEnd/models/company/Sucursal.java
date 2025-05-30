@@ -54,7 +54,7 @@ public class Sucursal extends Bean {
     @JsonIgnore
     private List<Empleado> empleadoList;
 
-    @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "Sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
 

@@ -13,7 +13,7 @@ import org.mapstruct.Mapping;
  *
  * @author oscarloha
  */
-@Mapper(componentModel = "spring", uses = {ArticuloMapper.class})
+@Mapper(componentModel = "spring", uses = {ArticuloMapper.class,StockArticuloInsumoMapper.class})
 public interface ArticuloManufacturadoDetalleInsumoMapper {
     
     @Mapping(target = "articuloManufacturado", ignore = true)

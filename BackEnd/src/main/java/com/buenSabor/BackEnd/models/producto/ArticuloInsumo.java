@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,9 +33,8 @@ public class ArticuloInsumo extends Articulo {
     private Double precioCompra;
     
    
-    @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<StockArticuloInsumo> stockArticuloInsumoList;
+    @OneToOne(mappedBy = "articuloInsumo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private StockArticuloInsumo stockArticuloInsumo;
 
     @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
     @JsonIgnore
