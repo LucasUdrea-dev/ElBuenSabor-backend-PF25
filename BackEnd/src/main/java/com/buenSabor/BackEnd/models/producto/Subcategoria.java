@@ -27,7 +27,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Categoria")
+@Table(name = "Subcategoria")
 public class Subcategoria extends Bean {
 
 
