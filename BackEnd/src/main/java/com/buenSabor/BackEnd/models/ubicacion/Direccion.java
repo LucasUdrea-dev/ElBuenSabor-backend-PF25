@@ -8,6 +8,7 @@ import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -51,7 +52,7 @@ public class Direccion extends Bean {
     @Column(name = "descripcion_entrega", columnDefinition = "TEXT")
     protected String descripcionEntrega;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_ciudad")
     protected Ciudad ciudad;
 

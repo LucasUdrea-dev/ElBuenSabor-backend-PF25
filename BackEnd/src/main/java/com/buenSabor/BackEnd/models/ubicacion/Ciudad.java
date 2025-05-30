@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.ubicacion;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 
 
 import jakarta.persistence.Column;
@@ -36,7 +37,7 @@ public class Ciudad extends Bean {
     @JsonIgnore
     private List<Direccion> direccionList;
    
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Provincia provincia;
 
     

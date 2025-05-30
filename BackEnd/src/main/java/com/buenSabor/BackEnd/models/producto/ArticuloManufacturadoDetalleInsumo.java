@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -29,7 +30,7 @@ public class ArticuloManufacturadoDetalleInsumo extends Bean{
     @JsonIgnore
     private ArticuloManufacturado articuloManufacturado;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_articulo_insumo")
     private ArticuloInsumo articuloInsumo;
 

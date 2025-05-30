@@ -33,6 +33,7 @@ public class ArticuloInsumo extends Articulo {
     
    
     @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
 
     @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)

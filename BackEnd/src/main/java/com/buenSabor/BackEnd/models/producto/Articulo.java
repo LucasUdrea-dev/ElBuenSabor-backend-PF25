@@ -9,6 +9,7 @@ import com.buenSabor.BackEnd.models.venta.DetallePedido;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 
 
 import jakarta.persistence.Column;
@@ -60,11 +61,11 @@ public class Articulo extends Bean {
     @JsonIgnore
     protected List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    protected Subcategoria subCategoria;
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    protected Subcategoria subcategoria;
     
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     protected UnidadMedida unidadMedida;
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
     @JsonIgnore

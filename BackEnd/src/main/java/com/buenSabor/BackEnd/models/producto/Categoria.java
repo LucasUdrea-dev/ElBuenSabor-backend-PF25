@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Subcategoria")
+@Table(name = "categoria")
 public class Categoria extends Bean {
 
 
@@ -33,7 +34,7 @@ public class Categoria extends Bean {
     private String denominacion;
     private String imagen;
     
-    @OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Subcategoria> subcategorias;   
     

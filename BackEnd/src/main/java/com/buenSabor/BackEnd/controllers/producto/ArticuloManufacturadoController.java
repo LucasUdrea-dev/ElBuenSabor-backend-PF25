@@ -5,9 +5,18 @@
 package com.buenSabor.BackEnd.controllers.producto;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
+import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
+import com.buenSabor.BackEnd.mapper.ArticuloMapper;
+
 import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
 import com.buenSabor.BackEnd.services.producto.ArticuloManufacturadoService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,4 +30,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticuloManufacturadoController extends
         BeanControllerImpl<ArticuloManufacturado,ArticuloManufacturadoService>{
     
+    @Autowired
+    private ArticuloManufacturadoService articuloManufacturadoService;
+    
+    @Autowired
+    private ArticuloMapper articuloMapper;
+    
+     @Operation(summary = "Guardar una nuevo Manufacturado a partir de un DTO")
+    @PostMapping("/crear")
+    public ResponseEntity<?> saveFromDTO(@RequestBody ArticuloManufacturadoDTO dto) {
+        try {
+            Long id = dto.getSucursalId();
+            ArticuloManufacturado savedManufacturado = 
+                    articuloManufacturadoService
+                            .crearManufacturado(articuloMapper.toEntity(dto),id);
+            return ResponseEntity.status(HttpStatus.OK).body(savedManufacturado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body("{\"error\":\"Error al guardar la manufacturado.\"}");
+        }
+    }
+   
 }

@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.producto.insumo;
+package com.buenSabor.BackEnd.dto.company.empresa;
 
-import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloCreateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,17 +14,18 @@ import lombok.Setter;
  *
  * @author oscarloha
  */
-
 @Getter  
 @Setter  
 @NoArgsConstructor  
-@AllArgsConstructor  
-@JsonIgnoreProperties(ignoreUnknown=true)
-public class ArticuloInsumoCreateDTO extends ArticuloCreateDTO{
-    
-  
-    private Double precioCompra;
-    
-    
-    
+@AllArgsConstructor 
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EmpresaDTO {
+
+
+    private String nombre;
+    private String razonSocial;
+    private String cuil;
+
+    // Relaciones omitidas:
+    // - sucursalList
 }

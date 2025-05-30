@@ -60,7 +60,7 @@ public class ImagenController {
 
             return ResponseEntity.ok("Imagen subida exitosamente: " + rutaArchivo.toString());
 
-        } catch (Exception e) {
+        } catch (IOException | IllegalStateException e) {
             logger.error("Error al subir la imagen", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al subir la imagen");
         }

@@ -4,8 +4,7 @@
  */
 package com.buenSabor.BackEnd.mapper;
 
-import com.buenSabor.BackEnd.dto.company.empresa.EmpresaCreateDTO;
-import com.buenSabor.BackEnd.dto.company.empresa.EmpresaResponseDTO;
+import com.buenSabor.BackEnd.dto.company.empresa.EmpresaDTO;
 import com.buenSabor.BackEnd.models.company.Empresa;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,10 +19,11 @@ public interface EmpresaMapper {
     
     EmpresaMapper mapper = Mappers.getMapper(EmpresaMapper.class);
     
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "sucursalList", ignore = true)
-    Empresa EmpresaCreateDtoToEmpresa(EmpresaCreateDTO empresaDto);    
+       @Mapping(target = "sucursalList", ignore = true)
+              @Mapping(target = "id", ignore = true)
+    Empresa toEntity(EmpresaDTO dto);
+    EmpresaDTO toDto(Empresa entity);
         
-    EmpresaResponseDTO EmpresaToResponse(Empresa empresa);
+//    EmpresaResponseDTO EmpresaToResponse(Empresa empresa);
     
 }

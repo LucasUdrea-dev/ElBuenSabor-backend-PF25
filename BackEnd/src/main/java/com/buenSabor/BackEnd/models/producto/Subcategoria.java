@@ -8,6 +8,7 @@ import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.models.producto.Categoria;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -27,18 +28,18 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Categoria")
+@Table(name = "subcategoria")
 public class Subcategoria extends Bean {
 
 
     @Column(name = "denominacion")
     private String denominacion;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_categoria", referencedColumnName = "id")
     private Categoria categoria;
     
-    @OneToMany(mappedBy = "subCategoria", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "subcategoria", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Articulo> articuloList;
 

@@ -11,6 +11,7 @@ import com.buenSabor.BackEnd.models.venta.Promocion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.models.user.Empleado;
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,9 +19,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,10 +42,8 @@ public class Sucursal extends Bean {
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "hora_apertura")
-    @Temporal(TemporalType.TIME)
     private String horaApertura;
     @Column(name = "hora_cierre")
-    @Temporal(TemporalType.TIME)
     private String horaCierre;
     @Column(name = "existe")
     private Boolean existe;
@@ -58,7 +54,7 @@ public class Sucursal extends Bean {
     @JsonIgnore
     private List<Empleado> empleadoList;
 
-    @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
 
@@ -66,7 +62,7 @@ public class Sucursal extends Bean {
     @JsonIgnore
     private List<Pedido> pedidoList;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Direccion direccion;
     
     @ManyToOne(fetch = FetchType.EAGER)

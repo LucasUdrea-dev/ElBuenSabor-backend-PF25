@@ -34,7 +34,7 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
 
     public List<Articulo> buscarPorSubcategoria(Long subCategoriaId) throws Exception {
         try {
-            return articuloRepository.findBySubCategoria_Id(subCategoriaId);
+            return articuloRepository.findBySubcategoria_Id(subCategoriaId);
         } catch (Exception e) {
             throw new Exception("Error al buscar por subcategoría: " + e.getMessage());
         }
@@ -56,9 +56,9 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    public List<Articulo> buscarDisponiblesPorSubcategoria(Long subCategoriaId) throws Exception {
+    public List<Articulo> buscarDisponiblesPorSubcategoria(Long subcategoriaId) throws Exception {
         try {
-            return articuloRepository.findBySubCategoria_IdAndExisteTrue(subCategoriaId);
+            return articuloRepository.findBySubcategoria_IdAndExisteTrue(subcategoriaId);
         } catch (Exception e) {
             throw new Exception("Error al buscar artículos disponibles por subcategoría: " + e.getMessage());
         }
