@@ -32,10 +32,10 @@ public class Provincia extends Bean {
     @Column(name = "nombre")
     private String nombre;
     
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Pais pais;
     
-    @OneToMany(mappedBy = "provincia", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "provincia", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Ciudad> ciudadList;
 

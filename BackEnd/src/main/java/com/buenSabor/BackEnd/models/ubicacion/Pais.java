@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.ubicacion;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,7 +31,7 @@ public class Pais extends Bean {
     @Column(name = "nombre")
     private String nombre;
     @JsonIgnore
-    @OneToMany(mappedBy = "pais", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pais", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Provincia> provinciaList;
 
     

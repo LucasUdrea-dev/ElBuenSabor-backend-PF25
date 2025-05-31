@@ -33,11 +33,11 @@ public class Ciudad extends Bean {
     @Column(name = "nombre")
     private String nombre;
     
-    @OneToMany(mappedBy = "ciudad", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Direccion> direccionList;
    
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Provincia provincia;
 
     
