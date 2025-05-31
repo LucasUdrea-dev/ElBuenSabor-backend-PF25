@@ -41,7 +41,7 @@ public class StockArticuloInsumo extends Bean {
 
       
        
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "id_articulo_insumo", referencedColumnName = "id")
      @JsonIgnore
     private ArticuloInsumo articuloInsumo; 
@@ -50,7 +50,7 @@ public class StockArticuloInsumo extends Bean {
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Sucursal Sucursal;
 
-    @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
     private List<HistoricoStockArticuloInsumo> historicoStockArticuloInsumoList;
 

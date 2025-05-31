@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 
-@Tag(name = "Controlador Base", description = "Operaciones CRUD genéricas para entidades")
+//@Tag(name = "Controlador Base", description = "Operaciones CRUD genéricas para entidades")
 public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceImpl<E,Long>> implements BeanController<E, Long> {
 
     @Autowired

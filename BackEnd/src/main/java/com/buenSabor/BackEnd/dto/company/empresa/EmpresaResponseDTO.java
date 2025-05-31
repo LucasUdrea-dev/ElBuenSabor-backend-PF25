@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.company.empresa;
 
-import com.buenSabor.BackEnd.dto.company.sucursal.SucursalSimplDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalResponseDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +26,6 @@ public class EmpresaResponseDTO {
     private String razonSocial;  
     private String cuil;  
       
-    private List<SucursalSimplDTO>sucursales;
+    private List<SucursalResponseDTO>sucursales;
     
 }

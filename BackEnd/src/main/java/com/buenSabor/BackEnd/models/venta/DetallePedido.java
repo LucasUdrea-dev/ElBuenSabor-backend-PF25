@@ -26,7 +26,6 @@ import lombok.Setter;
 public class DetallePedido extends Bean {
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_pedido")
     private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.EAGER)
