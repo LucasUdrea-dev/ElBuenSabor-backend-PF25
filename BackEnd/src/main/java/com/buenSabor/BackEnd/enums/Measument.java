@@ -9,8 +9,7 @@ package com.buenSabor.BackEnd.enums;
  * @author oscarloha
  */
 public enum Measument {
-    KILOGRAM,
-    LITER,
-    MILILITER,
-    UNITY
+    unidad,
+    gr,
+    ml
 }
