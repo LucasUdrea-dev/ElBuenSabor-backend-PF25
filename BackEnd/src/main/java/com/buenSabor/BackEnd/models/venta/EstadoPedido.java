@@ -31,7 +31,7 @@ public class EstadoPedido extends Bean {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "nombre_estado")
-    private TypeState nombre_estado;
+    private TypeState nombreEstado;
     @OneToMany(mappedBy = "estadoPedido", fetch = FetchType.EAGER)
     private List<Pedido> pedidoList;
 

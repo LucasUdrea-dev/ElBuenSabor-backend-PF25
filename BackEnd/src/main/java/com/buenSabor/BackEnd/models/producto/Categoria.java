@@ -36,6 +36,6 @@ public class Categoria extends Bean {
     
     @OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Subcategoria> subcategorias;   
+    private List<Subcategoria> subcategorias;
     
 }
