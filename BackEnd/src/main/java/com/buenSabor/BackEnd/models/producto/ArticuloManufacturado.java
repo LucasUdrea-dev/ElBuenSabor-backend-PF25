@@ -32,7 +32,7 @@ import lombok.Setter;
 @Table(name = "ArticuloManufacturado")
 public class ArticuloManufacturado extends Articulo {
 
-
+   
     @Column(name = "tiempo_estimado")
     private String tiempoEstimado;
     @Column(name = "preparacion")

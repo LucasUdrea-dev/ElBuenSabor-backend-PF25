@@ -4,7 +4,6 @@
  */
 package com.buenSabor.BackEnd.dto.company.sucursal;
 
-import com.buenSabor.BackEnd.dto.company.empresa.EmpresaDTO;
 import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

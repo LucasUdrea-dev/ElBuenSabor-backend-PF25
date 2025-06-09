@@ -7,6 +7,7 @@ package com.buenSabor.BackEnd.models.ubicacion;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.user.Usuario;
+import com.buenSabor.BackEnd.models.venta.DireccionPedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,8 +18,10 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,8 +36,6 @@ import lombok.Setter;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Direccion")
 public class Direccion extends Bean {
-
-   
 
     @Column(name = "existe")
     protected Boolean existe;
@@ -51,20 +52,21 @@ public class Direccion extends Bean {
 
     @Column(name = "descripcion_entrega", columnDefinition = "TEXT")
     protected String descripcionEntrega;
-    
+
     @ManyToOne()
     @JoinColumn(name = "id_ciudad")
     protected Ciudad ciudad;
 
-    
     @ManyToMany(mappedBy = "direccionList", fetch = FetchType.EAGER)
     @JsonIgnore
     protected List<Usuario> usuarioList;
 
-  
     @OneToOne(mappedBy = "direccion", fetch = FetchType.EAGER)
     @JsonIgnore
     protected Sucursal sucursal;
 
-   
+    @OneToMany(mappedBy = "direccion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<DireccionPedido> direccionPedidos = new ArrayList<>();
+
 }
