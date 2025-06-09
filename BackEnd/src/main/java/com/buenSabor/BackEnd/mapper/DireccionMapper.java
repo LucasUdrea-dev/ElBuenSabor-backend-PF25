@@ -18,7 +18,8 @@ import org.mapstruct.factory.Mappers;
 public interface DireccionMapper {
      @Mapping(target = "sucursal", ignore = true)
      @Mapping(target = "usuarioList", ignore = true)
-              @Mapping(target = "id", ignore = true)
+     @Mapping(target = "direccionPedidos", ignore = true)
+     @Mapping(target = "id", ignore = true)
     Direccion toEntity(DireccionDTO dto);
     DireccionDTO toDTO(Direccion entity);
 }

@@ -36,25 +36,26 @@ public class Promocion extends Bean {
 
     @Column(name = "denominacion")
     private String denominacion;
-    @Column(name = "fecha_desde")
-    @Temporal(TemporalType.DATE)
-    private Date fechaDesde;
-    @Column(name = "fecha_hasta")
-    @Temporal(TemporalType.DATE)
-    private Date fechaHasta;
-    @Column(name = "hora_desde")
-    @Temporal(TemporalType.TIME)
-    private Date horaDesde;
-    @Column(name = "hora_hasta")
-    @Temporal(TemporalType.TIME)
-    private Date horaHasta;
+//    @Column(name = "fecha_desde")
+//    @Temporal(TemporalType.DATE)
+//    private Date fechaDesde;
+//    @Column(name = "fecha_hasta")
+//    @Temporal(TemporalType.DATE)
+//    private Date fechaHasta;
+//    @Column(name = "hora_desde")
+//    @Temporal(TemporalType.TIME)
+//    private Date horaDesde;
+//    @Column(name = "hora_hasta")
+//    @Temporal(TemporalType.TIME)
+//    private Date horaHasta;
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "precio_rebajado")
     private Double precioRebajado;
     @Column(name = "existe")
     private Boolean existe;
-    
+    @Column(name = "imagen_promo")
+    private String imagen;
     
     
     
