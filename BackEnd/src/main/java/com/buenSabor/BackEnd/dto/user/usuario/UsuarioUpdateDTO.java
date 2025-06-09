@@ -6,7 +6,7 @@ package com.buenSabor.BackEnd.dto.user.usuario;
 
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationCreateDTO;
 import com.buenSabor.BackEnd.dto.seguridad.rol.RolCreateDTO;
-import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionCreateDTO;
+import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoCreateByUserDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ public class UsuarioUpdateDTO {
       protected List<TelefonoCreateByUserDTO>telefonos;
     protected UserAuthenticationCreateDTO autenticacion;
     protected RolCreateDTO rol;
-    protected List<DireccionCreateDTO> direcciones;
+    protected List<DireccionDTO> direcciones;
     
     
 }

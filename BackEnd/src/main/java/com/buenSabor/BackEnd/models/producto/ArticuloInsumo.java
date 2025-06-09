@@ -39,6 +39,7 @@ public class ArticuloInsumo extends Articulo {
     @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<HistoricoPrecioCostoArticuloInsumo> historicoPrecioCostoArticuloInsumoList;
+    
     @OneToMany(mappedBy = "articuloInsumo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<ArticuloManufacturadoDetalleInsumo> detalleManufacturas = new ArrayList<>();

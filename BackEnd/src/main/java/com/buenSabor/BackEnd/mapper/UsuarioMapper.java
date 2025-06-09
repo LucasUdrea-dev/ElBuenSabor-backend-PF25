@@ -6,7 +6,6 @@ package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.rol.RolResponseDTO;
-import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionResponseDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoResponseDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
 import com.buenSabor.BackEnd.models.seguridad.Rol;

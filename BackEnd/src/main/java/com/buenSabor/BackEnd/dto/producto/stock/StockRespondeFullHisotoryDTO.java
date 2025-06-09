@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.producto.stock;
 
-import com.buenSabor.BackEnd.dto.producto.insumo.ArticuloInsumoResponseDTO;
+import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class StockRespondeFullHisotoryDTO {
     
     private Long id;
     private Integer maxStock;
-    private ArticuloInsumoResponseDTO articuloInsumo;
+    private InsumoDTO articuloInsumo;
     //historico: 
     private Integer cantidad;
     private String fechaActualizacion;

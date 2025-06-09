@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.venta.pedidodetalle;
 
-import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloResponseDTO;
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +22,7 @@ import lombok.Setter;
 public class PedidoDetalleResponseDTO {
     private Long id;
     private int cantidad;
-    private List<ArticuloResponseDTO> articulos;
+    private List<ArticuloDTO> articulos;
   
             
 }

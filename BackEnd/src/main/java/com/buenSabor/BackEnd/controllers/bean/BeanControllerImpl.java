@@ -19,7 +19,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
     protected S service;
 
     @Operation(summary = "Obtener todos los registros")
-    @GetMapping("")
+    @GetMapping("/full")
     public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
@@ -29,7 +29,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
     }
 
     @Operation(summary = "Obtener un registro por ID")
-    @GetMapping("/{id}")
+    @GetMapping("/full/{id}")
     public ResponseEntity<?> getOne(@Parameter(description = "ID del registro") @PathVariable Long id){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
@@ -39,7 +39,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
     }
 
     @Operation(summary = "Guardar un nuevo registro")
-    @PostMapping("")
+    @PostMapping("/full/save")
     public ResponseEntity<?> save(@RequestBody E entity){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.save(entity));
@@ -49,7 +49,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
     }
 
     @Operation(summary = "Actualizar un registro existente")
-    @PutMapping("/{id}")
+    @PutMapping("/full/update/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody E entity){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.update(id, entity));
@@ -59,7 +59,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
     }
 
     @Operation(summary = "Eliminar un registro por ID")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/full/drop/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
         try {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(service.delete(id));
@@ -68,13 +68,13 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         }
     }
 
-    @Operation(summary = "Obtener todos los registros paginados")
-    @GetMapping("/paged")
-    public ResponseEntity<?> getAll(Pageable pageable) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
-        }
-    }
+//    @Operation(summary = "Obtener todos los registros paginados")
+//    @GetMapping("/full/pagedd")
+//    public ResponseEntity<?> getAll(Pageable pageable) {
+//        try {
+//            return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
+//        } catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+//        }
+//    }
 }

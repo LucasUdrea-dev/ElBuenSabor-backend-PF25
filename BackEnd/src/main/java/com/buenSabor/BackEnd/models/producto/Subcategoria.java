@@ -40,7 +40,7 @@ public class Subcategoria extends Bean {
     private Categoria categoria;
     
     @OneToMany(mappedBy = "subcategoria", 
-            fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     private List<Articulo> articuloList;
 

@@ -55,7 +55,7 @@ public class Articulo extends Bean {
     
     @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<DetallePedido> detallePedidoList = new ArrayList<>();
+    protected List<DetallePedido> detallePedidoList = new ArrayList<>();
 
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
     @JsonIgnore
@@ -67,6 +67,7 @@ public class Articulo extends Bean {
     
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     protected UnidadMedida unidadMedida;
+    
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
     @JsonIgnore
     protected List<PromocionArticulo> promocionArticuloList;

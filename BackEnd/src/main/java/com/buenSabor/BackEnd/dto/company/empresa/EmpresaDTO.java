@@ -21,11 +21,11 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EmpresaDTO {
 
-
+    private Long id;
     private String nombre;
     private String razonSocial;
     private String cuil;
-
+    private boolean existe;
     // Relaciones omitidas:
     // - sucursalList
 }

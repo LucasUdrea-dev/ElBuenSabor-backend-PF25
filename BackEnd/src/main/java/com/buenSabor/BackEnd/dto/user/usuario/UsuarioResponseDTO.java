@@ -4,9 +4,9 @@
  */
 package com.buenSabor.BackEnd.dto.user.usuario;
 
-import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.rol.RolResponseDTO;
+import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoResponseDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -34,6 +34,6 @@ public class UsuarioResponseDTO {
     protected List<TelefonoResponseDTO>telefonos;
     protected UserAuthenticationResponseDTO autenticacion;
     protected RolResponseDTO rol;
-    protected List<DireccionResponseDTO> direcciones;
+    protected List<DireccionDTO> direcciones;
     
 }

@@ -34,6 +34,7 @@ public class Empresa extends Bean {
     private String razonSocial;
     @Column(name = "cuil")
     private String cuil;
+    private boolean existe;
     @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<Sucursal> sucursalList;
 

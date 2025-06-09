@@ -21,6 +21,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StockDTO {
 
+    private Long id;
     private Integer maxStock;
     private Integer cantidad;
 

@@ -22,7 +22,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CategoriaDTO {
 
-
+    private Long id;
     private String denominacion;
     private String imagen;
 

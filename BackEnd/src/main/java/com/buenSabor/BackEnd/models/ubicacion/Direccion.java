@@ -38,32 +38,32 @@ import lombok.Setter;
 public class Direccion extends Bean {
 
     @Column(name = "existe")
-    protected Boolean existe;
+    private Boolean existe;
     @Column(name = "nombre_calle")
-    protected String nombreCalle;
+    private String nombreCalle;
     @Column(name = "numeracion")
-    protected String numeracion;
+    private String numeracion;
     @Column(name = "latitud")
-    protected Double latitud;
+    private Double latitud;
     @Column(name = "longitud")
-    protected Double longitud;
+    private Double longitud;
     @Column(name = "alias")
-    protected String alias;
+    private String alias;
 
     @Column(name = "descripcion_entrega", columnDefinition = "TEXT")
-    protected String descripcionEntrega;
+    private String descripcionEntrega;
 
     @ManyToOne()
     @JoinColumn(name = "id_ciudad")
-    protected Ciudad ciudad;
+    private Ciudad ciudad;
 
     @ManyToMany(mappedBy = "direccionList", fetch = FetchType.EAGER)
     @JsonIgnore
-    protected List<Usuario> usuarioList;
+    private List<Usuario> usuarioList;
 
     @OneToOne(mappedBy = "direccion", fetch = FetchType.EAGER)
     @JsonIgnore
-    protected Sucursal sucursal;
+    private Sucursal sucursal;
 
     @OneToMany(mappedBy = "direccion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore

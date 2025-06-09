@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.venta.pedido;
 
-import com.buenSabor.BackEnd.dto.company.sucursal.SucursalResponseDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
 import com.buenSabor.BackEnd.dto.venta.envio.TipoEnvioResponseDTO;
 import com.buenSabor.BackEnd.dto.venta.estado.EstadoPedidoResponseDTO;
@@ -38,7 +38,7 @@ public class PedidoResponseDTO {
     
     private List<PedidoDetalleResponseDTO> detalles;
     private EstadoPedidoResponseDTO estadoPedido;
-    private SucursalResponseDTO sucursal;
+    private SucursalDTO sucursal;
     private TipoEnvioResponseDTO tipoEnvio;
     private TipoPagoResponseDTO tipoPago;
     private UsuarioResponseDTO usuario;

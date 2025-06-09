@@ -22,7 +22,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticuloManufacturadoDetalleInsumoDTO {
 
-
+    private Long id;
     private InsumoDTO articuloInsumo;
     private int cantidad;
 

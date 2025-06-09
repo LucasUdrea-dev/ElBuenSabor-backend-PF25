@@ -5,6 +5,7 @@
 package com.buenSabor.BackEnd.models.user;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,6 +31,7 @@ public class Telefono extends Bean {
     @Column(name = "numero")
     private BigInteger numero;
     @ManyToOne( fetch = FetchType.EAGER)
+    @JsonIgnore
     private Usuario usuario;
 
     

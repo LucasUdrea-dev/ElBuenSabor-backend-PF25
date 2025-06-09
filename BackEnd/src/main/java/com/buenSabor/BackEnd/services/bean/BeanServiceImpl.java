@@ -92,4 +92,6 @@ public abstract class BeanServiceImpl<E extends Bean, ID extends Serializable> i
             throw new Exception(e.getMessage());
         }
     }
+    
+    
 }

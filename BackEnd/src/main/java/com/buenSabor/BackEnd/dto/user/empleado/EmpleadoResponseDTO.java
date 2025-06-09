@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.user.empleado;
 
-import com.buenSabor.BackEnd.dto.company.sucursal.SucursalSimplDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
 import java.util.Date;
 import lombok.AllArgsConstructor;
@@ -25,6 +25,6 @@ public class EmpleadoResponseDTO extends UsuarioResponseDTO{
     private Long id;
     private Double sueldo;
     private Date fechaAlta;
-    private SucursalSimplDTO sucursal;
+    private SucursalDTO sucursal;
     
 }

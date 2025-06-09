@@ -23,6 +23,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class InsumoDTO extends ArticuloDTO{
     
+    private Long id;
     private Double precioCompra;
     private StockDTO stockArticuloInsumo;
     

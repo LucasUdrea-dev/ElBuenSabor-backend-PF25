@@ -5,8 +5,8 @@
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.company.empresa.EmpresaDTO;
-import com.buenSabor.BackEnd.dto.company.empresa.EmpresaResponseDTO;
 import com.buenSabor.BackEnd.models.company.Empresa;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,23 +15,22 @@ import org.mapstruct.factory.Mappers;
  *
  * @author oscarloha
  */
-@Mapper (componentModel = "spring",uses=SucursalMapper.class)
+@Mapper(componentModel = "spring", uses = SucursalMapper.class)
 public interface EmpresaMapper {
-    
-    EmpresaMapper mapper = Mappers.getMapper(EmpresaMapper.class);
-    
-       @Mapping(target = "sucursalList", ignore = true)
-              @Mapping(target = "id", ignore = true)
-    Empresa toEntity(EmpresaDTO dto);
-    EmpresaDTO toDto(Empresa entity);
-        
-     @Mapping(source = "sucursalList", target = "sucursales")
-    EmpresaResponseDTO toDtoFull(Empresa entity);
-    
-//    @Mapping(source = "sucursales", target = "sucursalList")
-//     Empresa toEntityFromResponse(EmpresaResponseDTO dto);
 
+    EmpresaMapper mapper = Mappers.getMapper(EmpresaMapper.class);
+
+    @Mapping(target = "sucursalList", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    Empresa toEntity(EmpresaDTO dto);
+
+    ///////////////////////////////////
     
-//    EmpresaResponseDTO EmpresaToResponse(Empresa empresa);
+    // Modelo
+    EmpresaDTO toDto(Empresa entity);
+
+    // En EmpresaMapper
+    List<EmpresaDTO> toDtoList(List<Empresa> empresas);
+    
     
 }

@@ -22,6 +22,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SucursalDTO {
 
+    private Long id;
     private String nombre;
     private String horaApertura;
     private String horaCierre;

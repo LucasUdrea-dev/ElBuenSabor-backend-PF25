@@ -24,7 +24,8 @@ import lombok.Setter;
 @AllArgsConstructor 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticuloManufacturadoDTO extends ArticuloDTO {
-
+    
+    private Long id;
     private String tiempoEstimado;
     private String preparacion;
     private Long sucursalId;

@@ -36,7 +36,7 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticuloDTO {
 
-
+    private Long id;
     protected String nombre;
     protected String descripcion;
     protected Double precio;

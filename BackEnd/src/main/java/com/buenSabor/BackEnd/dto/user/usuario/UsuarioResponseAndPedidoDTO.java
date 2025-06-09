@@ -4,9 +4,9 @@
  */
 package com.buenSabor.BackEnd.dto.user.usuario;
 
-import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.rol.RolResponseDTO;
+import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoResponseDTO;
 import com.buenSabor.BackEnd.dto.venta.pedido.PedidoResponseDTO;
 import java.util.List;
@@ -35,7 +35,7 @@ public class UsuarioResponseAndPedidoDTO {
     protected List<TelefonoResponseDTO>telefonos;
     protected UserAuthenticationResponseDTO autenticacion;
     protected List<RolResponseDTO>roles;
-    protected List<DireccionResponseDTO> direcciones;
+    protected List<DireccionDTO> direcciones;
     protected List<PedidoResponseDTO>pedidos;
     
 }
