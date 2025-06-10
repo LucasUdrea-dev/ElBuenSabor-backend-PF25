@@ -11,4 +11,10 @@ public class BackEndApplication {
 		System.out.println("Aplicación corriendo...");
 	}
 
+        //como hacer con los historicos
+        //cuantos DTO y como manejar los update
+        //puede hacerse un Post con DTO+id?
+        // cual es la forma correcta de guardar una referencia a otra entidad
+        
+        
 }

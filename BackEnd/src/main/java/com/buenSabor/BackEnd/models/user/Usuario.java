@@ -5,90 +5,73 @@
 package com.buenSabor.BackEnd.models.user;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.models.direccion.Direccion;
+import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.models.seguridad.Rol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
-import jakarta.persistence.Basic;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-/**
- *
- * @author oscarloha
- */
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = "id")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Usuario")
 public class Usuario extends Bean {
 
-    /*private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Long id;*/
+   
 
     @Column(name = "nombre")
-    private String nombre;
+    protected String nombre;
     @Column(name = "apellido")
-    private String apellido;
+    protected String apellido;
     @Column(name = "email")
-    private String email;
+    protected String email;
     @Column(name = "existe")
-    private Boolean existe;
+    protected Boolean existe;
+    protected String imagenUsuario;
     
-    @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER)
-    private List<Telefono> telefonoList = new ArrayList<>();
+    @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    protected List<Telefono> telefonoList = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "Rol_Usuario",
-        joinColumns = @JoinColumn(name = "id_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_rol"))
-    private List<Rol> rolList;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_rol", referencedColumnName = "id")
+    protected Rol rol;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "Usuario_Direccion",
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_direccion"))
-    private List<Direccion> direccionList;
+    protected List<Direccion> direccionList;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_imagen")
-    private ImagenUsuario imagenUsuario;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_userAuth")
-    private UserAuthentication userAuthentication;
+    protected UserAuthentication userAuthentication;
+
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    private List<Pedido> pedidoList;
+        @JsonIgnore
+    protected List<Pedido> pedidoList;
     
 }

@@ -18,7 +18,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
@@ -36,8 +39,6 @@ public class ArticuloController extends BeanControllerImpl<Articulo,ArticuloServ
     private ArticuloMapper articuloMapper;
 
     @Operation(summary = "Guardar un nuevo artículo (insumo o manufacturado) a partir de un DTO")
-    @Schema( description = "Puede ser un ArticuloInsumoDTO o ArticuloManufacturadoDTO"
-            ,oneOf = {InsumoDTO.class, ArticuloManufacturadoDTO.class})
     @PostMapping("/crear")
     public ResponseEntity<?> saveFromDTO(@RequestBody ArticuloDTO dto) {
         try {

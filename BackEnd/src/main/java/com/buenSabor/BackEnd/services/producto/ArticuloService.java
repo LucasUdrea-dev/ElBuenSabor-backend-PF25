@@ -8,8 +8,11 @@ import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Optional;
 
+=======
+>>>>>>> origin/main
 import org.springframework.stereotype.Service;
 
 /**
@@ -65,6 +68,7 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
             throw new Exception("Error al buscar artículos disponibles por subcategoría: " + e.getMessage());
         }
     }
+<<<<<<< HEAD
 
     public List<Articulo> buscarArticuloSiEsParaElaborarYExiste() throws Exception{
         try {
@@ -74,4 +78,6 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
             throw new Exception("Error al buscar articulos con filtro: Es para elaborar y Existe. Message: " + e.getMessage());
         }
     }
+=======
+>>>>>>> origin/main
 }
