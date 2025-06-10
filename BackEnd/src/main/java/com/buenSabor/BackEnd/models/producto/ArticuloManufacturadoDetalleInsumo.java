@@ -32,6 +32,7 @@ public class ArticuloManufacturadoDetalleInsumo extends Bean{
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_articulo_insumo")
+        @JsonIgnore
     private ArticuloInsumo articuloInsumo;
 
     @Column(name = "cantidad")

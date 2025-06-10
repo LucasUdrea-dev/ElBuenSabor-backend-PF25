@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.producto.Articulo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -26,10 +27,12 @@ import lombok.Setter;
 public class DetallePedido extends Bean {
 
     @ManyToOne(fetch = FetchType.EAGER)
+        @JsonIgnore
     private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_articulo")
+        @JsonIgnore
     private Articulo articulo;
 
     @Column(name = "cantidad")

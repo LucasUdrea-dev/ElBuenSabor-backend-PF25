@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.enums.TypeDelivery;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -33,6 +34,7 @@ public class TipoEnvio extends Bean {
     @Enumerated(EnumType.STRING)
     private TypeDelivery tipoDelivery;
     @OneToMany(mappedBy = "tipoEnvio", fetch = FetchType.EAGER)
+        @JsonIgnore
     private List<Pedido> pedidoList;
 
     

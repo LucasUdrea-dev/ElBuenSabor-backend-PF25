@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import com.buenSabor.BackEnd.models.company.Sucursal;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,7 @@ public class ArticuloManufacturado extends Articulo {
     private List<ArticuloManufacturadoDetalleInsumo> detalleInsumos = new ArrayList<>();
 
     @ManyToOne
+        @JsonIgnore
     private Sucursal sucursal;
 
    

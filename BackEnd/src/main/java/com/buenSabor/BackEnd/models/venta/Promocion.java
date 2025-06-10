@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.company.Sucursal;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -71,6 +72,7 @@ public class Promocion extends Bean {
     private List<PromocionArticulo> promocionArticuloList;
     
     @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @JsonIgnore
     private List<DetallePromocion> detallePromocionList = new ArrayList<>();
 
 

@@ -32,6 +32,7 @@ public class DireccionPedido extends Bean{
     
      @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_pedido", unique = true)
+     
     private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.EAGER)

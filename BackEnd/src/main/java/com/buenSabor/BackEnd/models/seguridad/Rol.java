@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.models.seguridad;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.user.Usuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -36,8 +37,10 @@ public class Rol extends Bean {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaAlta;
     @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY)
+        @JsonIgnore
     private List<Usuario> usuarioList = new ArrayList<>();
     @ManyToOne(fetch = FetchType.EAGER)
+    
     private TipoRol tipoRol;
 
    
