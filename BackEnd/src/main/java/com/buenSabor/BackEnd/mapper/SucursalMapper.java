@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
 import com.buenSabor.BackEnd.models.company.Sucursal;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -28,4 +29,6 @@ public interface SucursalMapper {
      Sucursal toEntity(SucursalDTO dto);
       @Mapping(target = "empresaId", ignore = true)
     SucursalDTO toDto(Sucursal entity);
+
+    public List<SucursalDTO> toDtoList(List<Sucursal> findAll);
 }

@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,84 +37,83 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Empresas", description = "Operaciones relacionadas con entidad Empresa")
 public class EmpresaController extends BeanControllerImpl<Empresa, EmpresaService> {
 
-    //constructor sobrecargado 
     @Autowired
     private EmpresaMapper empresaMapper;
     @Autowired
     private EmpresaService empresaService;
 
-    @Operation(summary = "Ver una empresa por ID dto")
+    @Operation(summary = "Ver una empresa por ID DTO")
     @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
         try {
             EmpresaDTO empresa = empresaMapper.toDto(empresaService.findById(id));
-            if (empresa == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("{\"error\":\"Empresa no encontrada.\"}");
-            }
-
-            return ResponseEntity.status(HttpStatus.OK).body(empresa);
+            return empresa != null
+                    ? ResponseEntity.ok(empresa)
+                    : ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Empresa no encontrada.\"}");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"Error al obtener la empresa.\"}");
+            return ResponseEntity.badRequest().body("{\"error\":\"Error al obtener la empresa.\"}");
         }
     }
 
-    @Operation(summary = "ver empresas dto")
+    @Operation(summary = "Listar todas las empresas DTO")
     @GetMapping("/")
     public ResponseEntity<?> showAll() {
         try {
-            List<Empresa> empresas = empresaService.findAll();
-            List<EmpresaDTO> empresasDto = empresaMapper.toDtoList(empresas);
-            return ResponseEntity.status(HttpStatus.OK).body(empresasDto);
+            List<EmpresaDTO> empresasDto = empresaMapper.toDtoList(empresaService.findAll());
+            return ResponseEntity.ok(empresasDto);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"Error al listar las empresas.\"}");
+            return ResponseEntity.badRequest().body("{\"error\":\"Error al listar las empresas.\"}");
         }
     }
 
-    @Operation(summary = "Guardar una nueva empresa a partir de un DTO")
+    @Operation(summary = "Guardar una nueva empresa")
     @PostMapping("/save")
-    public ResponseEntity<?> saveFromDTO(@RequestBody EmpresaDTO dto) {
+    public ResponseEntity<?> saveEmpresa(@RequestBody EmpresaDTO dto) {
         try {
             Empresa empresa = empresaMapper.toEntity(dto);
-            return ResponseEntity.status(HttpStatus.OK).body(service.save(empresa));
+            return ResponseEntity.ok(empresaService.save(empresa));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error al guardar la empresa.\"}");
-        }
-    }
-    @Operation(summary = "Eliminar una  empresa a partir de un DTO")
-    @PostMapping("/drop")
-    public ResponseEntity<?> saveFromDTO(@PathVariable Long id) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.delete(id));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error al guardar la empresa.\"}");
+            return ResponseEntity.badRequest().body("{\"error\":\"Error al guardar la empresa.\"}");
         }
     }
 
-    
-    
-    @Operation(summary = "actualizar empresa completa")
+    @Operation(summary = "Eliminar una empresa por ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEmpresa(@PathVariable Long id) {
+        try {
+            empresaService.delete(id);
+            return ResponseEntity.ok("{\"message\":\"Empresa eliminada con éxito.\"}");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("{\"error\":\"Error al eliminar la empresa.\"}");
+        }
+    }
+
+    @Operation(summary = "Actualizar una empresa")
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateEmpresa(@PathVariable Long id, @RequestBody EmpresaDTO dto) {
         try {
             Empresa empresaExistente = empresaService.findById(id);
             if (empresaExistente == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("{\"error\":\"Empresa no encontrada.\"}");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Empresa no encontrada.\"}");
             }
 
-            // Mapear DTO a entidad nueva
-            Empresa empresaActualizada = empresaMapper.toEntity(dto);
-            empresaActualizada.setId(id); // Asegurarse de mantener el ID
+            // Partial Update (preventing null overwrites)
+            if (dto.getNombre() != null) {
+                empresaExistente.setNombre(dto.getNombre());
+            }
+            if (dto.getRazonSocial() != null) {
+                empresaExistente.setRazonSocial(dto.getRazonSocial());
+            }
+            if (dto.getCuil() != null) {
+                empresaExistente.setCuil(dto.getCuil());
+            }
+            empresaExistente.setExiste(dto.isExiste());
 
-            empresaService.save(empresaActualizada);
+            empresaService.save(empresaExistente);
 
-            return ResponseEntity.ok().body("{\"message\":\"Empresa actualizada con éxito.\"}");
+            return ResponseEntity.ok("{\"message\":\"Empresa actualizada con éxito.\"}");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"Error al actualizar la empresa.\"}");
+            return ResponseEntity.badRequest().body("{\"error\":\"Error al actualizar la empresa.\"}");
         }
     }
 
@@ -124,16 +124,11 @@ public class EmpresaController extends BeanControllerImpl<Empresa, EmpresaServic
             @RequestParam(defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<Empresa> empresaPage = empresaService.findAll(pageable);
-
-            // Mapear entidades a DTOs
-            Page<EmpresaDTO> empresaDTOPage = empresaPage.map(empresaMapper::toDto);
+            Page<EmpresaDTO> empresaDTOPage = empresaService.findAll(pageable).map(empresaMapper::toDto);
 
             return ResponseEntity.ok(empresaDTOPage);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"Error al obtener las empresas paginadas.\"}");
+            return ResponseEntity.badRequest().body("{\"error\":\"Error al obtener las empresas paginadas.\"}");
         }
     }
-
 }

@@ -12,6 +12,7 @@ import com.buenSabor.BackEnd.repositories.company.EmpresaRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,20 +33,22 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
     public SucursalService(BeanRepository<Sucursal, Long> beanRepository) {
         super(beanRepository);
     }
-
+@Transactional
     public Sucursal crearSucursal(Sucursal sucursal, Long id) {
-
         Empresa empresa = empresaRepository.findById(id)
-                .orElseThrow(() -> {
-                    return new RuntimeException("Empresa no encontrada con id: " + id);
-                });
-        Direccion direccion = direccionRepository.save(sucursal.getDireccion());
-        sucursal.setDireccion(direccion);
-        sucursalRepository.save(sucursal);
+                .orElseThrow(() -> new RuntimeException("Empresa no encontrada con id: " + id));
+
+        if (sucursal.getNombre() == null || sucursal.getHoraApertura() == null || sucursal.getHoraCierre() == null) {
+            throw new RuntimeException("Datos incompletos para la sucursal.");
+        }
+
+        if (sucursal.getDireccion() != null) {
+            Direccion direccion = direccionRepository.save(sucursal.getDireccion());
+            sucursal.setDireccion(direccion);
+        }
 
         sucursal.setEmpresa(empresa);
 
         return sucursalRepository.save(sucursal);
     }
-
 }
