@@ -23,10 +23,12 @@ public class EstadoPedidoInitializer implements CommandLineRunner {
     @Autowired
     private EstadoPedidoRepository estadoPedidoRepository;
 
-    @Override
-    public void run(String... args) {
+ @Override
+public void run(String... args) {
+    if (estadoPedidoRepository.count() == 0) {
         Arrays.stream(TypeState.values())
-              .map(estado -> new EstadoPedido(estado, new ArrayList<>())) 
+              .map(estado -> new EstadoPedido(estado, new ArrayList<>()))
               .forEach(estadoPedidoRepository::save);
     }
+}
 }

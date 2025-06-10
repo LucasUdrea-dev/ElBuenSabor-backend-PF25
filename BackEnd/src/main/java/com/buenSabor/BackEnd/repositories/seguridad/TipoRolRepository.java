@@ -4,8 +4,10 @@
  */
 package com.buenSabor.BackEnd.repositories.seguridad;
 
+import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.models.seguridad.TipoRol;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,5 +16,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TipoRolRepository extends BeanRepository<TipoRol,Long>{
+
+//    public Object findByNombre(TypeRol tipo);
+
+//    public Stream<TypeRol> existsByNombre(TypeRol tipo);
+//
+//    public boolean existsByNombre(TipoRol tipo);
+
+    public Object findById(int i);
     
 }

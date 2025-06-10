@@ -18,14 +18,17 @@ import org.springframework.stereotype.Component;
  * @author oscarloha
  */
 @Component
-public class TypeDeliveryInitializer implements CommandLineRunner{
+public class TypeDeliveryInitializer implements CommandLineRunner {
+
     @Autowired
     private TipoEnvioRepository repository;
 
     @Override
     public void run(String... args) {
-        Arrays.stream(TypeDelivery.values())
-              .map(medida -> new TipoEnvio(medida, new ArrayList<>())) 
-              .forEach(repository::save);
+        if (repository.count() == 0) {
+            Arrays.stream(TypeDelivery.values())
+                    .map(tipo -> new TipoEnvio(tipo, new ArrayList<>()))
+                    .forEach(repository::save);
+        }
     }
 }

@@ -25,8 +25,10 @@ public class MeasumentInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Arrays.stream(Measument.values())
-              .map(medida -> new UnidadMedida(medida, new ArrayList<>())) 
-              .forEach(repository::save);
+        if (repository.count() == 0) {
+            Arrays.stream(Measument.values())
+                    .map(medida -> new UnidadMedida(medida, new ArrayList<>()))
+                    .forEach(repository::save);
+        }
     }
 }

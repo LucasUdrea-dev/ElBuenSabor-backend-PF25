@@ -14,5 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TipoPagoRepository extends BeanRepository<TipoPago,Long>{
+
+    public Object findById(int i);
     
 }

@@ -16,4 +16,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EstadoPedidoRepository extends BeanRepository<EstadoPedido,Long>{
     boolean existsByNombreEstado(TypeState nombreEstado);
+
+    public Object findById(int i);
 }

@@ -25,9 +25,11 @@ public class TipoPagoInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Arrays.stream(TypePay.values())
-              .map(tipo -> new TipoPago(tipo, new ArrayList<>(), new ArrayList<>())) 
-              .forEach(tipoPagoRepository::save);
+        if (tipoPagoRepository.count() == 0) {
+            Arrays.stream(TypePay.values())
+                    .map(tipo -> new TipoPago(tipo, new ArrayList<>(), new ArrayList<>()))
+                    .forEach(tipoPagoRepository::save);
+        }
     }
-}
 
+}

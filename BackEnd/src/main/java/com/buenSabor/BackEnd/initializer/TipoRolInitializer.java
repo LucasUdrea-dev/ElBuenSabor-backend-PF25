@@ -20,14 +20,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class TipoRolInitializer implements CommandLineRunner {
 
-    @Autowired
+   @Autowired
     private TipoRolRepository tipoRolRepository;
 
     @Override
     public void run(String... args) {
-        Arrays.stream(TypeRol.values())
-              .filter(tipo -> tipoRolRepository.findByNombre(tipo).isEmpty()) // Verifica si ya existe
-              .map(tipo -> new TipoRol(tipo, new ArrayList<>()))
-              .forEach(tipoRolRepository::save);
+        if (tipoRolRepository.count() == 0) {
+            Arrays.stream(TypeRol.values())
+                  .map(tipo -> new TipoRol(tipo, new ArrayList<>()))
+                  .forEach(tipoRolRepository::save);
+        }
     }
 }

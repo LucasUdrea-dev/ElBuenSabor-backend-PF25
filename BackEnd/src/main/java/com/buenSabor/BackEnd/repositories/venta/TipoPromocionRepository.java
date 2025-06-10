@@ -14,5 +14,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TipoPromocionRepository extends BeanRepository<TipoPromocion,Long>{
+
+    public Object findById(int i);
     
 }

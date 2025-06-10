@@ -25,8 +25,10 @@ public class TipoPromocionInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        Arrays.stream(TypePromotion.values())
-              .map(tipo -> new TipoPromocion(tipo, new ArrayList<>()))
-              .forEach(tipoPromocionRepository::save);
+        if (tipoPromocionRepository.count() == 0) {
+            Arrays.stream(TypePromotion.values())
+                    .map(tipo -> new TipoPromocion(tipo, new ArrayList<>()))
+                    .forEach(tipoPromocionRepository::save);
+        }
     }
 }
