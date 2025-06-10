@@ -8,6 +8,8 @@ import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -61,6 +63,15 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
             return articuloRepository.findBySubcategoria_IdAndExisteTrue(subcategoriaId);
         } catch (Exception e) {
             throw new Exception("Error al buscar artículos disponibles por subcategoría: " + e.getMessage());
+        }
+    }
+
+    public List<Articulo> buscarArticuloSiEsParaElaborarYExiste() throws Exception{
+        try {
+            Optional<List<Articulo>> listOptional = articuloRepository.findArticuloByEsParaElaborarTrueAndExisteTrue();
+            return listOptional.get();
+        }catch (Exception e){
+            throw new Exception("Error al buscar articulos con filtro: Es para elaborar y Existe. Message: " + e.getMessage());
         }
     }
 }

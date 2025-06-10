@@ -7,6 +7,8 @@ package com.buenSabor.BackEnd.repositories.producto;
 import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 /**
@@ -30,5 +32,7 @@ public interface ArticuloRepository extends BeanRepository<Articulo,Long>{
     // Combinación de filtros
     List<Articulo> findBySubcategoria_IdAndExisteTrue(Long subcategoriaId);
 
+    //Busca articulos si es para elaborar y si existe
+   Optional <List<Articulo>> findArticuloByEsParaElaborarTrueAndExisteTrue();
 
 }
