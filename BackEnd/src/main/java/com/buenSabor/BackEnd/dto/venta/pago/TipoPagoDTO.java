@@ -4,8 +4,6 @@
  */
 package com.buenSabor.BackEnd.dto.venta.pago;
 
-import com.buenSabor.BackEnd.dto.venta.mercadopago.MercadoPagoResponseDTO;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +13,11 @@ import lombok.Setter;
  *
  * @author oscarloha
  */
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
-public class TipoPagoResponseDTO {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class TipoPagoDTO {
     private Long id;
-    private String denominacion; 
-    private List<MercadoPagoResponseDTO>mercadoPago;
+    private String tipoPago;
 }

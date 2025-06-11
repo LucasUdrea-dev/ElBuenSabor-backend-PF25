@@ -4,15 +4,6 @@
  */
 package com.buenSabor.BackEnd.mapper;
 
-import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
-import com.buenSabor.BackEnd.dto.seguridad.rol.RolResponseDTO;
-import com.buenSabor.BackEnd.dto.user.telefono.TelefonoResponseDTO;
-import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
-import com.buenSabor.BackEnd.models.seguridad.Rol;
-import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
-import com.buenSabor.BackEnd.models.ubicacion.Direccion;
-import com.buenSabor.BackEnd.models.user.Telefono;
-import com.buenSabor.BackEnd.models.user.Usuario;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

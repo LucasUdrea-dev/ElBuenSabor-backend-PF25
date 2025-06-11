@@ -5,6 +5,12 @@
 package com.buenSabor.BackEnd.dto.venta.pedido;
 
 import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
+import com.buenSabor.BackEnd.dto.venta.detallepedido.DetallePedidoDTO;
+import com.buenSabor.BackEnd.dto.venta.detallepromocion.DetallePromocionDTO;
+import com.buenSabor.BackEnd.dto.venta.envio.TipoEnvioDTO;
+import com.buenSabor.BackEnd.dto.venta.estado.EstadoPedidoDTO;
+import com.buenSabor.BackEnd.dto.venta.pago.TipoPagoDTO;
 import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -34,14 +40,11 @@ public class PedidoDTO {
     private SucursalDTO sucursal;
     private TipoEnvioDTO tipoEnvio;
     private TipoPagoDTO tipoPago;
-    private UsuarioDTO usuario; // Renamed from 'cliente' for consistency with 'Usuario' entity
+    private UsuarioDTO usuario; 
 
-    // For collections that might cause recursion or are heavily nested,
-    // consider if they are truly needed in the main PedidoDTO or if
-    // they should be fetched via separate endpoints.
-    // For now, including them with their respective DTOs.
+   
     private List<DetallePromocionDTO> detallePromocionList;
 
-    // Assuming DireccionPedido has its own DTO
-    private DireccionPedidoDTO direccionPedido;
+   
+   
 }

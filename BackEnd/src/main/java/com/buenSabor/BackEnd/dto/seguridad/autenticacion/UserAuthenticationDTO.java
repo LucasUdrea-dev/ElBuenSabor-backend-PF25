@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.seguridad.rol;
+package com.buenSabor.BackEnd.dto.seguridad.autenticacion;
 
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +13,16 @@ import lombok.Setter;
  *
  * @author oscarloha
  */
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
-public class RolCreateDTO {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserAuthenticationDTO {
+     private Long id;
+    private String password;
+   
+    private String username;
+    
 
-    private Date fechaAlta;
-    private Long TipoRolId;
+    
 }
