@@ -63,26 +63,24 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         this.promocionArticuloMapper = promocionArticuloMapper;
     }
 
-    // --- Custom Methods for Promocion entity ---
-
-    // Method to get a single PromocionDTO by ID
+   
     @Transactional
     public PromocionDTO findPromocionDTOById(Long id) throws Exception {
-        Promocion promocion = findById(id); // Using the BeanServiceImpl's findById
+        Promocion promocion = findById(id); 
         if (promocion == null) {
-            return null; // Or throw a specific NotFoundException
+            return null; 
         }
         return promocionMapper.toDto(promocion);
     }
 
-    // Method to get all PromocionDTOs
+
     @Transactional
     public List<PromocionDTO> findAllPromocionesDTO() throws Exception {
         List<Promocion> promociones = findAll(); // Using the BeanServiceImpl's findAll
         return promocionMapper.toDtoList(promociones);
     }
 
-    // Method to get Paged PromocionDTOs
+  
     @Transactional
     public Page<PromocionDTO> findAllPromocionesDTO(Pageable pageable) throws Exception {
         Page<Promocion> promocionesPage = findAll(pageable); // Using the BeanServiceImpl's findAll
@@ -180,14 +178,14 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         }
     }
 
-    // This method already returns List<PromocionDTO>, so it's good
+    
 //    @Transactional(readOnly = true)
 //    public List<PromocionDTO> findPromocionesByHabilitada(boolean habilitada) {
 //        List<Promocion> promociones = promocionRepository.findByHabilitada(habilitada);
 //        return promocionMapper.toDtoList(promociones);
 //    }
 //
-//    // This method could also return DTOs for consistency if desired
+
 //    @Transactional(readOnly = true)
 //    public List<PromocionDTO> findPromocionesByDenominacion(String denominacion) {
 //        List<Promocion> promociones = promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);
@@ -196,7 +194,6 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
 
        @Transactional
     public List<PromocionDTO> findPromocionesByDenominacion(String denominacion) {
-        // Here's the implementation:
         List<Promocion> promociones = promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);
         return promocionMapper.toDtoList(promociones);
     }

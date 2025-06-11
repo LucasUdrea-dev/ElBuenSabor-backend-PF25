@@ -131,18 +131,11 @@ public void eliminar(Long id) {
     try {
         sucursalRepository.deleteById(id);
     } catch (Exception e) {
-        // Opción 1: Imprimir en la consola (útil para desarrollo rápido)
+      
         System.err.println("Error al intentar eliminar la sucursal con ID: " + id);
-        e.printStackTrace(); // Esto imprime la stack trace completa en la consola de errores.
+        e.printStackTrace(); 
 
-        // Opción 2: Usar un logger (RECOMENDADO para aplicaciones Spring Boot)
-        // Necesitarías agregar un logger a tu clase. Por ejemplo:
-        // private static final Logger logger = LoggerFactory.getLogger(TuClaseDeServicio.class);
-        // logger.error("Error al eliminar la sucursal con ID: " + id, e); // Esto loggea el mensaje y la stack trace.
-
-        // Re-lanzar una excepción con un mensaje útil
-        // Es importante re-lanzar la excepción para que el controlador pueda manejarla
-        // y devolver un HTTP Status 500 apropiado con un mensaje de error claro al cliente.
+       
         throw new RuntimeException("Error al eliminar la sucursal con ID " + id + ": " + e.getMessage(), e);
     }
 }

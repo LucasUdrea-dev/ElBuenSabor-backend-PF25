@@ -29,15 +29,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Promoción", description = "Operaciones relacionadas con la entidad Promoción")
 public class PromocionController {
 
-    // No need to inject PromocionMapper directly here for CRUD methods
-    // because the service will handle DTO-to-Entity and Entity-to-DTO conversion.
-    // If you have specific, non-CRUD DTO mapping needs, you could keep it.
-    // @Autowired
-    // private PromocionMapper promocionMapper;
+   
 
     private final PromocionService promocionService;
 
-    // Use constructor injection for dependencies
+   
     @Autowired
     public PromocionController(PromocionService promocionService) {
         this.promocionService = promocionService;
@@ -63,7 +59,7 @@ public class PromocionController {
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
-            List<PromocionDTO> promociones = promocionService.findAllPromocionesDTO(); // Service returns list of DTOs
+            List<PromocionDTO> promociones = promocionService.findAllPromocionesDTO(); 
             return ResponseEntity.ok(promociones);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -72,14 +68,14 @@ public class PromocionController {
     }
 
     @Operation(summary = "Guardar una nueva promoción")
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<?> save(@RequestBody PromocionDTO dto) {
         try {
-            PromocionDTO savedDto = promocionService.crearPromocion(dto); // Service handles DTO-to-Entity and saving
+            PromocionDTO savedDto = promocionService.crearPromocion(dto); 
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(savedDto); // Service returns DTO directly
-        } catch (RuntimeException e) { // Catch specific runtime exceptions for better clarity
-            // For example, if a related entity is not found
+                    .body(savedDto); 
+        } catch (RuntimeException e) { 
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"error\":\"Error de datos al guardar la promoción: " + e.getMessage() + "\"}");
         } catch (Exception e) {
@@ -92,9 +88,9 @@ public class PromocionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            promocionService.eliminarPromocion(id); // Service handles finding and deleting
+            promocionService.eliminarPromocion(id); 
             return ResponseEntity.ok("{\"message\":\"Promoción eliminada con éxito.\"}");
-        } catch (RuntimeException e) { // Catch specific runtime exceptions (e.g., "not found" from service)
+        } catch (RuntimeException e) { 
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         } catch (Exception e) {
@@ -107,12 +103,11 @@ public class PromocionController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PromocionDTO dto) {
         try {
-            // No need to check ID consistency or call findById in the controller.
-            // The service method will handle finding the existing entity and updating it.
-            PromocionDTO updatedDto = promocionService.actualizarPromocion(id, dto); // Service handles everything
+            
+            PromocionDTO updatedDto = promocionService.actualizarPromocion(id, dto); 
             return ResponseEntity.ok(updatedDto);
-        } catch (RuntimeException e) { // Catch specific runtime exceptions (e.g., "not found" from service)
-            return ResponseEntity.status(HttpStatus.NOT_FOUND) // Or BAD_REQUEST if it's a validation error
+        } catch (RuntimeException e) { 
+            return ResponseEntity.status(HttpStatus.NOT_FOUND) 
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -127,7 +122,7 @@ public class PromocionController {
             @RequestParam(defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<PromocionDTO> pageResult = promocionService.findAllPromocionesDTO(pageable); // Service returns Page of DTOs
+            Page<PromocionDTO> pageResult = promocionService.findAllPromocionesDTO(pageable); 
             return ResponseEntity.ok(pageResult);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -139,8 +134,7 @@ public class PromocionController {
     @GetMapping("/search")
     public ResponseEntity<?> searchByDenominacion(@RequestParam String denominacion) {
         try {
-            // Assuming your service method `findPromocionesByDenominacion` now returns a List<PromocionDTO>
-            // or you explicitly map it here if the service returns entities.
+           
             List<PromocionDTO> promocionesDto = promocionService.findPromocionesByDenominacion(denominacion);
             return ResponseEntity.ok(promocionesDto);
         } catch (Exception e) {
