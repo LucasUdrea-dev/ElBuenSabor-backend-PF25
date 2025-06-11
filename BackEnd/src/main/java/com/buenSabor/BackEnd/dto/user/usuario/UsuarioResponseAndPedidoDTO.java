@@ -8,7 +8,7 @@ import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRespo
 import com.buenSabor.BackEnd.dto.seguridad.rol.RolResponseDTO;
 import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoResponseDTO;
-import com.buenSabor.BackEnd.dto.venta.pedido.PedidoResponseDTO;
+import com.buenSabor.BackEnd.dto.venta.pedido.PedidoDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +36,6 @@ public class UsuarioResponseAndPedidoDTO {
     protected UserAuthenticationResponseDTO autenticacion;
     protected List<RolResponseDTO>roles;
     protected List<DireccionDTO> direcciones;
-    protected List<PedidoResponseDTO>pedidos;
+    protected List<PedidoDTO>pedidos;
     
 }

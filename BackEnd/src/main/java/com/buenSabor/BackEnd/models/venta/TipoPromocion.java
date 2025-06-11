@@ -34,7 +34,7 @@ public class TipoPromocion extends Bean {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo")
     private TypePromotion tipoPromocion;
-    @OneToMany(mappedBy = "idTipoPromocion", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "TipoPromocion", fetch = FetchType.EAGER)
         @JsonIgnore
     private List<Promocion> promocionList;
 

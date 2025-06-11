@@ -37,18 +37,6 @@ public class Promocion extends Bean {
 
     @Column(name = "denominacion")
     private String denominacion;
-//    @Column(name = "fecha_desde")
-//    @Temporal(TemporalType.DATE)
-//    private Date fechaDesde;
-//    @Column(name = "fecha_hasta")
-//    @Temporal(TemporalType.DATE)
-//    private Date fechaHasta;
-//    @Column(name = "hora_desde")
-//    @Temporal(TemporalType.TIME)
-//    private Date horaDesde;
-//    @Column(name = "hora_hasta")
-//    @Temporal(TemporalType.TIME)
-//    private Date horaHasta;
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "precio_rebajado")
@@ -62,11 +50,11 @@ public class Promocion extends Bean {
     
     @JoinColumn(name = "sucursal_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Sucursal sucursalId;
+    private Sucursal sucursal;
     
     @JoinColumn(name = "id_tipo_promocion", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private TipoPromocion idTipoPromocion;
+    private TipoPromocion TipoPromocion;
     
     @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER)
     private List<PromocionArticulo> promocionArticuloList;

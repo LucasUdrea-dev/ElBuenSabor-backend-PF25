@@ -71,7 +71,7 @@ public class Sucursal extends Bean {
     private Empresa empresa;
 
     // Promocion: DEBE ELIMINARSE CON SUCURSAL
-    @OneToMany(mappedBy = "sucursalId", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Promocion> promocionList;
 }
