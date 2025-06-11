@@ -6901,3 +6901,125 @@ java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigin
 2025-06-11 15:47:40.652 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-06-11 15:47:40.673 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-06-11 15:47:40.715 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-06-11 15:59:21.722 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.2 with PID 21256 (C:\Users\Usuario\Desktop\ElBuenSabor\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Usuario in C:\Users\Usuario\Desktop\ElBuenSabor\ElBuenSabor-backend-PF25\BackEnd)
+2025-06-11 15:59:21.725 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-06-11 15:59:21.726 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
+2025-06-11 15:59:21.777 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-06-11 15:59:21.777 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-06-11 15:59:22.746 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-11 15:59:22.944 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 187 ms. Found 34 JPA repository interfaces.
+2025-06-11 15:59:23.561 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-06-11 15:59:23.572 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
+2025-06-11 15:59:23.572 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-06-11 15:59:23.632 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-11 15:59:23.633 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1855 ms
+2025-06-11 15:59:23.803 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-11 15:59:23.871 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-06-11 15:59:23.914 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-06-11 15:59:24.002 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
+2025-06-11 15:59:24.179 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-11 15:59:24.209 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-06-11 15:59:24.455 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1a6d13a6
+2025-06-11 15:59:24.457 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-06-11 15:59:24.497 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-06-11 15:59:24.516 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.39
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-06-11 15:59:25.736 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-11 15:59:25.898 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-11 15:59:26.697 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-11 15:59:26.746 INFO  [restartedMain] o.s.v.b.OptionalValidatorFactoryBean - Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-06-11 15:59:27.212 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-06-11 15:59:27.254 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-06-11 15:59:27.263 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 5.962 seconds (process running for 6.388)
+2025-06-11 16:01:38.422 INFO  [http-nio-8080-exec-2] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-11 16:01:38.423 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-11 16:01:38.424 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Completed initialization in 1 ms
+2025-06-11 16:05:06.139 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.2 with PID 3208 (C:\Users\Usuario\Desktop\ElBuenSabor\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Usuario in C:\Users\Usuario\Desktop\ElBuenSabor\ElBuenSabor-backend-PF25\BackEnd)
+2025-06-11 16:05:06.142 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-06-11 16:05:06.144 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
+2025-06-11 16:05:06.192 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-06-11 16:05:06.193 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-06-11 16:05:07.170 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-11 16:05:07.361 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 182 ms. Found 34 JPA repository interfaces.
+2025-06-11 16:05:07.971 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-06-11 16:05:07.984 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
+2025-06-11 16:05:07.985 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-06-11 16:05:08.049 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-11 16:05:08.049 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1856 ms
+2025-06-11 16:05:08.204 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-11 16:05:08.266 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-06-11 16:05:08.307 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-06-11 16:05:08.388 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
+2025-06-11 16:05:08.589 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-11 16:05:08.623 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-06-11 16:05:08.895 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@49bad4d5
+2025-06-11 16:05:08.896 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-06-11 16:05:08.937 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-06-11 16:05:08.954 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.39
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-06-11 16:05:10.222 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-11 16:05:10.381 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-11 16:05:11.209 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-11 16:05:11.258 INFO  [restartedMain] o.s.v.b.OptionalValidatorFactoryBean - Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-06-11 16:05:11.746 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-06-11 16:05:11.790 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-06-11 16:05:11.801 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 6.142 seconds (process running for 6.694)
+2025-06-11 16:05:20.376 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-11 16:05:20.377 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-11 16:05:20.378 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 1 ms
+2025-06-11 16:18:20.342 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.2 with PID 21940 (C:\Users\Usuario\Desktop\ElBuenSabor\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Usuario in C:\Users\Usuario\Desktop\ElBuenSabor\ElBuenSabor-backend-PF25\BackEnd)
+2025-06-11 16:18:20.345 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-06-11 16:18:20.346 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
+2025-06-11 16:18:20.401 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-06-11 16:18:20.402 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-06-11 16:18:21.378 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-11 16:18:21.615 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 226 ms. Found 34 JPA repository interfaces.
+2025-06-11 16:18:22.224 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-06-11 16:18:22.237 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
+2025-06-11 16:18:22.238 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-06-11 16:18:22.295 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-11 16:18:22.296 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1893 ms
+2025-06-11 16:18:22.453 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-11 16:18:22.528 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-06-11 16:18:22.567 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-06-11 16:18:22.645 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
+2025-06-11 16:18:22.836 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-11 16:18:22.873 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-06-11 16:18:23.124 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@caaff60
+2025-06-11 16:18:23.126 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-06-11 16:18:23.162 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-06-11 16:18:23.187 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.39
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-06-11 16:18:24.455 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-11 16:18:24.615 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-11 16:18:25.454 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-11 16:18:25.513 INFO  [restartedMain] o.s.v.b.OptionalValidatorFactoryBean - Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2025-06-11 16:18:26.052 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-06-11 16:18:26.082 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-06-11 16:18:26.091 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 6.202 seconds (process running for 6.702)
+2025-06-11 16:18:47.403 INFO  [http-nio-8080-exec-2] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-11 16:18:47.404 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-11 16:18:47.405 INFO  [http-nio-8080-exec-2] o.s.w.s.DispatcherServlet - Completed initialization in 1 ms
+2025-06-11 16:19:42.865 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-11 16:19:42.876 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
+2025-06-11 16:19:42.882 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-11 16:19:42.884 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-06-11 16:19:42.889 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
