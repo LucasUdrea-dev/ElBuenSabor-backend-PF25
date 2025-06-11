@@ -168,7 +168,7 @@ public class PromocionController {
     
     
     @Operation(summary = "Listar todas las promociones (versión lite) y condicionadas por existe")
-    @GetMapping("/lite/trabajando") // New endpoint path for lite version
+    @GetMapping("/lite/existente") // New endpoint path for lite version
     public ResponseEntity<?> getAllLiteExist() {
         try {
             List<PromocionLiteDTO> promocionesLite = promocionService.findAllPromocionesExistentesLite();
@@ -181,7 +181,7 @@ public class PromocionController {
     
     
     @Operation(summary = "Listar todas las promociones y condicionadas por existe")
-    @GetMapping("/lite") // New endpoint path for lite version
+    @GetMapping("/existente") // New endpoint path for lite version
     public ResponseEntity<?> getAllExist() {
          try {
             List<PromocionDTO> promociones = promocionService.findAllPromocionesExistentesDTO();
