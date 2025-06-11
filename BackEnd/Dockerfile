@@ -1,14 +1,10 @@
-# Usa imagen de Java 17
-FROM eclipse-temurin:17-jdk
-
-# Crea el directorio de la app
+FROM gradle:8.4-jdk17 AS builder
 WORKDIR /app
+COPY . .
+RUN gradle build --no-daemon
 
-# Copia el JAR generado por Gradle
-COPY build/libs/*.jar app.jar
-
-# Expone el puerto dinámico (Render asigna uno y lo pasa como $PORT)
+FROM eclipse-temurin:17-jdk
+WORKDIR /app
+COPY --from=builder /app/build/libs/*.jar app.jar
 EXPOSE 8080
-
-# Ejecuta la app
 CMD ["sh", "-c", "java -jar app.jar --server.port=$PORT"]
