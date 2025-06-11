@@ -4,13 +4,21 @@
  */
 package com.buenSabor.BackEnd.services.company;
 
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
+import com.buenSabor.BackEnd.mapper.CiudadMapper;
+import com.buenSabor.BackEnd.mapper.SucursalMapper;
 import com.buenSabor.BackEnd.models.company.Empresa;
 import com.buenSabor.BackEnd.models.company.Sucursal;
+import com.buenSabor.BackEnd.models.ubicacion.Ciudad;
 import com.buenSabor.BackEnd.models.ubicacion.Direccion;
+import com.buenSabor.BackEnd.models.ubicacion.Pais;
+import com.buenSabor.BackEnd.models.ubicacion.Provincia;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.EmpresaRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
-import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
+import com.buenSabor.BackEnd.repositories.ubicacion.CiudadRepository;
+import com.buenSabor.BackEnd.repositories.ubicacion.PaisRepository;
+import com.buenSabor.BackEnd.repositories.ubicacion.ProvinciaRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,32 +31,119 @@ import org.springframework.stereotype.Service;
 @Service
 public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
 
-    @Autowired
-    EmpresaRepository empresaRepository;
-    @Autowired
-    SucursalRepository sucursalRepository;
-    @Autowired
-    DireccionRepository direccionRepository;
+    private final SucursalRepository sucursalRepository;
+    private final EmpresaRepository empresaRepository;
+    private final CiudadRepository ciudadRepository;
+    private final ProvinciaRepository provinciaRepository;
+    private final PaisRepository paisRepository;
+    private final SucursalMapper sucursalMapper;
 
-    public SucursalService(BeanRepository<Sucursal, Long> beanRepository) {
+    public SucursalService(
+            BeanRepository<Sucursal, Long> beanRepository,
+            SucursalRepository sucursalRepository,
+            EmpresaRepository empresaRepository,
+            CiudadRepository ciudadRepository,
+            ProvinciaRepository provinciaRepository,
+            PaisRepository paisRepository,
+            SucursalMapper sucursalMapper
+    ) {
         super(beanRepository);
+        this.sucursalRepository = sucursalRepository;
+        this.empresaRepository = empresaRepository;
+        this.ciudadRepository = ciudadRepository;
+        this.provinciaRepository = provinciaRepository;
+        this.paisRepository = paisRepository;
+        this.sucursalMapper = sucursalMapper;
     }
-@Transactional
-    public Sucursal crearSucursal(Sucursal sucursal, Long id) {
-        Empresa empresa = empresaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Empresa no encontrada con id: " + id));
 
-        if (sucursal.getNombre() == null || sucursal.getHoraApertura() == null || sucursal.getHoraCierre() == null) {
-            throw new RuntimeException("Datos incompletos para la sucursal.");
-        }
+    @Transactional
+    public SucursalDTO crearSucursal(SucursalDTO dto) {
+        // Obtener la empresa existente por ID (única entidad que debe existir previamente)
+        Empresa empresa = empresaRepository.findById(dto.getEmpresa().getId())
+                .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 
-        if (sucursal.getDireccion() != null) {
-            Direccion direccion = direccionRepository.save(sucursal.getDireccion());
-            sucursal.setDireccion(direccion);
-        }
-
+        // Mapear el DTO a entidad
+        Sucursal sucursal = sucursalMapper.toEntity(dto);
         sucursal.setEmpresa(empresa);
 
-        return sucursalRepository.save(sucursal);
+        // Extraer la jerarquía de dirección
+        Direccion direccion = sucursal.getDireccion();
+        Ciudad ciudad = direccion.getCiudad();
+        Provincia provincia = ciudad.getProvincia();
+        Pais pais = provincia.getPais();
+
+        // Guardar jerárquicamente las entidades nuevas
+        pais = paisRepository.save(pais);
+        provincia.setPais(pais);
+        provincia = provinciaRepository.save(provincia);
+        ciudad.setProvincia(provincia);
+        ciudad = ciudadRepository.save(ciudad);
+        direccion.setCiudad(ciudad);
+
+        // Asignar la dirección con la ciudad ya persistida
+        sucursal.setDireccion(direccion);
+
+        // Guardar la sucursal completa
+        Sucursal sucursalGuardada = sucursalRepository.save(sucursal);
+
+        return sucursalMapper.toDto(sucursalGuardada);
     }
+
+    @Transactional
+    public SucursalDTO actualizarSucursal(Long id, SucursalDTO dto) {
+        // Buscar la sucursal existente
+        Sucursal sucursalExistente = sucursalRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
+
+        // Obtener la empresa asociada (solo por ID, debe existir)
+        Empresa empresa = empresaRepository.findById(dto.getEmpresa().getId())
+                .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
+
+        // Mapear DTO a entidad, mantener el ID original
+        Sucursal sucursalActualizada = sucursalMapper.toEntity(dto);
+        sucursalActualizada.setId(id);
+        sucursalActualizada.setEmpresa(empresa);
+
+        // Guardar la jerarquía completa desde cero (País → Provincia → Ciudad → Dirección)
+        Pais pais = paisRepository.save(sucursalActualizada.getDireccion().getCiudad().getProvincia().getPais());
+        Provincia provincia = sucursalActualizada.getDireccion().getCiudad().getProvincia();
+        provincia.setPais(pais);
+        provincia = provinciaRepository.save(provincia);
+
+        Ciudad ciudad = sucursalActualizada.getDireccion().getCiudad();
+        ciudad.setProvincia(provincia);
+        ciudad = ciudadRepository.save(ciudad);
+
+        Direccion direccion = sucursalActualizada.getDireccion();
+        direccion.setCiudad(ciudad);
+        sucursalActualizada.setDireccion(direccion);
+
+        // Persistir sucursal actualizada
+        Sucursal actualizada = sucursalRepository.save(sucursalActualizada);
+        return sucursalMapper.toDto(actualizada);
+    }
+
+   @Transactional
+public void eliminar(Long id) {
+    Sucursal sucursal = sucursalRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
+
+    try {
+        sucursalRepository.deleteById(id);
+    } catch (Exception e) {
+        // Opción 1: Imprimir en la consola (útil para desarrollo rápido)
+        System.err.println("Error al intentar eliminar la sucursal con ID: " + id);
+        e.printStackTrace(); // Esto imprime la stack trace completa en la consola de errores.
+
+        // Opción 2: Usar un logger (RECOMENDADO para aplicaciones Spring Boot)
+        // Necesitarías agregar un logger a tu clase. Por ejemplo:
+        // private static final Logger logger = LoggerFactory.getLogger(TuClaseDeServicio.class);
+        // logger.error("Error al eliminar la sucursal con ID: " + id, e); // Esto loggea el mensaje y la stack trace.
+
+        // Re-lanzar una excepción con un mensaje útil
+        // Es importante re-lanzar la excepción para que el controlador pueda manejarla
+        // y devolver un HTTP Status 500 apropiado con un mensaje de error claro al cliente.
+        throw new RuntimeException("Error al eliminar la sucursal con ID " + id + ": " + e.getMessage(), e);
+    }
+}
 }

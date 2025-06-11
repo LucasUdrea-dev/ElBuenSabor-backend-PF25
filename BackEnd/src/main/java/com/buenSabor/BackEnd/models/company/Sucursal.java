@@ -25,7 +25,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 /**
  *
  * @author oscarloha
@@ -38,7 +37,6 @@ import lombok.Setter;
 @Table(name = "Sucursal")
 public class Sucursal extends Bean {
 
-  
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "hora_apertura")
@@ -47,30 +45,33 @@ public class Sucursal extends Bean {
     private String horaCierre;
     @Column(name = "existe")
     private Boolean existe;
-    
-    
+
     //----
-    @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER)
+       @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Empleado> empleadoList;
 
-    @OneToMany(mappedBy = "Sucursal", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    // StockArticuloInsumo: YA ESTÁ CORRECTO para eliminar en cascada
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
 
-    @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER)
+    // Pedido: DEBE ELIMINARSE CON SUCURSAL
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Pedido> pedidoList;
 
+    // Direccion: YA ESTÁ CORRECTO para eliminar en cascada
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Direccion direccion;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    // Empresa: CORRECTO, NO SE ELIMINA (solo se desvincula en el servicio)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JsonIgnore
     private Empresa empresa;
 
-    @OneToMany(mappedBy = "sucursalId", fetch = FetchType.EAGER)
+    // Promocion: DEBE ELIMINARSE CON SUCURSAL
+    @OneToMany(mappedBy = "sucursalId", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Promocion> promocionList;
-
 }

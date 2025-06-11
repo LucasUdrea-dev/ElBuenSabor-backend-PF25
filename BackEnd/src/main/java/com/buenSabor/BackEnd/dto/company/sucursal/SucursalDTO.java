@@ -4,36 +4,21 @@
  */
 package com.buenSabor.BackEnd.dto.company.sucursal;
 
+import com.buenSabor.BackEnd.dto.company.empresa.EmpresaDTO;
 import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  *
  * @author oscarloha
  */
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class SucursalDTO {
-
     private Long id;
     private String nombre;
     private String horaApertura;
     private String horaCierre;
     private Boolean existe;
-
     private DireccionDTO direccion;
-    private Long empresaId;
-
-    // Relaciones omitidas:
-    // - empleadoList
-    // - stockArticuloInsumoList
-    // - pedidoList
-    // - promocionList
+    private EmpresaDTO empresa;
 }

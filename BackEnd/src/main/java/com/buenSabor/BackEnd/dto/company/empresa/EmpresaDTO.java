@@ -4,21 +4,15 @@
  */
 package com.buenSabor.BackEnd.dto.company.empresa;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
+import java.util.List;
+import lombok.Data;
 
 /**
  *
  * @author oscarloha
  */
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class EmpresaDTO {
 
     private Long id;
@@ -26,6 +20,5 @@ public class EmpresaDTO {
     private String razonSocial;
     private String cuil;
     private boolean existe;
-    // Relaciones omitidas:
-    // - sucursalList
+
 }

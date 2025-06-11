@@ -34,24 +34,30 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("api/sucursales")
-@Tag(name = "Sucursales", description = "Operaciones relacionadas con entidad Sucursal")
-public class SucursalController extends BeanControllerImpl<Sucursal, SucursalService> {
+@Tag(name = "Sucursales", description = "Operaciones relacionadas con la entidad Sucursal")
+public class SucursalController {
+
+    private final SucursalService sucursalService;
+    private final SucursalMapper sucursalMapper;
 
     @Autowired
-    private SucursalService sucursalService;
-
-    @Autowired
-    private SucursalMapper sucursalMapper;
+    public SucursalController(SucursalService sucursalService, SucursalMapper sucursalMapper) {
+        this.sucursalService = sucursalService;
+        this.sucursalMapper = sucursalMapper;
+    }
 
     @Operation(summary = "Guardar una nueva sucursal a partir de un DTO")
     @PostMapping("/crear")
-    public ResponseEntity<?> saveSucursal(@RequestBody SucursalDTO dto) {
+    public ResponseEntity<?> crearSucursal(@RequestBody SucursalDTO dto) {
         try {
-            Long empresaId = dto.getEmpresaId();
-            Sucursal savedSucursal = sucursalService.crearSucursal(sucursalMapper.toEntity(dto), empresaId);
-            return ResponseEntity.ok(savedSucursal);
+            SucursalDTO sucursalGuardada = sucursalService.crearSucursal(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(sucursalGuardada);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Error al guardar la sucursal.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error inesperado al crear la sucursal.\"}");
         }
     }
 
@@ -59,10 +65,11 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
     @GetMapping("/listar")
     public ResponseEntity<?> findAllSucursales() {
         try {
-            List<SucursalDTO> sucursalDtos = sucursalMapper.toDtoList(sucursalService.findAll());
-            return ResponseEntity.ok(sucursalDtos);
+            List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAll());
+            return ResponseEntity.ok(dtos);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Error al obtener las sucursales.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al obtener las sucursales.\"}");
         }
     }
 
@@ -70,45 +77,40 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
     @GetMapping("/{id}")
     public ResponseEntity<?> getSucursalById(@PathVariable Long id) {
         try {
-            SucursalDTO sucursal = sucursalMapper.toDto(sucursalService.findById(id));
-            return sucursal != null
-                    ? ResponseEntity.ok(sucursal)
-                    : ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Sucursal no encontrada.\"}");
+            Sucursal sucursal = sucursalService.findById(id);
+            if (sucursal == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Sucursal no encontrada.\"}");
+            }
+            return ResponseEntity.ok(sucursalMapper.toDto(sucursal));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Error al obtener la sucursal.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al obtener la sucursal.\"}");
         }
     }
 
-    @Operation(summary = "Actualizar sucursal")
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateSucursal(@PathVariable Long id, @RequestBody SucursalDTO dto) {
-        try {
-            Sucursal sucursalExistente = sucursalService.findById(id);
-            if (sucursalExistente == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Sucursal no encontrada.\"}");
-            }
-
-            // Partial Update (avoid null overwrites)
-            if (dto.getNombre() != null) sucursalExistente.setNombre(dto.getNombre());
-            if (dto.getHoraApertura() != null) sucursalExistente.setHoraApertura(dto.getHoraApertura());
-            if (dto.getHoraCierre() != null) sucursalExistente.setHoraCierre(dto.getHoraCierre());
-            if (dto.getExiste() != null) sucursalExistente.setExiste(dto.getExiste());
-
-            sucursalService.save(sucursalExistente);
-            return ResponseEntity.ok("{\"message\":\"Sucursal actualizada con éxito.\"}");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Error al actualizar la sucursal.\"}");
-        }
+    @Operation(summary = "Actualizar una sucursal")
+    @PutMapping("/{id}")
+    public ResponseEntity<SucursalDTO> actualizarSucursal(@PathVariable Long id, @RequestBody SucursalDTO dto) {
+        SucursalDTO actualizada = sucursalService.actualizarSucursal(id, dto);
+        return ResponseEntity.ok(actualizada);
     }
 
     @Operation(summary = "Eliminar una sucursal")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSucursal(@PathVariable Long id) {
         try {
+            Sucursal sucursal = sucursalService.findById(id);
+            if (sucursal == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Sucursal no encontrada.\"}");
+            }
+
             sucursalService.delete(id);
             return ResponseEntity.ok("{\"message\":\"Sucursal eliminada con éxito.\"}");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Error al eliminar la sucursal.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al eliminar la sucursal.\"}");
         }
     }
 
@@ -119,10 +121,12 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
             @RequestParam(defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<SucursalDTO> sucursalDTOPage = sucursalService.findAll(pageable).map(sucursalMapper::toDto);
-            return ResponseEntity.ok(sucursalDTOPage);
+            Page<SucursalDTO> dtoPage = sucursalService.findAll(pageable)
+                    .map(sucursalMapper::toDto);
+            return ResponseEntity.ok(dtoPage);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("{\"error\":\"Error al obtener las sucursales paginadas.\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al obtener las sucursales paginadas.\"}");
         }
     }
 }

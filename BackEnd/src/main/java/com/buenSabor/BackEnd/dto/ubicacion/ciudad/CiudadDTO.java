@@ -5,26 +5,16 @@
 package com.buenSabor.BackEnd.dto.ubicacion.ciudad;
 
 import com.buenSabor.BackEnd.dto.ubicacion.provincia.ProvinciaDTO;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  *
  * @author oscarloha
  */
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
-@JsonIgnoreProperties(ignoreUnknown = true)
+
+@Data
 public class CiudadDTO {
-
-
+    private Long id;
     private String nombre;
     private ProvinciaDTO provincia;
-
-    // Relaciones omitidas: direccionList
 }

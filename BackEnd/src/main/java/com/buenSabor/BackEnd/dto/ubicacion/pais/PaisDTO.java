@@ -4,25 +4,14 @@
  */
 package com.buenSabor.BackEnd.dto.ubicacion.pais;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  *
  * @author oscarloha
  */
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class PaisDTO {
-
-
+    private Long id;
     private String nombre;
-
-    // Relaciones omitidas: provinciaList
 }

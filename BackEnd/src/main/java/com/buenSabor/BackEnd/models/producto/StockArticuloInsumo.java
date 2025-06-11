@@ -22,7 +22,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
@@ -31,28 +30,23 @@ import lombok.Setter;
 @Table(name = "Stock_ArticuloInsumo")
 public class StockArticuloInsumo extends Bean {
 
- 
-
     @Column(name = "max_stock")
     private Integer maxStock;
 
     @Column(name = "cantidad")
     private Integer cantidad;
 
-      
-       
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_articulo_insumo", referencedColumnName = "id")
-     @JsonIgnore
-    private ArticuloInsumo articuloInsumo; 
-        
+    @JsonIgnore
+    private ArticuloInsumo articuloInsumo;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Sucursal Sucursal;
+    @ManyToOne
+    @JoinColumn(name = "sucursal_id") // O el nombre de la columna que tengas en tu DB
+    private Sucursal sucursal;
 
-    @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<HistoricoStockArticuloInsumo> historicoStockArticuloInsumoList;
 
-    
 }

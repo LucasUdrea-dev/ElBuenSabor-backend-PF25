@@ -27,7 +27,7 @@ public interface SucursalMapper {
                @Mapping(target = "id", ignore = true)
               @Mapping(target = "empresa", ignore = true)
      Sucursal toEntity(SucursalDTO dto);
-      @Mapping(target = "empresaId", ignore = true)
+     
     SucursalDTO toDto(Sucursal entity);
 
     public List<SucursalDTO> toDtoList(List<Sucursal> findAll);

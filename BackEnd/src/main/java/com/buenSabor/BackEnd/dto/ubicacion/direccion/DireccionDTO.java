@@ -5,25 +5,15 @@
 package com.buenSabor.BackEnd.dto.ubicacion.direccion;
 
 import com.buenSabor.BackEnd.dto.ubicacion.ciudad.CiudadDTO;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  *
  * @author oscarloha
  */
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
-@JsonIgnoreProperties(ignoreUnknown=true)
-
+@Data
 public class DireccionDTO {
-
-
+    private Long id;
     private Boolean existe;
     private String nombreCalle;
     private String numeracion;
@@ -31,10 +21,5 @@ public class DireccionDTO {
     private Double longitud;
     private String alias;
     private String descripcionEntrega;
-
     private CiudadDTO ciudad;
-
-    // Relaciones omitidas:
-    // - usuarioList (ManyToMany)
-    // - sucursal (OneToOne)
 }
