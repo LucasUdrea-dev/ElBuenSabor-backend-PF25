@@ -47,9 +47,9 @@ public class MercadoPagoIntegrationController {
             List<PreferenceItemRequest> items = new ArrayList<>();
             items.add(itemRequest);
 
-            PreferenceBackUrlsRequest backURL = PreferenceBackUrlsRequest.builder().success( frontendUrl+"/mercadopago/success")
-                    .pending(frontendUrl + "/mercadopago/pending")
-                    .failure(frontendUrl+"/mercadopago/failure").build();
+            PreferenceBackUrlsRequest backURL = PreferenceBackUrlsRequest.builder().success( frontendUrl+"/ordenRecibida")
+                    .pending(frontendUrl + "/catalogo")
+                    .failure(frontendUrl+"/catalogo").build();
 
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                     .items(items)
