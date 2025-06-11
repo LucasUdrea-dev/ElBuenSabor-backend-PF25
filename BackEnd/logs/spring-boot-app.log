@@ -629,3 +629,8 @@ com.buenSabor.BackEnd.controllers.venta.PromocionController#getAllExist() mapped
 2025-06-11 12:46:53.610 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-06-11 12:46:53.617 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 7 ms
 2025-06-11 12:46:54.293 INFO  [http-nio-8080-exec-4] o.s.a.AbstractOpenApiResource - Init duration for springdoc-openapi is: 423 ms
+2025-06-11 12:52:57.993 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-11 12:52:58.015 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
+2025-06-11 12:52:58.047 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-11 12:52:58.121 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-06-11 12:52:58.179 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
