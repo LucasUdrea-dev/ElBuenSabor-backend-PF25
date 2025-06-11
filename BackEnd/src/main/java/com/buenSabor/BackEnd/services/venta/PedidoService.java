@@ -2,13 +2,18 @@ package com.buenSabor.BackEnd.services.venta;
 
 import com.buenSabor.BackEnd.dto.venta.detallepedido.DetallePedidoDTO;
 import com.buenSabor.BackEnd.dto.venta.detallepromocion.DetallePromocionDTO;
-import com.buenSabor.BackEnd.dto.venta.pedido.PedidoDTO;
+import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
+
+
+import com.buenSabor.BackEnd.enums.TypeDelivery;
+import com.buenSabor.BackEnd.mapper.PedidoMapper;
 import com.buenSabor.BackEnd.mapper.DetallePedidoMapper;
 import com.buenSabor.BackEnd.mapper.DetallePromocionMapper;
+import com.buenSabor.BackEnd.mapper.DireccionPedidoMapper;
 import com.buenSabor.BackEnd.mapper.DireccionMapper;
-import com.buenSabor.BackEnd.mapper.PedidoMapper;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.producto.Articulo;
+import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.models.venta.DetallePedido;
 import com.buenSabor.BackEnd.models.venta.DetallePromocion;
@@ -23,23 +28,19 @@ import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
-import com.buenSabor.BackEnd.repositories.venta.DetallePedidoRepository;
-import com.buenSabor.BackEnd.repositories.venta.DetallePromocionRepository;
-import com.buenSabor.BackEnd.repositories.venta.EstadoPedidoRepository;
-import com.buenSabor.BackEnd.repositories.venta.PedidoRepository;
-import com.buenSabor.BackEnd.repositories.venta.PromocionRepository;
-import com.buenSabor.BackEnd.repositories.venta.TipoEnvioRepository;
-import com.buenSabor.BackEnd.repositories.venta.TipoPagoRepository;
+import com.buenSabor.BackEnd.repositories.venta.*;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
-import jakarta.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PedidoService extends BeanServiceImpl<Pedido, Long> {
@@ -52,16 +53,18 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     private final TipoEnvioRepository tipoEnvioRepository;
     private final TipoPagoRepository tipoPagoRepository;
     private final UsuarioRepository usuarioRepository;
-    private final ArticuloRepository articuloRepository; 
-    private final PromocionRepository promocionRepository; 
-    private final DetallePedidoRepository detallePedidoRepository; 
-    private final DetallePromocionRepository detallePromocionRepository; 
-    private final DireccionRepository direccionPedidoRepository; 
+    private final ArticuloRepository articuloRepository;
+    private final PromocionRepository promocionRepository;
+    private final DetallePedidoRepository detallePedidoRepository;
+    private final DetallePromocionRepository detallePromocionRepository;
+    private final DireccionRepository direccionRepository;
+    private final DireccionPedidoRepository direccionPedidoRepository;
 
     private final PedidoMapper pedidoMapper;
     private final DetallePedidoMapper detallePedidoMapper;
     private final DetallePromocionMapper detallePromocionMapper;
-    private final DireccionMapper direccionPedidoMapper; 
+    private final DireccionPedidoMapper direccionPedidoMapper;
+    private final DireccionMapper direccionMapper;
 
     @Autowired
     public PedidoService(
@@ -76,11 +79,13 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             PromocionRepository promocionRepository,
             DetallePedidoRepository detallePedidoRepository,
             DetallePromocionRepository detallePromocionRepository,
-            DireccionRepository direccionPedidoRepository,
+            DireccionRepository direccionRepository,
+            DireccionPedidoRepository direccionPedidoRepository,
             PedidoMapper pedidoMapper,
             DetallePedidoMapper detallePedidoMapper,
             DetallePromocionMapper detallePromocionMapper,
-            DireccionMapper direccionPedidoMapper
+            DireccionPedidoMapper direccionPedidoMapper,
+            DireccionMapper direccionMapper
     ) {
         super(beanRepository);
         this.pedidoRepository = pedidoRepository;
@@ -93,202 +98,236 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         this.promocionRepository = promocionRepository;
         this.detallePedidoRepository = detallePedidoRepository;
         this.detallePromocionRepository = detallePromocionRepository;
+        this.direccionRepository = direccionRepository;
         this.direccionPedidoRepository = direccionPedidoRepository;
         this.pedidoMapper = pedidoMapper;
         this.detallePedidoMapper = detallePedidoMapper;
         this.detallePromocionMapper = detallePromocionMapper;
         this.direccionPedidoMapper = direccionPedidoMapper;
+        this.direccionMapper = direccionMapper;
     }
 
-    
-    @Transactional
-    public PedidoDTO findPedidoDTOById(Long id) throws Exception {
+    // --- Read Operations ---
+    @Transactional(readOnly = true)
+    public PedidoConDireccionDTO findPedidoConDireccionDTOById(Long id) throws Exception {
         return pedidoRepository.findById(id)
-                .map(pedidoMapper::toDto)
+                .map(pedidoMapper::toPedidoConDireccionDto)
                 .orElse(null);
     }
 
-    @Transactional
-    public List<PedidoDTO> findAllPedidosDTO() throws Exception {
+    @Transactional(readOnly = true)
+    public List<PedidoConDireccionDTO> findAllPedidosConDireccionDTO() throws Exception {
         List<Pedido> pedidos = pedidoRepository.findAll();
-        return pedidoMapper.toDtoList(pedidos);
+        return pedidoMapper.toPedidoConDireccionDtoList(pedidos);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PedidoConDireccionDTO> findAllPedidosConDireccionDTO(Pageable pageable) throws Exception {
+        Page<Pedido> pedidosPage = pedidoRepository.findAll(pageable);
+        return pedidosPage.map(pedidoMapper::toPedidoConDireccionDto);
     }
 
     @Transactional
-    public Page<PedidoDTO> findAllPedidosDTO(Pageable pageable) throws Exception {
-        Page<Pedido> pedidosPage = pedidoRepository.findAll(pageable);
-        return pedidosPage.map(pedidoMapper::toDto);
+    public PedidoConDireccionDTO crearPedido(PedidoConDireccionDTO dto) throws Exception {
+        // 1. Obtener y establecer relaciones ManyToOne (entidades existentes)
+        EstadoPedido estadoPedido = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
+                .orElseThrow(() -> new RuntimeException("Estado de Pedido con ID " + dto.getEstadoPedido().getId() + " no encontrado."));
+        Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
+                .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
+        TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
+                .orElseThrow(() -> new RuntimeException("Tipo de Envío con ID " + dto.getTipoEnvio().getId() + " no encontrado."));
+        TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
+                .orElseThrow(() -> new RuntimeException("Tipo de Pago con ID " + dto.getTipoPago().getId() + " no encontrado."));
+        Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
+                .orElseThrow(() -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
+
+        // Validar que el tipo de envío del DTO coincida con el de la base de datos
+        if (!tipoEnvio.getTipoDelivery().equals(dto.getTipoEnvio().getTipoDelivery())) {
+            throw new RuntimeException("El tipo de envío proporcionado en el DTO no coincide con el tipo de envío en la base de datos.");
+        }
+
+        // 2. Mapear los campos básicos del PedidoConDireccionDTO a la entidad Pedido
+        Pedido pedido = pedidoMapper.toEntity(dto);
+        pedido.setEstadoPedido(estadoPedido);
+        pedido.setSucursal(sucursal);
+        pedido.setTipoEnvio(tipoEnvio);
+        pedido.setTipoPago(tipoPago);
+        pedido.setUsuario(usuario);
+
+        // Inicializar listas para evitar NullPointerExceptions
+        pedido.setDetallePedidoList(new ArrayList<>());
+        pedido.setDetallePromocionList(new ArrayList<>());
+
+        // 3. Manejar DireccionPedido (condicionalmente)
+        if (tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY) {
+            if (dto.getDireccion() == null || dto.getDireccion().getDireccion() == null) {
+                throw new RuntimeException("Para el tipo de envío " + tipoEnvio.getTipoDelivery() + ", se requiere una Dirección de Pedido completa.");
+            }
+
+            // Map DireccionDTO nested inside DireccionPedidoDTO to Direccion entity
+            Direccion direccionDetails = direccionMapper.toEntity(dto.getDireccion().getDireccion());
+            direccionRepository.save(direccionDetails); // Save the actual address details first
+
+            // Create the DireccionPedido entity, which now just wraps the Direccion
+            DireccionPedido direccionPedido = direccionPedidoMapper.toEntity(dto.getDireccion());
+            direccionPedido.setDireccion(direccionDetails); // Set the saved Direccion entity
+            direccionPedido.setPedido(pedido); // Link DireccionPedido to this Pedido entity
+            direccionPedidoRepository.save(direccionPedido); // Save the associative entity
+
+            pedido.setDireccionPedido(direccionPedido); // Set the DireccionPedido on the main Pedido
+        } else {
+            // If the delivery type does not require a shipping address, ensure none is provided
+            if (dto.getDireccion() != null) {
+                logger.warn("Se recibió una DireccionPedidoDTO para un Tipo de Envío (" + tipoEnvio.getTipoDelivery() + ") que no la requiere. Será ignorada.");
+            }
+            pedido.setDireccionPedido(null);
+        }
+
+        // 4. Guardar la entidad Pedido primero para obtener su ID
+        Pedido savedPedido = pedidoRepository.save(pedido);
+
+        // 5. Manejar DetallePedido (OneToMany)
+        if (dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty()) {
+            for (DetallePedidoDTO detalleDto : dto.getDetallePedidoList()) {
+                Articulo articulo = articuloRepository.findById(detalleDto.getArticulo().getId())
+                        .orElseThrow(() -> new RuntimeException("Artículo con ID " + detalleDto.getArticulo().getId() + " no encontrado para DetallePedido."));
+
+                DetallePedido detallePedido = detallePedidoMapper.toEntity(detalleDto);
+                detallePedido.setPedido(savedPedido);
+                detallePedido.setArticulo(articulo);
+                savedPedido.getDetallePedidoList().add(detallePedido);
+            }
+        }
+
+        // 6. Manejar DetallePromocion (OneToMany)
+        if (dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty()) {
+            for (DetallePromocionDTO detalleDto : dto.getDetallePromocionList()) {
+                Promocion promocion = promocionRepository.findById(detalleDto.getPromocion().getId())
+                        .orElseThrow(() -> new RuntimeException("Promoción con ID " + detalleDto.getPromocion().getId() + " no encontrada para DetallePromocion."));
+
+                DetallePromocion detallePromocion = detallePromocionMapper.toEntity(detalleDto);
+                detallePromocion.setPedido(savedPedido);
+                detallePromocion.setPromocion(promocion);
+                savedPedido.getDetallePromocionList().add(detallePromocion);
+            }
+        }
+
+        // Re-save the parent to ensure cascades or any updates based on children are flushed
+        return pedidoMapper.toPedidoConDireccionDto(pedidoRepository.save(savedPedido));
     }
 
-    // --- Create Operation ---
+    @Transactional
+    public PedidoConDireccionDTO actualizarPedido(Long id, PedidoConDireccionDTO dto) throws Exception {
+        Pedido existingPedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido con ID " + id + " no encontrado para actualizar."));
 
-//    @Transactional
-//    public PedidoDTO crearPedido(PedidoDTO dto) throws Exception {
-//        // 1. Fetch and set ManyToOne relationships (existing entities)
-//        EstadoPedido estadoPedido = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
-//                .orElseThrow(() -> new RuntimeException("Estado de Pedido con ID " + dto.getEstadoPedido().getId() + " no encontrado."));
-//        Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
-//                .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
-//        TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
-//                .orElseThrow(() -> new RuntimeException("Tipo de Envío con ID " + dto.getTipoEnvio().getId() + " no encontrado."));
-//        TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
-//                .orElseThrow(() -> new RuntimeException("Tipo de Pago con ID " + dto.getTipoPago().getId() + " no encontrado."));
-//        Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
-//                .orElseThrow(() -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
-//
-//        // 2. Map the main PedidoDTO to Pedido entity (basic fields only)
-//        // Note: Collections (detallePedidoList, detallePromocionList) and DireccionPedido
-//        // are ignored by the mapper and will be handled manually here.
-//        Pedido pedido = pedidoMapper.toEntity(dto);
-//        pedido.setEstadoPedido(estadoPedido);
-//        pedido.setSucursal(sucursal);
-//        pedido.setTipoEnvio(tipoEnvio);
-//        pedido.setTipoPago(tipoPago);
-//        pedido.setUsuario(usuario);
-//
-//        // Initialize lists to avoid NullPointerExceptions later
-//        pedido.setDetallePedidoList(new ArrayList<>());
-//        pedido.setDetallePromocionList(new ArrayList<>());
-//
-//        // 3. Handle DireccionPedido (OneToOne)
-//        if (dto.getDireccionPedido() != null) {
-//            DireccionPedido direccionPedido = direccionPedidoMapper.toEntity(dto.getDireccionPedido());
-//            direccionPedido.setPedido(pedido); // Set bidirectional relationship
-//            pedido.setDireccionPedido(direccionPedido);
-//            // DireccionPedido will be saved cascade if configured correctly in Pedido entity
-//            // Or explicitly save: direccionPedidoRepository.save(direccionPedido);
-//        }
-//
-//        // 4. Save the Pedido entity first to get its ID
-//        Pedido savedPedido = pedidoRepository.save(pedido);
-//
-//        // 5. Handle DetallePedido (OneToMany)
-//        if (dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty()) {
-//            for (DetallePedidoDTO detalleDto : dto.getDetallePedidoList()) {
-//                Articulo articulo = articuloRepository.findById(detalleDto.getArticulo().getId())
-//                        .orElseThrow(() -> new RuntimeException("Artículo con ID " + detalleDto.getArticulo().getId() + " no encontrado para DetallePedido."));
-//
-//                DetallePedido detallePedido = detallePedidoMapper.toEntity(detalleDto);
-//                detallePedido.setPedido(savedPedido); // Associate with the saved parent Pedido
-//                detallePedido.setArticulo(articulo);
-//                savedPedido.getDetallePedidoList().add(detallePedido); // Add to the collection
-//            }
-//            // If CascadeType.ALL is on Pedido.detallePedidoList, they will be saved when Pedido is saved/updated.
-//            // Otherwise, save them explicitly: detallePedidoRepository.saveAll(savedPedido.getDetallePedidoList());
-//        }
-//
-//        // 6. Handle DetallePromocion (OneToMany)
-//        if (dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty()) {
-//            for (DetallePromocionDTO detalleDto : dto.getDetallePromocionList()) {
-//                Promocion promocion = promocionRepository.findById(detalleDto.getPromocion().getId())
-//                        .orElseThrow(() -> new RuntimeException("Promoción con ID " + detalleDto.getPromocion().getId() + " no encontrada para DetallePromocion."));
-//
-//                DetallePromocion detallePromocion = detallePromocionMapper.toEntity(detalleDto);
-//                detallePromocion.setPedido(savedPedido); // Associate with the saved parent Pedido
-//                detallePromocion.setPromocion(promocion);
-//                savedPedido.getDetallePromocionList().add(detallePromocion); // Add to the collection
-//            }
-//            // If CascadeType.ALL is on Pedido.detallePromocionList, they will be saved.
-//            // Otherwise, save them explicitly: detallePromocionRepository.saveAll(savedPedido.getDetallePromocionList());
-//        }
-//
-//        // Re-save the parent to ensure cascades or any updates based on children are flushed
-//        // This might be redundant if cascades are correctly configured, but provides safety.
-//        return pedidoMapper.toDto(pedidoRepository.save(savedPedido));
-//    }
-//
-//
-//    // --- Update Operation ---
-//
-//    @Transactional
-//    public PedidoDTO actualizarPedido(Long id, PedidoDTO dto) throws Exception {
-//        Pedido existingPedido = pedidoRepository.findById(id)
-//                .orElseThrow(() -> new RuntimeException("Pedido con ID " + id + " no encontrado para actualizar."));
-//
-//        // 1. Fetch and set ManyToOne relationships (similar to create)
-//        EstadoPedido estadoPedido = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
-//                .orElseThrow(() -> new RuntimeException("Estado de Pedido con ID " + dto.getEstadoPedido().getId() + " no encontrado."));
-//        Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
-//                .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
-//        TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
-//                .orElseThrow(() -> new RuntimeException("Tipo de Envío con ID " + dto.getTipoEnvio().getId() + " no encontrado."));
-//        TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
-//                .orElseThrow(() -> new RuntimeException("Tipo de Pago con ID " + dto.getTipoPago().getId() + " no encontrado."));
-//        Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
-//                .orElseThrow(() -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
-//
-//        // 2. Update basic fields of existing Pedido entity using the mapper
-//        // Collections are ignored by the mapper, handling them below.
-//        pedidoMapper.updatePedidoFromDto(dto, existingPedido);
-//        existingPedido.setEstadoPedido(estadoPedido);
-//        existingPedido.setSucursal(sucursal);
-//        existingPedido.setTipoEnvio(tipoEnvio);
-//        existingPedido.setTipoPago(tipoPago);
-//        existingPedido.setUsuario(usuario);
-//
-//        // 3. Handle DireccionPedido (OneToOne)
-//        // This logic handles create, update, or delete of DireccionPedido
-//        if (dto.getDireccionPedido() != null) {
-//            if (existingPedido.getDireccionPedido() == null) {
-//                // No existing DireccionPedido, create a new one
-//                DireccionPedido newDireccionPedido = direccionPedidoMapper.toEntity(dto.getDireccionPedido());
-//                newDireccionPedido.setPedido(existingPedido);
-//                existingPedido.setDireccionPedido(newDireccionPedido);
-//                // The cascade (if configured) will save it
-//            } else {
-//                // Existing DireccionPedido, update it
-//                direccionPedidoMapper.updateDireccionPedidoFromDto(dto.getDireccionPedido(), existingPedido.getDireccionPedido());
-//                // No need to set pedido again, it's already linked
-//            }
-//        } else {
-//            // DTO has no DireccionPedido, but entity has one -> delete it
-//            if (existingPedido.getDireccionPedido() != null) {
-//                direccionPedidoRepository.delete(existingPedido.getDireccionPedido());
-//                existingPedido.setDireccionPedido(null);
-//            }
-//        }
-//
-//
-//        // 4. Handle DetallePedido (OneToMany) - Complex update logic
-//        // Clear existing children to allow orphanRemoval to work (if configured on entity)
-//        // OR, manage individual adds/updates/deletes. Clearing is simpler with orphanRemoval.
-//        detallePedidoRepository.deleteAll(existingPedido.getDetallePedidoList()); // Delete old ones
-//        existingPedido.getDetallePedidoList().clear(); // Clear the collection
-//
-//        if (dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty()) {
-//            for (DetallePedidoDTO detalleDto : dto.getDetallePedidoList()) {
-//                Articulo articulo = articuloRepository.findById(detalleDto.getArticulo().getId())
-//                        .orElseThrow(() -> new RuntimeException("Artículo con ID " + detalleDto.getArticulo().getId() + " no encontrado para DetallePedido."));
-//
-//                DetallePedido newDetalle = detallePedidoMapper.toEntity(detalleDto);
-//                newDetalle.setPedido(existingPedido); // Link to parent
-//                newDetalle.setArticulo(articulo);
-//                existingPedido.getDetallePedidoList().add(newDetalle);
-//            }
-//        }
-//
-//        // 5. Handle DetallePromocion (OneToMany) - Complex update logic
-//        detallePromocionRepository.deleteAll(existingPedido.getDetallePromocionList()); // Delete old ones
-//        existingPedido.getDetallePromocionList().clear(); // Clear the collection
-//
-//        if (dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty()) {
-//            for (DetallePromocionDTO detalleDto : dto.getDetallePromocionList()) {
-//                Promocion promocion = promocionRepository.findById(detalleDto.getPromocion().getId())
-//                        .orElseThrow(() -> new RuntimeException("Promoción con ID " + detalleDto.getPromocion().getId() + " no encontrada para DetallePromocion."));
-//
-//                DetallePromocion newDetalle = detallePromocionMapper.toEntity(detalleDto);
-//                newDetalle.setPedido(existingPedido); // Link to parent
-//                newDetalle.setPromocion(promocion);
-//                existingPedido.getDetallePromocionList().add(newDetalle);
-//            }
-//        }
-//
-//        // Save the updated parent entity
-//        Pedido updatedPedido = pedidoRepository.save(existingPedido);
-//        return pedidoMapper.toDto(updatedPedido);
-//    }
+        // 1. Obtener y establecer relaciones ManyToOne (entidades existentes)
+        EstadoPedido estadoPedido = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
+                .orElseThrow(() -> new RuntimeException("Estado de Pedido con ID " + dto.getEstadoPedido().getId() + " no encontrado."));
+        Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
+                .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
+        TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
+                .orElseThrow(() -> new RuntimeException("Tipo de Envío con ID " + dto.getTipoEnvio().getId() + " no encontrado."));
+        TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
+                .orElseThrow(() -> new RuntimeException("Tipo de Pago con ID " + dto.getTipoPago().getId() + " no encontrado."));
+        Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
+                .orElseThrow(() -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
 
-    // --- Delete Operation ---
+        // Validar que el tipo de envío del DTO coincida con el de la base de datos
+        if (!tipoEnvio.getTipoDelivery().equals(dto.getTipoEnvio().getTipoDelivery())) {
+            throw new RuntimeException("El tipo de envío proporcionado en el DTO no coincide con el tipo de envío en la base de datos.");
+        }
+
+        // 2. Actualizar campos básicos del Pedido existente usando el mapper
+        pedidoMapper.updatePedidoFromDto(dto, existingPedido);
+        existingPedido.setEstadoPedido(estadoPedido);
+        existingPedido.setSucursal(sucursal);
+        existingPedido.setTipoEnvio(tipoEnvio);
+        existingPedido.setTipoPago(tipoPago);
+        existingPedido.setUsuario(usuario);
+
+        // 3. Manejar DireccionPedido (condicionalmente)
+        if (tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY) {
+            if (dto.getDireccion() == null || dto.getDireccion().getDireccion() == null) {
+                throw new RuntimeException("Para el tipo de envío " + tipoEnvio.getTipoDelivery() + ", se requiere una Dirección de Pedido completa.");
+            }
+
+            if (existingPedido.getDireccionPedido() == null) {
+                // No existe DireccionPedido asociada, crear una nueva
+                Direccion direccionDetails = direccionMapper.toEntity(dto.getDireccion().getDireccion());
+                direccionRepository.save(direccionDetails);
+
+                DireccionPedido newDireccionPedido = direccionPedidoMapper.toEntity(dto.getDireccion());
+                newDireccionPedido.setDireccion(direccionDetails);
+                newDireccionPedido.setPedido(existingPedido);
+                direccionPedidoRepository.save(newDireccionPedido);
+
+                existingPedido.setDireccionPedido(newDireccionPedido);
+            } else {
+                // Existe DireccionPedido asociada, actualizarla
+                DireccionPedido currentDireccionPedido = existingPedido.getDireccionPedido();
+                Direccion currentDireccionDetails = currentDireccionPedido.getDireccion();
+
+                // Update the nested Direccion details
+                direccionMapper.updateDireccionFromDto(dto.getDireccion().getDireccion(), currentDireccionDetails);
+                direccionRepository.save(currentDireccionDetails);
+
+                // Update the DireccionPedido (associative entity) if needed (e.g., if it has other fields)
+                direccionPedidoMapper.updateDireccionPedidoFromDto(dto.getDireccion(), currentDireccionPedido);
+                direccionPedidoRepository.save(currentDireccionPedido);
+            }
+        } else {
+            // Si el tipo de envío no requiere DireccionPedido
+            if (existingPedido.getDireccionPedido() != null) {
+                logger.info("El TipoEnvio cambió a NO-DELIVERY/NO-TAKEAWAY. Eliminando DireccionPedido existente del pedido ID: {}", id);
+                // First delete the nested Direccion if it's managed by DireccionPedido
+                if (existingPedido.getDireccionPedido().getDireccion() != null) {
+                    direccionRepository.delete(existingPedido.getDireccionPedido().getDireccion());
+                }
+                direccionPedidoRepository.delete(existingPedido.getDireccionPedido());
+                existingPedido.setDireccionPedido(null);
+            }
+            if (dto.getDireccion() != null) {
+                logger.warn("Se recibió una DireccionPedidoDTO para un Tipo de Envío (" + tipoEnvio.getTipoDelivery() + ") que no la requiere en la actualización. Será ignorada.");
+            }
+        }
+
+        // 4. Manejar DetallePedido (OneToMany) - Update logic
+        detallePedidoRepository.deleteAll(existingPedido.getDetallePedidoList());
+        existingPedido.getDetallePedidoList().clear();
+
+        if (dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty()) {
+            for (DetallePedidoDTO detalleDto : dto.getDetallePedidoList()) {
+                Articulo articulo = articuloRepository.findById(detalleDto.getArticulo().getId())
+                        .orElseThrow(() -> new RuntimeException("Artículo con ID " + detalleDto.getArticulo().getId() + " no encontrado para DetallePedido."));
+
+                DetallePedido newDetalle = detallePedidoMapper.toEntity(detalleDto);
+                newDetalle.setPedido(existingPedido);
+                newDetalle.setArticulo(articulo);
+                existingPedido.getDetallePedidoList().add(newDetalle);
+            }
+        }
+
+        // 5. Manejar DetallePromocion (OneToMany) - Update logic
+        detallePromocionRepository.deleteAll(existingPedido.getDetallePromocionList());
+        existingPedido.getDetallePromocionList().clear();
+
+        if (dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty()) {
+            for (DetallePromocionDTO detalleDto : dto.getDetallePromocionList()) {
+                Promocion promocion = promocionRepository.findById(detalleDto.getPromocion().getId())
+                        .orElseThrow(() -> new RuntimeException("Promoción con ID " + detalleDto.getPromocion().getId() + " no encontrada para DetallePromocion."));
+
+                DetallePromocion newDetalle = detallePromocionMapper.toEntity(detalleDto);
+                newDetalle.setPedido(existingPedido);
+                newDetalle.setPromocion(promocion);
+                existingPedido.getDetallePromocionList().add(newDetalle);
+            }
+        }
+
+        // Guardar la entidad padre actualizada
+        Pedido updatedPedido = pedidoRepository.save(existingPedido);
+        return pedidoMapper.toPedidoConDireccionDto(updatedPedido);
+    }
 
     @Transactional
     public void eliminarPedido(Long id) throws Exception {

@@ -1,6 +1,6 @@
 package com.buenSabor.BackEnd.controllers.venta;
 
-import com.buenSabor.BackEnd.dto.venta.pedido.PedidoDTO;
+import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
 import com.buenSabor.BackEnd.services.venta.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,120 +21,129 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping("api/pedidos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*") // Consider restricting this in production for security
 @Tag(name = "Pedido", description = "Operaciones relacionadas con entidad Pedido")
 public class PedidoController {
 
-//    private final PedidoService pedidoService;
-//
-//    @Autowired
-//    public PedidoController(PedidoService pedidoService) {
-//        this.pedidoService = pedidoService;
-//    }
-//
-//   
-//    @Operation(summary = "Ver un pedido por ID")
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> getById(@PathVariable Long id) {
-//        try {
-//            PedidoDTO pedidoDTO = pedidoService.findPedidoDTOById(id);
-//            if (pedidoDTO == null) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                        .body("{\"error\":\"Pedido no encontrado.\"}");
-//            }
-//            return ResponseEntity.ok(pedidoDTO);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("{\"error\":\"Error al obtener el pedido: " + e.getMessage() + "\"}");
-//        }
-//    }
-//   
-//    @Operation(summary = "Listar todos los pedidos")
-//    @GetMapping // Maps to /api/pedidos
-//    public ResponseEntity<?> getAll() {
-//        try {
-//            List<PedidoDTO> pedidos = pedidoService.findAllPedidosDTO();
-//            return ResponseEntity.ok(pedidos);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("{\"error\":\"Error al listar los pedidos: " + e.getMessage() + "\"}");
-//        }
-//    }
-//   
-//    @Operation(summary = "Listar pedidos paginados")
-//    @GetMapping("/paged")
-//    public ResponseEntity<?> getPaged(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size) {
-//        try {
-//            Pageable pageable = PageRequest.of(page, size);
-//            Page<PedidoDTO> pageResult = pedidoService.findAllPedidosDTO(pageable);
-//            return ResponseEntity.ok(pageResult);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("{\"error\":\"Error al obtener los pedidos paginados: " + e.getMessage() + "\"}");
-//        }
-//    }
-//   
-//    @Operation(summary = "Crear un nuevo pedido")
-//    @PostMapping // Maps to /api/pedidos
-//    public ResponseEntity<?> create(@RequestBody PedidoDTO dto) {
-//        try {
-//            PedidoDTO savedDto = pedidoService.crearPedido(dto);
-//            return ResponseEntity.status(HttpStatus.CREATED)
-//                    .body(savedDto);
-//        } catch (RuntimeException e) { // Catch more specific exceptions from service, e.g., validation errors
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body("{\"error\":\"Error de datos al crear el pedido: " + e.getMessage() + "\"}");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("{\"error\":\"Error interno al crear el pedido: " + e.getMessage() + "\"}");
-//        }
-//    }
-//  
-//    @Operation(summary = "Actualizar un pedido existente")
-//    @PutMapping("/{id}") // Maps to /api/pedidos/{id}
-//    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PedidoDTO dto) {
-//        try {
-//            // It's good practice to ensure the ID in the DTO matches the path variable, or to ignore DTO's ID.
-//            // The service method will use the path variable ID to find the entity.
-//            PedidoDTO updatedDto = pedidoService.actualizarPedido(id, dto);
-//            return ResponseEntity.ok(updatedDto);
-//        } catch (RuntimeException e) { // Catch specific exceptions like "not found" from service
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND) // Or BAD_REQUEST if it's a validation error
-//                    .body("{\"error\":\"" + e.getMessage() + "\"}");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("{\"error\":\"Error al actualizar el pedido: " + e.getMessage() + "\"}");
-//        }
-//    }
-//   
-//    @Operation(summary = "Eliminar un pedido por ID")
-//    @DeleteMapping("/{id}") // Maps to /api/pedidos/{id}
-//    public ResponseEntity<?> delete(@PathVariable Long id) {
-//        try {
-//            pedidoService.eliminarPedido(id);
-//            return ResponseEntity.ok("{\"message\":\"Pedido eliminado con éxito.\"}");
-//        } catch (RuntimeException e) { // Catch specific exceptions like "not found" from service
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//                    .body("{\"error\":\"" + e.getMessage() + "\"}");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("{\"error\":\"Error al eliminar el pedido: " + e.getMessage() + "\"}");
-//        }
-//    }
-   
-    // Assuming you have a method like this in PedidoService
-    // public List<PedidoDTO> findPedidosByUsuario(Long userId)
+    private final PedidoService pedidoService;
+
+    @Autowired
+    public PedidoController(PedidoService pedidoService) {
+        this.pedidoService = pedidoService;
+    }
+
+    // --- Read Operations ---
+
+    @Operation(summary = "Ver un pedido por ID con detalles completos (incluye dirección)")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getByIdFull(@PathVariable Long id) {
+        try {
+            PedidoConDireccionDTO pedidoDTO = pedidoService.findPedidoConDireccionDTOById(id);
+            if (pedidoDTO == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Pedido con ID " + id + " no encontrado.\"}");
+            }
+            return ResponseEntity.ok(pedidoDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al obtener el pedido: " + e.getMessage() + "\"}");
+        }
+    }
+
+    @Operation(summary = "Listar todos los pedidos con detalles completos (incluye dirección)")
+    @GetMapping("/all") // Changed to /all to differentiate from root /pedidos if you add a simpler DTO list later
+    public ResponseEntity<?> getAllFull() {
+        try {
+            List<PedidoConDireccionDTO> pedidos = pedidoService.findAllPedidosConDireccionDTO();
+            return ResponseEntity.ok(pedidos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al listar los pedidos completos: " + e.getMessage() + "\"}");
+        }
+    }
+
+    @Operation(summary = "Listar pedidos paginados con detalles completos (incluye dirección)")
+    @GetMapping("/paged")
+    public ResponseEntity<?> getPagedFull(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<PedidoConDireccionDTO> pageResult = pedidoService.findAllPedidosConDireccionDTO(pageable);
+            return ResponseEntity.ok(pageResult);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al obtener los pedidos completos paginados: " + e.getMessage() + "\"}");
+        }
+    }
+
+    // --- Write Operations ---
+
+    @Operation(summary = "Crear un nuevo pedido con dirección (si aplica)")
+    @PostMapping("") // Maps to /api/pedidos
+    public ResponseEntity<?> create(@RequestBody PedidoConDireccionDTO dto) {
+        try {
+            PedidoConDireccionDTO savedDto = pedidoService.crearPedido(dto);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(savedDto);
+        } catch (RuntimeException e) {
+            // Catch more specific exceptions from service, e.g., validation errors, missing entities
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"Error de datos al crear el pedido: " + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error interno al crear el pedido: " + e.getMessage() + "\"}");
+        }
+    }
+
+    @Operation(summary = "Actualizar un pedido existente (incluye dirección si aplica)")
+    @PutMapping("/{id}") // Maps to /api/pedidos/{id}
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PedidoConDireccionDTO dto) {
+        try {
+            PedidoConDireccionDTO updatedDto = pedidoService.actualizarPedido(id, dto);
+            if (updatedDto == null) {
+                // This case should ideally be handled by the service throwing an exception,
+                // but kept for robustness.
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Pedido con ID " + id + " no encontrado para actualizar.\"}");
+            }
+            return ResponseEntity.ok(updatedDto);
+        } catch (RuntimeException e) {
+            // Catch specific exceptions like "not found" or validation errors from service
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST) // Or NOT_FOUND if it's purely a not found error
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al actualizar el pedido: " + e.getMessage() + "\"}");
+        }
+    }
+
+    @Operation(summary = "Eliminar un pedido por ID")
+    @DeleteMapping("/{id}") // Maps to /api/pedidos/{id}
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        try {
+            pedidoService.eliminarPedido(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content for successful deletion
+        } catch (RuntimeException e) {
+            // Catch specific exceptions like "not found" from service
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al eliminar el pedido: " + e.getMessage() + "\"}");
+        }
+    }
+
+    // Example of a custom query based on user ID (uncomment and implement if needed in service)
     /*
     @Operation(summary = "Buscar pedidos por ID de usuario")
     @GetMapping("/byUser/{userId}")
     public ResponseEntity<?> getPedidosByUsuario(@PathVariable Long userId) {
         try {
-            List<PedidoDTO> pedidos = pedidoService.findPedidosByUsuario(userId);
+            // Assuming pedidoService has findPedidosByUsuario that returns List<PedidoConDireccionDTO>
+            List<PedidoConDireccionDTO> pedidos = pedidoService.findPedidosByUsuario(userId);
             if (pedidos.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"message\":\"No se encontraron pedidos para el usuario con ID: " + userId + "\"}");
@@ -146,5 +155,4 @@ public class PedidoController {
         }
     }
     */
-   
 }
