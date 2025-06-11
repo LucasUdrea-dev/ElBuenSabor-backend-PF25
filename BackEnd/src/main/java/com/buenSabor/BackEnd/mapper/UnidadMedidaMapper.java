@@ -16,7 +16,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UnidadMedidaMapper {
     @Mapping(target = "articuloList", ignore = true)
-              @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id", ignore = true)
     UnidadMedida toEntity(UnidadMedidaDTO dto);
     UnidadMedidaDTO toDTO(UnidadMedida entity);
 }

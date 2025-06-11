@@ -24,6 +24,8 @@ public interface ArticuloMapper {
 
     ArticuloMapper mapper = Mappers.getMapper(ArticuloMapper.class);
 
+    @Mapping(target = "subcategoria", source = "subcategoria")
+    @Mapping(target = "unidadMedida", source = "unidadMedida")
     ArticuloDTO toArticuloDTO(Articulo articulo);
 
     @SubclassMapping(source = InsumoDTO.class, target = ArticuloInsumo.class)
@@ -31,7 +33,9 @@ public interface ArticuloMapper {
     @Mapping(target = "promocionArticuloList", ignore = true)
     @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
     @Mapping(target = "detallePedidoList", ignore = true)
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "subcategoria.id", source = "subcategoria.id")
+    @Mapping(target = "subcategoria.categoria.id", source = "subcategoria.categoria.id")
+    @Mapping(target = "unidadMedida.id", source = "unidadMedida.id")
     Articulo toArticulo(ArticuloDTO dto);
 
     @Mapping(target = "detallePedidoList", ignore = true)
@@ -39,8 +43,9 @@ public interface ArticuloMapper {
     @Mapping(target = "promocionArticuloList", ignore = true)
     @Mapping(target = "historicoPrecioCostoArticuloInsumoList", ignore = true)
     @Mapping(target = "detalleManufacturas", ignore = true)
-    @Mapping(target = "id", ignore = true)
-            
+    @Mapping(target = "subcategoria.id", source = "subcategoria.id")
+    @Mapping(target = "subcategoria.categoria.id", source = "subcategoria.categoria.id")
+    @Mapping(target = "unidadMedida.id", source = "unidadMedida.id")
     ArticuloInsumo toEntity(InsumoDTO dto);
 
     @Mapping(target = "detallePedidoList", ignore = true)
@@ -49,6 +54,8 @@ public interface ArticuloMapper {
     @Mapping(target = "detalleInsumos", ignore = true)
     @Mapping(target = "sucursal", ignore = true)
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "subcategoria", source = "subcategoria")
+    @Mapping(target = "unidadMedida", source = "unidadMedida")
     ArticuloManufacturado toEntity(ArticuloManufacturadoDTO dto);
 
 }
