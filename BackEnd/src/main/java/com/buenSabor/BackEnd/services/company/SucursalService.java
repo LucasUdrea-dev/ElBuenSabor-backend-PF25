@@ -5,10 +5,6 @@
 package com.buenSabor.BackEnd.services.company;
 
 import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
-<<<<<<< HEAD
-=======
-import com.buenSabor.BackEnd.mapper.CiudadMapper;
->>>>>>> 971fdac1994dc049088e1c959c85a580132c3c6a
 import com.buenSabor.BackEnd.mapper.SucursalMapper;
 import com.buenSabor.BackEnd.models.company.Empresa;
 import com.buenSabor.BackEnd.models.company.Sucursal;
@@ -20,16 +16,14 @@ import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.EmpresaRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.CiudadRepository;
-<<<<<<< HEAD
 import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
-=======
->>>>>>> 971fdac1994dc049088e1c959c85a580132c3c6a
 import com.buenSabor.BackEnd.repositories.ubicacion.PaisRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.ProvinciaRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 /**
  *
@@ -38,11 +32,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
 
-<<<<<<< HEAD
+
     @Autowired
     DireccionRepository direccionRepository;
-=======
->>>>>>> 971fdac1994dc049088e1c959c85a580132c3c6a
+
+
     private final SucursalRepository sucursalRepository;
     private final EmpresaRepository empresaRepository;
     private final CiudadRepository ciudadRepository;
@@ -135,7 +129,7 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         return sucursalMapper.toDto(actualizada);
     }
 
-<<<<<<< HEAD
+
     @Transactional
     public void eliminarSucursal(Long id) {
         Sucursal sucursal = sucursalRepository.findById(id)
@@ -145,23 +139,5 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         sucursal.setExiste(false);
         sucursalRepository.save(sucursal);
     }
-}
-=======
-   @Transactional
-public void eliminar(Long id) {
-    Sucursal sucursal = sucursalRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
 
-    try {
-        sucursalRepository.deleteById(id);
-    } catch (Exception e) {
-      
-        System.err.println("Error al intentar eliminar la sucursal con ID: " + id);
-        e.printStackTrace(); 
-
-       
-        throw new RuntimeException("Error al eliminar la sucursal con ID " + id + ": " + e.getMessage(), e);
-    }
 }
-}
->>>>>>> 971fdac1994dc049088e1c959c85a580132c3c6a
