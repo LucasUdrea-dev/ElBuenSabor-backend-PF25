@@ -79,3 +79,8 @@
 2025-06-11 01:50:43.312 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 2025-06-11 01:50:43.315 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 3 ms
 2025-06-11 01:50:44.026 INFO  [http-nio-8080-exec-4] o.s.a.AbstractOpenApiResource - Init duration for springdoc-openapi is: 377 ms
+2025-06-11 01:55:32.913 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-11 01:55:32.920 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
+2025-06-11 01:55:32.931 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-11 01:55:32.937 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-06-11 01:55:32.947 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

@@ -14,9 +14,11 @@ import org.springframework.stereotype.Repository;
  * @author oscarloha
  */
 @Repository
-public interface PromocionRepository extends BeanRepository<Promocion,Long>{
-    
+public interface PromocionRepository extends BeanRepository<Promocion, Long> {
 
     public List<Promocion> findByDenominacionContainingIgnoreCase(String denominacion);
-   
+
+    List<Promocion> findByExisteTrue();
+
+    List<Promocion> findByExisteTrueAndSucursalId(Long sucursalId);
 }

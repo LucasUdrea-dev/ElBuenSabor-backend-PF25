@@ -165,5 +165,31 @@ public class PromocionController {
                     .body("{\"error\":\"Error al listar las promociones lite: " + e.getMessage() + "\"}");
         }
     }
+    
+    
+    @Operation(summary = "Listar todas las promociones (versión lite) y condicionadas por existe")
+    @GetMapping("/lite/trabajando") // New endpoint path for lite version
+    public ResponseEntity<?> getAllLiteExist() {
+        try {
+            List<PromocionLiteDTO> promocionesLite = promocionService.findAllPromocionesExistentesLite();
+            return ResponseEntity.ok(promocionesLite);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al listar las promociones lite: " + e.getMessage() + "\"}");
+        }
+    }
+    
+    
+    @Operation(summary = "Listar todas las promociones y condicionadas por existe")
+    @GetMapping("/lite") // New endpoint path for lite version
+    public ResponseEntity<?> getAllExist() {
+         try {
+            List<PromocionDTO> promociones = promocionService.findAllPromocionesExistentesDTO();
+            return ResponseEntity.ok(promociones);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al listar las promociones: " + e.getMessage() + "\"}");
+        }
+    }
 }
 

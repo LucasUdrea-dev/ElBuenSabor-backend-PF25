@@ -42,7 +42,6 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     private final PromocionMapper promocionMapper;
     private final PromocionArticuloMapper promocionArticuloMapper;
 
-
     @Autowired
     public PromocionService(
             BeanRepository<Promocion, Long> beanRepository,
@@ -64,16 +63,14 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         this.promocionArticuloMapper = promocionArticuloMapper;
     }
 
-   
     @Transactional
     public PromocionDTO findPromocionDTOById(Long id) throws Exception {
-        Promocion promocion = findById(id); 
+        Promocion promocion = findById(id);
         if (promocion == null) {
-            return null; 
+            return null;
         }
         return promocionMapper.toDto(promocion);
     }
-
 
     @Transactional
     public List<PromocionDTO> findAllPromocionesDTO() throws Exception {
@@ -81,13 +78,11 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         return promocionMapper.toDtoList(promociones);
     }
 
-  
     @Transactional
     public Page<PromocionDTO> findAllPromocionesDTO(Pageable pageable) throws Exception {
         Page<Promocion> promocionesPage = findAll(pageable); // Using the BeanServiceImpl's findAll
         return promocionesPage.map(promocionMapper::toDto);
     }
-
 
     @Transactional
     public PromocionDTO crearPromocion(PromocionDTO dto) {
@@ -117,7 +112,6 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
             }
         }
         promocion.setPromocionArticuloList(new ArrayList<>(promocionArticulos));
-
 
         // 4. Save the main Promocion entity (Cascading will save PromocionArticulo entities)
         Promocion savedPromocion = promocionRepository.save(promocion);
@@ -179,35 +173,58 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         }
     }
 
-    
 //    @Transactional(readOnly = true)
 //    public List<PromocionDTO> findPromocionesByHabilitada(boolean habilitada) {
 //        List<Promocion> promociones = promocionRepository.findByHabilitada(habilitada);
 //        return promocionMapper.toDtoList(promociones);
 //    }
 //
-
 //    @Transactional(readOnly = true)
 //    public List<PromocionDTO> findPromocionesByDenominacion(String denominacion) {
 //        List<Promocion> promociones = promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);
 //        return promocionMapper.toDtoList(promociones);
 //    }
-
-       @Transactional
+    @Transactional
     public List<PromocionDTO> findPromocionesByDenominacion(String denominacion) {
         List<Promocion> promociones = promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);
         return promocionMapper.toDtoList(promociones);
     }
+
     @Transactional
     public PromocionLiteDTO findPromocionLiteById(Long id) {
         return promocionRepository.findById(id)
                 .map(promocion -> promocionMapper.toPromocionLiteDto(promocion))
-                .orElse(null); 
+                .orElse(null);
     }
 
     @Transactional
     public List<PromocionLiteDTO> findAllPromocionesLite() {
         List<Promocion> promociones = promocionRepository.findAll();
         return promocionMapper.toPromocionLiteDtoList(promociones);
+    }
+
+    @Transactional
+    public List<PromocionLiteDTO> findAllPromocionesExistentesLite() {
+        List<Promocion> promociones = promocionRepository.findByExisteTrue();
+        return promocionMapper.toPromocionLiteDtoList(promociones);
+    }
+
+    @Transactional
+    public List<PromocionDTO> findAllPromocionesExistentesDTO() {
+        List<Promocion> promociones = promocionRepository.findByExisteTrue();
+        return promocionMapper.toDtoList(promociones);
+    }
+
+
+    @Transactional
+    public List<PromocionLiteDTO> findPromocionesExistentesLiteBySucursal(Long sucursalId) {
+        List<Promocion> promociones = promocionRepository.findByExisteTrueAndSucursalId(sucursalId);
+        return promocionMapper.toPromocionLiteDtoList(promociones);
+    }
+
+    @Transactional
+    public List<PromocionDTO> findPromocionesExistentesDTOBySucursal(Long sucursalId) {
+        List<Promocion> promociones = promocionRepository.findByExisteTrueAndSucursalId(sucursalId);
+        return promocionMapper.toDtoList(promociones);
     }
 }
