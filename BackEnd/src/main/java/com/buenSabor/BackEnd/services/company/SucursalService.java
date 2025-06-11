@@ -21,6 +21,7 @@ import com.buenSabor.BackEnd.repositories.ubicacion.PaisRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.ProvinciaRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,22 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         this.sucursalMapper = sucursalMapper;
     }
 
+   public List<Sucursal> findAllExistente() {
+        try {
+       
+            List<Sucursal> sucursales = sucursalRepository.findByExisteIsTrue();
+            return sucursales;
+
+        } catch (Exception e) {
+         
+            System.err.println("Error al buscar sucursales existentes: " + e.getMessage());
+
+           
+            throw new RuntimeException("No se pudieron obtener las sucursales existentes", e);
+
+        }
+    }
+    
     @Transactional
     public SucursalDTO crearSucursal(SucursalDTO dto) {
         // Obtener la empresa existente por ID (única entidad que debe existir previamente)
@@ -128,7 +145,8 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         Sucursal actualizada = sucursalRepository.save(sucursalActualizada);
         return sucursalMapper.toDto(actualizada);
     }
-
+    
+    
 
     @Transactional
     public void eliminarSucursal(Long id) {

@@ -65,6 +65,17 @@ public class SucursalController {
     @GetMapping("/listar")
     public ResponseEntity<?> findAllSucursales() {
         try {
+            List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAllExistente());
+            return ResponseEntity.ok(dtos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al obtener las sucursales.\"}");
+        }
+    }
+    @Operation(summary = "Listar todas las sucursales existentes")
+    @GetMapping("")
+    public ResponseEntity<?> findAllSucursalesExistentes() {
+        try {
             List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAll());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
