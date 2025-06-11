@@ -217,3 +217,25 @@ com.buenSabor.BackEnd.controllers.venta.PromocionController#getAllExist() mapped
 2025-06-11 07:38:06.389 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-06-11 07:38:06.392 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-06-11 07:38:06.397 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-06-11 12:45:00.682 INFO  [Test worker] c.b.B.BackEndApplicationTests - Starting BackEndApplicationTests using Java 17.0.15 with PID 31252 (started by lucas in C:\Users\lucas\OneDrive\Documentos\Workspace\ElBuenSaborBack\BackEnd)
+2025-06-11 12:45:00.684 DEBUG [Test worker] c.b.B.BackEndApplicationTests - Running with Spring Boot v3.2.5, Spring v6.1.6
+2025-06-11 12:45:00.684 INFO  [Test worker] c.b.B.BackEndApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-06-11 12:45:01.402 INFO  [Test worker] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-06-11 12:45:01.541 INFO  [Test worker] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 130 ms. Found 34 JPA repository interfaces.
+2025-06-11 12:45:01.923 INFO  [Test worker] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-06-11 12:45:01.985 INFO  [Test worker] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2025-06-11 12:45:02.022 INFO  [Test worker] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-06-11 12:45:02.111 INFO  [Test worker] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
+2025-06-11 12:45:02.246 INFO  [Test worker] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-06-11 12:45:02.271 INFO  [Test worker] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-06-11 12:45:02.383 INFO  [Test worker] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7d5ef1c3
+2025-06-11 12:45:02.384 INFO  [Test worker] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-06-11 12:45:02.413 WARN  [Test worker] org.hibernate.dialect.Dialect - HHH000511: The 5.5.0 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-06-11 12:45:02.416 WARN  [Test worker] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-06-11 12:45:03.583 INFO  [Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-06-11 12:45:03.860 INFO  [Test worker] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-06-11 12:45:04.624 WARN  [Test worker] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-06-11 12:45:05.068 INFO  [Test worker] c.b.B.BackEndApplicationTests - Started BackEndApplicationTests in 4.582 seconds (process running for 6.863)
+2025-06-11 12:45:05.804 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-06-11 12:45:05.805 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-06-11 12:45:05.809 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
