@@ -106,7 +106,11 @@ public class SucursalController {
                         .body("{\"error\":\"Sucursal no encontrada.\"}");
             }
 
+<<<<<<< HEAD
             sucursalService.eliminarSucursal(id);
+=======
+            sucursalService.delete(id);
+>>>>>>> 971fdac1994dc049088e1c959c85a580132c3c6a
             return ResponseEntity.ok("{\"message\":\"Sucursal eliminada con éxito.\"}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

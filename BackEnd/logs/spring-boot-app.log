@@ -217,6 +217,7 @@ com.buenSabor.BackEnd.controllers.venta.PromocionController#getAllExist() mapped
 2025-06-11 07:38:06.389 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-06-11 07:38:06.392 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-06-11 07:38:06.397 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+<<<<<<< HEAD
 2025-06-11 12:34:36.994 INFO  [Test worker] c.b.B.BackEndApplicationTests - Starting BackEndApplicationTests using Java 17.0.12 with PID 79758 (started by oscarloha in /Users/oscarloha/Desktop/ElBuenSabor-backend-PF25-main/BackEnd)
 2025-06-11 12:34:36.997 DEBUG [Test worker] c.b.B.BackEndApplicationTests - Running with Spring Boot v3.4.5, Spring v6.2.6
 2025-06-11 12:34:36.998 INFO  [Test worker] c.b.B.BackEndApplicationTests - No active profile set, falling back to 1 default profile: "default"
@@ -634,3 +635,5 @@ com.buenSabor.BackEnd.controllers.venta.PromocionController#getAllExist() mapped
 2025-06-11 12:52:58.047 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-06-11 12:52:58.121 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-06-11 12:52:58.179 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+=======
+>>>>>>> 971fdac1994dc049088e1c959c85a580132c3c6a
