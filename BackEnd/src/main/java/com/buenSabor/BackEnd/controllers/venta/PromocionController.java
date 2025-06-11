@@ -1,8 +1,7 @@
 package com.buenSabor.BackEnd.controllers.venta;
 
 import com.buenSabor.BackEnd.dto.venta.promocion.PromocionDTO;
-import com.buenSabor.BackEnd.mapper.PromocionMapper;
-import com.buenSabor.BackEnd.models.venta.Promocion;
+import com.buenSabor.BackEnd.dto.venta.promocion.PromocionLiteDTO;
 import com.buenSabor.BackEnd.services.venta.PromocionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,17 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("api/promociones")
 @Tag(name = "Promoción", description = "Operaciones relacionadas con la entidad Promoción")
 public class PromocionController {
 
-   
-
     private final PromocionService promocionService;
 
-   
     @Autowired
     public PromocionController(PromocionService promocionService) {
         this.promocionService = promocionService;
@@ -59,7 +54,7 @@ public class PromocionController {
     @GetMapping("/")
     public ResponseEntity<?> getAll() {
         try {
-            List<PromocionDTO> promociones = promocionService.findAllPromocionesDTO(); 
+            List<PromocionDTO> promociones = promocionService.findAllPromocionesDTO();
             return ResponseEntity.ok(promociones);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -71,10 +66,10 @@ public class PromocionController {
     @PostMapping("")
     public ResponseEntity<?> save(@RequestBody PromocionDTO dto) {
         try {
-            PromocionDTO savedDto = promocionService.crearPromocion(dto); 
+            PromocionDTO savedDto = promocionService.crearPromocion(dto);
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(savedDto); 
-        } catch (RuntimeException e) { 
+                    .body(savedDto);
+        } catch (RuntimeException e) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"error\":\"Error de datos al guardar la promoción: " + e.getMessage() + "\"}");
@@ -83,14 +78,14 @@ public class PromocionController {
                     .body("{\"error\":\"Error interno al guardar la promoción: " + e.getMessage() + "\"}");
         }
     }
-  
+
     @Operation(summary = "Eliminar una promoción por ID")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
-            promocionService.eliminarPromocion(id); 
+            promocionService.eliminarPromocion(id);
             return ResponseEntity.ok("{\"message\":\"Promoción eliminada con éxito.\"}");
-        } catch (RuntimeException e) { 
+        } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         } catch (Exception e) {
@@ -103,11 +98,11 @@ public class PromocionController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PromocionDTO dto) {
         try {
-            
-            PromocionDTO updatedDto = promocionService.actualizarPromocion(id, dto); 
+
+            PromocionDTO updatedDto = promocionService.actualizarPromocion(id, dto);
             return ResponseEntity.ok(updatedDto);
-        } catch (RuntimeException e) { 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND) 
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -122,19 +117,19 @@ public class PromocionController {
             @RequestParam(defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<PromocionDTO> pageResult = promocionService.findAllPromocionesDTO(pageable); 
+            Page<PromocionDTO> pageResult = promocionService.findAllPromocionesDTO(pageable);
             return ResponseEntity.ok(pageResult);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"Error al obtener las promociones paginadas: " + e.getMessage() + "\"}");
         }
     }
-   
+
     @Operation(summary = "Buscar promociones por denominación")
     @GetMapping("/search")
     public ResponseEntity<?> searchByDenominacion(@RequestParam String denominacion) {
         try {
-           
+
             List<PromocionDTO> promocionesDto = promocionService.findPromocionesByDenominacion(denominacion);
             return ResponseEntity.ok(promocionesDto);
         } catch (Exception e) {
@@ -142,4 +137,33 @@ public class PromocionController {
                     .body("{\"error\":\"Error al buscar promociones por denominación: " + e.getMessage() + "\"}");
         }
     }
+
+    @Operation(summary = "Ver una promoción por ID (versión lite)")
+    @GetMapping("/lite/{id}") // New endpoint path for lite version
+    public ResponseEntity<?> getLiteById(@PathVariable Long id) {
+        try {
+            PromocionLiteDTO promocionLiteDTO = promocionService.findPromocionLiteById(id);
+            if (promocionLiteDTO == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Promoción lite no encontrada.\"}");
+            }
+            return ResponseEntity.ok(promocionLiteDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al obtener la promoción lite: " + e.getMessage() + "\"}");
+        }
+    }
+
+    @Operation(summary = "Listar todas las promociones (versión lite)")
+    @GetMapping("/lite") // New endpoint path for lite version
+    public ResponseEntity<?> getAllLite() {
+        try {
+            List<PromocionLiteDTO> promocionesLite = promocionService.findAllPromocionesLite();
+            return ResponseEntity.ok(promocionesLite);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al listar las promociones lite: " + e.getMessage() + "\"}");
+        }
+    }
 }
+

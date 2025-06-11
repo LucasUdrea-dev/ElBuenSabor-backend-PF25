@@ -1,6 +1,7 @@
 package com.buenSabor.BackEnd.services.venta;
 
 import com.buenSabor.BackEnd.dto.venta.promocion.PromocionDTO;
+import com.buenSabor.BackEnd.dto.venta.promocion.PromocionLiteDTO;
 import com.buenSabor.BackEnd.dto.venta.promocionArticulo.PromocionArticuloDTO;
 import com.buenSabor.BackEnd.mapper.PromocionArticuloMapper;
 import com.buenSabor.BackEnd.mapper.PromocionMapper;
@@ -196,5 +197,17 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     public List<PromocionDTO> findPromocionesByDenominacion(String denominacion) {
         List<Promocion> promociones = promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);
         return promocionMapper.toDtoList(promociones);
+    }
+    @Transactional
+    public PromocionLiteDTO findPromocionLiteById(Long id) {
+        return promocionRepository.findById(id)
+                .map(promocion -> promocionMapper.toPromocionLiteDto(promocion))
+                .orElse(null); 
+    }
+
+    @Transactional
+    public List<PromocionLiteDTO> findAllPromocionesLite() {
+        List<Promocion> promociones = promocionRepository.findAll();
+        return promocionMapper.toPromocionLiteDtoList(promociones);
     }
 }

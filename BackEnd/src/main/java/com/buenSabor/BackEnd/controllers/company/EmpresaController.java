@@ -136,4 +136,6 @@ public class EmpresaController {
                     .body("{\"error\":\"Error al obtener las empresas paginadas.\"}");
         }
     }
+    
+    
 }

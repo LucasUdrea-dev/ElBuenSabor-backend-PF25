@@ -5,6 +5,7 @@
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.venta.promocion.PromocionDTO;
+import com.buenSabor.BackEnd.dto.venta.promocion.PromocionLiteDTO;
 import com.buenSabor.BackEnd.models.venta.Promocion;
 import java.util.List;
 import java.util.Set;
@@ -46,5 +47,15 @@ public interface PromocionMapper {
     void updatePromocionFromDto(PromocionDTO dto, @MappingTarget Promocion entity);
 
     List<PromocionDTO> toDtoList(List<Promocion> findAll);
-    Set<PromocionDTO> toDtoSet(Set<Promocion> entities); // Added for completeness if needed
+    Set<PromocionDTO> toDtoSet(Set<Promocion> entities); 
+    
+    
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "denominacion", target = "denominacion")
+    @Mapping(source = "descripcion", target = "descripcion")
+    @Mapping(source = "precioRebajado", target = "precioRebajado")
+    @Mapping(source = "imagen", target = "imagen")
+    PromocionLiteDTO toPromocionLiteDto(Promocion promocion);
+
+    List<PromocionLiteDTO> toPromocionLiteDtoList(List<Promocion> promociones);
 }
