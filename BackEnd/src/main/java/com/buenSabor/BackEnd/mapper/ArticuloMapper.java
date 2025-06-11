@@ -33,9 +33,9 @@ public interface ArticuloMapper {
     @Mapping(target = "promocionArticuloList", ignore = true)
     @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
     @Mapping(target = "detallePedidoList", ignore = true)
-    @Mapping(target = "subcategoria.id", source = "subcategoria.id")
-    @Mapping(target = "subcategoria.categoria.id", source = "subcategoria.categoria.id")
-    @Mapping(target = "unidadMedida.id", source = "unidadMedida.id")
+    @Mapping(target = "subcategoria", source = "subcategoria")
+    @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "id", ignore = true)
     Articulo toArticulo(ArticuloDTO dto);
 
     @Mapping(target = "detallePedidoList", ignore = true)
@@ -43,9 +43,9 @@ public interface ArticuloMapper {
     @Mapping(target = "promocionArticuloList", ignore = true)
     @Mapping(target = "historicoPrecioCostoArticuloInsumoList", ignore = true)
     @Mapping(target = "detalleManufacturas", ignore = true)
-    @Mapping(target = "subcategoria.id", source = "subcategoria.id")
-    @Mapping(target = "subcategoria.categoria.id", source = "subcategoria.categoria.id")
-    @Mapping(target = "unidadMedida.id", source = "unidadMedida.id")
+    @Mapping(target = "subcategoria", source = "subcategoria")
+    @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "id", ignore = true)
     ArticuloInsumo toEntity(InsumoDTO dto);
 
     @Mapping(target = "detallePedidoList", ignore = true)
