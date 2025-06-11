@@ -4,9 +4,8 @@
  */
 package com.buenSabor.BackEnd.mapper;
 
-import com.buenSabor.BackEnd.dto.venta.tipopromo.TipoPromocionDTO;
-import com.buenSabor.BackEnd.models.venta.TipoPromocion;
-import java.util.List;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
+import com.buenSabor.BackEnd.models.user.Telefono;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,13 +13,14 @@ import org.mapstruct.Mapping;
  *
  * @author oscarloha
  */
+
 @Mapper(componentModel = "spring")
-public interface TipoPromocionMapper {
-    TipoPromocionDTO toDto(TipoPromocion entity);
-    @Mapping(target = "promocionList", ignore = true)
+public interface TelefonoMapper {
+
+    @Mapping(target = "usuario", ignore = true) // Evitamos mapeo recursivo
                @Mapping(target = "id", ignore = true)
 
-    TipoPromocion toEntity(TipoPromocionDTO dto);
+    Telefono toEntity(TelefonoDTO dto);
 
-    public List<TipoPromocionDTO> toDtoList(List<TipoPromocion> tipoPromociones);
+    TelefonoDTO toDto(Telefono entity);
 }

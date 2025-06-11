@@ -4,37 +4,30 @@
  */
 package com.buenSabor.BackEnd.mapper;
 
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
+import com.buenSabor.BackEnd.models.user.Usuario;
+import java.util.List;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.Mapping;
 
 /**
  *
  * @author oscarloha
  */
-@Mapper (componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {
+    DireccionMapper.class,
+    TelefonoMapper.class,
+    RolMapper.class,
+    UserAuthenticationMapper.class
+})
 public interface UsuarioMapper {
-    
-    UsuarioMapper mapper = Mappers.getMapper(UsuarioMapper.class);
-//    
-//    Usuario usuarioResponseDtoToUsuario(UsuarioResponseDTO usuarioDto);
-//
-//    UsuarioResponseDTO usuarioToUsuarioResponseDTO(Usuario usuario);
-//
-//    // MapStruct mapea automáticamente los atributos con el mismo nombre,
-//    // pero para atributos anidados, necesitas declarar los mappers correspondientes:
-//    Telefono telefonoResponseDtoToTelefono(TelefonoResponseDTO dto);
-//    TelefonoResponseDTO telefonoToTelefonoResponseDTO(Telefono telefono);
-//
-//    Direccion direccionResponseDtoToDireccion(DireccionResponseDTO dto);
-//    DireccionResponseDTO direccionToDireccionResponseDTO(Direccion direccion);
-//
-//    Rol rolResponseDtoToRol(RolResponseDTO dto);
-//    RolResponseDTO rolToRolResponseDTO(Rol rol);
-//
-//    UserAuthentication userAuthDtoToUserAuth(UserAuthenticationResponseDTO dto);
-//    UserAuthenticationResponseDTO userAuthToUserAuthDto(UserAuthentication auth);
-    
-    
-    
-    
+
+      @Mapping(target = "pedidoList", ignore = true) 
+      @Mapping(target = "id", ignore = true) 
+
+    Usuario toEntity(UsuarioDTO dto);
+
+    UsuarioDTO toDto(Usuario entity);
+
+    List<UsuarioDTO> toDtoList(List<Usuario> list);
 }
