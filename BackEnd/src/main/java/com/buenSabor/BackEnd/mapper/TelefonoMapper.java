@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
 import com.buenSabor.BackEnd.models.user.Telefono;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -23,4 +24,6 @@ public interface TelefonoMapper {
     Telefono toEntity(TelefonoDTO dto);
 
     TelefonoDTO toDto(Telefono entity);
+
+    public List<Telefono> telefonoDtoListToEntityList(List<TelefonoDTO> telefonoList);
 }

@@ -22,4 +22,6 @@ public interface UserAuthenticationMapper {
     UserAuthentication toEntity(UserAuthenticationDTO dto);
 
     UserAuthenticationDTO toDto(UserAuthentication entity);
+
+   
 }

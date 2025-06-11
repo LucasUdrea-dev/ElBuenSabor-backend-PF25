@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.buenSabor.BackEnd.models.ubicacion.Direccion;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -44,4 +45,6 @@ public interface DireccionMapper {
     // @Mapping(target = "ciudad.provincia.ciudadList", ignore = true)
     // @Mapping(target = "ciudad.provincia.pais.provinciaList", ignore = true)
     void updateDireccionFromDto(DireccionDTO dto, @MappingTarget Direccion entity);
+
+    public List<Direccion> direccionDtoListToEntityList(List<DireccionDTO> direccionList);
 }

@@ -24,7 +24,7 @@ public interface UsuarioMapper {
 
       @Mapping(target = "pedidoList", ignore = true) 
       @Mapping(target = "id", ignore = true) 
-
+            
     Usuario toEntity(UsuarioDTO dto);
 
     UsuarioDTO toDto(Usuario entity);

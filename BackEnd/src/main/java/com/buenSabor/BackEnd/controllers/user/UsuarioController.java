@@ -58,6 +58,17 @@ public class UsuarioController {
                     .body("{\"error\":\"Error al obtener los usuarios.\"}");
         }
     }
+    @Operation(summary = "Listar todos los usuarios")
+    @GetMapping("")
+    public ResponseEntity<?> listar() {
+        try {
+            List<UsuarioDTO> dtos = usuarioMapper.toDtoList(usuarioService.findAll());
+            return ResponseEntity.ok(dtos);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al obtener los usuarios.\"}");
+        }
+    }
 
     @Operation(summary = "Obtener un usuario por su ID")
     @GetMapping("/{id}")
