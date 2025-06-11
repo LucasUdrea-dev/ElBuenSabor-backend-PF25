@@ -7,6 +7,7 @@ package com.buenSabor.BackEnd.repositories.producto;
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 /**
  *
@@ -14,5 +15,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface StockArticuloInsumoRepository extends BeanRepository<StockArticuloInsumo,Long>{
+    
+    Optional<StockArticuloInsumo> findByArticuloInsumoId(Long articuloInsumoId);
     
 }
