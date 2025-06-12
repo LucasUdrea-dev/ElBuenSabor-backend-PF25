@@ -4,10 +4,8 @@
  */
 package com.buenSabor.BackEnd.repositories.venta;
 
-import com.buenSabor.BackEnd.models.venta.Promocion;
-import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
+import com.buenSabor.BackEnd.models.venta.DireccionPedido;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
-import java.util.List;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author oscarloha
  */
 @Repository
-public interface PromocionArticuloRepository extends BeanRepository<PromocionArticulo, Long> {
-
-
+public interface DetalleDireccionPedidoRepository extends BeanRepository<DireccionPedido,Long>{
+    
 }

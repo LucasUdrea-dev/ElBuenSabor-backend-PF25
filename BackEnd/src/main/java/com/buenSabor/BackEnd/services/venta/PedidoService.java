@@ -1,5 +1,10 @@
 package com.buenSabor.BackEnd.services.venta;
 
+import com.buenSabor.BackEnd.repositories.venta.EstadoPedidoRepository;
+import com.buenSabor.BackEnd.repositories.venta.PedidoRepository;
+import com.buenSabor.BackEnd.repositories.venta.PromocionRepository;
+import com.buenSabor.BackEnd.repositories.venta.TipoEnvioRepository;
+import com.buenSabor.BackEnd.repositories.venta.TipoPagoRepository;
 import com.buenSabor.BackEnd.dto.venta.detallepedido.DetallePedidoDTO;
 import com.buenSabor.BackEnd.dto.venta.detallepromocion.DetallePromocionDTO;
 import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
@@ -28,7 +33,8 @@ import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
-import com.buenSabor.BackEnd.repositories.venta.*;
+import com.buenSabor.BackEnd.repositories.venta.DetalleDireccionPedidoRepository;
+import com.buenSabor.BackEnd.repositories.venta.DetallePedidoArticuloRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 
 import org.slf4j.Logger;
@@ -55,10 +61,10 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     private final UsuarioRepository usuarioRepository;
     private final ArticuloRepository articuloRepository;
     private final PromocionRepository promocionRepository;
-    private final DetallePedidoRepository detallePedidoRepository;
-    private final DetallePromocionRepository detallePromocionRepository;
+    private final DetallePedidoArticuloRepository detallePedidoRepository;
+    private final DetallePedidoPromocionRepository detallePromocionRepository;
     private final DireccionRepository direccionRepository;
-    private final DireccionPedidoRepository direccionPedidoRepository;
+    private final DetalleDireccionPedidoRepository direccionPedidoRepository;
 
     private final PedidoMapper pedidoMapper;
     private final DetallePedidoMapper detallePedidoMapper;
@@ -77,10 +83,10 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             UsuarioRepository usuarioRepository,
             ArticuloRepository articuloRepository,
             PromocionRepository promocionRepository,
-            DetallePedidoRepository detallePedidoRepository,
-            DetallePromocionRepository detallePromocionRepository,
+            DetallePedidoArticuloRepository detallePedidoRepository,
+            DetallePedidoPromocionRepository detallePromocionRepository,
             DireccionRepository direccionRepository,
-            DireccionPedidoRepository direccionPedidoRepository,
+            DetalleDireccionPedidoRepository direccionPedidoRepository,
             PedidoMapper pedidoMapper,
             DetallePedidoMapper detallePedidoMapper,
             DetallePromocionMapper detallePromocionMapper,
