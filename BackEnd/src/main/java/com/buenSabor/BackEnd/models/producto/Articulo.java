@@ -61,7 +61,7 @@ public class Articulo extends Bean {
     protected List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    protected Subcategoria subCategoria;
+    protected Subcategoria subcategoria;
     
     
     @ManyToOne(fetch = FetchType.EAGER)

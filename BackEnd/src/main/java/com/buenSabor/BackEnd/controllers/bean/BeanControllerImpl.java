@@ -44,7 +44,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.save(entity));
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}" + e);
         }
     }
 

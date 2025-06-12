@@ -4,7 +4,9 @@
  */
 package com.buenSabor.BackEnd.dto.producto.categoria;
 
-import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaCreateDTO;
+
+import com.buenSabor.BackEnd.models.producto.Subcategoria;
+
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,10 +21,11 @@ import lombok.Setter;
 @Setter  
 @NoArgsConstructor  
 @AllArgsConstructor  
-public class CategoriaCreateDTO {
+public class CategoriaConSubcategoriasDTO {
     
+    private Long id;
     private String denominacion;
     private String imagen;
-    private List<SubcategoriaCreateDTO>subcategorias;
+    private List<Subcategoria>subcategorias;
     
 }

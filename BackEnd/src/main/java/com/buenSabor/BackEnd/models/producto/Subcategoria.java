@@ -38,7 +38,7 @@ public class Subcategoria extends Bean {
     @JoinColumn(name = "id_categoria", referencedColumnName = "id")
     private Categoria categoria;
     
-    @OneToMany(mappedBy = "subCategoria", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "subcategoria", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Articulo> articuloList;
 

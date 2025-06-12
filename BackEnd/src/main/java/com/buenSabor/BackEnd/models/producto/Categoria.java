@@ -27,8 +27,6 @@ import lombok.Setter;
 @Table(name = "Categoria")
 public class Categoria extends Bean {
 
-
-
     @Column(name = "denominacion")
     private String denominacion;
     private String imagen;

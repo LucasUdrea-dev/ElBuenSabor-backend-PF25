@@ -19,7 +19,7 @@ public interface ArticuloRepository extends BeanRepository<Articulo,Long>{
     List<Articulo> findByNombreContainingIgnoreCase(String nombre);
 
     // Buscar por subcategoría
-    List<Articulo> findBySubCategoria_Id(Long subCategoriaId);
+    List<Articulo> findBySubcategoria_Id(Long subcategoriaId);
 
     // Filtrar artículos que están disponibles
     List<Articulo> findByExisteTrue();
@@ -28,7 +28,7 @@ public interface ArticuloRepository extends BeanRepository<Articulo,Long>{
     List<Articulo> findByEsParaElaborarTrue();
 
     // Combinación de filtros
-    List<Articulo> findBySubCategoria_IdAndExisteTrue(Long subCategoriaId);
+    List<Articulo> findBySubcategoria_IdAndExisteTrue(Long subcategoriaId);
 
 
 }

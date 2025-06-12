@@ -5,6 +5,7 @@
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.enums.TypePay;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,9 +34,13 @@ public class TipoPago extends Bean {
     @Enumerated(EnumType.STRING)
     @Column(name = "nombre_pago")
     private TypePay tipoPago;
+
     @OneToMany(mappedBy = "tipoPago", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Pedido> pedidoList;
+
     @OneToMany(mappedBy = "tipoPago", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<MercadoPago> mercadoPagoList;
 
 

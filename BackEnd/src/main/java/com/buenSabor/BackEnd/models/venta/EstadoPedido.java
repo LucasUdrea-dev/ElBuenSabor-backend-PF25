@@ -5,6 +5,7 @@
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.enums.TypeState;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,8 +32,10 @@ public class EstadoPedido extends Bean {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "nombre_estado")
-    private TypeState nombre_estado;
+    private TypeState nombreEstado;
+
     @OneToMany(mappedBy = "estadoPedido", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Pedido> pedidoList;
 
     

@@ -29,8 +29,8 @@ public class Pais extends Bean {
    
     @Column(name = "nombre")
     private String nombre;
-    @JsonIgnore
     @OneToMany(mappedBy = "pais", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Provincia> provinciaList;
 
     
