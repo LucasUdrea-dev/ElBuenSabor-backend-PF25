@@ -35,7 +35,7 @@ public class ArticuloController extends BeanControllerImpl<Articulo,ArticuloServ
     @Autowired
     private ArticuloMapper articuloMapper;
 
-    @Operation(summary = "Guardar un nuevo artículo (insumo o manufacturado) a partir de un DTO")
+    /*@Operation(summary = "Guardar un nuevo artículo (insumo o manufacturado) a partir de un DTO")
     @Schema( description = "Puede ser un ArticuloInsumoDTO o ArticuloManufacturadoDTO"
             ,oneOf = {InsumoDTO.class, ArticuloManufacturadoDTO.class})
     @PostMapping("/crear")
@@ -61,7 +61,7 @@ public class ArticuloController extends BeanControllerImpl<Articulo,ArticuloServ
                     .body("{\"error\":\"Error al actualizar el artículo: " + e.getMessage() + "\", " +
                           "\"causa\":\"" + (e.getCause() != null ? e.getCause().getMessage() : "No hay causa específica") + "\"}");
         }
-    }
+    }*/
 
     @Operation(summary = "Obtener artículos que existen")
     @GetMapping("/existentes")

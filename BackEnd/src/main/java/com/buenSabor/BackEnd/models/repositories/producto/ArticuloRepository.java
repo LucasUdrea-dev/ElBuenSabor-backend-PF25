@@ -7,7 +7,6 @@ package com.buenSabor.BackEnd.repositories.producto;
 import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 /**
