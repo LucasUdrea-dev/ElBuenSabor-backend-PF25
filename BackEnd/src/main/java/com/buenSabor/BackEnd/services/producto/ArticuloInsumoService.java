@@ -61,7 +61,7 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
     @Transactional
     public ArticuloInsumo crearInsumo(InsumoDTO dto, Long sucursalId) {
         try {
-            // 1) Mapea DTO → entidad
+            // Mapea DTO → entidad
             ArticuloInsumo insumo = articuloMapper.toEntity(dto);
 
             Long subcategoriaId = dto.getSubcategoria().getId();
@@ -80,7 +80,6 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             stock.setSucursal(sucManaged);
             insumo.setStockArticuloInsumo(stock);
 
-            // 6) Guarda ArticuloInsumo + Stock (cascade ALL en la relación 1–1)
             return articuloInsumoRepository.save(insumo);
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar el insumo: " + e.getMessage(), e);
@@ -90,11 +89,11 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
     @Transactional
     public ArticuloInsumo actualizar(Long id, InsumoDTO dto) {
         try {
-            // 1) Recupera el insumo existente
+            //Recupera el insumo existente
             ArticuloInsumo insumo = articuloInsumoRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Insumo con id " + id + " no existe"));
 
-            // 2) Actualiza campos básicos
+            //Actualiza campos básicos
             insumo.setNombre(dto.getNombre());
             insumo.setDescripcion(dto.getDescripcion());
             insumo.setPrecio(dto.getPrecio());
@@ -103,23 +102,22 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             insumo.setImagenArticulo(dto.getImagenArticulo());
             insumo.setPrecioCompra(dto.getPrecioCompra());
 
-            // 3) Reemplaza subcategoría y unidadMedida
+            //Reemplaza subcategoría y unidadMedida
             Subcategoria subManaged = subcategorioRepository.getById(dto.getSubcategoria().getId());
             insumo.setSubcategoria(subManaged);
 
             UnidadMedida umManaged = unidadMedidaRepository.getById(dto.getUnidadMedida().getId());
             insumo.setUnidadMedida(umManaged);
 
-            // 4) actualizo o creo stock
+            //actualizo o creo stock
             StockDTO stockDto = dto.getStockArticuloInsumo();
             StockArticuloInsumo stock;
             if (stockDto.getId() != null && stockDto.getId() > 0) {
-                // si ya tenía stock creado, lo cargo
+
                 stock = stockArticuloInsumoRepository.findById(stockDto.getId())
                         .orElseThrow(() -> new EntityNotFoundException(
                                 "Stock con id " + stockDto.getId() + " no existe"));
             } else {
-                // si no, instancio uno nuevo
                 stock = new StockArticuloInsumo();
             }
             stock.setMaxStock(dto.getStockArticuloInsumo().getMaxStock());
@@ -128,11 +126,29 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             stock.setSucursal(sucManaged);
             insumo.setStockArticuloInsumo(stock);
 
-            // 5) Guarda cambios
+            //Guarda cambios
             return articuloInsumoRepository.save(insumo);
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar el insumo: " + e.getMessage(), e);
         }
+    }
+
+    @Transactional
+    public ArticuloInsumo eliminarLogico(Long id) {
+        //Recupero articulo a eliminar
+        ArticuloInsumo insumo = articuloInsumoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Insumo con id " + id + " no existe"));
+
+        //verifico que el articulo existe(atributo)
+        if (!insumo.getExiste()) {
+            throw new IllegalStateException(
+                    "El insumo con id " + id + " ya no existe");
+        }
+
+        //Seteo valor y guardo
+        insumo.setExiste(false);
+        return articuloInsumoRepository.save(insumo);
     }
 
     public List<ArticuloInsumo> buscarPorNombre(String nombre) throws Exception {

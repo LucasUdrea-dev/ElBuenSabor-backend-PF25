@@ -60,6 +60,19 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
         }
     }
 
+    @Operation(summary = "Borrado lógico de un insumo (marca existe=false)")
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<?> eliminar(@PathVariable Long id) {
+        try {
+            ArticuloInsumo actualizado = articuloInsumoService.eliminarLogico(id);
+            return ResponseEntity.ok(actualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
+
+    }
+
     @Operation(summary = "Obtener insumos que existen")
     @GetMapping("/existentes")
     public ResponseEntity<?> getInsumosExistentes() {
