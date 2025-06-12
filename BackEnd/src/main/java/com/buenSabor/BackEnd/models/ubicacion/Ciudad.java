@@ -37,7 +37,7 @@ public class Ciudad extends Bean {
     @JsonIgnore
     private List<Direccion> direccionList;
    
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Provincia provincia;
 
     
