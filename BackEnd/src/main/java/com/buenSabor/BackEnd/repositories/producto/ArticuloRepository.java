@@ -21,8 +21,8 @@ public interface ArticuloRepository extends BeanRepository<Articulo,Long>{
     // Buscar por subcategoría
     List<Articulo> findBySubcategoria_Id(Long subcategoriaId);
 
-    // Filtrar artículos que están disponibles
-    List<Articulo> findByExisteTrue();
+    // Filtrar artículos que están disponibles y para vender
+    List<Articulo> findByExisteTrueAndEsParaElaborarFalse();
 
     // Buscar por si son para elaborar
     List<Articulo> findByEsParaElaborarTrue();

@@ -6,6 +6,8 @@ package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.company.Sucursal;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,14 +16,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -36,18 +35,6 @@ public class Promocion extends Bean {
 
     @Column(name = "denominacion")
     private String denominacion;
-    @Column(name = "fecha_desde")
-    @Temporal(TemporalType.DATE)
-    private Date fechaDesde;
-    @Column(name = "fecha_hasta")
-    @Temporal(TemporalType.DATE)
-    private Date fechaHasta;
-    @Column(name = "hora_desde")
-    @Temporal(TemporalType.TIME)
-    private Date horaDesde;
-    @Column(name = "hora_hasta")
-    @Temporal(TemporalType.TIME)
-    private Date horaHasta;
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "precio_rebajado")
@@ -60,16 +47,17 @@ public class Promocion extends Bean {
     
     @JoinColumn(name = "sucursal_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Sucursal sucursalId;
+    private Sucursal sucursal;
     
     @JoinColumn(name = "id_tipo_promocion", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private TipoPromocion idTipoPromocion;
+    private TipoPromocion tipoPromocion;
     
     @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER)
     private List<PromocionArticulo> promocionArticuloList;
     
     @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<DetallePromocion> detallePromocionList = new ArrayList<>();
 
 

@@ -26,6 +26,7 @@ public class CategoriaConSubcategoriasDTO {
     private Long id;
     private String denominacion;
     private String imagen;
+    private Boolean esParaElaborar;
     private List<Subcategoria>subcategorias;
     
 }

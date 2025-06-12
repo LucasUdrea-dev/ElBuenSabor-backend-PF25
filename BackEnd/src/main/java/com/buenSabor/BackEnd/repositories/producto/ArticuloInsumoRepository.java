@@ -6,6 +6,9 @@ package com.buenSabor.BackEnd.repositories.producto;
 
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
+
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,5 +17,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ArticuloInsumoRepository extends BeanRepository<ArticuloInsumo,Long>{
-    
+    List<ArticuloInsumo> findByExisteTrueAndEsParaElaborarTrue();
 }

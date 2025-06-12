@@ -33,6 +33,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation group: 'com.mercadopago', name: 'sdk-java', version: '2.5.0'
 
 	//Envers para auditoria
 	implementation 'org.hibernate.orm:hibernate-envers:6.6.12.Final'

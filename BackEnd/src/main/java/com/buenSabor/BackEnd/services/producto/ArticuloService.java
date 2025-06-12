@@ -40,9 +40,9 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    public List<Articulo> listarDisponibles() throws Exception {
+    public List<Articulo> listarDisponiblesYParaVenta() throws Exception {
         try {
-            return articuloRepository.findByExisteTrue();
+            return articuloRepository.findByExisteTrueAndEsParaElaborarFalse();
         } catch (Exception e) {
             throw new Exception("Error al buscar artículos disponibles: " + e.getMessage());
         }

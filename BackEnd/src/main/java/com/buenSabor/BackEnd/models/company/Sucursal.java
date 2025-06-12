@@ -70,7 +70,6 @@ public class Sucursal extends Bean {
     private Direccion direccion;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnore
     private Empresa empresa;
 
     @OneToMany(mappedBy = "sucursalId", fetch = FetchType.EAGER)

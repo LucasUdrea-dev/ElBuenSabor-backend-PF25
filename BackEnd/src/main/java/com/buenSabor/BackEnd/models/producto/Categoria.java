@@ -30,6 +30,7 @@ public class Categoria extends Bean {
     @Column(name = "denominacion")
     private String denominacion;
     private String imagen;
+    private Boolean esParaElaborar;
     
     @OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER)
     @JsonIgnore

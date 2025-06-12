@@ -34,10 +34,10 @@ public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
     }
 
     @Transactional
-    public List<CategoriaConSubcategoriasDTO> findCompletas() throws Exception{
+    public List<CategoriaConSubcategoriasDTO> findParaVenta() throws Exception{
         try{
 
-            List<Categoria> categorias = categoriaRepository.findAll();
+            List<Categoria> categorias = categoriaRepository.findByEsParaElaborarFalse();
 
             List<CategoriaConSubcategoriasDTO> categoriasConSubcategorias = new ArrayList<>();
 
@@ -48,6 +48,7 @@ public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
                 categoriaResponseDTO.setId(categoria.getId());
                 categoriaResponseDTO.setDenominacion(categoria.getDenominacion());
                 categoriaResponseDTO.setImagen(categoria.getImagen());
+                categoriaResponseDTO.setEsParaElaborar(categoria.getEsParaElaborar());
                 categoriaResponseDTO.setSubcategorias(categoria.getSubcategorias());
 
                 categoriasConSubcategorias.add(categoriaResponseDTO);

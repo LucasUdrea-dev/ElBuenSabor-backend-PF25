@@ -7,6 +7,7 @@ package com.buenSabor.BackEnd.models.user;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.venta.Pedido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.models.seguridad.Rol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import jakarta.persistence.Column;
@@ -69,6 +70,7 @@ public class Usuario extends Bean {
 
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    @JsonIgnore
     protected List<Pedido> pedidoList;
     
 }
