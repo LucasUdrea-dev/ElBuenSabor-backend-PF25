@@ -31,8 +31,7 @@ public class ArticuloInsumo extends Articulo {
 
     @Column(name = "precio_compra")
     private Double precioCompra;
-    
-   
+
     @OneToOne(mappedBy = "articuloInsumo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private StockArticuloInsumo stockArticuloInsumo;
 

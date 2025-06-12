@@ -8,6 +8,7 @@ import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.models.producto.Categoria;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,7 +23,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+//@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
 @Getter
 @Setter
@@ -35,7 +36,7 @@ public class Subcategoria extends Bean {
     @Column(name = "denominacion")
     private String denominacion;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria", referencedColumnName = "id")
     private Categoria categoria;
     

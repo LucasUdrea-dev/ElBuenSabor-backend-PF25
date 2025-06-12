@@ -7,20 +7,24 @@ package com.buenSabor.BackEnd.services.producto;
 import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
-import java.util.List;
-import java.util.Optional;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 
 /**
  *
  * @author oscarloha
  */
 @Service
+@Transactional
 public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
 
-    private final ArticuloRepository articuloRepository;
-
+    @Autowired
+    private ArticuloRepository articuloRepository;
+    
     public ArticuloService(ArticuloRepository articuloRepository) {
         super(articuloRepository);
         this.articuloRepository = articuloRepository;
@@ -42,7 +46,7 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    public List<Articulo> listarDisponibles() throws Exception {
+    public List<Articulo> findByExisteTrue() throws Exception {
         try {
             return articuloRepository.findByExisteTrue();
         } catch (Exception e) {
@@ -50,7 +54,7 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    public List<Articulo> listarParaElaborar() throws Exception {
+    public List<Articulo> findByEsParaElaborarTrue() throws Exception {
         try {
             return articuloRepository.findByEsParaElaborarTrue();
         } catch (Exception e) {
@@ -68,10 +72,10 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
 
     public List<Articulo> buscarArticuloSiEsParaElaborarYExiste() throws Exception{
         try {
-            Optional<List<Articulo>> listOptional = articuloRepository.findArticuloByEsParaElaborarTrueAndExisteTrue();
-            return listOptional.get();
+            return articuloRepository.findByEsParaElaborarTrueAndExisteTrue();
         }catch (Exception e){
             throw new Exception("Error al buscar articulos con filtro: Es para elaborar y Existe. Message: " + e.getMessage());
         }
-    }
+    }    
+    
 }

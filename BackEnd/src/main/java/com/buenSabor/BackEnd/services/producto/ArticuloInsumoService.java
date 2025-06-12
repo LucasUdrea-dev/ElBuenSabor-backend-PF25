@@ -4,6 +4,9 @@
  */
 package com.buenSabor.BackEnd.services.producto;
 
+import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
+import com.buenSabor.BackEnd.mapper.ArticuloMapper;
+import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.Subcategoria;
 import com.buenSabor.BackEnd.models.producto.Categoria;
@@ -15,6 +18,7 @@ import com.buenSabor.BackEnd.repositories.producto.CategoriaRepository;
 import com.buenSabor.BackEnd.repositories.producto.UnidadMedidaRepository;
 import com.buenSabor.BackEnd.repositories.producto.StockArticuloInsumoRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +32,8 @@ import java.util.List;
 @Service
 @Transactional
 public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long> {
+    @Autowired
+    private ArticuloMapper articuloMapper;
 
     @Autowired
     private ArticuloInsumoRepository articuloInsumoRepository;
@@ -43,6 +49,8 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
 
     @Autowired
     private StockArticuloInsumoRepository stockArticuloInsumoRepository;
+    @Autowired
+    private com.buenSabor.BackEnd.repositories.company.SucursalRepository sucursalRepository;
 
     public ArticuloInsumoService(ArticuloInsumoRepository articuloInsumoRepository) {
         super(articuloInsumoRepository);
@@ -50,65 +58,28 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
     }
 
     @Transactional
-    public ArticuloInsumo crearInsumo(ArticuloInsumo insumo, Long sucursalId) {
+    public ArticuloInsumo crearInsumo(InsumoDTO dto, Long sucursalId) {
         try {
-            // Primero manejamos la unidad de medida
-            if (insumo.getUnidadMedida() != null) {
-                UnidadMedida unidadMedida;
-                if (insumo.getUnidadMedida().getId() != null && insumo.getUnidadMedida().getId() > 0) {
-                    // Si tiene ID válido, buscamos la unidad de medida existente
-                    unidadMedida = unidadMedidaRepository.findById(insumo.getUnidadMedida().getId())
-                            .orElseThrow(() -> new RuntimeException("No se encontró la unidad de medida con id: " + insumo.getUnidadMedida().getId()));
-                } else {
-                    // Si no tiene ID o es 0, buscamos por la unidad
-                    unidadMedida = unidadMedidaRepository.findByUnidad(insumo.getUnidadMedida().getUnidad())
-                            .orElseThrow(() -> new RuntimeException("No se encontró la unidad de medida: " + insumo.getUnidadMedida().getUnidad()));
-                }
-                insumo.setUnidadMedida(unidadMedida);
-            }
+            // 1) Mapea DTO → entidad
+            ArticuloInsumo insumo = articuloMapper.toEntity(dto);
 
-            // Manejamos la subcategoría y categoría
-            if (insumo.getSubcategoria() != null) {
-                final Subcategoria subcategoriaOriginal = insumo.getSubcategoria();
-                Subcategoria subcategoriaFinal;
-                
-                // Si la subcategoría tiene ID, la buscamos
-                if (subcategoriaOriginal.getId() != null && subcategoriaOriginal.getId() > 0) {
-                    subcategoriaFinal = subcategorioRepository.findById(subcategoriaOriginal.getId())
-                            .orElseThrow(() -> new RuntimeException("No se encontró la subcategoría con id: " + subcategoriaOriginal.getId()));
-                } else {
-                    // Si la subcategoría no tiene ID, manejamos su categoría
-                    if (subcategoriaOriginal.getCategoria() != null) {
-                        final Categoria categoriaOriginal = subcategoriaOriginal.getCategoria();
-                        Categoria categoriaFinal;
-                        
-                        // Si la categoría tiene ID, la buscamos
-                        if (categoriaOriginal.getId() != null && categoriaOriginal.getId() > 0) {
-                            categoriaFinal = categoriaRepository.findById(categoriaOriginal.getId())
-                                    .orElseThrow(() -> new RuntimeException("No se encontró la categoría con id: " + categoriaOriginal.getId()));
-                        } else {
-                            // Si la categoría no tiene ID, la guardamos
-                            categoriaFinal = categoriaRepository.save(categoriaOriginal);
-                        }
-                        subcategoriaOriginal.setCategoria(categoriaFinal);
-                    }
-                    
-                    // Guardamos la subcategoría
-                    subcategoriaFinal = subcategorioRepository.save(subcategoriaOriginal);
-                }
-                
-                insumo.setSubcategoria(subcategoriaFinal);
-            }
+            Long subcategoriaId = dto.getSubcategoria().getId();
+            Subcategoria subManaged = subcategorioRepository.getById(subcategoriaId);
+            insumo.setSubcategoria(subManaged);
 
-            // Manejamos el stock
-            if (insumo.getStockArticuloInsumo() != null) {
-                StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
-                stock.setArticuloInsumo(insumo);
-                stock = stockArticuloInsumoRepository.save(stock);
-                insumo.setStockArticuloInsumo(stock);
-            }
+            Long unidadMedidaId = dto.getUnidadMedida().getId();
+            UnidadMedida umManaged = unidadMedidaRepository.getById(unidadMedidaId);
+            insumo.setUnidadMedida(umManaged);
 
-            // Finalmente guardamos el insumo
+            insumo.setPrecioCompra(dto.getPrecioCompra());
+
+            StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
+            Long sucId = dto.getStockArticuloInsumo().getSucursalId();
+            Sucursal sucManaged = sucursalRepository.getById(sucId);
+            stock.setSucursal(sucManaged);
+            insumo.setStockArticuloInsumo(stock);
+
+            // 6) Guarda ArticuloInsumo + Stock (cascade ALL en la relación 1–1)
             return articuloInsumoRepository.save(insumo);
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar el insumo: " + e.getMessage(), e);

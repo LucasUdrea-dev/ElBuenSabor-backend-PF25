@@ -28,8 +28,6 @@ import lombok.Setter;
 @Table(name = "categoria")
 public class Categoria extends Bean {
 
-
-
     @Column(name = "denominacion")
     private String denominacion;
     private String imagen;
@@ -37,5 +35,7 @@ public class Categoria extends Bean {
     @OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Subcategoria> subcategorias;
+
+    private  boolean esParaElaborar;
     
 }
