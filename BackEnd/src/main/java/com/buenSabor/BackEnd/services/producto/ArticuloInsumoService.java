@@ -5,6 +5,7 @@
 package com.buenSabor.BackEnd.services.producto;
 
 import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
+import com.buenSabor.BackEnd.dto.producto.stock.StockDTO;
 import com.buenSabor.BackEnd.mapper.ArticuloMapper;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
@@ -86,6 +87,54 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
         }
     }
 
+    @Transactional
+    public ArticuloInsumo actualizar(Long id, InsumoDTO dto) {
+        try {
+            // 1) Recupera el insumo existente
+            ArticuloInsumo insumo = articuloInsumoRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("Insumo con id " + id + " no existe"));
+
+            // 2) Actualiza campos básicos
+            insumo.setNombre(dto.getNombre());
+            insumo.setDescripcion(dto.getDescripcion());
+            insumo.setPrecio(dto.getPrecio());
+            insumo.setExiste(dto.getExiste());
+            insumo.setEsParaElaborar(dto.getEsParaElaborar());
+            insumo.setImagenArticulo(dto.getImagenArticulo());
+            insumo.setPrecioCompra(dto.getPrecioCompra());
+
+            // 3) Reemplaza subcategoría y unidadMedida
+            Subcategoria subManaged = subcategorioRepository.getById(dto.getSubcategoria().getId());
+            insumo.setSubcategoria(subManaged);
+
+            UnidadMedida umManaged = unidadMedidaRepository.getById(dto.getUnidadMedida().getId());
+            insumo.setUnidadMedida(umManaged);
+
+            // 4) actualizo o creo stock
+            StockDTO stockDto = dto.getStockArticuloInsumo();
+            StockArticuloInsumo stock;
+            if (stockDto.getId() != null && stockDto.getId() > 0) {
+                // si ya tenía stock creado, lo cargo
+                stock = stockArticuloInsumoRepository.findById(stockDto.getId())
+                        .orElseThrow(() -> new EntityNotFoundException(
+                                "Stock con id " + stockDto.getId() + " no existe"));
+            } else {
+                // si no, instancio uno nuevo
+                stock = new StockArticuloInsumo();
+            }
+            stock.setMaxStock(dto.getStockArticuloInsumo().getMaxStock());
+            stock.setCantidad(dto.getStockArticuloInsumo().getCantidad());
+            Sucursal sucManaged = sucursalRepository.getById(dto.getStockArticuloInsumo().getSucursalId());
+            stock.setSucursal(sucManaged);
+            insumo.setStockArticuloInsumo(stock);
+
+            // 5) Guarda cambios
+            return articuloInsumoRepository.save(insumo);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar el insumo: " + e.getMessage(), e);
+        }
+    }
+
     public List<ArticuloInsumo> buscarPorNombre(String nombre) throws Exception {
         try {
             return articuloInsumoRepository.findByNombreContainingIgnoreCase(nombre);
@@ -110,87 +159,5 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
         }
     }
     
-    @Transactional
-    public ArticuloInsumo actualizar(Long id, ArticuloInsumo insumo) {
-        try {
-            // Verificar si el insumo existe
-            ArticuloInsumo insumoExistente = articuloInsumoRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("No se encontró el insumo con id: " + id));
 
-            // Actualizar campos básicos
-            insumoExistente.setNombre(insumo.getNombre());
-            insumoExistente.setPrecio(insumo.getPrecio());
-            insumoExistente.setImagenArticulo(insumo.getImagenArticulo());
-            insumoExistente.setDescripcion(insumo.getDescripcion());
-            insumoExistente.setExiste(insumo.getExiste());
-            insumoExistente.setEsParaElaborar(insumo.getEsParaElaborar());
-            insumoExistente.setPrecioCompra(insumo.getPrecioCompra());
-
-            // Manejar unidad de medida
-            if (insumo.getUnidadMedida() != null && insumo.getUnidadMedida().getId() != null) {
-                UnidadMedida unidadMedida = unidadMedidaRepository.findById(insumo.getUnidadMedida().getId())
-                        .orElseThrow(() -> new RuntimeException("No se encontró la unidad de medida con id: " + insumo.getUnidadMedida().getId()));
-                insumoExistente.setUnidadMedida(unidadMedida);
-            }
-
-            // Manejar subcategoría y categoría
-            if (insumo.getSubcategoria() != null) {
-                final Subcategoria subcategoriaOriginal = insumo.getSubcategoria();
-                Subcategoria subcategoriaFinal;
-                
-                // Si la subcategoría tiene ID, la buscamos
-                if (subcategoriaOriginal.getId() != null && subcategoriaOriginal.getId() > 0) {
-                    subcategoriaFinal = subcategorioRepository.findById(subcategoriaOriginal.getId())
-                            .orElseThrow(() -> new RuntimeException("No se encontró la subcategoría con id: " + subcategoriaOriginal.getId()));
-                } else {
-                    // Si la subcategoría no tiene ID, manejamos su categoría
-                    if (subcategoriaOriginal.getCategoria() != null) {
-                        final Categoria categoriaOriginal = subcategoriaOriginal.getCategoria();
-                        Categoria categoriaFinal;
-                        
-                        // Si la categoría tiene ID, la buscamos
-                        if (categoriaOriginal.getId() != null && categoriaOriginal.getId() > 0) {
-                            categoriaFinal = categoriaRepository.findById(categoriaOriginal.getId())
-                                    .orElseThrow(() -> new RuntimeException("No se encontró la categoría con id: " + categoriaOriginal.getId()));
-                        } else {
-                            // Si la categoría no tiene ID, la guardamos
-                            categoriaFinal = categoriaRepository.save(categoriaOriginal);
-                        }
-                        subcategoriaOriginal.setCategoria(categoriaFinal);
-                    }
-                    
-                    // Guardamos la subcategoría
-                    subcategoriaFinal = subcategorioRepository.save(subcategoriaOriginal);
-                }
-                
-                insumoExistente.setSubcategoria(subcategoriaFinal);
-            }
-
-            // Manejar el stock
-            if (insumo.getStockArticuloInsumo() != null) {
-                final StockArticuloInsumo stockNuevo = insumo.getStockArticuloInsumo();
-                
-                // Buscar el stock existente por el ID del insumo
-                StockArticuloInsumo stockExistente = stockArticuloInsumoRepository.findByArticuloInsumoId(id)
-                        .orElse(null);
-                
-                if (stockExistente != null) {
-                    // Actualizar el stock existente
-                    stockExistente.setCantidad(stockNuevo.getCantidad());
-                    stockExistente.setMaxStock(stockNuevo.getMaxStock());
-                    stockExistente = stockArticuloInsumoRepository.save(stockExistente);
-                    insumoExistente.setStockArticuloInsumo(stockExistente);
-                } else {
-                    // Si no existe, crear uno nuevo
-                    stockNuevo.setArticuloInsumo(insumoExistente);
-                    StockArticuloInsumo stockGuardado = stockArticuloInsumoRepository.save(stockNuevo);
-                    insumoExistente.setStockArticuloInsumo(stockGuardado);
-                }
-            }
-
-            return articuloInsumoRepository.save(insumoExistente);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al actualizar el insumo: " + e.getMessage(), e);
-        }
-    }
 }

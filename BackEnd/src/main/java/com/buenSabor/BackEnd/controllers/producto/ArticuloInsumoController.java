@@ -51,8 +51,8 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> updateInsumo(@PathVariable Long id, @RequestBody InsumoDTO dto) {
         try {
-            ArticuloInsumo insumo = articuloMapper.toEntity(dto);
-            return ResponseEntity.status(HttpStatus.OK).body(articuloInsumoService.actualizar(id, insumo));
+            ArticuloInsumo updatedInsumo =articuloInsumoService.actualizar(id, dto);
+            return ResponseEntity.status(HttpStatus.OK).body(updatedInsumo);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"error\":\"Error al actualizar el insumo: " + e.getMessage() + "\", " +
