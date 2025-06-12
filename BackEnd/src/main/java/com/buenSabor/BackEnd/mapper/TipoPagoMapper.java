@@ -22,22 +22,20 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface TipoPagoMapper {
 
     // Map entity to DTO
-    @Mapping(source = "tipoPago", target = "tipoPago") // Maps the enum to its string representation
-//    @Mapping(target = "pedidoList", ignore = true) // Ignore pedidoList for DTO conversion
-//    @Mapping(target = "mercadoPagoList", ignore = true) // Ignore mercadoPagoList for DTO conversion
+    @Mapping(source = "tipoPago", target = "tipoPago") 
     TipoPagoDTO toDto(TipoPago tipoPago);
 
     // Map DTO to entity
-    @Mapping(source = "tipoPago", target = "tipoPago") // Maps the string back to the enum
-    @Mapping(target = "pedidoList", ignore = true) // Ignore pedidoList when converting to entity
-    @Mapping(target = "mercadoPagoList", ignore = true) // Ignore mercadoPagoList when converting to entity
-    @Mapping(target = "id", ignore = true) // Typically ignore ID when converting a DTO to a new entity
+    @Mapping(source = "tipoPago", target = "tipoPago")
+    @Mapping(target = "pedidoList", ignore = true) 
+    @Mapping(target = "mercadoPagoList", ignore = true) 
+    @Mapping(target = "id", ignore = true) 
     TipoPago toEntity(TipoPagoDTO dto);
 
     // Optional: For updating an existing entity from a DTO
-    @Mapping(target = "id", ignore = true) // ID should not be updated
-    @Mapping(target = "pedidoList", ignore = true) // Collections usually handled separately or ignored on update
-    @Mapping(target = "mercadoPagoList", ignore = true) // Collections usually handled separately or ignored on update
+    @Mapping(target = "id", ignore = true) 
+    @Mapping(target = "pedidoList", ignore = true) 
+    @Mapping(target = "mercadoPagoList", ignore = true) 
     void updateTipoPagoFromDto(TipoPagoDTO dto, @MappingTarget TipoPago entity);
 
     List<TipoPagoDTO> toDtoList(List<TipoPago> tipoPagos);

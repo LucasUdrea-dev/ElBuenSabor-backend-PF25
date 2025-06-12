@@ -22,19 +22,18 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface TipoEnvioMapper {
 
     // Map entity to DTO
-    @Mapping(source = "tipoDelivery", target = "tipoDelivery") // Maps the enum to its string representation
-//    @Mapping(target = "pedidoList", ignore = true) // Ignore the pedidoList for DTO conversion
+    @Mapping(source = "tipoDelivery", target = "tipoDelivery") 
     TipoEnvioDTO toDto(TipoEnvio tipoEnvio);
 
     // Map DTO to entity
-    @Mapping(source = "tipoDelivery", target = "tipoDelivery") // Maps the string back to the enum
-    @Mapping(target = "pedidoList", ignore = true) // Ignore the pedidoList when converting to entity
-    @Mapping(target = "id", ignore = true) // Typically ignore ID when converting a DTO to a new entity
+    @Mapping(source = "tipoDelivery", target = "tipoDelivery") 
+    @Mapping(target = "pedidoList", ignore = true) 
+    @Mapping(target = "id", ignore = true) 
     TipoEnvio toEntity(TipoEnvioDTO dto);
 
-    // Optional: For updating an existing entity from a DTO
-    @Mapping(target = "id", ignore = true) // ID should not be updated
-    @Mapping(target = "pedidoList", ignore = true) // Collections usually handled separately or ignored on update
+   
+    @Mapping(target = "id", ignore = true) 
+    @Mapping(target = "pedidoList", ignore = true) 
     void updateTipoEnvioFromDto(TipoEnvioDTO dto, @MappingTarget TipoEnvio entity);
 
     List<TipoEnvioDTO> toDtoList(List<TipoEnvio> tipoEnvios);

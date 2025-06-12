@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/estadoPedidos")
 @Tag(name = "EstadoPedido", description = "Operaciones relacionadas con entidad EstadoPedido")
-public class EstadoPedidoController implements CommandLineRunner { 
+public class EstadoPedidoController { 
 
     private final EstadoPedidoService estadoPedidoService;
     private final EstadoPedidoRepository estadoPedidoRepository; 
@@ -31,18 +31,6 @@ public class EstadoPedidoController implements CommandLineRunner {
             EstadoPedidoRepository estadoPedidoRepository) {
         this.estadoPedidoService = estadoPedidoService;
         this.estadoPedidoRepository = estadoPedidoRepository;
-    }
-
-    @Override
-    public void run(String... args) {
-        for (TypeState state : TypeState.values()) {
-            boolean exists = estadoPedidoRepository.existsByNombreEstado(state);
-            if (!exists) {
-                EstadoPedido ep = new EstadoPedido();
-                ep.setNombreEstado(state);
-                estadoPedidoRepository.save(ep);
-            }
-        }
     }
 
    

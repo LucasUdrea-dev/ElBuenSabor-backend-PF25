@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/pedidos")
-@CrossOrigin(origins = "*") // Consider restricting this in production for security
 @Tag(name = "Pedido", description = "Operaciones relacionadas con entidad Pedido")
 public class PedidoController {
 
@@ -53,7 +52,7 @@ public class PedidoController {
     }
 
     @Operation(summary = "Listar todos los pedidos con detalles completos (incluye dirección)")
-    @GetMapping("/all") // Changed to /all to differentiate from root /pedidos if you add a simpler DTO list later
+    @GetMapping("/all") 
     public ResponseEntity<?> getAllFull() {
         try {
             List<PedidoConDireccionDTO> pedidos = pedidoService.findAllPedidosConDireccionDTO();
@@ -89,7 +88,7 @@ public class PedidoController {
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(savedDto);
         } catch (RuntimeException e) {
-            // Catch more specific exceptions from service, e.g., validation errors, missing entities
+            
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"error\":\"Error de datos al crear el pedido: " + e.getMessage() + "\"}");
         } catch (Exception e) {
@@ -99,20 +98,19 @@ public class PedidoController {
     }
 
     @Operation(summary = "Actualizar un pedido existente (incluye dirección si aplica)")
-    @PutMapping("/{id}") // Maps to /api/pedidos/{id}
+    @PutMapping("/{id}") 
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PedidoConDireccionDTO dto) {
         try {
             PedidoConDireccionDTO updatedDto = pedidoService.actualizarPedido(id, dto);
             if (updatedDto == null) {
-                // This case should ideally be handled by the service throwing an exception,
-                // but kept for robustness.
+                
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Pedido con ID " + id + " no encontrado para actualizar.\"}");
             }
             return ResponseEntity.ok(updatedDto);
         } catch (RuntimeException e) {
-            // Catch specific exceptions like "not found" or validation errors from service
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST) // Or NOT_FOUND if it's purely a not found error
+            
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST) 
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -125,7 +123,7 @@ public class PedidoController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             pedidoService.eliminarPedido(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); // 204 No Content for successful deletion
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build(); 
         } catch (RuntimeException e) {
             // Catch specific exceptions like "not found" from service
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -136,7 +134,6 @@ public class PedidoController {
         }
     }
 
-    // Example of a custom query based on user ID (uncomment and implement if needed in service)
     /*
     @Operation(summary = "Buscar pedidos por ID de usuario")
     @GetMapping("/byUser/{userId}")

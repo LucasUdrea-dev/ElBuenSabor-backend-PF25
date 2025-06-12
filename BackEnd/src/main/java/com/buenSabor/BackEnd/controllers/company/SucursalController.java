@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/sucursales")
 @Tag(name = "Sucursales", description = "Operaciones relacionadas con la entidad Sucursal")
-public class SucursalController {
+public class SucursalController extends BeanControllerImpl<Sucursal,SucursalService>{
 
     private final SucursalService sucursalService;
     private final SucursalMapper sucursalMapper;

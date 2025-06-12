@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class TipoEnvioService extends BeanServiceImpl<TipoEnvio, Long> {
 
-    private final TipoEnvioRepository tipoEnvioRepository; // Still needed for specific queries or if BeanServiceImpl's find methods aren't exposed
+    private final TipoEnvioRepository tipoEnvioRepository;
     private final TipoEnvioMapper tipoEnvioMapper;
 
     @Autowired
-    public TipoEnvioService(BeanRepository<TipoEnvio, Long> beanRepository, // For BeanServiceImpl
-            TipoEnvioRepository tipoEnvioRepository, // For direct repository access
-            TipoEnvioMapper tipoEnvioMapper) {             // For DTO conversions
-        super(beanRepository); // Crucially call the super constructor
+    public TipoEnvioService(BeanRepository<TipoEnvio, Long> beanRepository, 
+            TipoEnvioRepository tipoEnvioRepository, 
+            TipoEnvioMapper tipoEnvioMapper) {           
+        super(beanRepository);
         this.tipoEnvioRepository = tipoEnvioRepository;
         this.tipoEnvioMapper = tipoEnvioMapper;
     }
@@ -30,7 +30,7 @@ public class TipoEnvioService extends BeanServiceImpl<TipoEnvio, Long> {
   
     @Transactional
     public List<TipoEnvioDTO> findAllTipoEnviosDTO() {
-        // You can use 'super.findAll()' if BeanServiceImpl exposes it, or 'tipoEnvioRepository.findAll()'
+      
         List<TipoEnvio> tipoEnvios = tipoEnvioRepository.findAll();
         return tipoEnvioMapper.toDtoList(tipoEnvios);
     }
@@ -38,7 +38,7 @@ public class TipoEnvioService extends BeanServiceImpl<TipoEnvio, Long> {
    
     @Transactional
     public TipoEnvioDTO findTipoEnvioDTOById(Long id) {
-        // You can use 'super.findById(id)' if BeanServiceImpl exposes it, or 'tipoEnvioRepository.findById(id)'
+      
         Optional<TipoEnvio> tipoEnvio = tipoEnvioRepository.findById(id);
         return tipoEnvio.map(tipoEnvioMapper::toDto).orElse(null);
     }

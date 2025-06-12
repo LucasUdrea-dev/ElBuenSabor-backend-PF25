@@ -51,26 +51,26 @@ public class Sucursal extends Bean {
     @JsonIgnore
     private List<Empleado> empleadoList;
 
-    // StockArticuloInsumo: YA ESTÁ CORRECTO para eliminar en cascada
+   
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
 
-    // Pedido: DEBE ELIMINARSE CON SUCURSAL
+  
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Pedido> pedidoList;
 
-    // Direccion: YA ESTÁ CORRECTO para eliminar en cascada
+  
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Direccion direccion;
 
-    // Empresa: CORRECTO, NO SE ELIMINA (solo se desvincula en el servicio)
+    
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JsonIgnore
     private Empresa empresa;
 
-    // Promocion: DEBE ELIMINARSE CON SUCURSAL
+   
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Promocion> promocionList;

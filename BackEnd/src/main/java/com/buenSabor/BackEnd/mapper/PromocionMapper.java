@@ -34,15 +34,13 @@ public interface PromocionMapper {
 
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "tipoPromocion", target = "tipoPromocion")
-    // This mapping is correct: DTO's `articulos` to entity's `promocionArticuloList`
     @Mapping(source = "articulos", target = "promocionArticuloList")
-    @Mapping(target = "detallePromocionList", ignore = true) // Ignore this field
+    @Mapping(target = "detallePromocionList", ignore = true) 
     Promocion toEntity(PromocionDTO dto);
 
-    // This method is critical for handling updates where you only want to change some fields
-    @Mapping(target = "id", ignore = true) // ID should not be updated from DTO
-    @Mapping(target = "detallePromocionList", ignore = true) // Ignore this collection on update
-    // We explicitly ignore 'promocionArticuloList' here because we'll handle its update logic manually in the service
+    
+    @Mapping(target = "id", ignore = true) 
+    @Mapping(target = "detallePromocionList", ignore = true) 
     @Mapping(target = "promocionArticuloList", ignore = true)
     void updatePromocionFromDto(PromocionDTO dto, @MappingTarget Promocion entity);
 

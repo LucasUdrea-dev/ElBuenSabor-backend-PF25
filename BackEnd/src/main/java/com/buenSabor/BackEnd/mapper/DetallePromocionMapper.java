@@ -18,24 +18,24 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
  */
 
 @Mapper(componentModel = "spring",
-        uses = { PromocionMapper.class }, // Specify PromocionMapper for nested PromocionDTO
+        uses = { PromocionMapper.class }, 
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DetallePromocionMapper {
 
-    // Map entity to DTO
-    @Mapping(source = "promocion", target = "promocion") // Map the Promocion entity to PromocionDTO
-//    @Mapping(target = "pedido", ignore = true) // Ignore the 'pedido' field as it's part of the parent DTO
+    
+    @Mapping(source = "promocion", target = "promocion") 
+//    @Mapping(target = "pedido", ignore = true) 
     DetallePromocionDTO toDto(DetallePromocion detallePromocion);
 
-    // Map DTO to entity
-    @Mapping(source = "promocion", target = "promocion") // Map the PromocionDTO to Promocion entity
-    @Mapping(target = "pedido", ignore = true) // Ignore 'pedido'; it will be set in the service when associating with the parent Pedido
-    @Mapping(target = "id", ignore = true) // Typically ignore ID when converting a DTO to a new entity
+    
+    @Mapping(source = "promocion", target = "promocion") 
+    @Mapping(target = "pedido", ignore = true) 
+    @Mapping(target = "id", ignore = true) 
     DetallePromocion toEntity(DetallePromocionDTO dto);
 
-    // Optional: For updating an existing entity from a DTO
-    @Mapping(target = "id", ignore = true) // ID should not be updated from DTO
-    @Mapping(target = "pedido", ignore = true) // 'pedido' is handled by the parent service logic
+    
+    @Mapping(target = "id", ignore = true) 
+    @Mapping(target = "pedido", ignore = true) 
     void updateDetallePromocionFromDto(DetallePromocionDTO dto, @MappingTarget DetallePromocion entity);
 
     List<DetallePromocionDTO> toDtoList(List<DetallePromocion> detallePromociones);

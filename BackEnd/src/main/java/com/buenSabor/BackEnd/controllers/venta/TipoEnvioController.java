@@ -22,21 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "TipoEnvio", description = "Operaciones relacionadas con entidad TipoEnvio")
 public class TipoEnvioController extends BeanControllerImpl<TipoEnvio, TipoEnvioService> {
 
-    private final TipoEnvioService tipoEnvioService; // Inject the specific service for DTO methods
-    private final TipoEnvioRepository tipoEnvioRepository; // Needed if using CommandLineRunner here
+    private final TipoEnvioService tipoEnvioService; 
+    private final TipoEnvioRepository tipoEnvioRepository; 
 
     @Autowired
     public TipoEnvioController(TipoEnvioService tipoEnvioService,
-            TipoEnvioRepository tipoEnvioRepository) { // Inject repository for CLR
+            TipoEnvioRepository tipoEnvioRepository) { 
 
         this.tipoEnvioService = tipoEnvioService;
         this.tipoEnvioRepository = tipoEnvioRepository;
     }
 
-    // --- Custom Endpoints for Frontend Consumption (Read-Only via DTOs) ---
-    // These methods provide DTO specific responses, overriding/complementing generic ones.
+ 
     @Operation(summary = "Listar todos los tipos de envío disponibles (DTO)")
-    @GetMapping("") // Use a specific path to differentiate from generic findAll if needed
+    @GetMapping("") 
     public ResponseEntity<?> findAllTipoEnviosDTO() {
         try {
             List<TipoEnvioDTO> dtos = tipoEnvioService.findAllTipoEnviosDTO();
@@ -49,7 +48,7 @@ public class TipoEnvioController extends BeanControllerImpl<TipoEnvio, TipoEnvio
     }
 
     @Operation(summary = "Obtener un tipo de envío por su ID (DTO)")
-    @GetMapping("/dto/{id}") // Use a specific path to differentiate from generic findById if needed
+    @GetMapping("/dto/{id}") 
     public ResponseEntity<?> getTipoEnvioDTOById(@PathVariable Long id) {
         try {
             TipoEnvioDTO tipoEnvioDTO = tipoEnvioService.findTipoEnvioDTOById(id);

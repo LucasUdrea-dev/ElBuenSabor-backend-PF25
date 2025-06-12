@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/empresas")
 @Tag(name = "Empresas", description = "Operaciones relacionadas con entidad Empresa")
-public class EmpresaController {
+public class EmpresaController extends BeanControllerImpl<Empresa,EmpresaService>{
 
     @Autowired
     private EmpresaMapper empresaMapper;

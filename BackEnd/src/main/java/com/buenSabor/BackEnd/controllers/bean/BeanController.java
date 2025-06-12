@@ -11,9 +11,9 @@ import java.io.Serializable;
 public interface BeanController <E extends Bean, ID extends Serializable> {
     public ResponseEntity<?> getAll();
     public ResponseEntity<?> getOne(@PathVariable ID id);
-    public ResponseEntity<?> save(@RequestBody E entity);
-    public ResponseEntity<?> update(@PathVariable ID id ,@RequestBody E entity);
-    public ResponseEntity<?> delete(@PathVariable ID id);
+//    public ResponseEntity<?> save(@RequestBody E entity);
+//    public ResponseEntity<?> update(@PathVariable ID id ,@RequestBody E entity);
+//    public ResponseEntity<?> delete(@PathVariable ID id);
 
     //Paginacion (
 //    public ResponseEntity<?> getAll(Pageable pageable);

@@ -24,10 +24,10 @@ public class TipoPagoController extends BeanControllerImpl<TipoPago, TipoPagoSer
     private TipoPagoService tipoPagoService;
 
     @Operation(summary = "Listar todas los tipos de pagos con DTO")
-    @GetMapping("") // Or just @GetMapping if you prefer /api/tipoRoles directly for listing all
-    public ResponseEntity<?> findAllTipoRolesDTO() { // Renamed method for clarity
+    @GetMapping("") 
+    public ResponseEntity<?> findAllTipoRolesDTO() { 
         try {
-            // Call the service method that returns the DTO list directly
+            
             List<TipoPagoDTO> dtos = tipoPagoService.findAllTipoPagosDTO();
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
@@ -37,7 +37,7 @@ public class TipoPagoController extends BeanControllerImpl<TipoPago, TipoPagoSer
     }
 
     @Operation(summary = "Ver un tipo de rol por ID con DTO")
-    @GetMapping("/dto/{id}") // Added /dto to differentiate if BeanControllerImpl also has a getById
+    @GetMapping("/dto/{id}") 
     public ResponseEntity<?> getTipoRolDTOById(@PathVariable Long id) {
         try {
             TipoPagoDTO tiposDTO = tipoPagoService.findTipoPagoDTOById(id);

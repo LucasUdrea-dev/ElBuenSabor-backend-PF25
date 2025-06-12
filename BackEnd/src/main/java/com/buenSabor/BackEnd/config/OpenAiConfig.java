@@ -24,7 +24,7 @@ public class OpenAiConfig {
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
             .group("default")
-            .packagesToScan("com.buenSabor.BackEnd.controllers") // SOLO tus controllers, no repositorios
+            .packagesToScan("com.buenSabor.BackEnd.controllers") 
             .build();
     }
 }
