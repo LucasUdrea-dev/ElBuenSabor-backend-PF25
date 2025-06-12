@@ -506,19 +506,4 @@ copies or substantial portions of the Software.
 
 </div>
 
-## Notes
 
-Este README profesional incluye todos los estándares de la industria para documentación de proyectos empresariales:
-
-1. **Badges profesionales** para mostrar el estado del proyecto
-2. **Tabla de contenidos** para navegación fácil
-3. **Instalación paso a paso** con todas las configuraciones necesarias
-4. **Documentación completa** del stack tecnológico basada en el `build.gradle` [9](#0-8) 
-5. **Estructura detallada** del proyecto basada en la organización actual [6](#0-5) 
-6. **Guías de contribución** siguiendo las mejores prácticas
-7. **Roadmap** para mostrar la dirección del proyecto
-8. **Configuración de Docker** para facilitar el desarrollo
-9. **Documentación de testing** basada en la estructura actual [8](#0-7) 
-10. **Información de contacto y soporte** profesional
-
-El README está optimizado para repositorios profesionales y incluye toda la información que un desarrollador o stakeholder necesitaría para entender, configurar y contribuir al proyecto.
