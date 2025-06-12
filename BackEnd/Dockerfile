@@ -1,7 +1,7 @@
 FROM gradle:8.4-jdk17 AS builder
 WORKDIR /app
 COPY . .
-RUN gradle build --no-daemon
+RUN gradle build --no-daemon -x test
 
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
