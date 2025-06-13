@@ -17,7 +17,6 @@ import org.mapstruct.Mapping;
 public interface SubcategoriaMapper {
     
     @Mapping(target = "articuloList", ignore = true)
-    @Mapping(target = "categoria.id", source = "categoria.id")
     Subcategoria toEntity(SubcategoriaDTO dto);
     
     SubcategoriaDTO toDto(Subcategoria entity);

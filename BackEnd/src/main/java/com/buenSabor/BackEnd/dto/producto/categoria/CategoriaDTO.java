@@ -24,6 +24,7 @@ public class CategoriaDTO {
 
     private Long id;
     private String denominacion;
+    private boolean esParaElaborar;
     private String imagen;
 
     // Relaciones omitidas: subcategorias

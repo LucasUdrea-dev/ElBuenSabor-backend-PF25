@@ -13,7 +13,6 @@ import com.buenSabor.BackEnd.models.venta.TipoPromocion;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
-import com.buenSabor.BackEnd.repositories.venta.PromocionArticuloRepository;
 import com.buenSabor.BackEnd.repositories.venta.PromocionRepository;
 import com.buenSabor.BackEnd.repositories.venta.TipoPromocionRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
@@ -28,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import com.buenSabor.BackEnd.repositories.venta.DetallePromocionArticuloRepository;
 
 @Service
 public class PromocionService extends BeanServiceImpl<Promocion, Long> {
@@ -36,7 +36,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
 
     private final PromocionRepository promocionRepository;
     private final ArticuloRepository articuloRepository;
-    private final PromocionArticuloRepository promocionArticuloRepository;
+    private final DetallePromocionArticuloRepository promocionArticuloRepository;
     private final SucursalRepository sucursalRepository;
     private final TipoPromocionRepository tipoPromocionRepository;
     private final PromocionMapper promocionMapper;
@@ -47,7 +47,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
             BeanRepository<Promocion, Long> beanRepository,
             PromocionRepository promocionRepository,
             ArticuloRepository articuloRepository,
-            PromocionArticuloRepository promocionArticuloRepository,
+            DetallePromocionArticuloRepository promocionArticuloRepository,
             SucursalRepository sucursalRepository,
             TipoPromocionRepository tipoPromocionRepository,
             PromocionMapper promocionMapper,

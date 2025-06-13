@@ -37,8 +37,6 @@ import lombok.Setter;
 @Table(name = "Direccion")
 public class Direccion extends Bean {
 
-    @Column(name = "existe")
-    private Boolean existe;
     @Column(name = "nombre_calle")
     private String nombreCalle;
     @Column(name = "numeracion")

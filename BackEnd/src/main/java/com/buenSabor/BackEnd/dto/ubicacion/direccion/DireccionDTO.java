@@ -14,7 +14,6 @@ import lombok.Data;
 @Data
 public class DireccionDTO {
     private Long id;
-    private Boolean existe;
     private String nombreCalle;
     private String numeracion;
     private Double latitud;

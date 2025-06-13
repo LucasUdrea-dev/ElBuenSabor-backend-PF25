@@ -27,12 +27,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PedidoConDireccionDTO {
-    private Long id; // Assuming 'Bean' provides the ID
+    private Long id; 
     private Date tiempoEstimado;
     private Boolean existe;
     private Date fecha;
 
-    // Use DTOs for nested entities
+    
     private List<DetallePedidoDTO> detallePedidoList;
 
     private EstadoPedidoDTO estadoPedido;

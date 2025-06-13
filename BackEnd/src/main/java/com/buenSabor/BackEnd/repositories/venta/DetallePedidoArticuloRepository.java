@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.repositories.venta;
 
-import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
+import com.buenSabor.BackEnd.models.venta.DetallePedido;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author oscarloha
  */
 @Repository
-public interface DetallePromocionArticuloRepository extends BeanRepository<PromocionArticulo, Long> {
-
-
+public interface DetallePedidoArticuloRepository extends BeanRepository<DetallePedido,Long>{
+    
 }
