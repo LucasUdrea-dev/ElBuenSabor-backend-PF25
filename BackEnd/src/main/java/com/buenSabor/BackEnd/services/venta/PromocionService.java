@@ -167,7 +167,8 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
                 .orElseThrow(() -> new RuntimeException("Promoción con ID " + id + " no encontrada para eliminar."));
 
         try {
-            promocionRepository.delete(promocion);
+            promocion.setExiste(Boolean.FALSE);
+            promocionRepository.save(promocion);
             logger.info("Promoción con ID {} eliminada con éxito.", id);
         } catch (Exception e) {
             logger.error("Error al intentar eliminar la promoción con ID {}: {}", id, e.getMessage(), e);
