@@ -1,5 +1,6 @@
 package com.buenSabor.BackEnd.services.venta;
 
+import com.buenSabor.BackEnd.Exception.PedidoNotFoundException;
 import com.buenSabor.BackEnd.dto.venta.detallepedido.DetallePedidoDTO;
 import com.buenSabor.BackEnd.dto.venta.detallepromocion.DetallePromocionDTO;
 import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
@@ -29,7 +30,7 @@ import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
 import com.buenSabor.BackEnd.repositories.venta.*;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
-
+import java.lang.RuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService extends BeanServiceImpl<Pedido, Long> {
@@ -338,6 +340,34 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         } catch (Exception e) {
             logger.error("Error al intentar eliminar el pedido con ID {}: {}", id, e.getMessage(), e);
             throw new RuntimeException("Error al eliminar el pedido con ID " + id + ": " + e.getMessage(), e);
+        }
+    }
+
+    public List<PedidoConDireccionDTO> findAllExistentes() {
+        List<Pedido> pedidos = pedidoRepository.findAllByExisteTrue();
+
+        // Mapeamos la lista de entidades a una lista de DTOs
+        return pedidos.stream()
+                .map(pedidoMapper::toPedidoConDireccionDto)
+                .collect(Collectors.toList());
+    }
+
+     @Transactional(readOnly = true)
+    public PedidoConDireccionDTO findByIdExistente(Long id) {
+        try {
+
+            Pedido pedido = (Pedido) pedidoRepository.findByIdAndExisteTrue(id);
+               
+            
+            return pedidoMapper.toPedidoConDireccionDto(pedido);
+        } catch (PedidoNotFoundException e) {
+        
+            logger.warn("Advertencia: {}", e.getMessage()); 
+            throw e; 
+        } catch (Exception e) {
+            
+            logger.error("Error inesperado al buscar pedido con ID {}: {}", id, e.getMessage(), e);
+            throw new RuntimeException("Error interno al buscar pedido con ID " + id, e); // Lanzamos una RuntimeException genérica
         }
     }
 }

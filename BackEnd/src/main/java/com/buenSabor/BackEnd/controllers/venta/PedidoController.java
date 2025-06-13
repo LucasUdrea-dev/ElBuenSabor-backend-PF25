@@ -134,6 +134,22 @@ public class PedidoController {
         }
     }
 
+     @GetMapping("/activos")
+    public ResponseEntity<List<PedidoConDireccionDTO>> getAllPedidosExistentes() {
+        List<PedidoConDireccionDTO> pedidos = pedidoService.findAllExistentes();
+        return ResponseEntity.ok(pedidos);
+    }
+     @GetMapping("/activos/{id}")
+    public ResponseEntity<PedidoConDireccionDTO> getPedidoByIdExistente(@PathVariable Long id) {
+        try {
+            PedidoConDireccionDTO pedido = pedidoService.findByIdExistente(id);
+            return ResponseEntity.ok(pedido);
+        } catch (RuntimeException e) {
+            // Si el servicio lanza la excepción, devolvemos un 404 Not Found
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     /*
     @Operation(summary = "Buscar pedidos por ID de usuario")
     @GetMapping("/byUser/{userId}")
