@@ -28,7 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PedidoConDireccionDTO {
     private Long id; 
-    private Date tiempoEstimado;
+    private String tiempoEstimado;
     private Boolean existe;
     private Date fecha;
 

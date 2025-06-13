@@ -35,8 +35,7 @@ import java.util.List;
 public class Pedido extends Bean {
 
     @Column(name = "tiempo_estimado")
-    @Temporal(TemporalType.TIME)
-    private Date tiempoEstimado;
+    private String tiempoEstimado;
 
     @Column(name = "existe")
     private Boolean existe;

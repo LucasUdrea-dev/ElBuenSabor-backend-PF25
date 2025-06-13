@@ -208,35 +208,38 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
     @Transactional
     public PedidoConDireccionDTO actualizarPedido(Long id, PedidoConDireccionDTO dto) throws Exception {
+        // Busca el pedido existente o lanza una excepción si no se encuentra.
         Pedido existingPedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido con ID " + id + " no encontrado para actualizar."));
 
-        // 1. Obtener y establecer relaciones ManyToOne (entidades existentes)
+        // 1. Obtener y establecer relaciones ManyToOne (entidades existentes desde la BD)
         EstadoPedido estadoPedido = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
                 .orElseThrow(() -> new RuntimeException("Estado de Pedido con ID " + dto.getEstadoPedido().getId() + " no encontrado."));
+
         Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
                 .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
+
         TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
                 .orElseThrow(() -> new RuntimeException("Tipo de Envío con ID " + dto.getTipoEnvio().getId() + " no encontrado."));
+
         TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
                 .orElseThrow(() -> new RuntimeException("Tipo de Pago con ID " + dto.getTipoPago().getId() + " no encontrado."));
+
         Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
                 .orElseThrow(() -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
 
-        // Validar que el tipo de envío del DTO coincida con el de la base de datos
-        if (!tipoEnvio.getTipoDelivery().equals(dto.getTipoEnvio().getTipoDelivery())) {
-            throw new RuntimeException("El tipo de envío proporcionado en el DTO no coincide con el tipo de envío en la base de datos.");
-        }
-
-        // 2. Actualizar campos básicos del Pedido existente usando el mapper
+        // 2. Actualizar campos básicos del Pedido existente usando el mapper y asignaciones directas
         pedidoMapper.updatePedidoFromDto(dto, existingPedido);
+        existingPedido.setTiempoEstimado(dto.getTiempoEstimado()); // Asignación directa de String
+
+        // Asignar las entidades completas recuperadas de la base de datos
         existingPedido.setEstadoPedido(estadoPedido);
         existingPedido.setSucursal(sucursal);
         existingPedido.setTipoEnvio(tipoEnvio);
         existingPedido.setTipoPago(tipoPago);
         existingPedido.setUsuario(usuario);
 
-        // 3. Manejar DireccionPedido (condicionalmente)
+        // 3. Manejar DireccionPedido (condicionalmente según el Tipo de Envío)
         if (tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY) {
             if (dto.getDireccion() == null || dto.getDireccion().getDireccion() == null) {
                 throw new RuntimeException("Para el tipo de envío " + tipoEnvio.getTipoDelivery() + ", se requiere una Dirección de Pedido completa.");
@@ -250,7 +253,6 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                 DireccionPedido newDireccionPedido = direccionPedidoMapper.toEntity(dto.getDireccion());
                 newDireccionPedido.setDireccion(direccionDetails);
                 newDireccionPedido.setPedido(existingPedido);
-                //direccionPedidoRepository.save(newDireccionPedido);
 
                 existingPedido.setDireccionPedido(newDireccionPedido);
             } else {
@@ -258,23 +260,20 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                 DireccionPedido currentDireccionPedido = existingPedido.getDireccionPedido();
                 Direccion currentDireccionDetails = currentDireccionPedido.getDireccion();
 
-                // Update the nested Direccion details
+                // Actualizar detalles de Direccion anidados
                 direccionMapper.updateDireccionFromDto(dto.getDireccion().getDireccion(), currentDireccionDetails);
                 direccionRepository.save(currentDireccionDetails);
 
-                // Update the DireccionPedido (associative entity) if needed (e.g., if it has other fields)
+                // Actualizar DireccionPedido si tiene otros campos
                 direccionPedidoMapper.updateDireccionPedidoFromDto(dto.getDireccion(), currentDireccionPedido);
-                //direccionPedidoRepository.save(currentDireccionPedido);
             }
         } else {
-            // Si el tipo de envío no requiere DireccionPedido
+            // Si el tipo de envío no requiere DireccionPedido, se elimina si existía
             if (existingPedido.getDireccionPedido() != null) {
                 logger.info("El TipoEnvio cambió a NO-DELIVERY/NO-TAKEAWAY. Eliminando DireccionPedido existente del pedido ID: {}", id);
-                // First delete the nested Direccion if it's managed by DireccionPedido
                 if (existingPedido.getDireccionPedido().getDireccion() != null) {
                     direccionRepository.delete(existingPedido.getDireccionPedido().getDireccion());
                 }
-                //direccionPedidoRepository.delete(existingPedido.getDireccionPedido());
                 existingPedido.setDireccionPedido(null);
             }
             if (dto.getDireccion() != null) {
@@ -282,12 +281,15 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             }
         }
 
-        // 4. Manejar DetallePedido (OneToMany) - Update logic
-        //detallePedidoRepository.deleteAll(existingPedido.getDetallePedidoList());
-        existingPedido.getDetallePedidoList().clear();
+        // 4. Manejar DetallePedido (OneToMany) - Lógica de reemplazo completo (clear and add)
+        existingPedido.getDetallePedidoList().clear(); // CUIDADO: Esto elimina los detalles anteriores
 
         if (dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty()) {
             for (DetallePedidoDTO detalleDto : dto.getDetallePedidoList()) {
+                if (detalleDto.getArticulo() == null) {
+                    continue; // Omitir detalle sin artículo válido
+                }
+
                 Articulo articulo = articuloRepository.findById(detalleDto.getArticulo().getId())
                         .orElseThrow(() -> new RuntimeException("Artículo con ID " + detalleDto.getArticulo().getId() + " no encontrado para DetallePedido."));
 
@@ -298,12 +300,15 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             }
         }
 
-        // 5. Manejar DetallePromocion (OneToMany) - Update logic
-        //detallePromocionRepository.deleteAll(existingPedido.getDetallePromocionList());
-        existingPedido.getDetallePromocionList().clear();
+        // 5. Manejar DetallePromocion (OneToMany) - Lógica de reemplazo completo (clear and add)
+        existingPedido.getDetallePromocionList().clear(); // CUIDADO: Esto elimina los detalles anteriores
 
         if (dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty()) {
             for (DetallePromocionDTO detalleDto : dto.getDetallePromocionList()) {
+                if (detalleDto.getPromocion() == null) {
+                    continue; // Omitir detalle sin promoción válida
+                }
+
                 Promocion promocion = promocionRepository.findById(detalleDto.getPromocion().getId())
                         .orElseThrow(() -> new RuntimeException("Promoción con ID " + detalleDto.getPromocion().getId() + " no encontrada para DetallePromocion."));
 
@@ -314,8 +319,10 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             }
         }
 
-        // Guardar la entidad padre actualizada
+        // 6. Guardar la entidad padre actualizada (cascading se encargará de los hijos)
         Pedido updatedPedido = pedidoRepository.save(existingPedido);
+
+        // 7. Devolver el DTO del pedido actualizado
         return pedidoMapper.toPedidoConDireccionDto(updatedPedido);
     }
 
@@ -325,7 +332,8 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                 .orElseThrow(() -> new RuntimeException("Pedido con ID " + id + " no encontrado para eliminar."));
 
         try {
-            pedidoRepository.delete(pedido);
+            pedido.setExiste(Boolean.FALSE);
+            pedidoRepository.save(pedido);
             logger.info("Pedido con ID {} eliminado con éxito.", id);
         } catch (Exception e) {
             logger.error("Error al intentar eliminar el pedido con ID {}: {}", id, e.getMessage(), e);

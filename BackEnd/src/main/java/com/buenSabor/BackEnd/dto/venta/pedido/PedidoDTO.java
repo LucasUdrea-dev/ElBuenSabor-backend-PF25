@@ -29,7 +29,7 @@ import lombok.Setter;
 public class PedidoDTO {
 
     private Long id; // Assuming 'Bean' provides the ID
-    private Date tiempoEstimado;
+    private String tiempoEstimado;
     private Boolean existe;
     private Date fecha;
 
