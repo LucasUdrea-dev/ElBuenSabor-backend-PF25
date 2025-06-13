@@ -2,7 +2,6 @@ package com.buenSabor.BackEnd.controllers.venta;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
 import com.buenSabor.BackEnd.dto.venta.envio.TipoEnvioDTO;
-import com.buenSabor.BackEnd.enums.TypeDelivery;
 import com.buenSabor.BackEnd.models.venta.TipoEnvio;
 import com.buenSabor.BackEnd.repositories.venta.TipoEnvioRepository;
 import com.buenSabor.BackEnd.services.venta.TipoEnvioService;

@@ -4,10 +4,8 @@
  */
 package com.buenSabor.BackEnd.repositories.seguridad;
 
-import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.models.seguridad.TipoRol;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
-import java.util.stream.Stream;
 import org.springframework.stereotype.Repository;
 
 /**

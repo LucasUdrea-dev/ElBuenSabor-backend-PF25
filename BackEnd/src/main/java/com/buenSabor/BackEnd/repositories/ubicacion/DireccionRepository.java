@@ -6,13 +6,6 @@ package com.buenSabor.BackEnd.repositories.ubicacion;
 
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.models.ubicacion.Direccion;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 /**

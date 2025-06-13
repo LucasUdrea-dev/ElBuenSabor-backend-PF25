@@ -29,26 +29,20 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "ArticuloManufacturado", description = "Operaciones relacionadas con entidad ArticuloManufacturado")
 public class ArticuloManufacturadoController extends
         BeanControllerImpl<ArticuloManufacturado,ArticuloManufacturadoService>{
-    
+
     @Autowired
     private ArticuloManufacturadoService articuloManufacturadoService;
-    
-    @Autowired
-    private ArticuloMapper articuloMapper;
-    
-     @Operation(summary = "Guardar una nuevo Manufacturado a partir de un DTO")
+
+    @Operation(summary = "Guardar una nuevo Manufacturado a partir de un DTO")
     @PostMapping("/crear")
     public ResponseEntity<?> saveFromDTO(@RequestBody ArticuloManufacturadoDTO dto) {
         try {
-            Long id = dto.getSucursalId();
-            ArticuloManufacturado savedManufacturado = 
-                    articuloManufacturadoService
-                            .crearManufacturado(articuloMapper.toEntity(dto),id);
+            ArticuloManufacturadoDTO savedManufacturado = articuloManufacturadoService.crearManufacturado(dto);
             return ResponseEntity.status(HttpStatus.OK).body(savedManufacturado);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body("{\"error\":\"Error al guardar la manufacturado.\"}");
+                    .body("{\"error\":\"Error al guardar manufacturado: " + e.getMessage() + "\", " +
+                            "\"causa\":\"" + (e.getCause() != null ? e.getCause().getMessage() : "No hay causa específica") + "\"}");
         }
     }
-   
 }

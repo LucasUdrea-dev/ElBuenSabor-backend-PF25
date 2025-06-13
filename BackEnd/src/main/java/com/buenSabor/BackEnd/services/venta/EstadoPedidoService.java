@@ -9,7 +9,7 @@ import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import lombok.Locked.Read;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

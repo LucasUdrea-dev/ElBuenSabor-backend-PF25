@@ -55,10 +55,10 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     private final UsuarioRepository usuarioRepository;
     private final ArticuloRepository articuloRepository;
     private final PromocionRepository promocionRepository;
-    private final DetallePedidoRepository detallePedidoRepository;
-    private final DetallePromocionRepository detallePromocionRepository;
+    //private final DetallePedidoRepository detallePedidoRepository;
+    //private final DetallePromocionRepository detallePromocionRepository;
     private final DireccionRepository direccionRepository;
-    private final DireccionPedidoRepository direccionPedidoRepository;
+    //private final DireccionPedidoRepository direccionPedidoRepository;
 
     private final PedidoMapper pedidoMapper;
     private final DetallePedidoMapper detallePedidoMapper;
@@ -77,10 +77,10 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             UsuarioRepository usuarioRepository,
             ArticuloRepository articuloRepository,
             PromocionRepository promocionRepository,
-            DetallePedidoRepository detallePedidoRepository,
-            DetallePromocionRepository detallePromocionRepository,
+            //DetallePedidoRepository detallePedidoRepository,
+            //DetallePromocionRepository detallePromocionRepository,
             DireccionRepository direccionRepository,
-            DireccionPedidoRepository direccionPedidoRepository,
+            //DireccionPedidoRepository direccionPedidoRepository,
             PedidoMapper pedidoMapper,
             DetallePedidoMapper detallePedidoMapper,
             DetallePromocionMapper detallePromocionMapper,
@@ -96,10 +96,10 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         this.usuarioRepository = usuarioRepository;
         this.articuloRepository = articuloRepository;
         this.promocionRepository = promocionRepository;
-        this.detallePedidoRepository = detallePedidoRepository;
-        this.detallePromocionRepository = detallePromocionRepository;
+        //this.detallePedidoRepository = detallePedidoRepository;
+        //this.detallePromocionRepository = detallePromocionRepository;
         this.direccionRepository = direccionRepository;
-        this.direccionPedidoRepository = direccionPedidoRepository;
+        //this.direccionPedidoRepository = direccionPedidoRepository;
         this.pedidoMapper = pedidoMapper;
         this.detallePedidoMapper = detallePedidoMapper;
         this.detallePromocionMapper = detallePromocionMapper;
@@ -172,7 +172,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             DireccionPedido direccionPedido = direccionPedidoMapper.toEntity(dto.getDireccion());
             direccionPedido.setDireccion(direccionDetails); // Set the saved Direccion entity
             direccionPedido.setPedido(pedido); // Link DireccionPedido to this Pedido entity
-            direccionPedidoRepository.save(direccionPedido); // Save the associative entity
+            //direccionPedidoRepository.save(direccionPedido); // Save the associative entity
 
             pedido.setDireccionPedido(direccionPedido); // Set the DireccionPedido on the main Pedido
         } else {
@@ -260,7 +260,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                 DireccionPedido newDireccionPedido = direccionPedidoMapper.toEntity(dto.getDireccion());
                 newDireccionPedido.setDireccion(direccionDetails);
                 newDireccionPedido.setPedido(existingPedido);
-                direccionPedidoRepository.save(newDireccionPedido);
+                //direccionPedidoRepository.save(newDireccionPedido);
 
                 existingPedido.setDireccionPedido(newDireccionPedido);
             } else {
@@ -274,7 +274,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
                 // Update the DireccionPedido (associative entity) if needed (e.g., if it has other fields)
                 direccionPedidoMapper.updateDireccionPedidoFromDto(dto.getDireccion(), currentDireccionPedido);
-                direccionPedidoRepository.save(currentDireccionPedido);
+                //direccionPedidoRepository.save(currentDireccionPedido);
             }
         } else {
             // Si el tipo de envío no requiere DireccionPedido
@@ -284,7 +284,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                 if (existingPedido.getDireccionPedido().getDireccion() != null) {
                     direccionRepository.delete(existingPedido.getDireccionPedido().getDireccion());
                 }
-                direccionPedidoRepository.delete(existingPedido.getDireccionPedido());
+                //direccionPedidoRepository.delete(existingPedido.getDireccionPedido());
                 existingPedido.setDireccionPedido(null);
             }
             if (dto.getDireccion() != null) {
@@ -293,7 +293,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         }
 
         // 4. Manejar DetallePedido (OneToMany) - Update logic
-        detallePedidoRepository.deleteAll(existingPedido.getDetallePedidoList());
+        //detallePedidoRepository.deleteAll(existingPedido.getDetallePedidoList());
         existingPedido.getDetallePedidoList().clear();
 
         if (dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty()) {
@@ -309,7 +309,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         }
 
         // 5. Manejar DetallePromocion (OneToMany) - Update logic
-        detallePromocionRepository.deleteAll(existingPedido.getDetallePromocionList());
+        //detallePromocionRepository.deleteAll(existingPedido.getDetallePromocionList());
         existingPedido.getDetallePromocionList().clear();
 
         if (dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty()) {

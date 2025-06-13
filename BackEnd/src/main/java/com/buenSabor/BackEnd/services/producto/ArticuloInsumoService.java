@@ -10,7 +10,6 @@ import com.buenSabor.BackEnd.mapper.ArticuloMapper;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.Subcategoria;
-import com.buenSabor.BackEnd.models.producto.Categoria;
 import com.buenSabor.BackEnd.models.producto.UnidadMedida;
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloInsumoRepository;
