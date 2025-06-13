@@ -40,7 +40,7 @@ public class Rol extends Bean {
     @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY)
         @JsonIgnore
     private List<Usuario> usuarioList = new ArrayList<>();
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER)
     
     private TipoRol tipoRol;
 
