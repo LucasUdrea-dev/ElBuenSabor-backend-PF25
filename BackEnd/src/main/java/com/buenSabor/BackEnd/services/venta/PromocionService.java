@@ -86,37 +86,39 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
 
     @Transactional
     public PromocionDTO crearPromocion(PromocionDTO dto) {
-        // 1. Fetch related entities (Sucursal, TipoPromocion) that must exist
+        dto.setId(null);
+
         Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
                 .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
 
         TipoPromocion tipoPromocion = tipoPromocionRepository.findById(dto.getTipoPromocion().getId())
                 .orElseThrow(() -> new RuntimeException("Tipo de Promoción con ID " + dto.getTipoPromocion().getId() + " no encontrado."));
 
-        // 2. Map the DTO to the main Promocion entity
         Promocion promocion = promocionMapper.toEntity(dto);
         promocion.setSucursal(sucursal);
         promocion.setTipoPromocion(tipoPromocion);
 
-        // 3. Handle nested PromocionArticulo entities
-        Set<PromocionArticulo> promocionArticulos = new HashSet<>();
+        // Inicializar lista vacía para relacionarla desde el lado dueño
+        List<PromocionArticulo> promocionArticulos = new ArrayList<>();
+
         if (dto.getArticulos() != null) {
             for (PromocionArticuloDTO paDto : dto.getArticulos()) {
                 Articulo articulo = articuloRepository.findById(paDto.getArticulo().getId())
                         .orElseThrow(() -> new RuntimeException("Artículo con ID " + paDto.getArticulo().getId() + " no encontrado."));
 
-                PromocionArticulo promocionArticulo = promocionArticuloMapper.toEntity(paDto);
+                PromocionArticulo promocionArticulo = new PromocionArticulo();
+                promocionArticulo.setId(null); // Muy importante
+                promocionArticulo.setCantidad(paDto.getCantidad());
                 promocionArticulo.setIdArticulo(articulo);
-                promocionArticulo.setIdPromocion(promocion); // Associate with the current promotion
+                promocionArticulo.setIdPromocion(promocion); // dueño de la relación
+
                 promocionArticulos.add(promocionArticulo);
             }
         }
-        promocion.setPromocionArticuloList(new ArrayList<>(promocionArticulos));
 
-        // 4. Save the main Promocion entity (Cascading will save PromocionArticulo entities)
+        promocion.setPromocionArticuloList(promocionArticulos);
+
         Promocion savedPromocion = promocionRepository.save(promocion);
-
-        // 5. Convert the saved entity back to DTO for response
         return promocionMapper.toDto(savedPromocion);
     }
 
@@ -214,7 +216,6 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         List<Promocion> promociones = promocionRepository.findByExisteTrue();
         return promocionMapper.toDtoList(promociones);
     }
-
 
     @Transactional
     public List<PromocionLiteDTO> findPromocionesExistentesLiteBySucursal(Long sucursalId) {
