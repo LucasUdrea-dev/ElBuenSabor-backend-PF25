@@ -85,4 +85,28 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
         }
     }
 
+    @Operation(summary = "Obtener insumos filtrados por subcategoria")
+    @GetMapping("/subcategoria")
+    public ResponseEntity<?> getInsumosBySubcategoria(@PathVariable Long idSubcategoria) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(articuloInsumoService.buscarPorSubcategoria(idSubcategoria));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"Error al obtener insumos filtrados por subcategorias.\"}");
+        }
+    }
+
+    @Operation(summary = "Obtener insumos filtrados por nombre")
+    @GetMapping("/nombre")
+    public ResponseEntity<?> getInsumosByNombre(@RequestParam("nombre") String nombre) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(articuloInsumoService.buscarPorNombre(nombre));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"Error al obtener insumos filtrados por nombre.\"}");
+        }
+    }
+
 }

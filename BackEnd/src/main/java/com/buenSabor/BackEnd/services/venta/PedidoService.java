@@ -5,6 +5,7 @@ import com.buenSabor.BackEnd.dto.venta.detallepedido.DetallePedidoDTO;
 import com.buenSabor.BackEnd.dto.venta.detallepromocion.DetallePromocionDTO;
 import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
 
+
 import com.buenSabor.BackEnd.enums.TypeDelivery;
 import com.buenSabor.BackEnd.mapper.PedidoMapper;
 import com.buenSabor.BackEnd.mapper.DetallePedidoMapper;
@@ -130,23 +131,24 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
     @Transactional
     public PedidoConDireccionDTO crearPedido(PedidoConDireccionDTO dto) throws Exception {
-        // 1. Obtener entidades existentes desde la base de datos
+        // 1. Obtener y establecer relaciones ManyToOne (entidades existentes)
         EstadoPedido estadoPedido = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
                 .orElseThrow(() -> new RuntimeException("Estado de Pedido con ID " + dto.getEstadoPedido().getId() + " no encontrado."));
-
         Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
                 .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
-
         TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
                 .orElseThrow(() -> new RuntimeException("Tipo de Envío con ID " + dto.getTipoEnvio().getId() + " no encontrado."));
-
         TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
                 .orElseThrow(() -> new RuntimeException("Tipo de Pago con ID " + dto.getTipoPago().getId() + " no encontrado."));
-
         Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
                 .orElseThrow(() -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
 
-        // 2. Mapear el DTO a la entidad Pedido
+        // Validar que el tipo de envío del DTO coincida con el de la base de datos
+        if (!tipoEnvio.getTipoDelivery().equals(dto.getTipoEnvio().getTipoDelivery())) {
+            throw new RuntimeException("El tipo de envío proporcionado en el DTO no coincide con el tipo de envío en la base de datos.");
+        }
+
+        // 2. Mapear los campos básicos del PedidoConDireccionDTO a la entidad Pedido
         Pedido pedido = pedidoMapper.toEntity(dto);
         pedido.setEstadoPedido(estadoPedido);
         pedido.setSucursal(sucursal);
@@ -154,58 +156,66 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         pedido.setTipoPago(tipoPago);
         pedido.setUsuario(usuario);
 
-        // 3. Procesar DirecciónPedido (si aplica)
+        // Inicializar listas para evitar NullPointerExceptions
+        pedido.setDetallePedidoList(new ArrayList<>());
+        pedido.setDetallePromocionList(new ArrayList<>());
+
+        // 3. Manejar DireccionPedido (condicionalmente)
         if (tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY) {
             if (dto.getDireccion() == null || dto.getDireccion().getDireccion() == null) {
-                throw new RuntimeException("Para el tipo de envío " + tipoEnvio.getTipoDelivery() + ", se requiere una Dirección de Pedido.");
+                throw new RuntimeException("Para el tipo de envío " + tipoEnvio.getTipoDelivery() + ", se requiere una Dirección de Pedido completa.");
             }
 
-            Direccion direccion = direccionMapper.toEntity(dto.getDireccion().getDireccion());
-            direccionRepository.save(direccion); // Guardar dirección embebida
+            // Map DireccionDTO nested inside DireccionPedidoDTO to Direccion entity
+            Direccion direccionDetails = direccionMapper.toEntity(dto.getDireccion().getDireccion());
+            direccionRepository.save(direccionDetails); // Save the actual address details first
 
+            // Create the DireccionPedido entity, which now just wraps the Direccion
             DireccionPedido direccionPedido = direccionPedidoMapper.toEntity(dto.getDireccion());
-            direccionPedido.setDireccion(direccion);
-            direccionPedido.setPedido(pedido);
-            pedido.setDireccionPedido(direccionPedido);
+            direccionPedido.setDireccion(direccionDetails); // Set the saved Direccion entity
+            direccionPedido.setPedido(pedido); // Link DireccionPedido to this Pedido entity
+            //direccionPedidoRepository.save(direccionPedido); // Save the associative entity
+
+            pedido.setDireccionPedido(direccionPedido); // Set the DireccionPedido on the main Pedido
         } else {
+            // If the delivery type does not require a shipping address, ensure none is provided
+            if (dto.getDireccion() != null) {
+                logger.warn("Se recibió una DireccionPedidoDTO para un Tipo de Envío (" + tipoEnvio.getTipoDelivery() + ") que no la requiere. Será ignorada.");
+            }
             pedido.setDireccionPedido(null);
         }
 
-        // 4. Procesar lista de DetallePedido
-        List<DetallePedido> detallesPedido = new ArrayList<>();
-        if (dto.getDetallePedidoList() != null) {
-            for (DetallePedidoDTO detalleDTO : dto.getDetallePedidoList()) {
-                Articulo articulo = articuloRepository.findById(detalleDTO.getArticulo().getId())
-                        .orElseThrow(() -> new RuntimeException("Artículo con ID " + detalleDTO.getArticulo().getId() + " no encontrado."));
+        // 4. Guardar la entidad Pedido primero para obtener su ID
+        Pedido savedPedido = pedidoRepository.save(pedido);
 
-                DetallePedido detalle = detallePedidoMapper.toEntity(detalleDTO);
-                detalle.setArticulo(articulo);
-                detalle.setPedido(pedido);
-                detallesPedido.add(detalle);
+        // 5. Manejar DetallePedido (OneToMany)
+        if (dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty()) {
+            for (DetallePedidoDTO detalleDto : dto.getDetallePedidoList()) {
+                Articulo articulo = articuloRepository.findById(detalleDto.getArticulo().getId())
+                        .orElseThrow(() -> new RuntimeException("Artículo con ID " + detalleDto.getArticulo().getId() + " no encontrado para DetallePedido."));
+
+                DetallePedido detallePedido = detallePedidoMapper.toEntity(detalleDto);
+                detallePedido.setPedido(savedPedido);
+                detallePedido.setArticulo(articulo);
+                savedPedido.getDetallePedidoList().add(detallePedido);
             }
         }
-        pedido.setDetallePedidoList(detallesPedido);
 
-        // 5. Procesar lista de DetallePromocion
-        List<DetallePromocion> detallesPromocion = new ArrayList<>();
-        if (dto.getDetallePromocionList() != null) {
-            for (DetallePromocionDTO detalleDTO : dto.getDetallePromocionList()) {
-                Promocion promocion = promocionRepository.findById(detalleDTO.getPromocion().getId())
-                        .orElseThrow(() -> new RuntimeException("Promoción con ID " + detalleDTO.getPromocion().getId() + " no encontrada."));
+        // 6. Manejar DetallePromocion (OneToMany)
+        if (dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty()) {
+            for (DetallePromocionDTO detalleDto : dto.getDetallePromocionList()) {
+                Promocion promocion = promocionRepository.findById(detalleDto.getPromocion().getId())
+                        .orElseThrow(() -> new RuntimeException("Promoción con ID " + detalleDto.getPromocion().getId() + " no encontrada para DetallePromocion."));
 
-                DetallePromocion detalle = detallePromocionMapper.toEntity(detalleDTO);
-                detalle.setPromocion(promocion);
-                detalle.setPedido(pedido);
-                detallesPromocion.add(detalle);
+                DetallePromocion detallePromocion = detallePromocionMapper.toEntity(detalleDto);
+                detallePromocion.setPedido(savedPedido);
+                detallePromocion.setPromocion(promocion);
+                savedPedido.getDetallePromocionList().add(detallePromocion);
             }
         }
-        pedido.setDetallePromocionList(detallesPromocion);
 
-        // 6. Guardar el pedido completo
-        Pedido pedidoGuardado = pedidoRepository.save(pedido);
-
-        // 7. Retornar el DTO
-        return pedidoMapper.toPedidoConDireccionDto(pedidoGuardado);
+        // Re-save the parent to ensure cascades or any updates based on children are flushed
+        return pedidoMapper.toPedidoConDireccionDto(pedidoRepository.save(savedPedido));
     }
 
     @Transactional
@@ -342,6 +352,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             throw new RuntimeException("Error al eliminar el pedido con ID " + id + ": " + e.getMessage(), e);
         }
     }
+<<<<<<< Updated upstream
 
     public List<PedidoConDireccionDTO> findAllExistentes() {
         List<Pedido> pedidos = pedidoRepository.findAllByExisteTrue();
@@ -371,3 +382,6 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         }
     }
 }
+=======
+}
+>>>>>>> Stashed changes

@@ -4,9 +4,12 @@
  */
 package com.buenSabor.BackEnd.repositories.producto;
 
+import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  *
@@ -14,5 +17,13 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ArticuloManufacturadoRepository extends BeanRepository<ArticuloManufacturado,Long>{
-    
+    // Buscar insumos por nombre
+    List<ArticuloManufacturado> findByNombreContainingIgnoreCase(String nombre);
+
+    // Buscar por subcategoría
+    List<ArticuloManufacturado> findBySubcategoria_Id(Long subcategoriaId);
+
+    // Filtrar insumos que están disponibles
+    List<ArticuloManufacturado> findByExisteTrue();
+
 }

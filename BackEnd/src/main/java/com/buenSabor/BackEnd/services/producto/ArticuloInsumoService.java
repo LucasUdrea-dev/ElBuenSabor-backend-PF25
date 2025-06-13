@@ -77,6 +77,7 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             Long sucId = dto.getStockArticuloInsumo().getSucursalId();
             Sucursal sucManaged = sucursalRepository.getById(sucId);
             stock.setSucursal(sucManaged);
+            stock.setArticuloInsumo(insumo);
             insumo.setStockArticuloInsumo(stock);
 
             return articuloInsumoRepository.save(insumo);
