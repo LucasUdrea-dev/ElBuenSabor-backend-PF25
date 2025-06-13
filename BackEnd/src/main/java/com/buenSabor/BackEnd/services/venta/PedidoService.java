@@ -352,7 +352,6 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             throw new RuntimeException("Error al eliminar el pedido con ID " + id + ": " + e.getMessage(), e);
         }
     }
-<<<<<<< Updated upstream
 
     public List<PedidoConDireccionDTO> findAllExistentes() {
         List<Pedido> pedidos = pedidoRepository.findAllByExisteTrue();
@@ -382,6 +381,6 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         }
     }
 }
-=======
-}
->>>>>>> Stashed changes
+
+
+

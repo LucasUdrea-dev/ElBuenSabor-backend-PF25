@@ -56,7 +56,7 @@ public class ArticuloManufacturadoController extends
             return ResponseEntity.ok(updatedDTO);
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"Error al guardar manufacturado: " + e.getMessage() + "\", " +
+                    .body("{\"error\":\"Error al actualizar manufacturado: " + e.getMessage() + "\", " +
                             "\"causa\":\"" + (e.getCause() != null ? e.getCause().getMessage() : "No hay causa específica") + "\"}");
         }
     }

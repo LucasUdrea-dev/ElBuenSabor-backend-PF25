@@ -8,11 +8,19 @@ import com.buenSabor.BackEnd.models.producto.Categoria;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  *
  * @author oscarloha
  */
 @Repository
 public interface CategoriaRepository extends BeanRepository<Categoria,Long>{
-    
+    //List<Categoria> findCategoriaByDenominacionContainingIgnoreCase(String denominacion);
+    List<Categoria> findByDenominacionContainingIgnoreCase(String nombre);
+    //Filtra si es categoria para elaborar
+    List<Categoria> findCategoriaByEsParaElaborarTrue();
+    //Busca si categoria existe
+    //List<Categoria> findByExisteTrue();
+
 }
