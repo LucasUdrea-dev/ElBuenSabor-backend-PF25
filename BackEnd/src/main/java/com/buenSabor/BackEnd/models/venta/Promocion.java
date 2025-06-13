@@ -56,10 +56,10 @@ public class Promocion extends Bean {
     @ManyToOne(fetch = FetchType.EAGER)
     private TipoPromocion TipoPromocion;
     
-    @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PromocionArticulo> promocionArticuloList;
     
-    @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "promocion", fetch = FetchType.LAZY)
         @JsonIgnore
     private List<DetallePromocion> detallePromocionList = new ArrayList<>();
 
