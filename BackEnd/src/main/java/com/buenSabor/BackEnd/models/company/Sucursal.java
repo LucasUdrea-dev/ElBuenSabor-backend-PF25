@@ -11,6 +11,8 @@ import com.buenSabor.BackEnd.models.venta.Promocion;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.models.user.Empleado;
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -66,13 +68,13 @@ public class Sucursal extends Bean {
     @JsonIgnore
     private List<Pedido> pedidoList;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Direccion direccion;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Empresa empresa;
 
-    @OneToMany(mappedBy = "sucursalId", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Promocion> promocionList;
 

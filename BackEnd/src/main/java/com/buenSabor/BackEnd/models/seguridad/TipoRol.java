@@ -5,6 +5,7 @@
 package com.buenSabor.BackEnd.models.seguridad;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.enums.TypeRol;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +33,9 @@ public class TipoRol extends Bean {
     @Enumerated(EnumType.STRING)
     @Column(name = "nombre_rol")
     private TypeRol rol;
+    
     @OneToMany(mappedBy = "tipoRol", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Rol> rolList;
 
     

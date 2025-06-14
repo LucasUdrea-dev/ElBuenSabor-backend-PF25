@@ -5,6 +5,8 @@
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,7 +23,7 @@ import lombok.Setter;
  * @author oscarloha
  */
 @Entity
-@Table(name = "Detalle_Pedido")
+@Table(name = "Detalle_Promocion")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,6 +33,7 @@ public class DetallePromocion extends Bean{
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pedido_id")
+    @JsonIgnore
     private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.EAGER)

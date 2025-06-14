@@ -39,6 +39,9 @@ public class Promocion extends Bean {
     private String descripcion;
     @Column(name = "precio_rebajado")
     private Double precioRebajado;
+    
+    private String imagen;
+
     @Column(name = "existe")
     private Boolean existe;
     
@@ -53,7 +56,7 @@ public class Promocion extends Bean {
     @ManyToOne(fetch = FetchType.EAGER)
     private TipoPromocion tipoPromocion;
     
-    @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PromocionArticulo> promocionArticuloList;
     
     @OneToMany(mappedBy = "promocion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -30,7 +30,7 @@ public class Telefono extends Bean {
 
 
     @Column(name = "numero")
-    private BigInteger numero;
+    private Long numero;
 
     @ManyToOne( fetch = FetchType.EAGER)
     @JsonIgnore

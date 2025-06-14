@@ -10,6 +10,8 @@ import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.buenSabor.BackEnd.models.seguridad.Rol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -50,22 +52,23 @@ public class Usuario extends Bean {
     protected Boolean existe;
     protected String imagenUsuario;
     
-    @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List<Telefono> telefonoList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_rol", referencedColumnName = "id")
     protected Rol rol;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "Usuario_Direccion",
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_direccion"))
     protected List<Direccion> direccionList;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_userAuth")
+    @JsonIgnore
     protected UserAuthentication userAuthentication;
 
 
