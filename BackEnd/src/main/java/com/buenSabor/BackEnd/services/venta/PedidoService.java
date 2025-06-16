@@ -9,6 +9,8 @@ import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,5 +90,16 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         }
 
     }
-
+    
+    @Transactional
+    public List<Pedido> obtenerPedidoPorUsuario(Long id) throws Exception{
+        try {
+            return pedidoRepository.findByUsuario_Id(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception();
+        }
+    }
+    
 }
+

@@ -372,9 +372,9 @@ DROP TABLE IF EXISTS `estado_pedido`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `estado_pedido` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `nombre_estado` enum('CANCELLED','DELIVERED','INCOMING','PREPARING','REJECTED','STANDBY') DEFAULT NULL,
+  `nombre_estado` enum('CANCELLED','DELIVERED','INCOMING','PREPARING','REJECTED','STANDBY','READY') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -383,7 +383,7 @@ CREATE TABLE `estado_pedido` (
 
 LOCK TABLES `estado_pedido` WRITE;
 /*!40000 ALTER TABLE `estado_pedido` DISABLE KEYS */;
-INSERT INTO `estado_pedido` VALUES (1,'PREPARING'),(2,'STANDBY'),(3,'CANCELLED'),(4,'REJECTED'),(5,'INCOMING'),(6,'DELIVERED');
+INSERT INTO `estado_pedido` VALUES (1,'PREPARING'),(2,'STANDBY'),(3,'CANCELLED'),(4,'REJECTED'),(5,'INCOMING'),(6,'DELIVERED'),(7,'READY');
 /*!40000 ALTER TABLE `estado_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1056,4 +1056,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-13  4:47:12
+-- Dump completed on 2025-06-16  0:13:31

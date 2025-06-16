@@ -6,7 +6,14 @@ package com.buenSabor.BackEnd.services.ubicacion;
 
 import com.buenSabor.BackEnd.models.ubicacion.Ciudad;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
+import com.buenSabor.BackEnd.repositories.ubicacion.CiudadRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
+
+import jakarta.transaction.Transactional;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,4 +28,17 @@ public class CiudadService extends BeanServiceImpl<Ciudad,Long>{
         super(beanRepository);
     }
     
+    @Autowired
+    private CiudadRepository ciudadRepository;
+
+    @Transactional
+    public List<Ciudad> obtenerCiudadPorProvincia(Long provinciaId) throws Exception{
+        try {
+            return ciudadRepository.findByProvincia_Id(provinciaId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception();
+        }
+    }
+
 }

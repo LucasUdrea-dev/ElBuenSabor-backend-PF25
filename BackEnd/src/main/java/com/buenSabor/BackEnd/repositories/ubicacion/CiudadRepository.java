@@ -6,6 +6,9 @@ package com.buenSabor.BackEnd.repositories.ubicacion;
 
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.models.ubicacion.Ciudad;
+
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,5 +17,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CiudadRepository extends BeanRepository<Ciudad,Long>{
-    
+    List<Ciudad> findByProvincia_Id(Long provinciaId);
 }
