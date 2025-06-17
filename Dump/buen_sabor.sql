@@ -149,7 +149,7 @@ CREATE TABLE `categoria` (
   `imagen` varchar(255) DEFAULT NULL,
   `es_para_elaborar` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,7 +158,7 @@ CREATE TABLE `categoria` (
 
 LOCK TABLES `categoria` WRITE;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-INSERT INTO `categoria` VALUES (1,'Rapida','categoriaPizza.jpg',_binary '\0'),(2,'Bebidas','categoriaBebidas.jpg',_binary '\0');
+INSERT INTO `categoria` VALUES (1,'Rapida','categoriaPizza.jpg',_binary '\0'),(2,'Bebidas','categoriaBebidas.jpg',_binary '\0'),(4,'Ingredientes','Gemini_Generated_Image_52mcnw52mcnw52mc.jpg',_binary '');
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -777,7 +777,7 @@ CREATE TABLE `subcategoria` (
 
 LOCK TABLES `subcategoria` WRITE;
 /*!40000 ALTER TABLE `subcategoria` DISABLE KEYS */;
-INSERT INTO `subcategoria` VALUES (1,'Hamburguesas',1),(2,'Bebidas',2),(3,'Ingredientes',1);
+INSERT INTO `subcategoria` VALUES (1,'Hamburguesas',1),(2,'Gaseosas',2),(3,'Ingredientes',4);
 /*!40000 ALTER TABLE `subcategoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1056,4 +1056,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-16  0:13:31
+-- Dump completed on 2025-06-17  3:02:48
