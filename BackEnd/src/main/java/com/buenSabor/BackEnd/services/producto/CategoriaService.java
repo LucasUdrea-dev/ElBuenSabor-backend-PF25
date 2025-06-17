@@ -78,6 +78,7 @@ public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
             throw new Exception("Error al buscar por nombre: " + e.getMessage());
         }
     }
+
     public List<Categoria> getByEsParaElaborar() throws Exception {
         try {
             return categoriaRepository.findCategoriaByEsParaElaborarTrue();

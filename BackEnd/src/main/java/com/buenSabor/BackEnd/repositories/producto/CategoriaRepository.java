@@ -16,10 +16,12 @@ import java.util.List;
  */
 @Repository
 public interface CategoriaRepository extends BeanRepository<Categoria,Long>{
-    //List<Categoria> findCategoriaByDenominacionContainingIgnoreCase(String denominacion);
+
     List<Categoria> findByDenominacionContainingIgnoreCase(String nombre);
+
     //Filtra si es categoria para elaborar
     List<Categoria> findCategoriaByEsParaElaborarTrue();
+
     //Busca si categoria existe
     //List<Categoria> findByExisteTrue();
 
