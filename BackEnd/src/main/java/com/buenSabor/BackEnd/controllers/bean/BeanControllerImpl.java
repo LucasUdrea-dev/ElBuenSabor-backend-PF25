@@ -24,7 +24,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}" + e.getMessage());
         }
     }
 
@@ -34,7 +34,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.findById(id));
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}" + e.getMessage());
         }
     }
 
@@ -44,7 +44,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.save(entity));
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}" + e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}" + e.getMessage());
         }
     }
 
@@ -54,7 +54,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.update(id, entity));
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}" + e.getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         try {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(service.delete(id));
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}" + e.getMessage());
         }
     }
 
@@ -74,7 +74,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
         } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}" + e.getMessage());
         }
     }
 }

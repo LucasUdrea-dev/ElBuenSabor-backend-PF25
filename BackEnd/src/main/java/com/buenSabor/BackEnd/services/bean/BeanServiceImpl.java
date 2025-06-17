@@ -24,6 +24,7 @@ public abstract class BeanServiceImpl<E extends Bean, ID extends Serializable> i
             List<E> entities = beanRepository.findAll();
             return entities;
         }catch (Exception e){
+            e.printStackTrace();
             throw new Exception(e.getMessage());
         }
     }
@@ -37,6 +38,7 @@ public abstract class BeanServiceImpl<E extends Bean, ID extends Serializable> i
             //Obtiene una entidad si es que la encuentra
             return entityOptional.get();
         }catch (Exception e){
+            e.printStackTrace();
             throw  new Exception(e.getMessage());
         }
     }
@@ -48,6 +50,7 @@ public abstract class BeanServiceImpl<E extends Bean, ID extends Serializable> i
             entity = beanRepository.save(entity);
             return entity;
         }catch (Exception e){
+            e.printStackTrace();
             throw  new Exception(e.getMessage());
         }
     }
@@ -62,6 +65,7 @@ public abstract class BeanServiceImpl<E extends Bean, ID extends Serializable> i
             ent =beanRepository.save(entity);
             return ent;
         }catch (Exception e){
+            e.printStackTrace();
             throw  new Exception(e.getMessage());
         }
     }
@@ -77,6 +81,7 @@ public abstract class BeanServiceImpl<E extends Bean, ID extends Serializable> i
                 throw  new Exception();
             }
         }catch (Exception e){
+            e.printStackTrace();
             throw  new Exception(e.getMessage());
         }
     }
@@ -89,6 +94,7 @@ public abstract class BeanServiceImpl<E extends Bean, ID extends Serializable> i
             Page<E> entities = beanRepository.findAll(pageable);
             return entities;
         }catch (Exception e){
+            e.printStackTrace();
             throw new Exception(e.getMessage());
         }
     }
