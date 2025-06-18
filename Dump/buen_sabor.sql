@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `buen_sabor` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `buen_sabor` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `buen_sabor`;
 -- MySQL dump 10.13  Distrib 8.0.38, for Win64 (x86_64)
 --
@@ -39,7 +39,7 @@ CREATE TABLE `articulo` (
   KEY `FKlf2hbqm1r4qx36lkr0b4mix6b` (`unidad_medida_id`),
   CONSTRAINT `FKlf2hbqm1r4qx36lkr0b4mix6b` FOREIGN KEY (`unidad_medida_id`) REFERENCES `unidad_medida` (`id`),
   CONSTRAINT `FKqx0exg6w1pcvj75x54snk0nj4` FOREIGN KEY (`subcategoria_id`) REFERENCES `subcategoria` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -64,7 +64,7 @@ CREATE TABLE `articulo_insumo` (
   `id` bigint NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FK5yoloai8ewly5lkbi3wl5904y` FOREIGN KEY (`id`) REFERENCES `articulo` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,7 @@ CREATE TABLE `articulo_manufacturado` (
   KEY `FKq0sulc6jjw51efw0g1yf9cvs2` (`sucursal_id`),
   CONSTRAINT `FK9t82oibyduo62wci8y6gfpllx` FOREIGN KEY (`id`) REFERENCES `articulo` (`id`),
   CONSTRAINT `FKq0sulc6jjw51efw0g1yf9cvs2` FOREIGN KEY (`sucursal_id`) REFERENCES `sucursal` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +123,7 @@ CREATE TABLE `articulo_manufacturado_detalle_insumo` (
   KEY `FK9o8tdc70urx95p1gs1a63uld4` (`id_articulo_manufacturado`),
   CONSTRAINT `FK9o8tdc70urx95p1gs1a63uld4` FOREIGN KEY (`id_articulo_manufacturado`) REFERENCES `articulo_manufacturado` (`id`),
   CONSTRAINT `FKm9fxklpbn2itftdj349wkblpl` FOREIGN KEY (`id_articulo_insumo`) REFERENCES `articulo_insumo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ CREATE TABLE `categoria` (
   `imagen` varchar(255) DEFAULT NULL,
   `es_para_elaborar` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `ciudad` (
   PRIMARY KEY (`id`),
   KEY `FK8pvpi9wl4uebdop190wbj3jyp` (`provincia_id`),
   CONSTRAINT `FK8pvpi9wl4uebdop190wbj3jyp` FOREIGN KEY (`provincia_id`) REFERENCES `provincia` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +206,7 @@ CREATE TABLE `detalle_pedido` (
   KEY `FK7n9hdifr08joboojejveby1vr` (`id_pedido`),
   CONSTRAINT `FK7n9hdifr08joboojejveby1vr` FOREIGN KEY (`id_pedido`) REFERENCES `pedido` (`id`),
   CONSTRAINT `FKmmgw1ju1dfci3scs40te1y4bi` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +236,7 @@ CREATE TABLE `detalle_promocion` (
   KEY `FKc7mv7i24hoyl49rof6yq8dhsj` (`promocion_id`),
   CONSTRAINT `FKc7mv7i24hoyl49rof6yq8dhsj` FOREIGN KEY (`promocion_id`) REFERENCES `promocion` (`id`),
   CONSTRAINT `FKein7mr5sjxan16l9k5tfdyhie` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,7 +268,7 @@ CREATE TABLE `direccion` (
   PRIMARY KEY (`id`),
   KEY `FKghplm1o00tae0g7535s2jexa8` (`id_ciudad`),
   CONSTRAINT `FKghplm1o00tae0g7535s2jexa8` FOREIGN KEY (`id_ciudad`) REFERENCES `ciudad` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +297,7 @@ CREATE TABLE `direccion_pedido` (
   KEY `FKe2dr72ar954n0ykvgkc8gld5j` (`id_direccion`),
   CONSTRAINT `FKe2dr72ar954n0ykvgkc8gld5j` FOREIGN KEY (`id_direccion`) REFERENCES `direccion` (`id`),
   CONSTRAINT `FKi04ryieno87fpfx09rwtviegc` FOREIGN KEY (`id_pedido`) REFERENCES `pedido` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -325,7 +325,7 @@ CREATE TABLE `empleado` (
   KEY `FK5lshn105gw8o1gcw78wysko3u` (`id_sucursal`),
   CONSTRAINT `FK21ddfrduanruae8nw4y1gbfw` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`),
   CONSTRAINT `FK5lshn105gw8o1gcw78wysko3u` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,7 +350,7 @@ CREATE TABLE `empresa` (
   `nombre` varchar(255) DEFAULT NULL,
   `razon_social` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,7 +374,7 @@ CREATE TABLE `estado_pedido` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nombre_estado` enum('CANCELLED','DELIVERED','INCOMING','PREPARING','REJECTED','STANDBY','READY') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +402,7 @@ CREATE TABLE `historico_precio_costo_articulo_insumo` (
   PRIMARY KEY (`id`),
   KEY `FKfikd1rprk6iw3b946cmjhw992` (`id_articulo_insumo`),
   CONSTRAINT `FKfikd1rprk6iw3b946cmjhw992` FOREIGN KEY (`id_articulo_insumo`) REFERENCES `articulo_insumo` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,7 +429,7 @@ CREATE TABLE `historico_precio_venta_articulo` (
   PRIMARY KEY (`id`),
   KEY `FKc4i89a6hnlpq2mhfeg6xw1w5k` (`id_articulo`),
   CONSTRAINT `FKc4i89a6hnlpq2mhfeg6xw1w5k` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -456,7 +456,7 @@ CREATE TABLE `historico_stock_articulo_insumo` (
   PRIMARY KEY (`id`),
   KEY `FK5ya2qw6ebfpg6mulswt01r8ys` (`id_stock_articulo_insumo`),
   CONSTRAINT `FK5ya2qw6ebfpg6mulswt01r8ys` FOREIGN KEY (`id_stock_articulo_insumo`) REFERENCES `stock_articulo_insumo` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -484,7 +484,7 @@ CREATE TABLE `mercado_pago` (
   PRIMARY KEY (`id`),
   KEY `FKmibxllnei07l0cq4n8rhop26w` (`tipo_pago_id`),
   CONSTRAINT `FKmibxllnei07l0cq4n8rhop26w` FOREIGN KEY (`tipo_pago_id`) REFERENCES `tipo_pago` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -507,7 +507,7 @@ CREATE TABLE `pais` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -548,7 +548,7 @@ CREATE TABLE `pedido` (
   CONSTRAINT `FKnehsi9fw9h4l4go0hpywfos3h` FOREIGN KEY (`id_tipo_pago`) REFERENCES `tipo_pago` (`id`),
   CONSTRAINT `FKpwts0xmsajvn0pjcukb14hpih` FOREIGN KEY (`id_estado_pedido`) REFERENCES `estado_pedido` (`id`),
   CONSTRAINT `FKqcehlhy9unki4432xwv6q1ui` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -582,7 +582,7 @@ CREATE TABLE `promocion` (
   KEY `FKaulen6od3ay1qnp7smhlxwr41` (`sucursal_id`),
   CONSTRAINT `FKaulen6od3ay1qnp7smhlxwr41` FOREIGN KEY (`sucursal_id`) REFERENCES `sucursal` (`id`),
   CONSTRAINT `FKl9rh665bbmqohkvkhmbpveofh` FOREIGN KEY (`id_tipo_promocion`) REFERENCES `tipo_promocion` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -612,7 +612,7 @@ CREATE TABLE `promocion_articulo` (
   KEY `FKjwmjq15gq1b3ft75sbq2ointf` (`id_promocion`),
   CONSTRAINT `FK4y7ryw28mhcsv4l5yfom1vacc` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id`),
   CONSTRAINT `FKjwmjq15gq1b3ft75sbq2ointf` FOREIGN KEY (`id_promocion`) REFERENCES `promocion` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -639,7 +639,7 @@ CREATE TABLE `provincia` (
   PRIMARY KEY (`id`),
   KEY `FKm4s599988w0v1q1nw6dyo5t2m` (`pais_id`),
   CONSTRAINT `FKm4s599988w0v1q1nw6dyo5t2m` FOREIGN KEY (`pais_id`) REFERENCES `pais` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -663,7 +663,7 @@ CREATE TABLE `revision_info` (
   `id` bigint NOT NULL,
   `revision_date` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -689,7 +689,7 @@ CREATE TABLE `rol` (
   PRIMARY KEY (`id`),
   KEY `FKq30vjy293hs1xwh58j1xk11f6` (`tipo_rol_id`),
   CONSTRAINT `FKq30vjy293hs1xwh58j1xk11f6` FOREIGN KEY (`tipo_rol_id`) REFERENCES `tipo_rol` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -711,7 +711,7 @@ DROP TABLE IF EXISTS `seq_revision_id`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `seq_revision_id` (
   `next_val` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -742,7 +742,7 @@ CREATE TABLE `stock_articulo_insumo` (
   KEY `FKq5f29058r2ggd91ouu4j9ru0m` (`id_sucursal`),
   CONSTRAINT `FK5j6tvq49t9gu42bys3w7vflk5` FOREIGN KEY (`id_articulo_insumo`) REFERENCES `articulo_insumo` (`id`),
   CONSTRAINT `FKq5f29058r2ggd91ouu4j9ru0m` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -768,7 +768,7 @@ CREATE TABLE `subcategoria` (
   PRIMARY KEY (`id`),
   KEY `FK5n9f7pm966nyw6mue7994u3bl` (`id_categoria`),
   CONSTRAINT `FK5n9f7pm966nyw6mue7994u3bl` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -801,7 +801,7 @@ CREATE TABLE `sucursal` (
   KEY `FK3w56rbjykxbp2e79cdq0xsghd` (`empresa_id`),
   CONSTRAINT `FK3w56rbjykxbp2e79cdq0xsghd` FOREIGN KEY (`empresa_id`) REFERENCES `empresa` (`id`),
   CONSTRAINT `FKk4e07r5ywhsi8klk9la7u00mw` FOREIGN KEY (`direccion_id`) REFERENCES `direccion` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -828,7 +828,7 @@ CREATE TABLE `telefono` (
   PRIMARY KEY (`id`),
   KEY `FKpi2c7iq0lw09d1ovc7bn86f85` (`usuario_id`),
   CONSTRAINT `FKpi2c7iq0lw09d1ovc7bn86f85` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -852,7 +852,7 @@ CREATE TABLE `tipo_envio` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nombre_envio` enum('DELIVERY','TAKEAWAY') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -876,7 +876,7 @@ CREATE TABLE `tipo_pago` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nombre_pago` enum('CASH','MERCADOPAGO') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -900,7 +900,7 @@ CREATE TABLE `tipo_promocion` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `tipo` enum('BIRTHDAY','FEST','HAPPYHOUR','NORMAL','WORKER') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -924,7 +924,7 @@ CREATE TABLE `tipo_rol` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `nombre_rol` enum('ADMIN','ADMINAREA','CUSTOMER','EMPLOYEE') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -948,7 +948,7 @@ CREATE TABLE `unidad_medida` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `unidad` enum('gr','ml','unidad') DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -973,7 +973,7 @@ CREATE TABLE `user_authentication` (
   `password` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1007,7 +1007,7 @@ CREATE TABLE `usuario` (
   KEY `FKmyv3138vvci6kaq3y5kt4cntu` (`id_rol`),
   CONSTRAINT `FKbbg6v1ugiutw86qvyihganbsx` FOREIGN KEY (`id_user_auth`) REFERENCES `user_authentication` (`id`),
   CONSTRAINT `FKmyv3138vvci6kaq3y5kt4cntu` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1034,7 +1034,7 @@ CREATE TABLE `usuario_direccion` (
   KEY `FKi86s0htd0xa3rda9vp7xp8pxc` (`id_usuario`),
   CONSTRAINT `FKh84fo3kgjmb0sw1jnvtxr0j16` FOREIGN KEY (`id_direccion`) REFERENCES `direccion` (`id`),
   CONSTRAINT `FKi86s0htd0xa3rda9vp7xp8pxc` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
