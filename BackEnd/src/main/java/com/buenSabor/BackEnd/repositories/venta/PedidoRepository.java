@@ -8,6 +8,7 @@ import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PedidoRepository extends BeanRepository<Pedido,Long>{
-    List<Pedido> findByUsuario_Id(Long UsuarioId);
+    List<Pedido> findByUsuario_Id(Long usuarioId);
+    Optional<Pedido> findTopByUsuarioIdOrderByFechaDesc(Long usuarioId);
 }

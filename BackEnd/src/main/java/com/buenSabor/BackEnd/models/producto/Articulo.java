@@ -54,7 +54,7 @@ public class Articulo extends Bean {
     @JsonIgnore
     private List<DetallePedido> detallePedidoList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER)
     @JsonIgnore
     protected List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
 

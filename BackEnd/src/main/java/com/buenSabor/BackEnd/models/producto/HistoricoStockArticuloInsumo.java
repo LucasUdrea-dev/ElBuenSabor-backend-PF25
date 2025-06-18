@@ -5,6 +5,8 @@
 package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -34,9 +36,11 @@ public class HistoricoStockArticuloInsumo extends Bean {
     @Column(name = "fecha_actualizacion")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaActualizacion;
+
     @JoinColumn(name = "id_stock_articuloInsumo", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private StockArticuloInsumo idstockarticuloInsumo;
+    @JsonIgnore
+    private StockArticuloInsumo stockarticuloInsumo;
 
    
     

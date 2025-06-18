@@ -22,7 +22,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import java.util.Date;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -60,7 +59,7 @@ public class Sucursal extends Bean {
     @JsonIgnore
     private List<Empleado> empleadoList;
 
-    @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
 

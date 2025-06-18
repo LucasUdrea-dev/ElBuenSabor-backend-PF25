@@ -39,7 +39,7 @@ CREATE TABLE `articulo` (
   KEY `FKlf2hbqm1r4qx36lkr0b4mix6b` (`unidad_medida_id`),
   CONSTRAINT `FKlf2hbqm1r4qx36lkr0b4mix6b` FOREIGN KEY (`unidad_medida_id`) REFERENCES `unidad_medida` (`id`),
   CONSTRAINT `FKqx0exg6w1pcvj75x54snk0nj4` FOREIGN KEY (`subcategoria_id`) REFERENCES `subcategoria` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ CREATE TABLE `articulo` (
 
 LOCK TABLES `articulo` WRITE;
 /*!40000 ALTER TABLE `articulo` DISABLE KEYS */;
-INSERT INTO `articulo` VALUES (1,'Hamburguesa con carne, lechuga, tomate y queso',_binary '\0',_binary '','hamburguesa.jpg','Hamburguesa Clásica',850,1,1),(2,'Pan especial para hamburguesas',_binary '',_binary '',NULL,'Pan de Hamburguesa',50,3,1),(3,'Medallón de carne vacuna 150g',_binary '',_binary '',NULL,'Medallón de Carne',200,3,1),(4,'Hojas de lechuga fresca',_binary '',_binary '',NULL,'Lechuga',20,3,2),(5,'Feta de queso cheddar',_binary '',_binary '',NULL,'Queso Cheddar',80,3,1),(6,'Bebida gaseosa Coca-Cola 500ml',_binary '\0',_binary '','coca-cola.jpg','Coca-Cola 500ml',150,2,1),(19,'Gigante y deliciosa',_binary '\0',_binary '','ravioles.jpg','Ravioles',9000,1,1),(20,'Tacos a la parrilla',_binary '\0',_binary '','tacos-mexicanos.jpg','Taco',500,1,1),(22,'Pizza muzzarela',_binary '\0',_binary '','pizza.jpg','Pizza muzzarela',9000,1,1);
+INSERT INTO `articulo` VALUES (1,'Hamburguesa con carne, lechuga, tomate y queso',_binary '\0',_binary '','hamburguesa.jpg','Hamburguesa Clásica',850,1,1),(2,'Pan especial para hamburguesas',_binary '',_binary '','Gemini_Generated_Image_un7fg1un7fg1un7f.png','Pan de Hamburguesa',50,3,1),(3,'Medallón de carne vacuna 150g',_binary '',_binary '','Gemini_Generated_Image_dw3bpqdw3bpqdw3b.jpg','Medallón de Carne',200,3,1),(4,'Hojas de lechuga fresca',_binary '',_binary '','Gemini_Generated_Image_pokwurpokwurpokw.jpg','Lechuga',0.75,3,2),(5,'Feta de queso cheddar',_binary '',_binary '','Gemini_Generated_Image_fqc5hdfqc5hdfqc5.png','Queso Cheddar',80,3,1),(6,'Bebida gaseosa Coca-Cola 500ml',_binary '\0',_binary '','Gemini_Generated_Image_3fjc1b3fjc1b3fjc.jpg','Coca-Cola 500ml',150,2,1),(19,'Plato de ravioles con bolognesa',_binary '\0',_binary '','ravioles.jpg','Ravioles',9000,4,1),(20,'Tacos a la parrilla',_binary '\0',_binary '','tacos-mexicanos.jpg','Taco',500,1,1),(22,'Pizza muzzarela',_binary '\0',_binary '','pizza.jpg','Pizza muzzarela',9000,1,1),(23,'Harina 000 para masas y demas',_binary '',_binary '','8ec72aa70eafced86884267cde5eb298fac1df8e.png','Harina 000',2.5,3,2),(24,'Carne vacuna molida',_binary '',_binary '','Gemini_Generated_Image_l78he2l78he2l78h.png','Carne molida',20,3,2);
 /*!40000 ALTER TABLE `articulo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +73,7 @@ CREATE TABLE `articulo_insumo` (
 
 LOCK TABLES `articulo_insumo` WRITE;
 /*!40000 ALTER TABLE `articulo_insumo` DISABLE KEYS */;
-INSERT INTO `articulo_insumo` VALUES (30,2),(120,3),(10,4),(50,5),(50,6);
+INSERT INTO `articulo_insumo` VALUES (30,2),(120,3),(0.5,4),(40,5),(50,6),(2,23),(15,24);
 /*!40000 ALTER TABLE `articulo_insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,7 +102,7 @@ CREATE TABLE `articulo_manufacturado` (
 
 LOCK TABLES `articulo_manufacturado` WRITE;
 /*!40000 ALTER TABLE `articulo_manufacturado` DISABLE KEYS */;
-INSERT INTO `articulo_manufacturado` VALUES ('Cocinar la carne, tostar el pan, agregar vegetales y armar la hamburguesa','15',1,1),('Algo','21',19,1),('Se ponen los tacos...','25',20,1),('Afafafa','15',22,1);
+INSERT INTO `articulo_manufacturado` VALUES ('Cocinar la carne, tostar el pan, agregar vegetales','15',1,1),('Algo','21',19,1),('Se ponen los tacos...','25',20,1),('Afafafa','15',22,1);
 /*!40000 ALTER TABLE `articulo_manufacturado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,7 +123,7 @@ CREATE TABLE `articulo_manufacturado_detalle_insumo` (
   KEY `FK9o8tdc70urx95p1gs1a63uld4` (`id_articulo_manufacturado`),
   CONSTRAINT `FK9o8tdc70urx95p1gs1a63uld4` FOREIGN KEY (`id_articulo_manufacturado`) REFERENCES `articulo_manufacturado` (`id`),
   CONSTRAINT `FKm9fxklpbn2itftdj349wkblpl` FOREIGN KEY (`id_articulo_insumo`) REFERENCES `articulo_insumo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -132,7 +132,7 @@ CREATE TABLE `articulo_manufacturado_detalle_insumo` (
 
 LOCK TABLES `articulo_manufacturado_detalle_insumo` WRITE;
 /*!40000 ALTER TABLE `articulo_manufacturado_detalle_insumo` DISABLE KEYS */;
-INSERT INTO `articulo_manufacturado_detalle_insumo` VALUES (15,2,2,1),(16,3,3,1),(18,200,4,19),(19,2,5,19),(20,3,2,20),(21,2,3,20),(22,2,3,22),(23,200,4,22);
+INSERT INTO `articulo_manufacturado_detalle_insumo` VALUES (25,2,2,1),(26,3,3,1),(28,40,4,1),(30,3,5,1),(31,250,23,19),(33,100,24,19);
 /*!40000 ALTER TABLE `articulo_manufacturado_detalle_insumo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,7 +149,7 @@ CREATE TABLE `categoria` (
   `imagen` varchar(255) DEFAULT NULL,
   `es_para_elaborar` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,7 +158,7 @@ CREATE TABLE `categoria` (
 
 LOCK TABLES `categoria` WRITE;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
-INSERT INTO `categoria` VALUES (1,'Rapida','categoriaPizza.jpg',_binary '\0'),(2,'Bebidas','categoriaBebidas.jpg',_binary '\0'),(4,'Ingredientes','Gemini_Generated_Image_52mcnw52mcnw52mc.jpg',_binary '');
+INSERT INTO `categoria` VALUES (1,'Rapida','categoriaPizza.jpg',_binary '\0'),(2,'Bebidas','categoriaBebidas.jpg',_binary '\0'),(4,'Insumos','Gemini_Generated_Image_52mcnw52mcnw52mc.jpg',_binary ''),(5,'Pastas','Gemini_Generated_Image_bjmd07bjmd07bjmd.png',_binary '\0');
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -206,7 +206,7 @@ CREATE TABLE `detalle_pedido` (
   KEY `FK7n9hdifr08joboojejveby1vr` (`id_pedido`),
   CONSTRAINT `FK7n9hdifr08joboojejveby1vr` FOREIGN KEY (`id_pedido`) REFERENCES `pedido` (`id`),
   CONSTRAINT `FKmmgw1ju1dfci3scs40te1y4bi` FOREIGN KEY (`id_articulo`) REFERENCES `articulo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,7 +215,7 @@ CREATE TABLE `detalle_pedido` (
 
 LOCK TABLES `detalle_pedido` WRITE;
 /*!40000 ALTER TABLE `detalle_pedido` DISABLE KEYS */;
-INSERT INTO `detalle_pedido` VALUES (21,1,6,20),(22,1,6,21),(23,1,19,20),(24,1,19,21),(25,1,19,23),(26,1,19,22),(27,1,6,22),(28,1,6,23);
+INSERT INTO `detalle_pedido` VALUES (21,1,6,20),(22,1,6,21),(23,1,19,20),(24,1,19,21),(25,1,19,23),(26,1,19,22),(27,1,6,22),(28,1,6,23),(29,1,19,25),(30,1,19,24),(31,1,6,24),(32,1,6,25),(33,1,1,27),(34,1,1,26),(35,1,6,27),(36,1,6,26),(37,1,19,28),(38,1,19,29);
 /*!40000 ALTER TABLE `detalle_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +236,7 @@ CREATE TABLE `detalle_promocion` (
   KEY `FKc7mv7i24hoyl49rof6yq8dhsj` (`promocion_id`),
   CONSTRAINT `FKc7mv7i24hoyl49rof6yq8dhsj` FOREIGN KEY (`promocion_id`) REFERENCES `promocion` (`id`),
   CONSTRAINT `FKein7mr5sjxan16l9k5tfdyhie` FOREIGN KEY (`pedido_id`) REFERENCES `pedido` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,7 +245,7 @@ CREATE TABLE `detalle_promocion` (
 
 LOCK TABLES `detalle_promocion` WRITE;
 /*!40000 ALTER TABLE `detalle_promocion` DISABLE KEYS */;
-INSERT INTO `detalle_promocion` VALUES (1,1,18,2),(2,1,19,2),(3,1,22,1),(4,1,23,1);
+INSERT INTO `detalle_promocion` VALUES (1,1,18,2),(2,1,19,2),(3,1,22,1),(4,1,23,1),(5,1,24,2),(6,1,25,2),(7,1,27,1),(8,1,26,1),(9,1,28,1),(10,1,29,1),(11,1,31,1),(12,1,30,1),(13,1,32,1);
 /*!40000 ALTER TABLE `detalle_promocion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -530,7 +530,7 @@ DROP TABLE IF EXISTS `pedido`;
 CREATE TABLE `pedido` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `existe` bit(1) DEFAULT NULL,
-  `fecha` date DEFAULT NULL,
+  `fecha` datetime(6) DEFAULT NULL,
   `tiempo_estimado` varchar(255) DEFAULT NULL,
   `id_estado_pedido` bigint DEFAULT NULL,
   `id_sucursal` bigint DEFAULT NULL,
@@ -548,7 +548,7 @@ CREATE TABLE `pedido` (
   CONSTRAINT `FKnehsi9fw9h4l4go0hpywfos3h` FOREIGN KEY (`id_tipo_pago`) REFERENCES `tipo_pago` (`id`),
   CONSTRAINT `FKpwts0xmsajvn0pjcukb14hpih` FOREIGN KEY (`id_estado_pedido`) REFERENCES `estado_pedido` (`id`),
   CONSTRAINT `FKqcehlhy9unki4432xwv6q1ui` FOREIGN KEY (`id_sucursal`) REFERENCES `sucursal` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -557,7 +557,7 @@ CREATE TABLE `pedido` (
 
 LOCK TABLES `pedido` WRITE;
 /*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
-INSERT INTO `pedido` VALUES (18,_binary '','2025-06-13','30',5,1,2,1,2),(19,_binary '','2025-06-13','30',5,1,2,1,2),(20,_binary '','2025-06-13','21',5,1,2,1,2),(21,_binary '','2025-06-13','21',5,1,2,1,2),(22,_binary '','2025-06-13','30',5,1,2,1,2),(23,_binary '','2025-06-13','30',5,1,2,1,2);
+INSERT INTO `pedido` VALUES (18,_binary '','2025-06-13 00:00:00.000000','30',5,1,2,1,2),(19,_binary '','2025-06-13 00:00:00.000000','30',5,1,2,1,2),(20,_binary '','2025-06-13 00:00:00.000000','21',5,1,2,1,2),(21,_binary '','2025-06-13 00:00:00.000000','21',5,1,2,1,2),(22,_binary '','2025-06-13 00:00:00.000000','30',5,1,2,1,2),(23,_binary '','2025-06-13 00:00:00.000000','30',5,1,2,1,2),(24,_binary '','2025-06-18 04:14:34.255639','30',5,1,2,1,2),(25,_binary '','2025-06-18 04:14:34.255639','30',5,1,2,1,2),(26,_binary '','2025-06-18 07:24:56.517000','30',5,1,2,1,2),(27,_binary '','2025-06-18 07:24:56.517000','30',5,1,2,1,2),(28,_binary '','2025-06-18 07:32:05.927000','30',5,1,2,1,2),(29,_binary '','2025-06-18 07:32:05.926000','30',5,1,2,1,2),(30,_binary '','2025-06-18 07:37:41.081000','30',5,1,2,1,2),(31,_binary '','2025-06-18 07:37:41.081000','30',5,1,2,1,2),(32,_binary '','2025-06-18 07:44:45.544000','30',5,1,2,1,2);
 /*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -768,7 +768,7 @@ CREATE TABLE `subcategoria` (
   PRIMARY KEY (`id`),
   KEY `FK5n9f7pm966nyw6mue7994u3bl` (`id_categoria`),
   CONSTRAINT `FK5n9f7pm966nyw6mue7994u3bl` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -777,7 +777,7 @@ CREATE TABLE `subcategoria` (
 
 LOCK TABLES `subcategoria` WRITE;
 /*!40000 ALTER TABLE `subcategoria` DISABLE KEYS */;
-INSERT INTO `subcategoria` VALUES (1,'Hamburguesas',1),(2,'Gaseosas',2),(3,'Ingredientes',4);
+INSERT INTO `subcategoria` VALUES (1,'Hamburguesas',1),(2,'Gaseosas',2),(3,'Ingredientes',4),(4,'Rellenas',5);
 /*!40000 ALTER TABLE `subcategoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1056,4 +1056,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-17  3:02:48
+-- Dump completed on 2025-06-18  4:47:13

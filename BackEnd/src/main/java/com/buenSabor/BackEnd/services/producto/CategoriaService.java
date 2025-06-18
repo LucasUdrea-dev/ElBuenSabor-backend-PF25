@@ -60,5 +60,33 @@ public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
             throw new Exception(e.getMessage());
         }
     }
+
+    @Transactional
+    public List<CategoriaConSubcategoriasDTO> findParaInsumos() throws Exception{
+        try{
+
+            List<Categoria> categorias = categoriaRepository.findAll();
+
+            List<CategoriaConSubcategoriasDTO> categoriasConSubcategorias = new ArrayList<>();
+
+            for (Categoria categoria : categorias) {
+                
+                CategoriaConSubcategoriasDTO categoriaResponseDTO = new CategoriaConSubcategoriasDTO();
+
+                categoriaResponseDTO.setId(categoria.getId());
+                categoriaResponseDTO.setDenominacion(categoria.getDenominacion());
+                categoriaResponseDTO.setImagen(categoria.getImagen());
+                categoriaResponseDTO.setEsParaElaborar(categoria.getEsParaElaborar());
+                categoriaResponseDTO.setSubcategorias(categoria.getSubcategorias());
+
+                categoriasConSubcategorias.add(categoriaResponseDTO);
+
+            }
+
+            return categoriasConSubcategorias;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
     
 }

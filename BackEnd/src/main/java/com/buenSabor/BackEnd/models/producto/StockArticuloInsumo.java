@@ -39,13 +39,13 @@ public class StockArticuloInsumo extends Bean {
 
     @JoinColumn(name = "id_articulo_insumo", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private ArticuloInsumo idArticuloInsumo;
+    private ArticuloInsumo articuloInsumo;
 
     @JoinColumn(name = "id_sucursal", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Sucursal idSucursal;
+    private Sucursal sucursal;
 
-    @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "stockarticuloInsumo", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<HistoricoStockArticuloInsumo> historicoStockArticuloInsumoList;
 

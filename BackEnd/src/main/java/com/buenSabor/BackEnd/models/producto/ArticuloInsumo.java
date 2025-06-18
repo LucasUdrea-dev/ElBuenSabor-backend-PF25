@@ -32,14 +32,15 @@ public class ArticuloInsumo extends Articulo {
     private Double precioCompra;
     
    
-    @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "articuloInsumo", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
 
     @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<HistoricoPrecioCostoArticuloInsumo> historicoPrecioCostoArticuloInsumoList;
-    @OneToMany(mappedBy = "articuloInsumo", cascade = CascadeType.ALL, orphanRemoval = true)
+    
+    @OneToMany(mappedBy = "articuloInsumo", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<ArticuloManufacturadoDetalleInsumo> detalleManufacturas = new ArrayList<>();
 

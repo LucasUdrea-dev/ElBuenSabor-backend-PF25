@@ -18,12 +18,13 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.Date;
 import java.util.List;
 
 
@@ -45,8 +46,7 @@ public class Pedido extends Bean {
     private Boolean existe;
 
     @Column(name = "fecha")
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+    private LocalDateTime fecha;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<DetallePedido> detallePedidoList = new ArrayList<>();

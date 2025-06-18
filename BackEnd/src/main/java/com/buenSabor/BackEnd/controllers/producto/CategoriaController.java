@@ -40,4 +40,15 @@ public class CategoriaController extends BeanControllerImpl<Categoria,CategoriaS
 
     }
 
+    @GetMapping("/insumos")
+    public ResponseEntity<?> obtenerCategoriasConSubcategoriasParaInsumos(){
+
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(categoriaService.findParaInsumos());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}" + e.getMessage());
+        }
+
+    }
+
 }
