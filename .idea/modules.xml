@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/BackEnd.main.iml" filepath="$PROJECT_DIR$/.idea/modules/BackEnd.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/BackEnd.test.iml" filepath="$PROJECT_DIR$/.idea/modules/BackEnd.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ElBuenSabor-backend-PF25.iml" filepath="$PROJECT_DIR$/.idea/ElBuenSabor-backend-PF25.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.buenSabor.BackEnd.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.buenSabor.BackEnd.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.buenSabor.BackEnd.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.buenSabor.BackEnd.test.iml" />
