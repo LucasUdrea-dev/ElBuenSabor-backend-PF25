@@ -1,10 +1,6 @@
 
 
 
-
-
-Basándome en el análisis del proyecto actual, aquí tienes un README mucho más completo y profesional que sigue estándares de la industria:
-
 # 🍽️ El Buen Sabor - Sistema de Gestión de Restaurantes
 
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
