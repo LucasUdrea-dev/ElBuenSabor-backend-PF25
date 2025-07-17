@@ -9,6 +9,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1.svg)](https://www.mysql.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/LucasUdrea-dev/ElBuenSabor-backend-PF25)
 
 > Sistema integral de gestión empresarial para establecimientos gastronómicos con arquitectura empresarial escalable y multi-sucursal.
 
