@@ -40,7 +40,7 @@ public class HistoricoStockArticuloInsumo extends Bean {
     @JoinColumn(name = "id_stock_articuloInsumo", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
-    private StockArticuloInsumo stockarticuloInsumo;
+    private StockArticuloInsumo stockArticuloInsumo;
 
    
     
