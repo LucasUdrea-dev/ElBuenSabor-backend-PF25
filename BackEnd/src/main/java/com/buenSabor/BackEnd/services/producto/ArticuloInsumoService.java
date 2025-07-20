@@ -6,14 +6,17 @@ package com.buenSabor.BackEnd.services.producto;
 
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
+import com.buenSabor.BackEnd.models.producto.HistoricoStockArticuloInsumo;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloInsumoRepository;
+import com.buenSabor.BackEnd.repositories.producto.HistoricoStockArticuloInsumoRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +32,9 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo,Long>{
     
     @Autowired
     private ArticuloInsumoRepository articuloInsumoRepository;
+
+    @Autowired
+    private HistoricoStockArticuloInsumoRepository historicoStockArticuloInsumoRepository;
 
     @Autowired
     private SucursalRepository sucursalRepository;
@@ -66,7 +72,7 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo,Long>{
 
         
         try {
-            Optional<ArticuloInsumo> articuloInsumoBD = articuloInsumoRepository.findById(articuloInsumo.getId());
+            Optional<ArticuloInsumo> articuloInsumoBD = articuloInsumoRepository.findById(id);
             
             if (!articuloInsumoBD.isPresent()) {
                 throw new EntityNotFoundException("El articulo con id " + id + " no existe" );
@@ -78,6 +84,17 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo,Long>{
 
             articuloInsumo.getStockArticuloInsumo().setSucursal(sucursalManaged);
             articuloInsumo.getStockArticuloInsumo().setArticuloInsumo(articuloInsumo);
+
+            if (!articuloInsumo.getStockArticuloInsumo().getCantidad().equals(articuloInsumoBD.get().getStockArticuloInsumo().getCantidad())) {
+                HistoricoStockArticuloInsumo  historicoStock  =  new HistoricoStockArticuloInsumo();
+
+                historicoStock.setCantidad(articuloInsumoBD.get().getStockArticuloInsumo().getCantidad());
+                historicoStock.setFechaActualizacion(new Date());
+                historicoStock.setStockArticuloInsumo(articuloInsumoBD.get().getStockArticuloInsumo());
+
+                historicoStockArticuloInsumoRepository.save(historicoStock);
+
+            }
 
             return articuloInsumoRepository.save(articuloInsumo);
 
