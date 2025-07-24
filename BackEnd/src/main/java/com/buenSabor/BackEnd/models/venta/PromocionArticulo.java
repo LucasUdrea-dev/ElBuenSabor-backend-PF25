@@ -28,12 +28,13 @@ public class PromocionArticulo extends Bean {
 
 
     private int cantidad; 
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_articulo", referencedColumnName = "id")
-    
-    @ManyToOne(fetch = FetchType.EAGER)
     private Articulo articulo;
-    @JoinColumn(name = "id_promocion", referencedColumnName = "id")
+
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_promocion", referencedColumnName = "id")
     @JsonIgnore
     private Promocion promocion;
 

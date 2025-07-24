@@ -24,6 +24,9 @@ public interface ArticuloRepository extends BeanRepository<Articulo,Long>{
     // Filtrar artículos que están disponibles y para vender
     List<Articulo> findByExisteTrueAndEsParaElaborarFalse();
 
+    // Filtrar artículos para vender
+    List<Articulo> findByEsParaElaborarFalse();
+
     // Buscar por si son para elaborar
     List<Articulo> findByEsParaElaborarTrue();
 

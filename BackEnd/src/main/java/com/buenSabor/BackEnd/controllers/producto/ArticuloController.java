@@ -40,4 +40,15 @@ public class ArticuloController extends BeanControllerImpl<Articulo,ArticuloServ
 
     }
 
+    @GetMapping("/promos")
+    public ResponseEntity<?> obtenerArticulosParaPromos(){
+
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(articuloService.listarParaPromos());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+        }
+
+    }
+
 }

@@ -48,6 +48,14 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
+    public List<Articulo> listarParaPromos() throws Exception {
+        try {
+            return articuloRepository.findByEsParaElaborarFalse();
+        } catch (Exception e) {
+            throw new Exception("Error al buscar artículos disponibles: " + e.getMessage());
+        }
+    }
+    
     public List<Articulo> listarParaElaborar() throws Exception {
         try {
             return articuloRepository.findByEsParaElaborarTrue();
