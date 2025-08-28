@@ -7,6 +7,8 @@ import com.buenSabor.BackEnd.repositories.seguridad.UserAuthenticationRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,10 +23,13 @@ public class UserAuthenticationService {
     private UserAuthenticationRepository userAuthenticationRepository;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public UserAuthentication create(UserAuthentication entity) {
-        entity.setId(null); 
-        return userAuthenticationRepository.save(entity);
+    public UserAuthentication create(UserAuthentication userAuth) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userAuth.setPassword(encoder.encode(userAuth.getPassword()));
+        return userAuthenticationRepository.save(userAuth);
     }
 
     public UserAuthentication update(Long id, UserAuthentication newData) {

@@ -2,12 +2,18 @@ package com.buenSabor.BackEnd.controllers.bean;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 //@Tag(name = "Controlador Base", description = "Operaciones CRUD genéricas para entidades")
 public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceImpl<E,Long>> implements BeanController<E, Long> {
@@ -36,6 +42,24 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
         }
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String,String>> handlerGenericException(Exception exception, HttpServletRequest request){
+        Map<String,String> apiError = new HashMap<>();
+        apiError.put("message", exception.getLocalizedMessage());
+        apiError.put("timestamp" ,new Date().toString());
+        apiError.put("url", request.getRequestURL().toString());
+        apiError.put("http-method", request.getMethod());
+
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        if(exception instanceof AccessDeniedException){
+            status = HttpStatus.FORBIDDEN;
+        }
+
+        return ResponseEntity.status(status).body(apiError);
+    }
+
 //
 //    @Operation(summary = "Guardar un nuevo registro")
 //    @PostMapping("/full/save")
