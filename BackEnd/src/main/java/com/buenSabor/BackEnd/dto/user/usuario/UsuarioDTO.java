@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.user.usuario;
 
-import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationDTO;
+import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
 import com.buenSabor.BackEnd.dto.seguridad.rol.RolDTO;
 import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
@@ -42,6 +42,6 @@ public class UsuarioDTO {
 
     protected List<DireccionDTO> direccionList;
 
-    protected UserAuthenticationDTO userAuthentication;
+    protected UserAuthenticationRequestDTO userAuthentication;
 
 }

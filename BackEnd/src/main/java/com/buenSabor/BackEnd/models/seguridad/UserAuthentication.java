@@ -4,6 +4,7 @@
  */
 package com.buenSabor.BackEnd.models.seguridad;
 
+import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import jakarta.persistence.Column;
@@ -15,7 +16,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -24,9 +32,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "User_Authentication")
-public class UserAuthentication extends Bean {
+public class UserAuthentication extends Bean implements UserDetails {
 
-  
 
     @Column(name = "password")
     private String password;
@@ -35,5 +42,39 @@ public class UserAuthentication extends Bean {
     @OneToOne(mappedBy = "userAuthentication", fetch = FetchType.EAGER)
     private Usuario usuario;
 
-    
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        Rol rol = usuario.getRol();
+
+        if(rol != null && rol.getTipoRol() !=null){
+            TypeRol tipo = rol.getTipoRol().getRol();
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + tipo.name()));
+        }
+
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

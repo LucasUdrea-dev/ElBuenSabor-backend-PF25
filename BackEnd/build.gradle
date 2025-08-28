@@ -29,11 +29,14 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation 'com.mysql:mysql-connector-j:8.0.33'
+	//runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-        implementation group: 'com.mercadopago', name: 'sdk-java', version: '2.5.0'
+	implementation group: 'com.mercadopago', name: 'sdk-java', version: '2.5.0'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	//Envers para auditoria
 	implementation 'org.hibernate.orm:hibernate-envers:6.6.12.Final'
 
@@ -41,6 +44,17 @@ dependencies {
 	//https://mvnrepository.com/artifact/org.mapstruct/mapstruct
 	implementation group: 'org.mapstruct', name: 'mapstruct', version: '1.5.5.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+	//Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-jackson
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 }
 
 tasks.named('test') {

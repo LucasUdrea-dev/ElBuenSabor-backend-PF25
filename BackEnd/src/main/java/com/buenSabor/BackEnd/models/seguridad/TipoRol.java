@@ -34,7 +34,7 @@ public class TipoRol extends Bean {
     @Column(name = "nombre_rol")
     private TypeRol rol;
     @OneToMany(mappedBy = "tipoRol", fetch = FetchType.EAGER)
-        @JsonIgnore
+    @JsonIgnore
     private List<Rol> rolList;
 
     

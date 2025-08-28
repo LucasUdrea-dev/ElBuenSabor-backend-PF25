@@ -1,6 +1,6 @@
 package com.buenSabor.BackEnd.controllers.seguridad;
 
-import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationDTO;
+import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import com.buenSabor.BackEnd.services.seguridad.UserAuthenticationService;
@@ -23,13 +23,13 @@ public class UserAuthenticationController {
     private final UserAuthenticationMapper userAuthMapper;
 
     @PostMapping
-    public ResponseEntity<UserAuthenticationDTO> create(@RequestBody UserAuthenticationDTO dto) {
+    public ResponseEntity<UserAuthenticationRequestDTO> create(@RequestBody UserAuthenticationRequestDTO dto) {
         UserAuthentication saved = userAuthService.create(userAuthMapper.toEntity(dto));
         return ResponseEntity.status(HttpStatus.CREATED).body(userAuthMapper.toDto(saved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserAuthenticationDTO> update(@PathVariable Long id, @RequestBody UserAuthenticationDTO dto) {
+    public ResponseEntity<UserAuthenticationRequestDTO> update(@PathVariable Long id, @RequestBody UserAuthenticationRequestDTO dto) {
         UserAuthentication updated = userAuthService.update(id, userAuthMapper.toEntity(dto));
         return ResponseEntity.ok(userAuthMapper.toDto(updated));
     }

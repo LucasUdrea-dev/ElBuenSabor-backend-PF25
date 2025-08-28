@@ -8,11 +8,13 @@ import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  *
  * @author oscarloha
  */
 @Repository
 public interface UserAuthenticationRepository extends BeanRepository<UserAuthentication,Long>{
-    
+    Optional<UserAuthentication> findByUsername(String username);
 }

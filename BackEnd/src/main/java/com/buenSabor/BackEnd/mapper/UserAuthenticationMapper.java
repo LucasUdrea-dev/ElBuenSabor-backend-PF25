@@ -4,7 +4,7 @@
  */
 package com.buenSabor.BackEnd.mapper;
 
-import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationDTO;
+import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,9 +19,9 @@ public interface UserAuthenticationMapper {
     @Mapping(target = "usuario", ignore = true) // Evitamos mapeo circular
                @Mapping(target = "id", ignore = true)
 
-    UserAuthentication toEntity(UserAuthenticationDTO dto);
+    UserAuthentication toEntity(UserAuthenticationRequestDTO dto);
 
-    UserAuthenticationDTO toDto(UserAuthentication entity);
+    UserAuthenticationRequestDTO toDto(UserAuthentication entity);
 
    
 }
