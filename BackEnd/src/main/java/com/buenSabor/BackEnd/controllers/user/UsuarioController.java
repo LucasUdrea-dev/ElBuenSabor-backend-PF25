@@ -33,7 +33,7 @@ public class UsuarioController {
         this.usuarioMapper = usuarioMapper;
     }
 
-    @Operation(summary = "Crear un nuevo usuario")
+    /*@Operation(summary = "Crear un nuevo usuario")
     @PostMapping("/crear")
     public ResponseEntity<?> crearUsuario(@RequestBody UsuarioDTO dto) {
         try {
@@ -45,7 +45,7 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"Error inesperado al crear el usuario.\"}");
         }
-    }
+    }*/
 
     @Operation(summary = "Listar todos los usuarios existentes")
     @GetMapping("/listar")

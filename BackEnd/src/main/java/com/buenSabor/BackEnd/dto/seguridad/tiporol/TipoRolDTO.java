@@ -19,5 +19,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TipoRolDTO {
      private Long id;
-    private String rol;
+     private String rol;
 }

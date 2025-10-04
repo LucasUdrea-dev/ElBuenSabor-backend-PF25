@@ -39,8 +39,6 @@ import lombok.Setter;
 @Table(name = "Usuario")
 public class Usuario extends Bean {
 
-   
-
     @Column(name = "nombre")
     protected String nombre;
     @Column(name = "apellido")

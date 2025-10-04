@@ -13,6 +13,7 @@ import com.buenSabor.BackEnd.repositories.seguridad.UserAuthenticationRepository
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,13 +21,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
     @Autowired
     private RolRepository rolRepository;
-
     @Autowired
     private UserAuthenticationRepository authRepository;
-
     @Autowired
     private UsuarioMapper usuarioMapper;
     @Autowired
@@ -104,12 +102,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    @Override
+    /*@Override
     public UsuarioDTO crearUsuario(UsuarioDTO dto) {
         Usuario entity = usuarioMapper.toEntity(dto);
 
+        UserAuthentication userAuth = entity.getUserAuthentication();
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userAuth.setPassword(encoder.encode(userAuth.getPassword()));
+
         usuarioRepository.save(entity);
         return usuarioMapper.toDto(entity);
-    }
+    }*/
 
 }

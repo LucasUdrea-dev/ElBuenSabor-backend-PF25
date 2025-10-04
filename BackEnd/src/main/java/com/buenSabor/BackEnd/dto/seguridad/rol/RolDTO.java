@@ -22,10 +22,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RolDTO {
+
     private Long id;
-    
     private Date fechaAlta;
-    
     private TipoRolDTO tipoRol;
 
 }

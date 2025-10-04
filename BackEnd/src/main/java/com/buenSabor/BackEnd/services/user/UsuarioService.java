@@ -13,7 +13,7 @@ import java.util.List;
  * @author oscarloha
  */
 public interface UsuarioService {
-    UsuarioDTO crearUsuario(UsuarioDTO dto);
+    //UsuarioDTO crearUsuario(UsuarioDTO dto);
     List<Usuario> findAll();
     List<Usuario> findAllExistente();
     Usuario findById(Long id);

@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 @Table(name = "User_Authentication")
 public class UserAuthentication extends Bean implements UserDetails {
 
-
     @Column(name = "password")
     private String password;
     @Column(name = "username")
