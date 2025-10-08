@@ -1,26 +1,26 @@
-2025-10-03 20:03:39.432 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.12 with PID 8760 (C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Luis O in C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd)
-2025-10-03 20:03:39.444 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
-2025-10-03 20:03:39.446 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
-2025-10-03 20:03:39.700 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-10-03 20:03:39.700 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-10-03 20:03:44.279 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-03 20:03:45.284 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 986 ms. Found 34 JPA repository interfaces.
-2025-10-03 20:03:47.462 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-10-03 20:03:47.490 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
-2025-10-03 20:03:47.491 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-10-03 20:03:47.641 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-10-03 20:03:47.642 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 7940 ms
-2025-10-03 20:03:48.093 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-03 20:03:48.341 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
-2025-10-03 20:03:48.425 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-10-03 20:03:48.689 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
-2025-10-03 20:03:49.272 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-03 20:03:49.339 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-10-03 20:03:49.687 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@75ef7820
-2025-10-03 20:03:49.702 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-10-03 20:03:49.807 WARN  [restartedMain] org.hibernate.dialect.Dialect - HHH000511: The 5.6.17 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
-2025-10-03 20:03:49.817 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-03 20:03:49.858 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
+2025-10-07 19:23:52.526 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.12 with PID 11736 (C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Luis O in C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd)
+2025-10-07 19:23:52.576 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-10-07 19:23:52.581 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-07 19:23:52.894 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-07 19:23:52.896 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-07 19:23:57.629 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-07 19:23:58.537 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 881 ms. Found 34 JPA repository interfaces.
+2025-10-07 19:24:01.062 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-10-07 19:24:01.103 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
+2025-10-07 19:24:01.104 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-10-07 19:24:01.380 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-07 19:24:01.381 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 8479 ms
+2025-10-07 19:24:02.043 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-07 19:24:02.377 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-10-07 19:24:02.498 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-10-07 19:24:02.857 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
+2025-10-07 19:24:03.726 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-07 19:24:03.850 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-07 19:24:04.521 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@540cc7f0
+2025-10-07 19:24:04.534 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-07 19:24:04.683 WARN  [restartedMain] org.hibernate.dialect.Dialect - HHH000511: The 5.6.17 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-10-07 19:24:04.698 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-07 19:24:04.860 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 5.6.17
@@ -28,1568 +28,1049 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-10-03 20:03:55.037 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-10-03 20:03:56.490 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-03 20:03:57.685 DEBUG [restartedMain] c.b.B.c.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2025-10-03 20:03:58.385 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-10-03 20:04:00.382 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-10-03 20:04:00.384 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2025-10-03 20:04:02.382 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-10-03 20:04:07.021 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-10-03 20:04:07.221 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-10-03 20:04:07.260 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 29.053 seconds (process running for 32.148)
-2025-10-03 20:04:07.562 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_pago tp1_0
-2025-10-03 20:04:07.650 DEBUG [restartedMain] org.hibernate.SQL - 
+2025-10-07 19:24:10.979 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-07 19:24:12.535 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-07 19:24:14.231 DEBUG [restartedMain] c.b.B.c.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-10-07 19:24:15.674 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-07 19:24:18.703 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-10-07 19:24:18.705 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-10-07 19:24:20.197 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-07 19:24:23.354 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-10-07 19:24:23.504 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-10-07 19:24:23.527 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 32.713 seconds (process running for 38.626)
+2025-10-07 19:24:23.800 DEBUG [restartedMain] org.hibernate.SQL - 
     select
         count(*) 
     from
         tipo_promocion tp1_0
-2025-10-03 20:04:07.681 DEBUG [restartedMain] org.hibernate.SQL - 
+2025-10-07 19:24:23.847 DEBUG [restartedMain] org.hibernate.SQL - 
     select
         count(*) 
     from
         tipo_envio te1_0
-2025-10-03 20:04:07.693 DEBUG [restartedMain] org.hibernate.SQL - 
+2025-10-07 19:24:23.852 DEBUG [restartedMain] org.hibernate.SQL - 
     select
         count(*) 
     from
         unidad_medida um1_0
-2025-10-03 20:04:07.703 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        estado_pedido ep1_0
-2025-10-03 20:04:07.713 DEBUG [restartedMain] org.hibernate.SQL - 
+2025-10-07 19:24:23.861 DEBUG [restartedMain] org.hibernate.SQL - 
     select
         count(*) 
     from
         tipo_rol tr1_0
-2025-10-03 20:04:15.235 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-03 20:04:15.236 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-10-03 20:04:15.241 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 5 ms
-2025-10-03 20:04:25.461 INFO  [http-nio-8080-exec-10] o.s.a.AbstractOpenApiResource - Init duration for springdoc-openapi is: 7543 ms
-2025-10-03 20:05:19.915 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+2025-10-07 19:24:23.866 DEBUG [restartedMain] org.hibernate.SQL - 
     select
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        u1_0.id_rol,
-        u1_0.id_user_auth,
-        u1_1.fecha_alta,
-        u1_1.id_sucursal,
-        u1_1.sueldo 
+        count(*) 
     from
-        usuario u1_0 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id
-2025-10-03 20:05:20.055 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+        estado_pedido ep1_0
+2025-10-07 19:24:23.876 DEBUG [restartedMain] org.hibernate.SQL - 
     select
-        r1_0.id,
-        r1_0.fecha_alta,
-        tr1_0.id,
-        tr1_0.nombre_rol 
+        count(*) 
     from
-        rol r1_0 
-    left join
-        tipo_rol tr1_0 
-            on tr1_0.id=r1_0.tipo_rol_id 
-    where
-        r1_0.id=?
-2025-10-03 20:05:20.077 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+        tipo_pago tp1_0
+2025-10-07 19:24:54.643 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-10-07 19:24:55.048 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
+2025-10-07 19:24:55.088 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-07 19:24:55.103 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-07 19:24:55.134 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-07 21:39:42.009 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.12 with PID 15808 (C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Luis O in C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd)
+2025-10-07 21:39:42.015 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-10-07 21:39:42.017 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-07 21:39:42.173 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-07 21:39:42.174 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-07 21:39:45.393 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-07 21:39:45.944 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 530 ms. Found 34 JPA repository interfaces.
+2025-10-07 21:39:47.669 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-10-07 21:39:47.698 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
+2025-10-07 21:39:47.699 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-10-07 21:39:47.863 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-07 21:39:47.864 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5687 ms
+2025-10-07 21:39:48.347 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-07 21:39:48.534 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-10-07 21:39:48.638 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-10-07 21:39:48.916 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
+2025-10-07 21:39:49.519 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-07 21:39:49.597 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-07 21:39:49.981 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6d3f7e82
+2025-10-07 21:39:49.986 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-07 21:39:50.083 WARN  [restartedMain] org.hibernate.dialect.Dialect - HHH000511: The 5.6.17 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-10-07 21:39:50.092 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-07 21:39:50.140 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.6.17
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-10-07 21:39:54.112 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-07 21:39:54.968 DEBUG [restartedMain] org.hibernate.SQL - 
+    alter table user_authentication 
+       add column firebase_uid varchar(255)
+2025-10-07 21:39:55.181 DEBUG [restartedMain] org.hibernate.SQL - 
+    alter table user_authentication 
+       drop index UK4lf22r652v3cwalv93orl9ree
+2025-10-07 21:39:55.217 DEBUG [restartedMain] org.hibernate.SQL - 
+    alter table user_authentication 
+       add constraint UK4lf22r652v3cwalv93orl9ree unique (firebase_uid)
+2025-10-07 21:39:55.529 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-07 21:39:56.706 DEBUG [restartedMain] c.b.B.c.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-10-07 21:39:57.324 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-07 21:39:59.264 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-10-07 21:39:59.266 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-10-07 21:40:00.360 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-07 21:40:02.576 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-10-07 21:40:02.682 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-10-07 21:40:02.703 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 22.358 seconds (process running for 25.118)
+2025-10-07 21:40:02.905 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        estado_pedido ep1_0
+2025-10-07 21:40:02.944 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        unidad_medida um1_0
+2025-10-07 21:40:02.952 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        tipo_pago tp1_0
+2025-10-07 21:40:02.959 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        tipo_rol tr1_0
+2025-10-07 21:40:02.965 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        tipo_envio te1_0
+2025-10-07 21:40:02.971 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        tipo_promocion tp1_0
+2025-10-07 21:56:21.758 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-07 21:56:21.759 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-10-07 21:56:21.765 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 5 ms
+2025-10-07 21:56:32.319 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-10-07 21:56:32.442 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
+2025-10-07 21:56:32.462 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-07 21:56:32.466 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-07 21:56:32.479 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-10-07 21:57:42.075 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.12 with PID 23696 (C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Luis O in C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd)
+2025-10-07 21:57:42.081 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
+2025-10-07 21:57:42.085 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-07 21:57:42.269 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-10-07 21:57:42.270 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-10-07 21:57:45.530 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-07 21:57:46.094 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 537 ms. Found 34 JPA repository interfaces.
+2025-10-07 21:57:47.694 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-10-07 21:57:47.732 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
+2025-10-07 21:57:47.733 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-10-07 21:57:47.961 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-07 21:57:47.961 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5689 ms
+2025-10-07 21:57:48.374 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-07 21:57:48.633 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
+2025-10-07 21:57:48.752 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-10-07 21:57:49.098 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
+2025-10-07 21:57:49.889 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-07 21:57:50.001 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-07 21:57:50.383 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3bd82349
+2025-10-07 21:57:50.389 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-10-07 21:57:50.519 WARN  [restartedMain] org.hibernate.dialect.Dialect - HHH000511: The 5.6.17 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-10-07 21:57:50.530 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-10-07 21:57:50.583 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 5.6.17
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-10-07 21:57:55.589 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-10-07 21:57:56.936 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-10-07 21:57:58.815 DEBUG [restartedMain] c.b.B.c.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
+2025-10-07 21:57:59.575 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-10-07 21:58:01.538 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-10-07 21:58:01.539 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-10-07 21:58:02.605 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-10-07 21:58:04.546 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2025-10-07 21:58:04.653 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-10-07 21:58:04.676 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 23.936 seconds (process running for 26.529)
+2025-10-07 21:58:04.859 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        tipo_promocion tp1_0
+2025-10-07 21:58:04.898 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        unidad_medida um1_0
+2025-10-07 21:58:04.905 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        estado_pedido ep1_0
+2025-10-07 21:58:04.913 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        tipo_rol tr1_0
+2025-10-07 21:58:04.917 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        tipo_pago tp1_0
+2025-10-07 21:58:04.923 DEBUG [restartedMain] org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        tipo_envio te1_0
+2025-10-07 21:58:06.196 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-10-07 21:58:06.199 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-10-07 21:58:06.213 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 11 ms
+2025-10-07 21:58:11.523 INFO  [http-nio-8080-exec-9] o.s.a.AbstractOpenApiResource - Init duration for springdoc-openapi is: 3629 ms
+2025-10-07 21:59:14.696 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
     select
         ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        r1_0.tipo_rol_id,
-        u1_1.fecha_alta,
-        is1_0.id,
-        is1_0.direccion_id,
-        is1_0.empresa_id,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        u1_1.sueldo,
-        dl1_0.id_usuario,
-        dl1_1.id,
-        dl1_1.alias,
-        dl1_1.id_ciudad,
-        dl1_1.descripcion_entrega,
-        dl1_1.latitud,
-        dl1_1.longitud,
-        dl1_1.nombre_calle,
-        dl1_1.numeracion 
-    from
-        user_authentication ua1_0 
-    left join
-        usuario u1_0 
-            on ua1_0.id=u1_0.id_user_auth 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id 
-    left join
-        rol r1_0 
-            on r1_0.id=u1_0.id_rol 
-    left join
-        sucursal is1_0 
-            on is1_0.id=u1_1.id_sucursal 
-    left join
-        usuario_direccion dl1_0 
-            on u1_0.id=dl1_0.id_usuario 
-    left join
-        direccion dl1_1 
-            on dl1_1.id=dl1_0.id_direccion 
-    where
-        ua1_0.id=?
-2025-10-03 20:05:20.124 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        r1_0.id,
-        r1_0.fecha_alta,
-        tr1_0.id,
-        tr1_0.nombre_rol 
-    from
-        rol r1_0 
-    left join
-        tipo_rol tr1_0 
-            on tr1_0.id=r1_0.tipo_rol_id 
-    where
-        r1_0.id=?
-2025-10-03 20:05:20.127 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        r1_0.tipo_rol_id,
-        u1_1.fecha_alta,
-        is1_0.id,
-        is1_0.direccion_id,
-        is1_0.empresa_id,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        u1_1.sueldo,
-        dl1_0.id_usuario,
-        dl1_1.id,
-        dl1_1.alias,
-        dl1_1.id_ciudad,
-        dl1_1.descripcion_entrega,
-        dl1_1.latitud,
-        dl1_1.longitud,
-        dl1_1.nombre_calle,
-        dl1_1.numeracion 
-    from
-        user_authentication ua1_0 
-    left join
-        usuario u1_0 
-            on ua1_0.id=u1_0.id_user_auth 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id 
-    left join
-        rol r1_0 
-            on r1_0.id=u1_0.id_rol 
-    left join
-        sucursal is1_0 
-            on is1_0.id=u1_1.id_sucursal 
-    left join
-        usuario_direccion dl1_0 
-            on u1_0.id=dl1_0.id_usuario 
-    left join
-        direccion dl1_1 
-            on dl1_1.id=dl1_0.id_direccion 
-    where
-        ua1_0.id=?
-2025-10-03 20:05:20.135 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        r1_0.id,
-        r1_0.fecha_alta,
-        tr1_0.id,
-        tr1_0.nombre_rol 
-    from
-        rol r1_0 
-    left join
-        tipo_rol tr1_0 
-            on tr1_0.id=r1_0.tipo_rol_id 
-    where
-        r1_0.id=?
-2025-10-03 20:05:20.138 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        r1_0.tipo_rol_id,
-        u1_1.fecha_alta,
-        is1_0.id,
-        is1_0.direccion_id,
-        is1_0.empresa_id,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        u1_1.sueldo,
-        dl1_0.id_usuario,
-        dl1_1.id,
-        dl1_1.alias,
-        dl1_1.id_ciudad,
-        dl1_1.descripcion_entrega,
-        dl1_1.latitud,
-        dl1_1.longitud,
-        dl1_1.nombre_calle,
-        dl1_1.numeracion 
-    from
-        user_authentication ua1_0 
-    left join
-        usuario u1_0 
-            on ua1_0.id=u1_0.id_user_auth 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id 
-    left join
-        rol r1_0 
-            on r1_0.id=u1_0.id_rol 
-    left join
-        sucursal is1_0 
-            on is1_0.id=u1_1.id_sucursal 
-    left join
-        usuario_direccion dl1_0 
-            on u1_0.id=dl1_0.id_usuario 
-    left join
-        direccion dl1_1 
-            on dl1_1.id=dl1_0.id_direccion 
-    where
-        ua1_0.id=?
-2025-10-03 20:05:20.145 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        r1_0.tipo_rol_id,
-        u1_1.fecha_alta,
-        is1_0.id,
-        is1_0.direccion_id,
-        is1_0.empresa_id,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        u1_1.sueldo,
-        dl1_0.id_usuario,
-        dl1_1.id,
-        dl1_1.alias,
-        dl1_1.id_ciudad,
-        dl1_1.descripcion_entrega,
-        dl1_1.latitud,
-        dl1_1.longitud,
-        dl1_1.nombre_calle,
-        dl1_1.numeracion 
-    from
-        user_authentication ua1_0 
-    left join
-        usuario u1_0 
-            on ua1_0.id=u1_0.id_user_auth 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id 
-    left join
-        rol r1_0 
-            on r1_0.id=u1_0.id_rol 
-    left join
-        sucursal is1_0 
-            on is1_0.id=u1_1.id_sucursal 
-    left join
-        usuario_direccion dl1_0 
-            on u1_0.id=dl1_0.id_usuario 
-    left join
-        direccion dl1_1 
-            on dl1_1.id=dl1_0.id_direccion 
-    where
-        ua1_0.id=?
-2025-10-03 20:05:20.155 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        r1_0.tipo_rol_id,
-        u1_1.fecha_alta,
-        is1_0.id,
-        is1_0.direccion_id,
-        is1_0.empresa_id,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        u1_1.sueldo,
-        dl1_0.id_usuario,
-        dl1_1.id,
-        dl1_1.alias,
-        dl1_1.id_ciudad,
-        dl1_1.descripcion_entrega,
-        dl1_1.latitud,
-        dl1_1.longitud,
-        dl1_1.nombre_calle,
-        dl1_1.numeracion 
-    from
-        user_authentication ua1_0 
-    left join
-        usuario u1_0 
-            on ua1_0.id=u1_0.id_user_auth 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id 
-    left join
-        rol r1_0 
-            on r1_0.id=u1_0.id_rol 
-    left join
-        sucursal is1_0 
-            on is1_0.id=u1_1.id_sucursal 
-    left join
-        usuario_direccion dl1_0 
-            on u1_0.id=dl1_0.id_usuario 
-    left join
-        direccion dl1_1 
-            on dl1_1.id=dl1_0.id_direccion 
-    where
-        ua1_0.id=?
-2025-10-03 20:05:20.160 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        c1_0.id,
-        c1_0.nombre,
-        p1_0.id,
-        p1_0.nombre,
-        p2_0.id,
-        p2_0.nombre,
-        dl1_0.id_ciudad,
-        dl1_0.id,
-        dl1_0.alias,
-        dl1_0.descripcion_entrega,
-        dl1_0.latitud,
-        dl1_0.longitud,
-        dl1_0.nombre_calle,
-        dl1_0.numeracion,
-        s1_0.id,
-        s1_0.empresa_id,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre 
-    from
-        ciudad c1_0 
-    left join
-        provincia p1_0 
-            on p1_0.id=c1_0.provincia_id 
-    left join
-        pais p2_0 
-            on p2_0.id=p1_0.pais_id 
-    left join
-        direccion dl1_0 
-            on c1_0.id=dl1_0.id_ciudad 
-    left join
-        sucursal s1_0 
-            on dl1_0.id=s1_0.direccion_id 
-    where
-        c1_0.id=?
-2025-10-03 20:05:20.179 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        c1_0.id,
-        c1_0.nombre,
-        c1_0.provincia_id,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        ul1_0.id_direccion,
-        ul1_1.id,
-        case 
-            when ul1_2.id is not null 
-                then 1 
-            when ul1_1.id is not null 
-                then 0 
-        end,
-        ul1_1.apellido,
-        ul1_1.email,
-        ul1_1.existe,
-        ul1_1.imagen_usuario,
-        ul1_1.nombre,
-        ul1_1.id_rol,
-        ul1_1.id_user_auth,
-        ul1_2.fecha_alta,
-        ul1_2.id_sucursal,
-        ul1_2.sueldo,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre 
-    from
-        sucursal s1_0 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        ciudad c1_0 
-            on c1_0.id=d1_0.id_ciudad 
-    left join
-        usuario_direccion ul1_0 
-            on d1_0.id=ul1_0.id_direccion 
-    left join
-        usuario ul1_1 
-            on ul1_1.id=ul1_0.id_usuario 
-    left join
-        empleado ul1_2 
-            on ul1_1.id=ul1_2.id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    where
-        s1_0.direccion_id=?
-2025-10-03 20:05:20.187 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        r1_0.tipo_rol_id,
-        u1_1.fecha_alta,
-        is1_0.id,
-        is1_0.direccion_id,
-        is1_0.empresa_id,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        u1_1.sueldo,
-        dl1_0.id_usuario,
-        dl1_1.id,
-        dl1_1.alias,
-        dl1_1.id_ciudad,
-        dl1_1.descripcion_entrega,
-        dl1_1.latitud,
-        dl1_1.longitud,
-        dl1_1.nombre_calle,
-        dl1_1.numeracion 
-    from
-        user_authentication ua1_0 
-    left join
-        usuario u1_0 
-            on ua1_0.id=u1_0.id_user_auth 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id 
-    left join
-        rol r1_0 
-            on r1_0.id=u1_0.id_rol 
-    left join
-        sucursal is1_0 
-            on is1_0.id=u1_1.id_sucursal 
-    left join
-        usuario_direccion dl1_0 
-            on u1_0.id=dl1_0.id_usuario 
-    left join
-        direccion dl1_1 
-            on dl1_1.id=dl1_0.id_direccion 
-    where
-        ua1_0.id=?
-2025-10-03 20:05:20.192 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        c1_0.id,
-        c1_0.nombre,
-        p1_0.id,
-        p1_0.nombre,
-        p2_0.id,
-        p2_0.nombre,
-        dl1_0.id_ciudad,
-        dl1_0.id,
-        dl1_0.alias,
-        dl1_0.descripcion_entrega,
-        dl1_0.latitud,
-        dl1_0.longitud,
-        dl1_0.nombre_calle,
-        dl1_0.numeracion,
-        s1_0.id,
-        s1_0.empresa_id,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre 
-    from
-        ciudad c1_0 
-    left join
-        provincia p1_0 
-            on p1_0.id=c1_0.provincia_id 
-    left join
-        pais p2_0 
-            on p2_0.id=p1_0.pais_id 
-    left join
-        direccion dl1_0 
-            on c1_0.id=dl1_0.id_ciudad 
-    left join
-        sucursal s1_0 
-            on dl1_0.id=s1_0.direccion_id 
-    where
-        c1_0.id=?
-2025-10-03 20:05:20.196 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        c1_0.id,
-        c1_0.nombre,
-        c1_0.provincia_id,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        ul1_0.id_direccion,
-        ul1_1.id,
-        case 
-            when ul1_2.id is not null 
-                then 1 
-            when ul1_1.id is not null 
-                then 0 
-        end,
-        ul1_1.apellido,
-        ul1_1.email,
-        ul1_1.existe,
-        ul1_1.imagen_usuario,
-        ul1_1.nombre,
-        ul1_1.id_rol,
-        ul1_1.id_user_auth,
-        ul1_2.fecha_alta,
-        ul1_2.id_sucursal,
-        ul1_2.sueldo,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre 
-    from
-        sucursal s1_0 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        ciudad c1_0 
-            on c1_0.id=d1_0.id_ciudad 
-    left join
-        usuario_direccion ul1_0 
-            on d1_0.id=ul1_0.id_direccion 
-    left join
-        usuario ul1_1 
-            on ul1_1.id=ul1_0.id_usuario 
-    left join
-        empleado ul1_2 
-            on ul1_1.id=ul1_2.id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    where
-        s1_0.direccion_id=?
-2025-10-03 20:05:20.204 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        r1_0.tipo_rol_id,
-        u1_1.fecha_alta,
-        is1_0.id,
-        is1_0.direccion_id,
-        is1_0.empresa_id,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        u1_1.sueldo,
-        dl1_0.id_usuario,
-        dl1_1.id,
-        dl1_1.alias,
-        dl1_1.id_ciudad,
-        dl1_1.descripcion_entrega,
-        dl1_1.latitud,
-        dl1_1.longitud,
-        dl1_1.nombre_calle,
-        dl1_1.numeracion 
-    from
-        user_authentication ua1_0 
-    left join
-        usuario u1_0 
-            on ua1_0.id=u1_0.id_user_auth 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id 
-    left join
-        rol r1_0 
-            on r1_0.id=u1_0.id_rol 
-    left join
-        sucursal is1_0 
-            on is1_0.id=u1_1.id_sucursal 
-    left join
-        usuario_direccion dl1_0 
-            on u1_0.id=dl1_0.id_usuario 
-    left join
-        direccion dl1_1 
-            on dl1_1.id=dl1_0.id_direccion 
-    where
-        ua1_0.id=?
-2025-10-03 20:05:20.208 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        c1_0.id,
-        c1_0.nombre,
-        p1_0.id,
-        p1_0.nombre,
-        p2_0.id,
-        p2_0.nombre,
-        dl1_0.id_ciudad,
-        dl1_0.id,
-        dl1_0.alias,
-        dl1_0.descripcion_entrega,
-        dl1_0.latitud,
-        dl1_0.longitud,
-        dl1_0.nombre_calle,
-        dl1_0.numeracion,
-        s1_0.id,
-        s1_0.empresa_id,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre 
-    from
-        ciudad c1_0 
-    left join
-        provincia p1_0 
-            on p1_0.id=c1_0.provincia_id 
-    left join
-        pais p2_0 
-            on p2_0.id=p1_0.pais_id 
-    left join
-        direccion dl1_0 
-            on c1_0.id=dl1_0.id_ciudad 
-    left join
-        sucursal s1_0 
-            on dl1_0.id=s1_0.direccion_id 
-    where
-        c1_0.id=?
-2025-10-03 20:05:20.213 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        c1_0.id,
-        c1_0.nombre,
-        c1_0.provincia_id,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        ul1_0.id_direccion,
-        ul1_1.id,
-        case 
-            when ul1_2.id is not null 
-                then 1 
-            when ul1_1.id is not null 
-                then 0 
-        end,
-        ul1_1.apellido,
-        ul1_1.email,
-        ul1_1.existe,
-        ul1_1.imagen_usuario,
-        ul1_1.nombre,
-        ul1_1.id_rol,
-        ul1_1.id_user_auth,
-        ul1_2.fecha_alta,
-        ul1_2.id_sucursal,
-        ul1_2.sueldo,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre 
-    from
-        sucursal s1_0 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        ciudad c1_0 
-            on c1_0.id=d1_0.id_ciudad 
-    left join
-        usuario_direccion ul1_0 
-            on d1_0.id=ul1_0.id_direccion 
-    left join
-        usuario ul1_1 
-            on ul1_1.id=ul1_0.id_usuario 
-    left join
-        empleado ul1_2 
-            on ul1_1.id=ul1_2.id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    where
-        s1_0.direccion_id=?
-2025-10-03 20:05:20.223 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ul1_0.id_direccion,
-        ul1_1.id,
-        case 
-            when ul1_2.id is not null 
-                then 1 
-            when ul1_1.id is not null 
-                then 0 
-        end,
-        ul1_1.apellido,
-        ul1_1.email,
-        ul1_1.existe,
-        ul1_1.imagen_usuario,
-        ul1_1.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        tr1_0.id,
-        tr1_0.nombre_rol,
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        ul1_2.fecha_alta,
-        is1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        ul1_2.sueldo 
-    from
-        usuario_direccion ul1_0 
-    join
-        usuario ul1_1 
-            on ul1_1.id=ul1_0.id_usuario 
-    left join
-        empleado ul1_2 
-            on ul1_1.id=ul1_2.id 
-    left join
-        rol r1_0 
-            on r1_0.id=ul1_1.id_rol 
-    left join
-        tipo_rol tr1_0 
-            on tr1_0.id=r1_0.tipo_rol_id 
-    left join
-        user_authentication ua1_0 
-            on ua1_0.id=ul1_1.id_user_auth 
-    left join
-        sucursal is1_0 
-            on is1_0.id=ul1_2.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=is1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=is1_0.empresa_id 
-    where
-        ul1_0.id_direccion=?
-2025-10-03 20:05:20.232 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        tl1_0.usuario_id,
-        tl1_0.id,
-        tl1_0.numero 
-    from
-        telefono tl1_0 
-    where
-        tl1_0.usuario_id=?
-2025-10-03 20:05:20.238 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.id_cliente,
-        pl1_0.id,
-        ep1_0.id,
-        ep1_0.nombre_estado,
-        pl1_0.existe,
-        pl1_0.fecha,
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre,
-        pl1_0.tiempo_estimado,
-        te1_0.id,
-        te1_0.nombre_envio,
-        tp1_0.id,
-        tp1_0.nombre_pago 
-    from
-        pedido pl1_0 
-    left join
-        estado_pedido ep1_0 
-            on ep1_0.id=pl1_0.id_estado_pedido 
-    left join
-        sucursal s1_0 
-            on s1_0.id=pl1_0.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    left join
-        tipo_envio te1_0 
-            on te1_0.id=pl1_0.id_tipo_envio 
-    left join
-        tipo_pago tp1_0 
-            on tp1_0.id=pl1_0.id_tipo_pago 
-    where
-        pl1_0.id_cliente=?
-2025-10-03 20:05:20.243 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.pais_id,
-        pl1_0.id,
-        pl1_0.nombre 
-    from
-        provincia pl1_0 
-    where
-        pl1_0.pais_id=?
-2025-10-03 20:05:20.257 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        cl1_0.provincia_id,
-        cl1_0.id,
-        cl1_0.nombre 
-    from
-        ciudad cl1_0 
-    where
-        cl1_0.provincia_id=?
-2025-10-03 20:05:20.268 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ul1_0.id_direccion,
-        ul1_1.id,
-        case 
-            when ul1_2.id is not null 
-                then 1 
-            when ul1_1.id is not null 
-                then 0 
-        end,
-        ul1_1.apellido,
-        ul1_1.email,
-        ul1_1.existe,
-        ul1_1.imagen_usuario,
-        ul1_1.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        tr1_0.id,
-        tr1_0.nombre_rol,
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        ul1_2.fecha_alta,
-        is1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        ul1_2.sueldo 
-    from
-        usuario_direccion ul1_0 
-    join
-        usuario ul1_1 
-            on ul1_1.id=ul1_0.id_usuario 
-    left join
-        empleado ul1_2 
-            on ul1_1.id=ul1_2.id 
-    left join
-        rol r1_0 
-            on r1_0.id=ul1_1.id_rol 
-    left join
-        tipo_rol tr1_0 
-            on tr1_0.id=r1_0.tipo_rol_id 
-    left join
-        user_authentication ua1_0 
-            on ua1_0.id=ul1_1.id_user_auth 
-    left join
-        sucursal is1_0 
-            on is1_0.id=ul1_2.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=is1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=is1_0.empresa_id 
-    where
-        ul1_0.id_direccion=?
-2025-10-03 20:05:20.273 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        tl1_0.usuario_id,
-        tl1_0.id,
-        tl1_0.numero 
-    from
-        telefono tl1_0 
-    where
-        tl1_0.usuario_id=?
-2025-10-03 20:05:20.275 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.id_cliente,
-        pl1_0.id,
-        ep1_0.id,
-        ep1_0.nombre_estado,
-        pl1_0.existe,
-        pl1_0.fecha,
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre,
-        pl1_0.tiempo_estimado,
-        te1_0.id,
-        te1_0.nombre_envio,
-        tp1_0.id,
-        tp1_0.nombre_pago 
-    from
-        pedido pl1_0 
-    left join
-        estado_pedido ep1_0 
-            on ep1_0.id=pl1_0.id_estado_pedido 
-    left join
-        sucursal s1_0 
-            on s1_0.id=pl1_0.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    left join
-        tipo_envio te1_0 
-            on te1_0.id=pl1_0.id_tipo_envio 
-    left join
-        tipo_pago tp1_0 
-            on tp1_0.id=pl1_0.id_tipo_pago 
-    where
-        pl1_0.id_cliente=?
-2025-10-03 20:05:20.278 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.pais_id,
-        pl1_0.id,
-        pl1_0.nombre 
-    from
-        provincia pl1_0 
-    where
-        pl1_0.pais_id=?
-2025-10-03 20:05:20.282 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        cl1_0.provincia_id,
-        cl1_0.id,
-        cl1_0.nombre 
-    from
-        ciudad cl1_0 
-    where
-        cl1_0.provincia_id=?
-2025-10-03 20:05:20.284 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ul1_0.id_direccion,
-        ul1_1.id,
-        case 
-            when ul1_2.id is not null 
-                then 1 
-            when ul1_1.id is not null 
-                then 0 
-        end,
-        ul1_1.apellido,
-        ul1_1.email,
-        ul1_1.existe,
-        ul1_1.imagen_usuario,
-        ul1_1.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        tr1_0.id,
-        tr1_0.nombre_rol,
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        ul1_2.fecha_alta,
-        is1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        ul1_2.sueldo 
-    from
-        usuario_direccion ul1_0 
-    join
-        usuario ul1_1 
-            on ul1_1.id=ul1_0.id_usuario 
-    left join
-        empleado ul1_2 
-            on ul1_1.id=ul1_2.id 
-    left join
-        rol r1_0 
-            on r1_0.id=ul1_1.id_rol 
-    left join
-        tipo_rol tr1_0 
-            on tr1_0.id=r1_0.tipo_rol_id 
-    left join
-        user_authentication ua1_0 
-            on ua1_0.id=ul1_1.id_user_auth 
-    left join
-        sucursal is1_0 
-            on is1_0.id=ul1_2.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=is1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=is1_0.empresa_id 
-    where
-        ul1_0.id_direccion=?
-2025-10-03 20:05:20.290 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        tl1_0.usuario_id,
-        tl1_0.id,
-        tl1_0.numero 
-    from
-        telefono tl1_0 
-    where
-        tl1_0.usuario_id=?
-2025-10-03 20:05:20.293 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.id_cliente,
-        pl1_0.id,
-        ep1_0.id,
-        ep1_0.nombre_estado,
-        pl1_0.existe,
-        pl1_0.fecha,
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre,
-        pl1_0.tiempo_estimado,
-        te1_0.id,
-        te1_0.nombre_envio,
-        tp1_0.id,
-        tp1_0.nombre_pago 
-    from
-        pedido pl1_0 
-    left join
-        estado_pedido ep1_0 
-            on ep1_0.id=pl1_0.id_estado_pedido 
-    left join
-        sucursal s1_0 
-            on s1_0.id=pl1_0.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    left join
-        tipo_envio te1_0 
-            on te1_0.id=pl1_0.id_tipo_envio 
-    left join
-        tipo_pago tp1_0 
-            on tp1_0.id=pl1_0.id_tipo_pago 
-    where
-        pl1_0.id_cliente=?
-2025-10-03 20:05:20.297 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.pais_id,
-        pl1_0.id,
-        pl1_0.nombre 
-    from
-        provincia pl1_0 
-    where
-        pl1_0.pais_id=?
-2025-10-03 20:05:20.300 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        cl1_0.provincia_id,
-        cl1_0.id,
-        cl1_0.nombre 
-    from
-        ciudad cl1_0 
-    where
-        cl1_0.provincia_id=?
-2025-10-03 20:05:20.302 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        tl1_0.usuario_id,
-        tl1_0.id,
-        tl1_0.numero 
-    from
-        telefono tl1_0 
-    where
-        tl1_0.usuario_id=?
-2025-10-03 20:05:20.304 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.id_cliente,
-        pl1_0.id,
-        ep1_0.id,
-        ep1_0.nombre_estado,
-        pl1_0.existe,
-        pl1_0.fecha,
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre,
-        pl1_0.tiempo_estimado,
-        te1_0.id,
-        te1_0.nombre_envio,
-        tp1_0.id,
-        tp1_0.nombre_pago 
-    from
-        pedido pl1_0 
-    left join
-        estado_pedido ep1_0 
-            on ep1_0.id=pl1_0.id_estado_pedido 
-    left join
-        sucursal s1_0 
-            on s1_0.id=pl1_0.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    left join
-        tipo_envio te1_0 
-            on te1_0.id=pl1_0.id_tipo_envio 
-    left join
-        tipo_pago tp1_0 
-            on tp1_0.id=pl1_0.id_tipo_pago 
-    where
-        pl1_0.id_cliente=?
-2025-10-03 20:05:20.313 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        tl1_0.usuario_id,
-        tl1_0.id,
-        tl1_0.numero 
-    from
-        telefono tl1_0 
-    where
-        tl1_0.usuario_id=?
-2025-10-03 20:05:20.316 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        rl1_0.tipo_rol_id,
-        rl1_0.id,
-        rl1_0.fecha_alta 
-    from
-        rol rl1_0 
-    where
-        rl1_0.tipo_rol_id=?
-2025-10-03 20:05:20.320 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.id_cliente,
-        pl1_0.id,
-        ep1_0.id,
-        ep1_0.nombre_estado,
-        pl1_0.existe,
-        pl1_0.fecha,
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre,
-        pl1_0.tiempo_estimado,
-        te1_0.id,
-        te1_0.nombre_envio,
-        tp1_0.id,
-        tp1_0.nombre_pago 
-    from
-        pedido pl1_0 
-    left join
-        estado_pedido ep1_0 
-            on ep1_0.id=pl1_0.id_estado_pedido 
-    left join
-        sucursal s1_0 
-            on s1_0.id=pl1_0.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    left join
-        tipo_envio te1_0 
-            on te1_0.id=pl1_0.id_tipo_envio 
-    left join
-        tipo_pago tp1_0 
-            on tp1_0.id=pl1_0.id_tipo_pago 
-    where
-        pl1_0.id_cliente=?
-2025-10-03 20:05:20.324 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        tl1_0.usuario_id,
-        tl1_0.id,
-        tl1_0.numero 
-    from
-        telefono tl1_0 
-    where
-        tl1_0.usuario_id=?
-2025-10-03 20:05:20.326 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        rl1_0.tipo_rol_id,
-        rl1_0.id,
-        rl1_0.fecha_alta 
-    from
-        rol rl1_0 
-    where
-        rl1_0.tipo_rol_id=?
-2025-10-03 20:05:20.367 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.id_cliente,
-        pl1_0.id,
-        ep1_0.id,
-        ep1_0.nombre_estado,
-        pl1_0.existe,
-        pl1_0.fecha,
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre,
-        pl1_0.tiempo_estimado,
-        te1_0.id,
-        te1_0.nombre_envio,
-        tp1_0.id,
-        tp1_0.nombre_pago 
-    from
-        pedido pl1_0 
-    left join
-        estado_pedido ep1_0 
-            on ep1_0.id=pl1_0.id_estado_pedido 
-    left join
-        sucursal s1_0 
-            on s1_0.id=pl1_0.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    left join
-        tipo_envio te1_0 
-            on te1_0.id=pl1_0.id_tipo_envio 
-    left join
-        tipo_pago tp1_0 
-            on tp1_0.id=pl1_0.id_tipo_pago 
-    where
-        pl1_0.id_cliente=?
-2025-10-03 20:05:20.370 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        tl1_0.usuario_id,
-        tl1_0.id,
-        tl1_0.numero 
-    from
-        telefono tl1_0 
-    where
-        tl1_0.usuario_id=?
-2025-10-03 20:05:20.374 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        rl1_0.tipo_rol_id,
-        rl1_0.id,
-        rl1_0.fecha_alta 
-    from
-        rol rl1_0 
-    where
-        rl1_0.tipo_rol_id=?
-2025-10-03 20:05:20.376 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        pl1_0.id_cliente,
-        pl1_0.id,
-        ep1_0.id,
-        ep1_0.nombre_estado,
-        pl1_0.existe,
-        pl1_0.fecha,
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre,
-        pl1_0.tiempo_estimado,
-        te1_0.id,
-        te1_0.nombre_envio,
-        tp1_0.id,
-        tp1_0.nombre_pago 
-    from
-        pedido pl1_0 
-    left join
-        estado_pedido ep1_0 
-            on ep1_0.id=pl1_0.id_estado_pedido 
-    left join
-        sucursal s1_0 
-            on s1_0.id=pl1_0.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    left join
-        tipo_envio te1_0 
-            on te1_0.id=pl1_0.id_tipo_envio 
-    left join
-        tipo_pago tp1_0 
-            on tp1_0.id=pl1_0.id_tipo_pago 
-    where
-        pl1_0.id_cliente=?
-2025-10-03 20:08:21.785 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
-    select
-        ua1_0.id,
+        ua1_0.firebase_uid,
         ua1_0.password,
         ua1_0.username 
     from
         user_authentication ua1_0 
     where
         ua1_0.username=?
-2025-10-03 20:08:21.797 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+2025-10-07 21:59:14.764 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        u1_0.id,
+        case 
+            when u1_1.id is not null 
+                then 1 
+            when u1_0.id is not null 
+                then 0 
+        end,
+        u1_0.apellido,
+        u1_0.email,
+        u1_0.existe,
+        u1_0.imagen_usuario,
+        u1_0.nombre,
+        r1_0.id,
+        r1_0.fecha_alta,
+        tr1_0.id,
+        tr1_0.nombre_rol,
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username,
+        u1_1.fecha_alta,
+        is1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        is1_0.existe,
+        is1_0.hora_apertura,
+        is1_0.hora_cierre,
+        is1_0.nombre,
+        pl1_0.id_sucursal,
+        pl1_0.id,
+        pl1_0.id_estado_pedido,
+        pl1_0.existe,
+        pl1_0.fecha,
+        pl1_0.tiempo_estimado,
+        pl1_0.id_tipo_envio,
+        pl1_0.id_tipo_pago,
+        pl1_0.id_cliente,
+        u1_1.sueldo 
+    from
+        usuario u1_0 
+    left join
+        empleado u1_1 
+            on u1_0.id=u1_1.id 
+    left join
+        rol r1_0 
+            on r1_0.id=u1_0.id_rol 
+    left join
+        tipo_rol tr1_0 
+            on tr1_0.id=r1_0.tipo_rol_id 
+    left join
+        user_authentication ua1_0 
+            on ua1_0.id=u1_0.id_user_auth 
+    left join
+        sucursal is1_0 
+            on is1_0.id=u1_1.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=is1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=is1_0.empresa_id 
+    left join
+        pedido pl1_0 
+            on is1_0.id=pl1_0.id_sucursal 
+    where
+        u1_0.id_user_auth=?
+2025-10-07 21:59:14.847 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        tl1_0.usuario_id,
+        tl1_0.id,
+        tl1_0.numero 
+    from
+        telefono tl1_0 
+    where
+        tl1_0.usuario_id=?
+2025-10-07 21:59:14.862 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        rl1_0.tipo_rol_id,
+        rl1_0.id,
+        rl1_0.fecha_alta 
+    from
+        rol rl1_0 
+    where
+        rl1_0.tipo_rol_id=?
+2025-10-07 21:59:14.868 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        pl1_0.id_cliente,
+        pl1_0.id,
+        ep1_0.id,
+        ep1_0.nombre_estado,
+        pl1_0.existe,
+        pl1_0.fecha,
+        s1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre,
+        pl1_0.tiempo_estimado,
+        te1_0.id,
+        te1_0.nombre_envio,
+        tp1_0.id,
+        tp1_0.nombre_pago 
+    from
+        pedido pl1_0 
+    left join
+        estado_pedido ep1_0 
+            on ep1_0.id=pl1_0.id_estado_pedido 
+    left join
+        sucursal s1_0 
+            on s1_0.id=pl1_0.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    left join
+        tipo_envio te1_0 
+            on te1_0.id=pl1_0.id_tipo_envio 
+    left join
+        tipo_pago tp1_0 
+            on tp1_0.id=pl1_0.id_tipo_pago 
+    where
+        pl1_0.id_cliente=?
+2025-10-07 21:59:14.873 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        dl1_0.id_usuario,
+        dl1_1.id,
+        dl1_1.alias,
+        c1_0.id,
+        c1_0.nombre,
+        p1_0.id,
+        p1_0.nombre,
+        p1_0.pais_id,
+        dl1_1.descripcion_entrega,
+        dl1_1.latitud,
+        dl1_1.longitud,
+        dl1_1.nombre_calle,
+        dl1_1.numeracion,
+        s1_0.id,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre 
+    from
+        usuario_direccion dl1_0 
+    join
+        direccion dl1_1 
+            on dl1_1.id=dl1_0.id_direccion 
+    left join
+        ciudad c1_0 
+            on c1_0.id=dl1_1.id_ciudad 
+    left join
+        provincia p1_0 
+            on p1_0.id=c1_0.provincia_id 
+    left join
+        sucursal s1_0 
+            on dl1_1.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    where
+        dl1_0.id_usuario=?
+2025-10-07 21:59:24.298 DEBUG [http-nio-8080-exec-7] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 21:59:24.301 DEBUG [http-nio-8080-exec-7] org.hibernate.SQL - 
+    select
+        u1_0.id,
+        case 
+            when u1_1.id is not null 
+                then 1 
+            when u1_0.id is not null 
+                then 0 
+        end,
+        u1_0.apellido,
+        u1_0.email,
+        u1_0.existe,
+        u1_0.imagen_usuario,
+        u1_0.nombre,
+        r1_0.id,
+        r1_0.fecha_alta,
+        tr1_0.id,
+        tr1_0.nombre_rol,
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username,
+        u1_1.fecha_alta,
+        is1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        is1_0.existe,
+        is1_0.hora_apertura,
+        is1_0.hora_cierre,
+        is1_0.nombre,
+        pl1_0.id_sucursal,
+        pl1_0.id,
+        pl1_0.id_estado_pedido,
+        pl1_0.existe,
+        pl1_0.fecha,
+        pl1_0.tiempo_estimado,
+        pl1_0.id_tipo_envio,
+        pl1_0.id_tipo_pago,
+        pl1_0.id_cliente,
+        u1_1.sueldo 
+    from
+        usuario u1_0 
+    left join
+        empleado u1_1 
+            on u1_0.id=u1_1.id 
+    left join
+        rol r1_0 
+            on r1_0.id=u1_0.id_rol 
+    left join
+        tipo_rol tr1_0 
+            on tr1_0.id=r1_0.tipo_rol_id 
+    left join
+        user_authentication ua1_0 
+            on ua1_0.id=u1_0.id_user_auth 
+    left join
+        sucursal is1_0 
+            on is1_0.id=u1_1.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=is1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=is1_0.empresa_id 
+    left join
+        pedido pl1_0 
+            on is1_0.id=pl1_0.id_sucursal 
+    where
+        u1_0.id_user_auth=?
+2025-10-07 21:59:24.314 DEBUG [http-nio-8080-exec-7] org.hibernate.SQL - 
+    select
+        tl1_0.usuario_id,
+        tl1_0.id,
+        tl1_0.numero 
+    from
+        telefono tl1_0 
+    where
+        tl1_0.usuario_id=?
+2025-10-07 21:59:24.316 DEBUG [http-nio-8080-exec-7] org.hibernate.SQL - 
+    select
+        rl1_0.tipo_rol_id,
+        rl1_0.id,
+        rl1_0.fecha_alta 
+    from
+        rol rl1_0 
+    where
+        rl1_0.tipo_rol_id=?
+2025-10-07 21:59:24.320 DEBUG [http-nio-8080-exec-7] org.hibernate.SQL - 
+    select
+        pl1_0.id_cliente,
+        pl1_0.id,
+        ep1_0.id,
+        ep1_0.nombre_estado,
+        pl1_0.existe,
+        pl1_0.fecha,
+        s1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre,
+        pl1_0.tiempo_estimado,
+        te1_0.id,
+        te1_0.nombre_envio,
+        tp1_0.id,
+        tp1_0.nombre_pago 
+    from
+        pedido pl1_0 
+    left join
+        estado_pedido ep1_0 
+            on ep1_0.id=pl1_0.id_estado_pedido 
+    left join
+        sucursal s1_0 
+            on s1_0.id=pl1_0.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    left join
+        tipo_envio te1_0 
+            on te1_0.id=pl1_0.id_tipo_envio 
+    left join
+        tipo_pago tp1_0 
+            on tp1_0.id=pl1_0.id_tipo_pago 
+    where
+        pl1_0.id_cliente=?
+2025-10-07 21:59:24.323 DEBUG [http-nio-8080-exec-7] org.hibernate.SQL - 
+    select
+        dl1_0.id_usuario,
+        dl1_1.id,
+        dl1_1.alias,
+        c1_0.id,
+        c1_0.nombre,
+        p1_0.id,
+        p1_0.nombre,
+        p1_0.pais_id,
+        dl1_1.descripcion_entrega,
+        dl1_1.latitud,
+        dl1_1.longitud,
+        dl1_1.nombre_calle,
+        dl1_1.numeracion,
+        s1_0.id,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre 
+    from
+        usuario_direccion dl1_0 
+    join
+        direccion dl1_1 
+            on dl1_1.id=dl1_0.id_direccion 
+    left join
+        ciudad c1_0 
+            on c1_0.id=dl1_1.id_ciudad 
+    left join
+        provincia p1_0 
+            on p1_0.id=c1_0.provincia_id 
+    left join
+        sucursal s1_0 
+            on dl1_1.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    where
+        dl1_0.id_usuario=?
+2025-10-07 21:59:33.934 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 21:59:33.942 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+    select
+        u1_0.id,
+        case 
+            when u1_1.id is not null 
+                then 1 
+            when u1_0.id is not null 
+                then 0 
+        end,
+        u1_0.apellido,
+        u1_0.email,
+        u1_0.existe,
+        u1_0.imagen_usuario,
+        u1_0.nombre,
+        r1_0.id,
+        r1_0.fecha_alta,
+        tr1_0.id,
+        tr1_0.nombre_rol,
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username,
+        u1_1.fecha_alta,
+        is1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        is1_0.existe,
+        is1_0.hora_apertura,
+        is1_0.hora_cierre,
+        is1_0.nombre,
+        pl1_0.id_sucursal,
+        pl1_0.id,
+        pl1_0.id_estado_pedido,
+        pl1_0.existe,
+        pl1_0.fecha,
+        pl1_0.tiempo_estimado,
+        pl1_0.id_tipo_envio,
+        pl1_0.id_tipo_pago,
+        pl1_0.id_cliente,
+        u1_1.sueldo 
+    from
+        usuario u1_0 
+    left join
+        empleado u1_1 
+            on u1_0.id=u1_1.id 
+    left join
+        rol r1_0 
+            on r1_0.id=u1_0.id_rol 
+    left join
+        tipo_rol tr1_0 
+            on tr1_0.id=r1_0.tipo_rol_id 
+    left join
+        user_authentication ua1_0 
+            on ua1_0.id=u1_0.id_user_auth 
+    left join
+        sucursal is1_0 
+            on is1_0.id=u1_1.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=is1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=is1_0.empresa_id 
+    left join
+        pedido pl1_0 
+            on is1_0.id=pl1_0.id_sucursal 
+    where
+        u1_0.id_user_auth=?
+2025-10-07 21:59:33.947 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+    select
+        tl1_0.usuario_id,
+        tl1_0.id,
+        tl1_0.numero 
+    from
+        telefono tl1_0 
+    where
+        tl1_0.usuario_id=?
+2025-10-07 21:59:33.949 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+    select
+        rl1_0.tipo_rol_id,
+        rl1_0.id,
+        rl1_0.fecha_alta 
+    from
+        rol rl1_0 
+    where
+        rl1_0.tipo_rol_id=?
+2025-10-07 21:59:33.955 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+    select
+        pl1_0.id_cliente,
+        pl1_0.id,
+        ep1_0.id,
+        ep1_0.nombre_estado,
+        pl1_0.existe,
+        pl1_0.fecha,
+        s1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre,
+        pl1_0.tiempo_estimado,
+        te1_0.id,
+        te1_0.nombre_envio,
+        tp1_0.id,
+        tp1_0.nombre_pago 
+    from
+        pedido pl1_0 
+    left join
+        estado_pedido ep1_0 
+            on ep1_0.id=pl1_0.id_estado_pedido 
+    left join
+        sucursal s1_0 
+            on s1_0.id=pl1_0.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    left join
+        tipo_envio te1_0 
+            on te1_0.id=pl1_0.id_tipo_envio 
+    left join
+        tipo_pago tp1_0 
+            on tp1_0.id=pl1_0.id_tipo_pago 
+    where
+        pl1_0.id_cliente=?
+2025-10-07 21:59:33.958 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+    select
+        dl1_0.id_usuario,
+        dl1_1.id,
+        dl1_1.alias,
+        c1_0.id,
+        c1_0.nombre,
+        p1_0.id,
+        p1_0.nombre,
+        p1_0.pais_id,
+        dl1_1.descripcion_entrega,
+        dl1_1.latitud,
+        dl1_1.longitud,
+        dl1_1.nombre_calle,
+        dl1_1.numeracion,
+        s1_0.id,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre 
+    from
+        usuario_direccion dl1_0 
+    join
+        direccion dl1_1 
+            on dl1_1.id=dl1_0.id_direccion 
+    left join
+        ciudad c1_0 
+            on c1_0.id=dl1_1.id_ciudad 
+    left join
+        provincia p1_0 
+            on p1_0.id=c1_0.provincia_id 
+    left join
+        sucursal s1_0 
+            on dl1_1.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    where
+        dl1_0.id_usuario=?
+2025-10-07 21:59:42.730 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 21:59:42.735 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
+    select
+        u1_0.id,
+        case 
+            when u1_1.id is not null 
+                then 1 
+            when u1_0.id is not null 
+                then 0 
+        end,
+        u1_0.apellido,
+        u1_0.email,
+        u1_0.existe,
+        u1_0.imagen_usuario,
+        u1_0.nombre,
+        r1_0.id,
+        r1_0.fecha_alta,
+        tr1_0.id,
+        tr1_0.nombre_rol,
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username,
+        u1_1.fecha_alta,
+        is1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        is1_0.existe,
+        is1_0.hora_apertura,
+        is1_0.hora_cierre,
+        is1_0.nombre,
+        pl1_0.id_sucursal,
+        pl1_0.id,
+        pl1_0.id_estado_pedido,
+        pl1_0.existe,
+        pl1_0.fecha,
+        pl1_0.tiempo_estimado,
+        pl1_0.id_tipo_envio,
+        pl1_0.id_tipo_pago,
+        pl1_0.id_cliente,
+        u1_1.sueldo 
+    from
+        usuario u1_0 
+    left join
+        empleado u1_1 
+            on u1_0.id=u1_1.id 
+    left join
+        rol r1_0 
+            on r1_0.id=u1_0.id_rol 
+    left join
+        tipo_rol tr1_0 
+            on tr1_0.id=r1_0.tipo_rol_id 
+    left join
+        user_authentication ua1_0 
+            on ua1_0.id=u1_0.id_user_auth 
+    left join
+        sucursal is1_0 
+            on is1_0.id=u1_1.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=is1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=is1_0.empresa_id 
+    left join
+        pedido pl1_0 
+            on is1_0.id=pl1_0.id_sucursal 
+    where
+        u1_0.id_user_auth=?
+2025-10-07 21:59:42.740 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
+    select
+        tl1_0.usuario_id,
+        tl1_0.id,
+        tl1_0.numero 
+    from
+        telefono tl1_0 
+    where
+        tl1_0.usuario_id=?
+2025-10-07 21:59:42.745 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
+    select
+        rl1_0.tipo_rol_id,
+        rl1_0.id,
+        rl1_0.fecha_alta 
+    from
+        rol rl1_0 
+    where
+        rl1_0.tipo_rol_id=?
+2025-10-07 21:59:42.750 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
+    select
+        pl1_0.id_cliente,
+        pl1_0.id,
+        ep1_0.id,
+        ep1_0.nombre_estado,
+        pl1_0.existe,
+        pl1_0.fecha,
+        s1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre,
+        pl1_0.tiempo_estimado,
+        te1_0.id,
+        te1_0.nombre_envio,
+        tp1_0.id,
+        tp1_0.nombre_pago 
+    from
+        pedido pl1_0 
+    left join
+        estado_pedido ep1_0 
+            on ep1_0.id=pl1_0.id_estado_pedido 
+    left join
+        sucursal s1_0 
+            on s1_0.id=pl1_0.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    left join
+        tipo_envio te1_0 
+            on te1_0.id=pl1_0.id_tipo_envio 
+    left join
+        tipo_pago tp1_0 
+            on tp1_0.id=pl1_0.id_tipo_pago 
+    where
+        pl1_0.id_cliente=?
+2025-10-07 21:59:42.753 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
+    select
+        dl1_0.id_usuario,
+        dl1_1.id,
+        dl1_1.alias,
+        c1_0.id,
+        c1_0.nombre,
+        p1_0.id,
+        p1_0.nombre,
+        p1_0.pais_id,
+        dl1_1.descripcion_entrega,
+        dl1_1.latitud,
+        dl1_1.longitud,
+        dl1_1.nombre_calle,
+        dl1_1.numeracion,
+        s1_0.id,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre 
+    from
+        usuario_direccion dl1_0 
+    join
+        direccion dl1_1 
+            on dl1_1.id=dl1_0.id_direccion 
+    left join
+        ciudad c1_0 
+            on c1_0.id=dl1_1.id_ciudad 
+    left join
+        provincia p1_0 
+            on p1_0.id=c1_0.provincia_id 
+    left join
+        sucursal s1_0 
+            on dl1_1.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    where
+        dl1_0.id_usuario=?
+2025-10-07 21:59:43.110 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:01:20.224 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:01:20.234 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
     select
         tr1_0.id,
         tr1_0.nombre_rol 
@@ -1597,7 +1078,7 @@
         tipo_rol tr1_0 
     where
         tr1_0.nombre_rol=?
-2025-10-03 20:08:21.799 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+2025-10-07 22:01:20.236 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
     select
         rl1_0.tipo_rol_id,
         rl1_0.id,
@@ -1606,122 +1087,45 @@
         rol rl1_0 
     where
         rl1_0.tipo_rol_id=?
-2025-10-03 20:08:22.052 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+2025-10-07 22:01:20.561 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
     insert 
     into
         rol
         (fecha_alta, tipo_rol_id) 
     values
         (?, ?)
-2025-10-03 20:08:22.121 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+2025-10-07 22:01:20.617 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
     insert 
     into
         user_authentication
-        (password, username) 
+        (firebase_uid, password, username) 
     values
-        (?, ?)
-2025-10-03 20:08:22.145 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+        (?, ?, ?)
+2025-10-07 22:01:20.622 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
     insert 
     into
         usuario
         (apellido, email, existe, imagen_usuario, nombre, id_rol, id_user_auth) 
     values
         (?, ?, ?, ?, ?, ?, ?)
-2025-10-03 20:08:22.166 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+2025-10-07 22:01:20.629 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
     insert 
     into
         telefono
         (numero, usuario_id) 
     values
         (?, ?)
-2025-10-03 20:09:52.227 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2025-10-03 20:09:52.340 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
-2025-10-03 20:09:52.358 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-10-03 20:09:52.363 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-10-03 20:09:52.386 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-10-03 20:10:07.162 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.12 with PID 4576 (C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Luis O in C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd)
-2025-10-03 20:10:07.167 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
-2025-10-03 20:10:07.169 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
-2025-10-03 20:10:07.296 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-10-03 20:10:07.297 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-10-03 20:10:09.984 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-03 20:10:10.527 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 519 ms. Found 34 JPA repository interfaces.
-2025-10-03 20:10:12.125 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-10-03 20:10:12.149 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
-2025-10-03 20:10:12.149 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-10-03 20:10:12.269 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-10-03 20:10:12.270 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4971 ms
-2025-10-03 20:10:12.735 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-03 20:10:12.973 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
-2025-10-03 20:10:13.103 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-10-03 20:10:13.409 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
-2025-10-03 20:10:14.006 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-03 20:10:14.079 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-10-03 20:10:14.420 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@26999919
-2025-10-03 20:10:14.425 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-10-03 20:10:14.504 WARN  [restartedMain] org.hibernate.dialect.Dialect - HHH000511: The 5.6.17 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
-2025-10-03 20:10:14.513 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-03 20:10:14.796 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 5.6.17
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-10-03 20:10:19.082 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-10-03 20:10:20.127 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-03 20:10:21.116 DEBUG [restartedMain] c.b.B.c.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2025-10-03 20:10:21.842 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-10-03 20:10:23.532 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-10-03 20:10:23.533 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2025-10-03 20:10:24.826 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-10-03 20:10:26.977 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-10-03 20:10:27.099 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-10-03 20:10:27.119 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 21.034 seconds (process running for 22.762)
-2025-10-03 20:10:27.264 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_pago tp1_0
-2025-10-03 20:10:27.294 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_envio te1_0
-2025-10-03 20:10:27.298 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_promocion tp1_0
-2025-10-03 20:10:27.307 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        estado_pedido ep1_0
-2025-10-03 20:10:27.313 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        unidad_medida um1_0
-2025-10-03 20:10:27.319 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_rol tr1_0
-2025-10-03 20:11:12.662 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-03 20:11:12.662 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-10-03 20:11:12.665 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 2 ms
-2025-10-03 20:11:13.153 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:02:04.731 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
     select
         ua1_0.id,
+        ua1_0.firebase_uid,
         ua1_0.password,
         ua1_0.username 
     from
         user_authentication ua1_0 
     where
         ua1_0.username=?
-2025-10-03 20:11:13.202 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:02:04.736 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
     select
         u1_0.id,
         case 
@@ -1740,6 +1144,7 @@
         tr1_0.id,
         tr1_0.nombre_rol,
         ua1_0.id,
+        ua1_0.firebase_uid,
         ua1_0.password,
         ua1_0.username,
         u1_1.fecha_alta,
@@ -1799,7 +1204,7 @@
             on is1_0.id=pl1_0.id_sucursal 
     where
         u1_0.id_user_auth=?
-2025-10-03 20:11:13.268 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:02:04.741 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
     select
         tl1_0.usuario_id,
         tl1_0.id,
@@ -1808,7 +1213,7 @@
         telefono tl1_0 
     where
         tl1_0.usuario_id=?
-2025-10-03 20:11:13.273 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:02:04.744 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
     select
         rl1_0.tipo_rol_id,
         rl1_0.id,
@@ -1817,7 +1222,7 @@
         rol rl1_0 
     where
         rl1_0.tipo_rol_id=?
-2025-10-03 20:11:13.277 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:02:04.749 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
     select
         pl1_0.id_cliente,
         pl1_0.id,
@@ -1870,7 +1275,7 @@
             on tp1_0.id=pl1_0.id_tipo_pago 
     where
         pl1_0.id_cliente=?
-2025-10-03 20:11:13.281 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:02:04.757 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
     select
         dl1_0.id_usuario,
         dl1_1.id,
@@ -1914,16 +1319,37 @@
             on e1_0.id=s1_0.empresa_id 
     where
         dl1_0.id_usuario=?
-2025-10-03 20:11:45.405 DEBUG [http-nio-8080-exec-2] org.hibernate.SQL - 
+2025-10-07 22:02:05.108 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
     select
         ua1_0.id,
+        ua1_0.firebase_uid,
         ua1_0.password,
         ua1_0.username 
     from
         user_authentication ua1_0 
     where
         ua1_0.username=?
-2025-10-03 20:11:45.415 DEBUG [http-nio-8080-exec-2] org.hibernate.SQL - 
+2025-10-07 22:02:17.835 DEBUG [http-nio-8080-exec-7] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:02:36.026 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:02:36.041 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
     select
         u1_0.id,
         case 
@@ -1942,6 +1368,7 @@
         tr1_0.id,
         tr1_0.nombre_rol,
         ua1_0.id,
+        ua1_0.firebase_uid,
         ua1_0.password,
         ua1_0.username,
         u1_1.fecha_alta,
@@ -2001,7 +1428,7 @@
             on is1_0.id=pl1_0.id_sucursal 
     where
         u1_0.id_user_auth=?
-2025-10-03 20:11:45.419 DEBUG [http-nio-8080-exec-2] org.hibernate.SQL - 
+2025-10-07 22:02:36.053 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
     select
         tl1_0.usuario_id,
         tl1_0.id,
@@ -2010,7 +1437,7 @@
         telefono tl1_0 
     where
         tl1_0.usuario_id=?
-2025-10-03 20:11:45.422 DEBUG [http-nio-8080-exec-2] org.hibernate.SQL - 
+2025-10-07 22:02:36.058 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
     select
         rl1_0.tipo_rol_id,
         rl1_0.id,
@@ -2019,7 +1446,7 @@
         rol rl1_0 
     where
         rl1_0.tipo_rol_id=?
-2025-10-03 20:11:45.427 DEBUG [http-nio-8080-exec-2] org.hibernate.SQL - 
+2025-10-07 22:02:36.065 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
     select
         pl1_0.id_cliente,
         pl1_0.id,
@@ -2072,7 +1499,7 @@
             on tp1_0.id=pl1_0.id_tipo_pago 
     where
         pl1_0.id_cliente=?
-2025-10-03 20:11:45.430 DEBUG [http-nio-8080-exec-2] org.hibernate.SQL - 
+2025-10-07 22:02:36.068 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
     select
         dl1_0.id_usuario,
         dl1_1.id,
@@ -2116,17 +1543,27 @@
             on e1_0.id=s1_0.empresa_id 
     where
         dl1_0.id_usuario=?
-2025-10-03 20:12:04.381 INFO  [http-nio-8080-exec-7] o.s.a.AbstractOpenApiResource - Init duration for springdoc-openapi is: 3711 ms
-2025-10-03 20:13:14.219 DEBUG [http-nio-8080-exec-10] org.hibernate.SQL - 
+2025-10-07 22:02:36.285 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
     select
         ua1_0.id,
+        ua1_0.firebase_uid,
         ua1_0.password,
         ua1_0.username 
     from
         user_authentication ua1_0 
     where
         ua1_0.username=?
-2025-10-03 20:13:14.222 DEBUG [http-nio-8080-exec-10] org.hibernate.SQL - 
+2025-10-07 22:02:43.282 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:02:43.285 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
     select
         u1_0.id,
         case 
@@ -2145,6 +1582,7 @@
         tr1_0.id,
         tr1_0.nombre_rol,
         ua1_0.id,
+        ua1_0.firebase_uid,
         ua1_0.password,
         ua1_0.username,
         u1_1.fecha_alta,
@@ -2204,7 +1642,7 @@
             on is1_0.id=pl1_0.id_sucursal 
     where
         u1_0.id_user_auth=?
-2025-10-03 20:13:14.227 DEBUG [http-nio-8080-exec-10] org.hibernate.SQL - 
+2025-10-07 22:02:43.292 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
     select
         tl1_0.usuario_id,
         tl1_0.id,
@@ -2213,7 +1651,7 @@
         telefono tl1_0 
     where
         tl1_0.usuario_id=?
-2025-10-03 20:13:14.230 DEBUG [http-nio-8080-exec-10] org.hibernate.SQL - 
+2025-10-07 22:02:43.297 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
     select
         rl1_0.tipo_rol_id,
         rl1_0.id,
@@ -2222,7 +1660,7 @@
         rol rl1_0 
     where
         rl1_0.tipo_rol_id=?
-2025-10-03 20:13:14.233 DEBUG [http-nio-8080-exec-10] org.hibernate.SQL - 
+2025-10-07 22:02:43.300 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
     select
         pl1_0.id_cliente,
         pl1_0.id,
@@ -2275,7 +1713,7 @@
             on tp1_0.id=pl1_0.id_tipo_pago 
     where
         pl1_0.id_cliente=?
-2025-10-03 20:13:14.237 DEBUG [http-nio-8080-exec-10] org.hibernate.SQL - 
+2025-10-07 22:02:43.305 DEBUG [http-nio-8080-exec-3] org.hibernate.SQL - 
     select
         dl1_0.id_usuario,
         dl1_1.id,
@@ -2319,94 +1757,639 @@
             on e1_0.id=s1_0.empresa_id 
     where
         dl1_0.id_usuario=?
-2025-10-03 20:14:16.901 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2025-10-03 20:14:17.024 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
-2025-10-03 20:14:17.047 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-10-03 20:14:17.054 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-10-03 20:14:17.072 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-10-03 20:56:06.032 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.12 with PID 14468 (C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Luis O in C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd)
-2025-10-03 20:56:06.045 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
-2025-10-03 20:56:06.047 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
-2025-10-03 20:56:06.181 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-10-03 20:56:06.182 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-10-03 20:56:09.234 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-03 20:56:09.743 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 484 ms. Found 34 JPA repository interfaces.
-2025-10-03 20:56:11.267 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-10-03 20:56:11.297 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
-2025-10-03 20:56:11.298 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-10-03 20:56:11.448 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-10-03 20:56:11.449 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5265 ms
-2025-10-03 20:56:11.828 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-03 20:56:12.032 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
-2025-10-03 20:56:12.147 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-10-03 20:56:12.416 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
-2025-10-03 20:56:12.954 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-03 20:56:13.037 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-10-03 20:56:13.350 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7d90cfd
-2025-10-03 20:56:13.355 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-10-03 20:56:13.452 WARN  [restartedMain] org.hibernate.dialect.Dialect - HHH000511: The 5.6.17 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
-2025-10-03 20:56:13.461 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-03 20:56:13.505 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 5.6.17
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-10-03 20:56:17.119 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-10-03 20:56:18.110 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-03 20:56:19.104 DEBUG [restartedMain] c.b.B.c.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2025-10-03 20:56:19.747 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-10-03 20:56:21.859 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-10-03 20:56:21.860 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2025-10-03 20:56:22.919 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-10-03 20:56:24.797 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-10-03 20:56:24.896 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-10-03 20:56:24.918 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 20.112 seconds (process running for 22.178)
-2025-10-03 20:56:25.065 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        unidad_medida um1_0
-2025-10-03 20:56:25.104 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_promocion tp1_0
-2025-10-03 20:56:25.110 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_pago tp1_0
-2025-10-03 20:56:25.115 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        estado_pedido ep1_0
-2025-10-03 20:56:25.120 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_envio te1_0
-2025-10-03 20:56:25.126 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_rol tr1_0
-2025-10-03 20:57:18.743 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-03 20:57:18.744 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-10-03 20:57:18.751 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 5 ms
-2025-10-03 20:57:19.453 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:02:50.643 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
     select
         ua1_0.id,
+        ua1_0.firebase_uid,
         ua1_0.password,
         ua1_0.username 
     from
         user_authentication ua1_0 
     where
         ua1_0.username=?
-2025-10-03 20:57:19.495 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:02:50.656 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+    select
+        u1_0.id,
+        case 
+            when u1_1.id is not null 
+                then 1 
+            when u1_0.id is not null 
+                then 0 
+        end,
+        u1_0.apellido,
+        u1_0.email,
+        u1_0.existe,
+        u1_0.imagen_usuario,
+        u1_0.nombre,
+        r1_0.id,
+        r1_0.fecha_alta,
+        tr1_0.id,
+        tr1_0.nombre_rol,
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username,
+        u1_1.fecha_alta,
+        is1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        is1_0.existe,
+        is1_0.hora_apertura,
+        is1_0.hora_cierre,
+        is1_0.nombre,
+        pl1_0.id_sucursal,
+        pl1_0.id,
+        pl1_0.id_estado_pedido,
+        pl1_0.existe,
+        pl1_0.fecha,
+        pl1_0.tiempo_estimado,
+        pl1_0.id_tipo_envio,
+        pl1_0.id_tipo_pago,
+        pl1_0.id_cliente,
+        u1_1.sueldo 
+    from
+        usuario u1_0 
+    left join
+        empleado u1_1 
+            on u1_0.id=u1_1.id 
+    left join
+        rol r1_0 
+            on r1_0.id=u1_0.id_rol 
+    left join
+        tipo_rol tr1_0 
+            on tr1_0.id=r1_0.tipo_rol_id 
+    left join
+        user_authentication ua1_0 
+            on ua1_0.id=u1_0.id_user_auth 
+    left join
+        sucursal is1_0 
+            on is1_0.id=u1_1.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=is1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=is1_0.empresa_id 
+    left join
+        pedido pl1_0 
+            on is1_0.id=pl1_0.id_sucursal 
+    where
+        u1_0.id_user_auth=?
+2025-10-07 22:02:50.661 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+    select
+        tl1_0.usuario_id,
+        tl1_0.id,
+        tl1_0.numero 
+    from
+        telefono tl1_0 
+    where
+        tl1_0.usuario_id=?
+2025-10-07 22:02:50.666 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+    select
+        rl1_0.tipo_rol_id,
+        rl1_0.id,
+        rl1_0.fecha_alta 
+    from
+        rol rl1_0 
+    where
+        rl1_0.tipo_rol_id=?
+2025-10-07 22:02:50.670 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+    select
+        pl1_0.id_cliente,
+        pl1_0.id,
+        ep1_0.id,
+        ep1_0.nombre_estado,
+        pl1_0.existe,
+        pl1_0.fecha,
+        s1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre,
+        pl1_0.tiempo_estimado,
+        te1_0.id,
+        te1_0.nombre_envio,
+        tp1_0.id,
+        tp1_0.nombre_pago 
+    from
+        pedido pl1_0 
+    left join
+        estado_pedido ep1_0 
+            on ep1_0.id=pl1_0.id_estado_pedido 
+    left join
+        sucursal s1_0 
+            on s1_0.id=pl1_0.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    left join
+        tipo_envio te1_0 
+            on te1_0.id=pl1_0.id_tipo_envio 
+    left join
+        tipo_pago tp1_0 
+            on tp1_0.id=pl1_0.id_tipo_pago 
+    where
+        pl1_0.id_cliente=?
+2025-10-07 22:02:50.673 DEBUG [http-nio-8080-exec-9] org.hibernate.SQL - 
+    select
+        dl1_0.id_usuario,
+        dl1_1.id,
+        dl1_1.alias,
+        c1_0.id,
+        c1_0.nombre,
+        p1_0.id,
+        p1_0.nombre,
+        p1_0.pais_id,
+        dl1_1.descripcion_entrega,
+        dl1_1.latitud,
+        dl1_1.longitud,
+        dl1_1.nombre_calle,
+        dl1_1.numeracion,
+        s1_0.id,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre 
+    from
+        usuario_direccion dl1_0 
+    join
+        direccion dl1_1 
+            on dl1_1.id=dl1_0.id_direccion 
+    left join
+        ciudad c1_0 
+            on c1_0.id=dl1_1.id_ciudad 
+    left join
+        provincia p1_0 
+            on p1_0.id=c1_0.provincia_id 
+    left join
+        sucursal s1_0 
+            on dl1_1.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    where
+        dl1_0.id_usuario=?
+2025-10-07 22:02:56.546 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:02:56.549 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        u1_0.id,
+        case 
+            when u1_1.id is not null 
+                then 1 
+            when u1_0.id is not null 
+                then 0 
+        end,
+        u1_0.apellido,
+        u1_0.email,
+        u1_0.existe,
+        u1_0.imagen_usuario,
+        u1_0.nombre,
+        r1_0.id,
+        r1_0.fecha_alta,
+        tr1_0.id,
+        tr1_0.nombre_rol,
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username,
+        u1_1.fecha_alta,
+        is1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        is1_0.existe,
+        is1_0.hora_apertura,
+        is1_0.hora_cierre,
+        is1_0.nombre,
+        pl1_0.id_sucursal,
+        pl1_0.id,
+        pl1_0.id_estado_pedido,
+        pl1_0.existe,
+        pl1_0.fecha,
+        pl1_0.tiempo_estimado,
+        pl1_0.id_tipo_envio,
+        pl1_0.id_tipo_pago,
+        pl1_0.id_cliente,
+        u1_1.sueldo 
+    from
+        usuario u1_0 
+    left join
+        empleado u1_1 
+            on u1_0.id=u1_1.id 
+    left join
+        rol r1_0 
+            on r1_0.id=u1_0.id_rol 
+    left join
+        tipo_rol tr1_0 
+            on tr1_0.id=r1_0.tipo_rol_id 
+    left join
+        user_authentication ua1_0 
+            on ua1_0.id=u1_0.id_user_auth 
+    left join
+        sucursal is1_0 
+            on is1_0.id=u1_1.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=is1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=is1_0.empresa_id 
+    left join
+        pedido pl1_0 
+            on is1_0.id=pl1_0.id_sucursal 
+    where
+        u1_0.id_user_auth=?
+2025-10-07 22:02:56.553 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        tl1_0.usuario_id,
+        tl1_0.id,
+        tl1_0.numero 
+    from
+        telefono tl1_0 
+    where
+        tl1_0.usuario_id=?
+2025-10-07 22:02:56.556 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        rl1_0.tipo_rol_id,
+        rl1_0.id,
+        rl1_0.fecha_alta 
+    from
+        rol rl1_0 
+    where
+        rl1_0.tipo_rol_id=?
+2025-10-07 22:02:56.562 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        pl1_0.id_cliente,
+        pl1_0.id,
+        ep1_0.id,
+        ep1_0.nombre_estado,
+        pl1_0.existe,
+        pl1_0.fecha,
+        s1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre,
+        pl1_0.tiempo_estimado,
+        te1_0.id,
+        te1_0.nombre_envio,
+        tp1_0.id,
+        tp1_0.nombre_pago 
+    from
+        pedido pl1_0 
+    left join
+        estado_pedido ep1_0 
+            on ep1_0.id=pl1_0.id_estado_pedido 
+    left join
+        sucursal s1_0 
+            on s1_0.id=pl1_0.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    left join
+        tipo_envio te1_0 
+            on te1_0.id=pl1_0.id_tipo_envio 
+    left join
+        tipo_pago tp1_0 
+            on tp1_0.id=pl1_0.id_tipo_pago 
+    where
+        pl1_0.id_cliente=?
+2025-10-07 22:02:56.565 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
+    select
+        dl1_0.id_usuario,
+        dl1_1.id,
+        dl1_1.alias,
+        c1_0.id,
+        c1_0.nombre,
+        p1_0.id,
+        p1_0.nombre,
+        p1_0.pais_id,
+        dl1_1.descripcion_entrega,
+        dl1_1.latitud,
+        dl1_1.longitud,
+        dl1_1.nombre_calle,
+        dl1_1.numeracion,
+        s1_0.id,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre 
+    from
+        usuario_direccion dl1_0 
+    join
+        direccion dl1_1 
+            on dl1_1.id=dl1_0.id_direccion 
+    left join
+        ciudad c1_0 
+            on c1_0.id=dl1_1.id_ciudad 
+    left join
+        provincia p1_0 
+            on p1_0.id=c1_0.provincia_id 
+    left join
+        sucursal s1_0 
+            on dl1_1.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    where
+        dl1_0.id_usuario=?
+2025-10-07 22:03:03.434 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:03:03.437 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+    select
+        u1_0.id,
+        case 
+            when u1_1.id is not null 
+                then 1 
+            when u1_0.id is not null 
+                then 0 
+        end,
+        u1_0.apellido,
+        u1_0.email,
+        u1_0.existe,
+        u1_0.imagen_usuario,
+        u1_0.nombre,
+        r1_0.id,
+        r1_0.fecha_alta,
+        tr1_0.id,
+        tr1_0.nombre_rol,
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username,
+        u1_1.fecha_alta,
+        is1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        is1_0.existe,
+        is1_0.hora_apertura,
+        is1_0.hora_cierre,
+        is1_0.nombre,
+        pl1_0.id_sucursal,
+        pl1_0.id,
+        pl1_0.id_estado_pedido,
+        pl1_0.existe,
+        pl1_0.fecha,
+        pl1_0.tiempo_estimado,
+        pl1_0.id_tipo_envio,
+        pl1_0.id_tipo_pago,
+        pl1_0.id_cliente,
+        u1_1.sueldo 
+    from
+        usuario u1_0 
+    left join
+        empleado u1_1 
+            on u1_0.id=u1_1.id 
+    left join
+        rol r1_0 
+            on r1_0.id=u1_0.id_rol 
+    left join
+        tipo_rol tr1_0 
+            on tr1_0.id=r1_0.tipo_rol_id 
+    left join
+        user_authentication ua1_0 
+            on ua1_0.id=u1_0.id_user_auth 
+    left join
+        sucursal is1_0 
+            on is1_0.id=u1_1.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=is1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=is1_0.empresa_id 
+    left join
+        pedido pl1_0 
+            on is1_0.id=pl1_0.id_sucursal 
+    where
+        u1_0.id_user_auth=?
+2025-10-07 22:03:03.444 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+    select
+        tl1_0.usuario_id,
+        tl1_0.id,
+        tl1_0.numero 
+    from
+        telefono tl1_0 
+    where
+        tl1_0.usuario_id=?
+2025-10-07 22:03:03.447 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+    select
+        rl1_0.tipo_rol_id,
+        rl1_0.id,
+        rl1_0.fecha_alta 
+    from
+        rol rl1_0 
+    where
+        rl1_0.tipo_rol_id=?
+2025-10-07 22:03:03.452 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+    select
+        pl1_0.id_cliente,
+        pl1_0.id,
+        ep1_0.id,
+        ep1_0.nombre_estado,
+        pl1_0.existe,
+        pl1_0.fecha,
+        s1_0.id,
+        d1_0.id,
+        d1_0.alias,
+        d1_0.id_ciudad,
+        d1_0.descripcion_entrega,
+        d1_0.latitud,
+        d1_0.longitud,
+        d1_0.nombre_calle,
+        d1_0.numeracion,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre,
+        pl1_0.tiempo_estimado,
+        te1_0.id,
+        te1_0.nombre_envio,
+        tp1_0.id,
+        tp1_0.nombre_pago 
+    from
+        pedido pl1_0 
+    left join
+        estado_pedido ep1_0 
+            on ep1_0.id=pl1_0.id_estado_pedido 
+    left join
+        sucursal s1_0 
+            on s1_0.id=pl1_0.id_sucursal 
+    left join
+        direccion d1_0 
+            on d1_0.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    left join
+        tipo_envio te1_0 
+            on te1_0.id=pl1_0.id_tipo_envio 
+    left join
+        tipo_pago tp1_0 
+            on tp1_0.id=pl1_0.id_tipo_pago 
+    where
+        pl1_0.id_cliente=?
+2025-10-07 22:03:03.455 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+    select
+        dl1_0.id_usuario,
+        dl1_1.id,
+        dl1_1.alias,
+        c1_0.id,
+        c1_0.nombre,
+        p1_0.id,
+        p1_0.nombre,
+        p1_0.pais_id,
+        dl1_1.descripcion_entrega,
+        dl1_1.latitud,
+        dl1_1.longitud,
+        dl1_1.nombre_calle,
+        dl1_1.numeracion,
+        s1_0.id,
+        e1_0.id,
+        e1_0.cuil,
+        e1_0.existe,
+        e1_0.nombre,
+        e1_0.razon_social,
+        s1_0.existe,
+        s1_0.hora_apertura,
+        s1_0.hora_cierre,
+        s1_0.nombre 
+    from
+        usuario_direccion dl1_0 
+    join
+        direccion dl1_1 
+            on dl1_1.id=dl1_0.id_direccion 
+    left join
+        ciudad c1_0 
+            on c1_0.id=dl1_1.id_ciudad 
+    left join
+        provincia p1_0 
+            on p1_0.id=c1_0.provincia_id 
+    left join
+        sucursal s1_0 
+            on dl1_1.id=s1_0.direccion_id 
+    left join
+        empresa e1_0 
+            on e1_0.id=s1_0.empresa_id 
+    where
+        dl1_0.id_usuario=?
+2025-10-07 22:03:03.650 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:26:59.322 DEBUG [http-nio-8080-exec-8] org.hibernate.SQL - 
+    select
+        ua1_0.id,
+        ua1_0.firebase_uid,
+        ua1_0.password,
+        ua1_0.username 
+    from
+        user_authentication ua1_0 
+    where
+        ua1_0.username=?
+2025-10-07 22:26:59.340 DEBUG [http-nio-8080-exec-8] org.hibernate.SQL - 
     select
         tr1_0.id,
         tr1_0.nombre_rol 
@@ -2414,7 +2397,7 @@
         tipo_rol tr1_0 
     where
         tr1_0.nombre_rol=?
-2025-10-03 20:57:19.549 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:26:59.348 DEBUG [http-nio-8080-exec-8] org.hibernate.SQL - 
     select
         rl1_0.tipo_rol_id,
         rl1_0.id,
@@ -2423,376 +2406,29 @@
         rol rl1_0 
     where
         rl1_0.tipo_rol_id=?
-2025-10-03 20:57:19.891 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:26:59.371 DEBUG [http-nio-8080-exec-8] org.hibernate.SQL - 
     insert 
     into
         rol
         (fecha_alta, tipo_rol_id) 
     values
         (?, ?)
-2025-10-03 20:57:19.933 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+2025-10-07 22:26:59.379 DEBUG [http-nio-8080-exec-8] org.hibernate.SQL - 
     insert 
     into
         user_authentication
-        (password, username) 
+        (firebase_uid, password, username) 
     values
-        (?, ?)
-2025-10-03 20:57:19.936 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
+        (?, ?, ?)
+2025-10-07 22:26:59.382 DEBUG [http-nio-8080-exec-8] org.hibernate.SQL - 
     insert 
     into
         usuario
         (apellido, email, existe, imagen_usuario, nombre, id_rol, id_user_auth) 
     values
         (?, ?, ?, ?, ?, ?, ?)
-2025-10-03 20:57:19.942 DEBUG [http-nio-8080-exec-1] org.hibernate.SQL - 
-    insert 
-    into
-        telefono
-        (numero, usuario_id) 
-    values
-        (?, ?)
-2025-10-03 20:59:24.011 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
-2025-10-03 20:59:24.122 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
-2025-10-03 20:59:24.142 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-10-03 20:59:24.149 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2025-10-03 20:59:24.168 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-2025-10-03 21:03:45.630 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Starting BackEndApplication using Java 17.0.12 with PID 13332 (C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd\build\classes\java\main started by Luis O in C:\Users\Luis O\Documents\TUP\4 Semestre\ElBuenSabor-backend-PF25\BackEnd)
-2025-10-03 21:03:45.636 DEBUG [restartedMain] c.b.BackEnd.BackEndApplication - Running with Spring Boot v3.4.5, Spring v6.2.6
-2025-10-03 21:03:45.639 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - No active profile set, falling back to 1 default profile: "default"
-2025-10-03 21:03:45.752 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2025-10-03 21:03:45.753 INFO  [restartedMain] o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2025-10-03 21:03:48.367 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-10-03 21:03:48.990 INFO  [restartedMain] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 605 ms. Found 34 JPA repository interfaces.
-2025-10-03 21:03:50.399 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2025-10-03 21:03:50.423 INFO  [restartedMain] o.a.c.core.StandardService - Starting service [Tomcat]
-2025-10-03 21:03:50.423 INFO  [restartedMain] o.a.c.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.40]
-2025-10-03 21:03:50.542 INFO  [restartedMain] o.a.c.c.C.[.[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2025-10-03 21:03:50.543 INFO  [restartedMain] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4786 ms
-2025-10-03 21:03:50.945 INFO  [restartedMain] o.h.j.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-10-03 21:03:51.087 INFO  [restartedMain] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.13.Final
-2025-10-03 21:03:51.177 INFO  [restartedMain] o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2025-10-03 21:03:51.351 INFO  [restartedMain] o.h.e.b.i.EnversServiceImpl - Envers integration enabled? : true
-2025-10-03 21:03:51.812 INFO  [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-10-03 21:03:51.870 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Starting...
-2025-10-03 21:03:52.118 INFO  [restartedMain] c.z.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5ef6b9a8
-2025-10-03 21:03:52.122 INFO  [restartedMain] c.z.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2025-10-03 21:03:52.206 WARN  [restartedMain] org.hibernate.dialect.Dialect - HHH000511: The 5.6.17 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
-2025-10-03 21:03:52.216 WARN  [restartedMain] org.hibernate.orm.deprecation - HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-10-03 21:03:52.257 INFO  [restartedMain] o.h.orm.connections.pooling - HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 5.6.17
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-10-03 21:03:55.932 INFO  [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-10-03 21:03:56.827 INFO  [restartedMain] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-10-03 21:03:57.669 DEBUG [restartedMain] c.b.B.c.s.JwtAuthenticationFilter - Filter 'jwtAuthenticationFilter' configured for use
-2025-10-03 21:03:58.378 INFO  [restartedMain] o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-10-03 21:04:00.067 INFO  [restartedMain] o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-10-03 21:04:00.068 WARN  [restartedMain] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
-2025-10-03 21:04:01.016 WARN  [restartedMain] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-10-03 21:04:02.889 INFO  [restartedMain] o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-2025-10-03 21:04:02.993 INFO  [restartedMain] o.s.b.w.e.t.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
-2025-10-03 21:04:03.026 INFO  [restartedMain] c.b.BackEnd.BackEndApplication - Started BackEndApplication in 18.364 seconds (process running for 20.077)
-2025-10-03 21:04:03.180 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        unidad_medida um1_0
-2025-10-03 21:04:03.208 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        estado_pedido ep1_0
-2025-10-03 21:04:03.213 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_pago tp1_0
-2025-10-03 21:04:03.218 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_promocion tp1_0
-2025-10-03 21:04:03.222 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_rol tr1_0
-2025-10-03 21:04:03.229 DEBUG [restartedMain] org.hibernate.SQL - 
-    select
-        count(*) 
-    from
-        tipo_envio te1_0
-2025-10-03 21:04:10.340 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[.[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-10-03 21:04:10.341 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2025-10-03 21:04:10.346 INFO  [http-nio-8080-exec-1] o.s.w.s.DispatcherServlet - Completed initialization in 4 ms
-2025-10-03 21:04:15.252 INFO  [http-nio-8080-exec-10] o.s.a.AbstractOpenApiResource - Init duration for springdoc-openapi is: 3368 ms
-2025-10-03 21:05:39.043 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username 
-    from
-        user_authentication ua1_0 
-    where
-        ua1_0.username=?
-2025-10-03 21:05:39.122 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        tr1_0.id,
-        tr1_0.nombre_rol 
-    from
-        tipo_rol tr1_0 
-    where
-        tr1_0.nombre_rol=?
-2025-10-03 21:05:39.196 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    select
-        rl1_0.tipo_rol_id,
-        rl1_0.id,
-        rl1_0.fecha_alta 
-    from
-        rol rl1_0 
-    where
-        rl1_0.tipo_rol_id=?
-2025-10-03 21:05:39.644 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    insert 
-    into
-        rol
-        (fecha_alta, tipo_rol_id) 
-    values
-        (?, ?)
-2025-10-03 21:05:39.708 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    insert 
-    into
-        user_authentication
-        (password, username) 
-    values
-        (?, ?)
-2025-10-03 21:05:39.713 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    insert 
-    into
-        usuario
-        (apellido, email, existe, imagen_usuario, nombre, id_rol, id_user_auth) 
-    values
-        (?, ?, ?, ?, ?, ?, ?)
-2025-10-03 21:05:39.779 DEBUG [http-nio-8080-exec-5] org.hibernate.SQL - 
-    insert 
-    into
-        telefono
-        (numero, usuario_id) 
-    values
-        (?, ?)
-2025-10-03 21:06:49.043 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username 
-    from
-        user_authentication ua1_0 
-    where
-        ua1_0.username=?
-2025-10-03 21:06:49.068 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
-    select
-        u1_0.id,
-        case 
-            when u1_1.id is not null 
-                then 1 
-            when u1_0.id is not null 
-                then 0 
-        end,
-        u1_0.apellido,
-        u1_0.email,
-        u1_0.existe,
-        u1_0.imagen_usuario,
-        u1_0.nombre,
-        r1_0.id,
-        r1_0.fecha_alta,
-        tr1_0.id,
-        tr1_0.nombre_rol,
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username,
-        u1_1.fecha_alta,
-        is1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        is1_0.existe,
-        is1_0.hora_apertura,
-        is1_0.hora_cierre,
-        is1_0.nombre,
-        pl1_0.id_sucursal,
-        pl1_0.id,
-        pl1_0.id_estado_pedido,
-        pl1_0.existe,
-        pl1_0.fecha,
-        pl1_0.tiempo_estimado,
-        pl1_0.id_tipo_envio,
-        pl1_0.id_tipo_pago,
-        pl1_0.id_cliente,
-        u1_1.sueldo 
-    from
-        usuario u1_0 
-    left join
-        empleado u1_1 
-            on u1_0.id=u1_1.id 
-    left join
-        rol r1_0 
-            on r1_0.id=u1_0.id_rol 
-    left join
-        tipo_rol tr1_0 
-            on tr1_0.id=r1_0.tipo_rol_id 
-    left join
-        user_authentication ua1_0 
-            on ua1_0.id=u1_0.id_user_auth 
-    left join
-        sucursal is1_0 
-            on is1_0.id=u1_1.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=is1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=is1_0.empresa_id 
-    left join
-        pedido pl1_0 
-            on is1_0.id=pl1_0.id_sucursal 
-    where
-        u1_0.id_user_auth=?
-2025-10-03 21:06:49.083 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
-    select
-        tl1_0.usuario_id,
-        tl1_0.id,
-        tl1_0.numero 
-    from
-        telefono tl1_0 
-    where
-        tl1_0.usuario_id=?
-2025-10-03 21:06:49.087 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
-    select
-        rl1_0.tipo_rol_id,
-        rl1_0.id,
-        rl1_0.fecha_alta 
-    from
-        rol rl1_0 
-    where
-        rl1_0.tipo_rol_id=?
-2025-10-03 21:06:49.091 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
-    select
-        pl1_0.id_cliente,
-        pl1_0.id,
-        ep1_0.id,
-        ep1_0.nombre_estado,
-        pl1_0.existe,
-        pl1_0.fecha,
-        s1_0.id,
-        d1_0.id,
-        d1_0.alias,
-        d1_0.id_ciudad,
-        d1_0.descripcion_entrega,
-        d1_0.latitud,
-        d1_0.longitud,
-        d1_0.nombre_calle,
-        d1_0.numeracion,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre,
-        pl1_0.tiempo_estimado,
-        te1_0.id,
-        te1_0.nombre_envio,
-        tp1_0.id,
-        tp1_0.nombre_pago 
-    from
-        pedido pl1_0 
-    left join
-        estado_pedido ep1_0 
-            on ep1_0.id=pl1_0.id_estado_pedido 
-    left join
-        sucursal s1_0 
-            on s1_0.id=pl1_0.id_sucursal 
-    left join
-        direccion d1_0 
-            on d1_0.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    left join
-        tipo_envio te1_0 
-            on te1_0.id=pl1_0.id_tipo_envio 
-    left join
-        tipo_pago tp1_0 
-            on tp1_0.id=pl1_0.id_tipo_pago 
-    where
-        pl1_0.id_cliente=?
-2025-10-03 21:06:49.097 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
-    select
-        dl1_0.id_usuario,
-        dl1_1.id,
-        dl1_1.alias,
-        c1_0.id,
-        c1_0.nombre,
-        p1_0.id,
-        p1_0.nombre,
-        p1_0.pais_id,
-        dl1_1.descripcion_entrega,
-        dl1_1.latitud,
-        dl1_1.longitud,
-        dl1_1.nombre_calle,
-        dl1_1.numeracion,
-        s1_0.id,
-        e1_0.id,
-        e1_0.cuil,
-        e1_0.existe,
-        e1_0.nombre,
-        e1_0.razon_social,
-        s1_0.existe,
-        s1_0.hora_apertura,
-        s1_0.hora_cierre,
-        s1_0.nombre 
-    from
-        usuario_direccion dl1_0 
-    join
-        direccion dl1_1 
-            on dl1_1.id=dl1_0.id_direccion 
-    left join
-        ciudad c1_0 
-            on c1_0.id=dl1_1.id_ciudad 
-    left join
-        provincia p1_0 
-            on p1_0.id=c1_0.provincia_id 
-    left join
-        sucursal s1_0 
-            on dl1_1.id=s1_0.direccion_id 
-    left join
-        empresa e1_0 
-            on e1_0.id=s1_0.empresa_id 
-    where
-        dl1_0.id_usuario=?
-2025-10-03 21:06:49.357 DEBUG [http-nio-8080-exec-6] org.hibernate.SQL - 
-    select
-        ua1_0.id,
-        ua1_0.password,
-        ua1_0.username 
-    from
-        user_authentication ua1_0 
-    where
-        ua1_0.username=?
-2025-10-03 22:09:25.944 WARN  [HikariPool-1 housekeeper] c.z.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=10m32s747ms797µs).
+2025-10-07 22:33:15.114 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.t.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-10-07 22:33:15.255 INFO  [tomcat-shutdown] o.s.b.w.e.t.GracefulShutdown - Graceful shutdown complete
+2025-10-07 22:33:15.460 INFO  [SpringApplicationShutdownHook] o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-10-07 22:33:15.522 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-10-07 22:33:15.551 INFO  [SpringApplicationShutdownHook] c.z.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

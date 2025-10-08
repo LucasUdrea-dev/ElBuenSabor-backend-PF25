@@ -38,6 +38,8 @@ public class UserAuthentication extends Bean implements UserDetails {
     private String password;
     @Column(name = "username")
     private String username;
+    @Column(name = "firebase_uid", unique = true)
+    private String firebaseUid;
     @OneToOne(mappedBy = "userAuthentication", fetch = FetchType.EAGER)
     private Usuario usuario;
 

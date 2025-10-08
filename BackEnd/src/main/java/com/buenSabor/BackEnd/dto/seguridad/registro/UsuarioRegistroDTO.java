@@ -23,13 +23,9 @@ public class UsuarioRegistroDTO {
 
     protected String email;
 
-    protected Boolean existe;
-
-    protected String imagenUsuario;
+    protected String urlImagen;
 
     protected List<TelefonoDTO> telefonoList;
-
-    //protected RolDTO rol;
 
     protected UserAuthenticationRequestDTO userAuth;
 }

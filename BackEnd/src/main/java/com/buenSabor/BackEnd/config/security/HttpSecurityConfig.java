@@ -33,12 +33,13 @@ public class HttpSecurityConfig {
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests( authConfig ->{
 
-                    //Enpoint publicos
-                    authConfig.requestMatchers(HttpMethod.GET,"/api/auth/login").permitAll();
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/auth/public-access").permitAll();
+                    //Enpoints publicos
+                    authConfig.requestMatchers(HttpMethod.POST,"/api/auth/*").permitAll();
 
-                    //authConfig.requestMatchers("/error").permitAll(); //Es para todos lo metodos Http, endoint /error existe por defecto en SpringSecurity
+                    //Es para todos lo metodos Http, endpoint /error existe por defecto en SpringSecurity
+                    authConfig.requestMatchers("/error").permitAll();
 
+                    //authConfig.anyRequest().authenticated();
                     //Endpoints privados
                     //authConfig.requestMatchers(HttpMethod.GET, "/products").hasRole("ADMIN");
                     //authConfig.requestMatchers(HttpMethod.POST, "/products").hasAnyRole("ADMIN","CUSTOMER");

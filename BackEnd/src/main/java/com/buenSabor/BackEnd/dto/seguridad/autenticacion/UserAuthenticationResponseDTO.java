@@ -15,5 +15,6 @@ public class UserAuthenticationResponseDTO {
     private String apellido;
     private String email;
     private String rol;
+    private long id_rol;
     private String jwt;
 }
