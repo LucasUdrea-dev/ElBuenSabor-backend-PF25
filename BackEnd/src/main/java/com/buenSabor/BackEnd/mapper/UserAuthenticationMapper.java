@@ -18,7 +18,6 @@ public interface UserAuthenticationMapper {
 
     @Mapping(target = "usuario", ignore = true) // Evitamos mapeo circular
                @Mapping(target = "id", ignore = true)
-
     UserAuthentication toEntity(UserAuthenticationRequestDTO dto);
 
     UserAuthenticationRequestDTO toDto(UserAuthentication entity);
