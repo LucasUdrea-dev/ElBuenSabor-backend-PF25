@@ -2,7 +2,9 @@ package com.buenSabor.BackEnd.controllers.user;
 
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
 import com.buenSabor.BackEnd.mapper.UsuarioMapper;
+import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.user.Usuario;
+import com.buenSabor.BackEnd.services.ubicacion.DireccionService;
 import com.buenSabor.BackEnd.services.user.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,11 +28,15 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
+    private final DireccionService direccionService;
 
     @Autowired
-    public UsuarioController(UsuarioService usuarioService, UsuarioMapper usuarioMapper) {
+    public UsuarioController(UsuarioService usuarioService, 
+            UsuarioMapper usuarioMapper, 
+            DireccionService direccionService) {
         this.usuarioService = usuarioService;
         this.usuarioMapper = usuarioMapper;
+        this.direccionService = direccionService;
     }
 
     /*@Operation(summary = "Crear un nuevo usuario")
@@ -69,7 +75,7 @@ public class UsuarioController {
                     .body("{\"error\":\"Error al obtener los usuarios.\"}");
         }
     }
-
+    
     @Operation(summary = "Obtener un usuario por su ID")
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
@@ -112,4 +118,8 @@ public class UsuarioController {
                     .body("{\"error\":\"Error al eliminar el usuario.\"}");
         }
     }
+    
+    
+      
+    
 }
