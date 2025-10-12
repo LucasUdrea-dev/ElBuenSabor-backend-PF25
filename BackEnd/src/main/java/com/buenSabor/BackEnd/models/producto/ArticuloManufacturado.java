@@ -4,17 +4,13 @@
  */
 package com.buenSabor.BackEnd.models.producto;
 
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,8 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
 
 @Entity
 @Getter
@@ -33,7 +27,6 @@ import lombok.Setter;
 @Table(name = "ArticuloManufacturado")
 public class ArticuloManufacturado extends Articulo {
 
-   
     @Column(name = "tiempo_estimado")
     private String tiempoEstimado;
     @Column(name = "preparacion")
@@ -42,8 +35,7 @@ public class ArticuloManufacturado extends Articulo {
     private List<ArticuloManufacturadoDetalleInsumo> detalleInsumos = new ArrayList<>();
 
     @ManyToOne
-        @JsonIgnore
+    @JsonIgnore
     private Sucursal sucursal;
 
-   
 }

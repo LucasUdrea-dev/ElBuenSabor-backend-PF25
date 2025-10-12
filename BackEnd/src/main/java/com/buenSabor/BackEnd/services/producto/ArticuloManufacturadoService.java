@@ -4,7 +4,6 @@
  */
 package com.buenSabor.BackEnd.services.producto;
 
-import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
 import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
 import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleInsumoDTO;
 import com.buenSabor.BackEnd.mapper.ArticuloMapper;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
