@@ -22,7 +22,7 @@ import lombok.Setter;
 public class StockDTO {
 
     private Long id;
-    private Integer maxStock;
+    private Integer minStock;
     private Integer cantidad;
 
     private Long sucursalId;

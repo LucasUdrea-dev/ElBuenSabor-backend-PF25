@@ -31,8 +31,8 @@ import lombok.Setter;
 @Table(name = "Stock_ArticuloInsumo")
 public class StockArticuloInsumo extends Bean {
 
-    @Column(name = "max_stock")
-    private Integer maxStock;
+    @Column(name = "min_stock")
+    private Integer minStock;
 
     @Column(name = "cantidad")
     private Integer cantidad;
