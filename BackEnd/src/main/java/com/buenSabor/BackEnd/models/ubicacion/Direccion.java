@@ -51,7 +51,7 @@ public class Direccion extends Bean {
     @Column(name = "descripcion_entrega", columnDefinition = "TEXT")
     private String descripcionEntrega;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "id_ciudad")
     private Ciudad ciudad;
 

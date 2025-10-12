@@ -88,7 +88,7 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
 
     @Operation(summary = "Obtener insumos filtrados por subcategoria")
     @GetMapping("/subcategoria")
-    public ResponseEntity<?> getInsumosBySubcategoria(@PathVariable Long idSubcategoria) {
+    public ResponseEntity<?> getInsumosBySubcategoria(@RequestParam("idSubcategoria") Long idSubcategoria) {
         try {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(articuloInsumoService.buscarPorSubcategoria(idSubcategoria));

@@ -60,7 +60,7 @@ public class EmpresaController extends BeanControllerImpl<Empresa,EmpresaService
     }
 
     @Operation(summary = "Listar todas las empresas (DTO)")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getAll() {
         try {
             List<EmpresaDTO> empresas = empresaMapper.toDtoList(empresaService.findAll());
@@ -72,7 +72,7 @@ public class EmpresaController extends BeanControllerImpl<Empresa,EmpresaService
     }
 
     @Operation(summary = "Guardar una nueva empresa")
-    @PostMapping("/save")
+    @PostMapping("")
     public ResponseEntity<?> save(@RequestBody EmpresaDTO dto) {
         try {
             Empresa nuevaEmpresa = empresaMapper.toEntity(dto);
@@ -90,7 +90,7 @@ public class EmpresaController extends BeanControllerImpl<Empresa,EmpresaService
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             empresaService.delete(id);
-            return ResponseEntity.ok("{\"message\":\"Empresa eliminada con éxito.\"}");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body("{\"error\":\"Error al eliminar la empresa.\"}");
@@ -98,7 +98,7 @@ public class EmpresaController extends BeanControllerImpl<Empresa,EmpresaService
     }
 
     @Operation(summary = "Actualizar una empresa")
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody EmpresaDTO dto) {
         try {
             Empresa empresaExistente = empresaService.findById(id);
@@ -106,13 +106,7 @@ public class EmpresaController extends BeanControllerImpl<Empresa,EmpresaService
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Empresa no encontrada.\"}");
             }
-
-            // Actualización controlada solo de campos modificables
-            if (dto.getNombre() != null) empresaExistente.setNombre(dto.getNombre());
-            if (dto.getRazonSocial() != null) empresaExistente.setRazonSocial(dto.getRazonSocial());
-            if (dto.getCuil() != null) empresaExistente.setCuil(dto.getCuil());
-            empresaExistente.setExiste(dto.isExiste());
-
+            empresaMapper.updateFromDto(dto, empresaExistente);
             Empresa actualizada = empresaService.save(empresaExistente);
             return ResponseEntity.ok(empresaMapper.toDto(actualizada));
         } catch (Exception e) {

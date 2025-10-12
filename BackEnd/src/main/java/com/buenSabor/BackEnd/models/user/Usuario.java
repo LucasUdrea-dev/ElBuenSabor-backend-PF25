@@ -52,11 +52,11 @@ public class Usuario extends Bean {
     @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List<Telefono> telefonoList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "id_rol", referencedColumnName = "id")
     protected Rol rol;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "Usuario_Direccion",
         joinColumns = @JoinColumn(name = "id_usuario"),
         inverseJoinColumns = @JoinColumn(name = "id_direccion"))
@@ -68,7 +68,7 @@ public class Usuario extends Bean {
     protected UserAuthentication userAuthentication;
 
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
         @JsonIgnore
     protected List<Pedido> pedidoList;
     
