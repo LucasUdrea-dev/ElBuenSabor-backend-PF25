@@ -26,14 +26,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/articulo")
 @Tag(name = "Articulo", description = "Operaciones relacionadas con entidad Articulo")
-public class ArticuloController extends BeanControllerImpl<Articulo,ArticuloService>{
-    
+public class ArticuloController extends BeanControllerImpl<Articulo, ArticuloService> {
+
     @Autowired
     private ArticuloService articuloService;
 
     @Autowired
     private ArticuloMapper articuloMapper;
-    
+
     @Operation(summary = "Obtener artículos que existen")
     @GetMapping("/existentes")
     public ResponseEntity<?> getArticulosExistentes() {
@@ -76,5 +76,3 @@ public class ArticuloController extends BeanControllerImpl<Articulo,ArticuloServ
         }
     }
 }
-    
-

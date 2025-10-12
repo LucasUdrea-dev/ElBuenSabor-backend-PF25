@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 /**
  *
  * @author oscarloha
@@ -24,7 +23,7 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
 
     @Autowired
     private ArticuloRepository articuloRepository;
-    
+
     public ArticuloService(ArticuloRepository articuloRepository) {
         super(articuloRepository);
         this.articuloRepository = articuloRepository;
@@ -70,12 +69,13 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
-    public List<Articulo> buscarArticuloSiEsParaElaborarYExiste() throws Exception{
+    public List<Articulo> buscarArticuloSiEsParaElaborarYExiste() throws Exception {
         try {
             return articuloRepository.findByEsParaElaborarTrueAndExisteTrue();
-        }catch (Exception e){
-            throw new Exception("Error al buscar articulos con filtro: Es para elaborar y Existe. Message: " + e.getMessage());
+        } catch (Exception e) {
+            throw new Exception(
+                    "Error al buscar articulos con filtro: Es para elaborar y Existe. Message: " + e.getMessage());
         }
-    }    
-    
+    }
+
 }
