@@ -65,7 +65,7 @@ public class SucursalController extends BeanControllerImpl<Sucursal,SucursalServ
     @GetMapping("/listar")
     public ResponseEntity<?> findAllSucursales() {
         try {
-            List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAllExistente());
+            List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAll());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -76,7 +76,7 @@ public class SucursalController extends BeanControllerImpl<Sucursal,SucursalServ
     @GetMapping("")
     public ResponseEntity<?> findAllSucursalesExistentes() {
         try {
-            List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAll());
+            List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAllExistente());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -116,8 +116,8 @@ public class SucursalController extends BeanControllerImpl<Sucursal,SucursalServ
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Sucursal no encontrada.\"}");
             }
-
-            return ResponseEntity.ok("{\"message\":\"Sucursal eliminada con éxito.\"}");
+            sucursalService.eliminarSucursal(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"Error al eliminar la sucursal.\"}");

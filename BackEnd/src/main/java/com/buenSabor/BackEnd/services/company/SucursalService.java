@@ -16,13 +16,11 @@ import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.EmpresaRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.CiudadRepository;
-import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.PaisRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.ProvinciaRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.transaction.Transactional;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -31,9 +29,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
-
-    @Autowired
-    DireccionRepository direccionRepository;
 
     private final SucursalRepository sucursalRepository;
     private final EmpresaRepository empresaRepository;

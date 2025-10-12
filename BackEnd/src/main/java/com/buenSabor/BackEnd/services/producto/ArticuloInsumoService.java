@@ -121,7 +121,7 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             } else {
                 stock = new StockArticuloInsumo();
             }
-            stock.setMaxStock(dto.getStockArticuloInsumo().getMaxStock());
+            stock.setMinStock(dto.getStockArticuloInsumo().getMinStock());
             stock.setCantidad(dto.getStockArticuloInsumo().getCantidad());
             Sucursal sucManaged = sucursalRepository.findById(dto.getStockArticuloInsumo().getSucursalId())
                     .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
