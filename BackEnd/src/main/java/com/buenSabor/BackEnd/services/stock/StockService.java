@@ -20,6 +20,37 @@ public class StockService {
     @Autowired
     private ArticuloManufacturadoService manufacturadoService;
 
+    /**
+     * Actualiza el stock de un insumo de manera segura, manejando concurrencia
+     * @param idInsumo ID del insumo a actualizar
+     * @param cantidad Cantidad a sumar (puede ser negativa para restar)
+     * @param sucursalId ID de la sucursal
+     * @return true si la operación fue exitosa, false si no hay suficiente stock o no se encontró el insumo
+     */
+    @Transactional
+    public boolean actualizarStockInsumo(Long idInsumo, int cantidad, Long sucursalId) {
+        try {
+            ArticuloInsumo insumo = insumoService.findById(idInsumo);
+            if (insumo == null || insumo.getStockArticuloInsumo() == null) {
+                return false;
+            }
+            
+            StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
+            
+            // Verificar que el stock pertenece a la sucursal
+            if (!stock.getSucursal().getId().equals(sucursalId)) {
+                return false;
+            }
+            
+            // Actualizar stock de manera segura
+            return stock.actualizarStock(cantidad);
+            
+        } catch (Exception e) {
+            // Log the error if needed
+            return false;
+        }
+    }
+
     @Transactional(readOnly = true)
     public StockCheckResponse verificarStock(StockCheckRequest request) {
         StockCheckResponse response = new StockCheckResponse(true, "Stock suficiente para todos los productos");
