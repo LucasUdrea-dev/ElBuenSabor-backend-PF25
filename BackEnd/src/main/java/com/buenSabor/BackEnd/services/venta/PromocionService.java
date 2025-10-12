@@ -18,9 +18,7 @@ import com.buenSabor.BackEnd.repositories.venta.TipoPromocionRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
 
     private final PromocionRepository promocionRepository;
     private final ArticuloRepository articuloRepository;
+    @SuppressWarnings("unused")
     private final DetallePromocionArticuloRepository promocionArticuloRepository;
     private final SucursalRepository sucursalRepository;
     private final TipoPromocionRepository tipoPromocionRepository;
@@ -51,8 +50,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
             SucursalRepository sucursalRepository,
             TipoPromocionRepository tipoPromocionRepository,
             PromocionMapper promocionMapper,
-            PromocionArticuloMapper promocionArticuloMapper
-    ) {
+            PromocionArticuloMapper promocionArticuloMapper) {
         super(beanRepository);
         this.promocionRepository = promocionRepository;
         this.articuloRepository = articuloRepository;
@@ -89,10 +87,12 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         dto.setId(null);
 
         Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
-                .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
+                .orElseThrow(
+                        () -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
 
         TipoPromocion tipoPromocion = tipoPromocionRepository.findById(dto.getTipoPromocion().getId())
-                .orElseThrow(() -> new RuntimeException("Tipo de Promoción con ID " + dto.getTipoPromocion().getId() + " no encontrado."));
+                .orElseThrow(() -> new RuntimeException(
+                        "Tipo de Promoción con ID " + dto.getTipoPromocion().getId() + " no encontrado."));
 
         Promocion promocion = promocionMapper.toEntity(dto);
         promocion.setSucursal(sucursal);
@@ -104,7 +104,8 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         if (dto.getArticulos() != null) {
             for (PromocionArticuloDTO paDto : dto.getArticulos()) {
                 Articulo articulo = articuloRepository.findById(paDto.getArticulo().getId())
-                        .orElseThrow(() -> new RuntimeException("Artículo con ID " + paDto.getArticulo().getId() + " no encontrado."));
+                        .orElseThrow(() -> new RuntimeException(
+                                "Artículo con ID " + paDto.getArticulo().getId() + " no encontrado."));
 
                 PromocionArticulo promocionArticulo = new PromocionArticulo();
                 promocionArticulo.setId(null); // Muy importante
@@ -126,26 +127,32 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     public PromocionDTO actualizarPromocion(Long id, PromocionDTO dto) {
         // 1. Find the existing Promocion
         Promocion existingPromocion = promocionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Promoción con ID " + id + " no encontrada.")); // Or custom exception
+                .orElseThrow(() -> new RuntimeException("Promoción con ID " + id + " no encontrada.")); // Or custom
+                                                                                                        // exception
 
         // 2. Fetch related entities (Sucursal, TipoPromocion)
         Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
-                .orElseThrow(() -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
+                .orElseThrow(
+                        () -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
 
         TipoPromocion tipoPromocion = tipoPromocionRepository.findById(dto.getTipoPromocion().getId())
-                .orElseThrow(() -> new RuntimeException("Tipo de Promoción con ID " + dto.getTipoPromocion().getId() + " no encontrado."));
+                .orElseThrow(() -> new RuntimeException(
+                        "Tipo de Promoción con ID " + dto.getTipoPromocion().getId() + " no encontrado."));
 
-        // 3. Update basic fields of the existing Promocion using MapStruct update method
+        // 3. Update basic fields of the existing Promocion using MapStruct update
+        // method
         promocionMapper.updatePromocionFromDto(dto, existingPromocion); // Update only non-null fields
         existingPromocion.setSucursal(sucursal);
         existingPromocion.setTipoPromocion(tipoPromocion);
 
-        // 4. Handle nested PromocionArticulo entities (requires careful handling for updates)
+        // 4. Handle nested PromocionArticulo entities (requires careful handling for
+        // updates)
         existingPromocion.getPromocionArticuloList().clear();
         if (dto.getArticulos() != null) {
             for (PromocionArticuloDTO paDto : dto.getArticulos()) {
                 Articulo articulo = articuloRepository.findById(paDto.getArticulo().getId())
-                        .orElseThrow(() -> new RuntimeException("Artículo con ID " + paDto.getArticulo().getId() + " no encontrado."));
+                        .orElseThrow(() -> new RuntimeException(
+                                "Artículo con ID " + paDto.getArticulo().getId() + " no encontrado."));
 
                 PromocionArticulo promocionArticulo = promocionArticuloMapper.toEntity(paDto);
                 promocionArticulo.setIdArticulo(articulo);
@@ -176,17 +183,20 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         }
     }
 
-//    @Transactional(readOnly = true)
-//    public List<PromocionDTO> findPromocionesByHabilitada(boolean habilitada) {
-//        List<Promocion> promociones = promocionRepository.findByHabilitada(habilitada);
-//        return promocionMapper.toDtoList(promociones);
-//    }
-//
-//    @Transactional(readOnly = true)
-//    public List<PromocionDTO> findPromocionesByDenominacion(String denominacion) {
-//        List<Promocion> promociones = promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);
-//        return promocionMapper.toDtoList(promociones);
-//    }
+    // @Transactional(readOnly = true)
+    // public List<PromocionDTO> findPromocionesByHabilitada(boolean habilitada) {
+    // List<Promocion> promociones =
+    // promocionRepository.findByHabilitada(habilitada);
+    // return promocionMapper.toDtoList(promociones);
+    // }
+    //
+    // @Transactional(readOnly = true)
+    // public List<PromocionDTO> findPromocionesByDenominacion(String denominacion)
+    // {
+    // List<Promocion> promociones =
+    // promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);
+    // return promocionMapper.toDtoList(promociones);
+    // }
     @Transactional
     public List<PromocionDTO> findPromocionesByDenominacion(String denominacion) {
         List<Promocion> promociones = promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);

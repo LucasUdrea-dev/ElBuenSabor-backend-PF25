@@ -4,13 +4,9 @@
  */
 package com.buenSabor.BackEnd.dto.producto.articulo;
 
-import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
-import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
 import com.buenSabor.BackEnd.dto.producto.medida.UnidadMedidaDTO;
 import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

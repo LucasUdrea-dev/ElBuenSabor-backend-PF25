@@ -5,10 +5,8 @@
 package com.buenSabor.BackEnd.controllers.producto;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
-import com.buenSabor.BackEnd.dto.producto.categoria.CategoriaDTO;
 import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaDTO;
 import com.buenSabor.BackEnd.models.producto.Subcategoria;
-import com.buenSabor.BackEnd.services.producto.CategoriaService;
 import com.buenSabor.BackEnd.services.producto.SubcategoriaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

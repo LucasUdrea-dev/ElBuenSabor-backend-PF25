@@ -5,15 +5,11 @@
 package com.buenSabor.BackEnd.controllers.producto;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
-import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloDTO;
-import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
-import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
 import com.buenSabor.BackEnd.mapper.ArticuloMapper;
 
 import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.services.producto.ArticuloService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +29,7 @@ public class ArticuloController extends BeanControllerImpl<Articulo,ArticuloServ
     private ArticuloService articuloService;
 
     @Autowired
+    @SuppressWarnings("unused")
     private ArticuloMapper articuloMapper;
     
     @Operation(summary = "Obtener artículos que existen")

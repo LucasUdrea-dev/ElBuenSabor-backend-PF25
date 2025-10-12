@@ -22,19 +22,27 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface TipoEnvioMapper {
 
     // Map entity to DTO
+    // <--[TipoEnvio tipoEnvio]--
+    // ==>{TipoEnvioDTO dto, y lo que ignora *-*}
     @Mapping(source = "tipoDelivery", target = "tipoDelivery") 
     TipoEnvioDTO toDto(TipoEnvio tipoEnvio);
 
     // Map DTO to entity
+    // <--[TipoEnvioDTO dto]--
+    // ==>{TipoEnvio entity, y lo que ignora *pedidoList,id*}
     @Mapping(source = "tipoDelivery", target = "tipoDelivery") 
     @Mapping(target = "pedidoList", ignore = true) 
     @Mapping(target = "id", ignore = true) 
     TipoEnvio toEntity(TipoEnvioDTO dto);
 
    
+    // <--[TipoEnvioDTO dto, TipoEnvio entity]--
+    // ==>{void, y lo que ignora *id,pedidoList*}
     @Mapping(target = "id", ignore = true) 
     @Mapping(target = "pedidoList", ignore = true) 
     void updateTipoEnvioFromDto(TipoEnvioDTO dto, @MappingTarget TipoEnvio entity);
 
+    // <--[List<TipoEnvio> tipoEnvios]--
+    // ==>{List<TipoEnvioDTO> list, y lo que ignora *-*}
     List<TipoEnvioDTO> toDtoList(List<TipoEnvio> tipoEnvios);
 }

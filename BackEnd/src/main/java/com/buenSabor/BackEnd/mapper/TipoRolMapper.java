@@ -19,14 +19,22 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface TipoRolMapper {
 
+    // <--[TipoRol tipoRol]--
+    // ==>{TipoRolDTO dto, y lo que ignora *-*}
     TipoRolDTO toDto(TipoRol tipoRol);
 
+    // <--[List<TipoRol> tipoRoles]--
+    // ==>{List<TipoRolDTO> list, y lo que ignora *-*}
     List<TipoRolDTO> toDtoList(List<TipoRol> tipoRoles);
 
+    // <--[TipoRolDTO dto]--
+    // ==>{TipoRol entity, y lo que ignora *id,rolList*}
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "rolList", ignore = true)
     TipoRol toEntity(TipoRolDTO dto);
 
+    // <--[TipoRolDTO dto, TipoRol entity]--
+    // ==>{void, y lo que ignora *id,rolList*}
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "rolList", ignore = true)
     void updateFromDto(TipoRolDTO dto, @MappingTarget TipoRol entity);

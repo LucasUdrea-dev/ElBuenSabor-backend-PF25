@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "ArticuloInsumo", description = "Operaciones relacionadas con entidad ArticuloInsumo")
 public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,ArticuloInsumoService>{
     @Autowired
+    @SuppressWarnings("unused")
     private ArticuloMapper articuloMapper;
     @Autowired
     private ArticuloInsumoService articuloInsumoService;

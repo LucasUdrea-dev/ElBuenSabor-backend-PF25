@@ -27,11 +27,15 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 }, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface PromocionMapper {
 
+    // <--[Promocion promocion]--
+    // ==>{PromocionDTO dto, y lo que ignora *-*}
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "tipoPromocion", target = "tipoPromocion")
     @Mapping(source = "promocionArticuloList", target = "articulos")
     PromocionDTO toDto(Promocion promocion);
 
+    // <--[PromocionDTO dto]--
+    // ==>{Promocion entity, y lo que ignora *detallePromocionList*}
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "tipoPromocion", target = "tipoPromocion")
     @Mapping(source = "articulos", target = "promocionArticuloList")
@@ -39,15 +43,23 @@ public interface PromocionMapper {
     Promocion toEntity(PromocionDTO dto);
 
     
+    // <--[PromocionDTO dto, Promocion entity]--
+    // ==>{void, y lo que ignora *id,detallePromocionList,promocionArticuloList*}
     @Mapping(target = "id", ignore = true) 
     @Mapping(target = "detallePromocionList", ignore = true) 
     @Mapping(target = "promocionArticuloList", ignore = true)
     void updatePromocionFromDto(PromocionDTO dto, @MappingTarget Promocion entity);
 
+    // <--[List<Promocion> findAll]--
+    // ==>{List<PromocionDTO> list, y lo que ignora *-*}
     List<PromocionDTO> toDtoList(List<Promocion> findAll);
+    // <--[Set<Promocion> entities]--
+    // ==>{Set<PromocionDTO> set, y lo que ignora *-*}
     Set<PromocionDTO> toDtoSet(Set<Promocion> entities); 
     
     
+    // <--[Promocion promocion]--
+    // ==>{PromocionLiteDTO dto, y lo que ignora *-*}
     @Mapping(source = "id", target = "id")
     @Mapping(source = "denominacion", target = "denominacion")
     @Mapping(source = "descripcion", target = "descripcion")
@@ -55,5 +67,7 @@ public interface PromocionMapper {
     @Mapping(source = "imagen", target = "imagen")
     PromocionLiteDTO toPromocionLiteDto(Promocion promocion);
 
+    // <--[List<Promocion> promociones]--
+    // ==>{List<PromocionLiteDTO> list, y lo que ignora *-*}
     List<PromocionLiteDTO> toPromocionLiteDtoList(List<Promocion> promociones);
 }

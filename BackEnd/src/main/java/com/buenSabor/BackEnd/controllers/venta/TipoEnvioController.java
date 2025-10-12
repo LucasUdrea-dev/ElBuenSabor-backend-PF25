@@ -22,19 +22,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class TipoEnvioController extends BeanControllerImpl<TipoEnvio, TipoEnvioService> {
 
     private final TipoEnvioService tipoEnvioService; 
+    @SuppressWarnings("unused")
     private final TipoEnvioRepository tipoEnvioRepository; 
 
     @Autowired
     public TipoEnvioController(TipoEnvioService tipoEnvioService,
-            TipoEnvioRepository tipoEnvioRepository) { 
+            TipoEnvioRepository tipoEnvioRepository) {
 
         this.tipoEnvioService = tipoEnvioService;
         this.tipoEnvioRepository = tipoEnvioRepository;
     }
 
- 
     @Operation(summary = "Listar todos los tipos de envío disponibles (DTO)")
-    @GetMapping("") 
+    @GetMapping("")
     public ResponseEntity<?> findAllTipoEnviosDTO() {
         try {
             List<TipoEnvioDTO> dtos = tipoEnvioService.findAllTipoEnviosDTO();
@@ -47,7 +47,7 @@ public class TipoEnvioController extends BeanControllerImpl<TipoEnvio, TipoEnvio
     }
 
     @Operation(summary = "Obtener un tipo de envío por su ID (DTO)")
-    @GetMapping("/dto/{id}") 
+    @GetMapping("/dto/{id}")
     public ResponseEntity<?> getTipoEnvioDTOById(@PathVariable Long id) {
         try {
             TipoEnvioDTO tipoEnvioDTO = tipoEnvioService.findTipoEnvioDTOById(id);
