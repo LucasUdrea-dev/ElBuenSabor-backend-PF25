@@ -10,7 +10,11 @@ import com.buenSabor.BackEnd.services.producto.ArticuloManufacturadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OptimisticLockException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class StockService {
 
@@ -22,33 +26,75 @@ public class StockService {
 
     /**
      * Actualiza el stock de un insumo de manera segura, manejando concurrencia
-     * @param idInsumo ID del insumo a actualizar
-     * @param cantidad Cantidad a sumar (puede ser negativa para restar)
+     * 
+     * @param idInsumo   ID del insumo a actualizar
+     * @param cantidad   Cantidad a sumar (puede ser negativa para restar)
      * @param sucursalId ID de la sucursal
-     * @return true si la operación fue exitosa, false si no hay suficiente stock o no se encontró el insumo
+     * @return true si la operación fue exitosa, false si no hay suficiente stock o
+     *         no se encontró el insumo
      */
+    /**
+     * Número máximo de reintentos para actualizaciones concurrentes
+     */
+    private static final int MAX_RETRIES = 3;
+
     @Transactional
     public boolean actualizarStockInsumo(Long idInsumo, int cantidad, Long sucursalId) {
-        try {
-            ArticuloInsumo insumo = insumoService.findById(idInsumo);
-            if (insumo == null || insumo.getStockArticuloInsumo() == null) {
+        int intento = 0;
+        while (intento < MAX_RETRIES) {
+            try {
+                ArticuloInsumo insumo = insumoService.findById(idInsumo);
+                if (insumo == null || insumo.getStockArticuloInsumo() == null) {
+                    log.warn("Insumo o stock no encontrado para el ID: " + idInsumo);
+                    return false;
+                }
+
+                StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
+
+                // Verificar que el stock pertenece a la sucursal
+                if (stock.getSucursal() == null || !stock.getSucursal().getId().equals(sucursalId)) {
+                    log.warn("El stock no pertenece a la sucursal especificada. Stock ID: " +
+                            stock.getId() +
+                            ", Sucursal esperada: " + sucursalId);
+                    return false;
+                }
+
+                // Actualizar stock de manera segura
+                if (!stock.actualizarStock(cantidad)) {
+                    log.warn("Stock insuficiente. Insumo ID: " + idInsumo +
+                            ", Cantidad solicitada: " + cantidad +
+                            ", Stock actual: " + stock.getCantidad());
+                    return false;
+                }
+
+                // Si llegamos aquí, la actualización fue exitosa
+                log.debug("Stock actualizado exitosamente. Insumo ID: " + idInsumo +
+                        ", Cantidad: " + cantidad +
+                        ", Nuevo stock: " + stock.getCantidad());
+                return true;
+
+            } catch (OptimisticLockException ole) {
+                // Reintentar en caso de bloqueo optimista
+                intento++;
+                log.warn("Intento " + intento + " fallido por concurrencia. Reintentando...");
+                if (intento == MAX_RETRIES) {
+                    log.error("Número máximo de reintentos alcanzado para actualizar stock. Insumo ID: " + idInsumo,
+                            ole);
+                    throw new RuntimeException("No se pudo actualizar el stock después de " + MAX_RETRIES + " intentos",
+                            ole);
+                }
+
+            } catch (EntityNotFoundException enfe) {
+                log.error("Entidad no encontrada al actualizar stock. Insumo ID: " + idInsumo, enfe);
+                return false;
+
+            } catch (Exception e) {
+                log.error("Error inesperado al actualizar stock. Insumo ID: " + idInsumo, e);
                 return false;
             }
-            
-            StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
-            
-            // Verificar que el stock pertenece a la sucursal
-            if (!stock.getSucursal().getId().equals(sucursalId)) {
-                return false;
-            }
-            
-            // Actualizar stock de manera segura
-            return stock.actualizarStock(cantidad);
-            
-        } catch (Exception e) {
-            // Log the error if needed
-            return false;
         }
+
+        return false;
     }
 
     @Transactional(readOnly = true)
