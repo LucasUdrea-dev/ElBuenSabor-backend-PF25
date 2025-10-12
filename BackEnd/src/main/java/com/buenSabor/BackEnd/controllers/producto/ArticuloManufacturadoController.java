@@ -6,9 +6,7 @@ package com.buenSabor.BackEnd.controllers.producto;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
 import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
-import com.buenSabor.BackEnd.mapper.ArticuloMapper;
 
-import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
 import com.buenSabor.BackEnd.services.producto.ArticuloManufacturadoService;
 import io.swagger.v3.oas.annotations.Operation;

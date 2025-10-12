@@ -4,8 +4,6 @@
  */
 package com.buenSabor.BackEnd.dto.seguridad.autenticacion;
 
-import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
-import com.buenSabor.BackEnd.models.user.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

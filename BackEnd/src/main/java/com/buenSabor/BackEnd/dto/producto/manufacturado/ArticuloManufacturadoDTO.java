@@ -6,7 +6,6 @@ package com.buenSabor.BackEnd.dto.producto.manufacturado;
 
 import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloDTO;
 import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleInsumoDTO;
-import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import lombok.AllArgsConstructor;

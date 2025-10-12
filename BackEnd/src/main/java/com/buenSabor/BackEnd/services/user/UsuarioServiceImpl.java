@@ -7,15 +7,12 @@ import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
 import com.buenSabor.BackEnd.mapper.UsuarioMapper;
 import com.buenSabor.BackEnd.models.seguridad.Rol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
-import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.repositories.seguridad.RolRepository;
 import com.buenSabor.BackEnd.repositories.seguridad.UserAuthenticationRepository;
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +28,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioMapper usuarioMapper;
     @Autowired
     private TelefonoMapper telefonoMapper;
+    @SuppressWarnings("unused")
     @Autowired
     private UserAuthenticationMapper autenticacionMapper;
     @Autowired
@@ -76,7 +74,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Actualiza UserAuthentication si viene con ID
         if (dto.getUserAuthentication() != null && dto.getUserAuthentication().getId() != null) {
             UserAuthentication auth = authRepository.findById(dto.getUserAuthentication().getId())
-                    .orElseThrow(() -> new RuntimeException("UserAuth no encontrado con id: " + dto.getUserAuthentication().getId()));
+                    .orElseThrow(() -> new RuntimeException(
+                            "UserAuth no encontrado con id: " + dto.getUserAuthentication().getId()));
             existente.setUserAuthentication(auth);
         }
 
@@ -85,7 +84,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             existente.setTelefonoList(telefonoMapper.telefonoDtoListToEntityList(dto.getTelefonoList()));
         }
 
-        // Aquí deberías usar el mapper adecuado para Direccion, no UserAuthenticationMapper
+        // Aquí deberías usar el mapper adecuado para Direccion, no
+        // UserAuthenticationMapper
         if (dto.getDireccionList() != null) {
             existente.setDireccionList(direccionMapper.direccionDtoListToEntityList(dto.getDireccionList()));
         }
@@ -104,22 +104,19 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    /*@Override
-    public UsuarioDTO crearUsuario(UsuarioDTO dto) {
-        Usuario entity = usuarioMapper.toEntity(dto);
+    /*
+     * @Override
+     * public UsuarioDTO crearUsuario(UsuarioDTO dto) {
+     * Usuario entity = usuarioMapper.toEntity(dto);
+     * 
+     * UserAuthentication userAuth = entity.getUserAuthentication();
+     * 
+     * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+     * userAuth.setPassword(encoder.encode(userAuth.getPassword()));
+     * 
+     * usuarioRepository.save(entity);
+     * return usuarioMapper.toDto(entity);
+     * }
+     */
 
-        UserAuthentication userAuth = entity.getUserAuthentication();
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userAuth.setPassword(encoder.encode(userAuth.getPassword()));
-
-        usuarioRepository.save(entity);
-        return usuarioMapper.toDto(entity);
-    }*/
-    
-    
-  
 }
-    
-
-

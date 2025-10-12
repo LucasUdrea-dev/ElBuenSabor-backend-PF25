@@ -22,10 +22,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface TipoPagoMapper {
 
     // Map entity to DTO
+    // <--[TipoPago tipoPago]--
+    // ==>{TipoPagoDTO dto, y lo que ignora *-*}
     @Mapping(source = "tipoPago", target = "tipoPago") 
     TipoPagoDTO toDto(TipoPago tipoPago);
 
     // Map DTO to entity
+    // <--[TipoPagoDTO dto]--
+    // ==>{TipoPago entity, y lo que ignora *pedidoList,mercadoPagoList,id*}
     @Mapping(source = "tipoPago", target = "tipoPago")
     @Mapping(target = "pedidoList", ignore = true) 
     @Mapping(target = "mercadoPagoList", ignore = true) 
@@ -33,10 +37,14 @@ public interface TipoPagoMapper {
     TipoPago toEntity(TipoPagoDTO dto);
 
     // Optional: For updating an existing entity from a DTO
+    // <--[TipoPagoDTO dto, TipoPago entity]--
+    // ==>{void, y lo que ignora *id,pedidoList,mercadoPagoList*}
     @Mapping(target = "id", ignore = true) 
     @Mapping(target = "pedidoList", ignore = true) 
     @Mapping(target = "mercadoPagoList", ignore = true) 
     void updateTipoPagoFromDto(TipoPagoDTO dto, @MappingTarget TipoPago entity);
 
+    // <--[List<TipoPago> tipoPagos]--
+    // ==>{List<TipoPagoDTO> list, y lo que ignora *-*}
     List<TipoPagoDTO> toDtoList(List<TipoPago> tipoPagos);
 }

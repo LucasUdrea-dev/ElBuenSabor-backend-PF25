@@ -4,7 +4,6 @@
  */
 package com.buenSabor.BackEnd.dto.venta.envio;
 
-import com.buenSabor.BackEnd.models.venta.TipoEnvio;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

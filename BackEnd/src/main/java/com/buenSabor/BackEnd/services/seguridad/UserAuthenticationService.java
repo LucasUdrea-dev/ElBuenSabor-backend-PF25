@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +48,8 @@ public class UserAuthenticationService {
     public UsuarioDTO crearUsuario(UsuarioRegistroDTO registroDTO) {
 
         // Validar que el email no exista
-        if(userAuthenticationRepository.findByUsername(
-                registroDTO.getEmail()).isPresent()){
+        if (userAuthenticationRepository.findByUsername(
+                registroDTO.getEmail()).isPresent()) {
             throw new RuntimeException("El email ya está registrado");
         }
 
@@ -62,8 +61,8 @@ public class UserAuthenticationService {
         usuario.setExiste(true);
 
         // Asignar teléfonos
-        if(registroDTO.getTelefonoList() != null &
-            !registroDTO.getTelefonoList().isEmpty()){
+        if (registroDTO.getTelefonoList() != null &
+                !registroDTO.getTelefonoList().isEmpty()) {
             List<Telefono> telefonoList = new ArrayList<>();
 
             registroDTO.getTelefonoList().forEach(telefonoDTO -> {
@@ -84,7 +83,6 @@ public class UserAuthenticationService {
         rolCliente.setFechaAlta(new Date());
         rolCliente.setTipoRol(tipoRolCliente);
         usuario.setRol(rolCliente);
-
 
         // Crear UserAuthentication
         UserAuthentication userAuth = new UserAuthentication();
@@ -110,15 +108,14 @@ public class UserAuthenticationService {
         return userAuthenticationRepository.save(existing);
     }
 
-    public UserAuthenticationResponseDTO login (UserAuthenticationRequestDTO authenticationRequestDTO){
+    public UserAuthenticationResponseDTO login(UserAuthenticationRequestDTO authenticationRequestDTO) {
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-          authenticationRequestDTO.getUsername(), authenticationRequestDTO.getPassword()
-        );
+                authenticationRequestDTO.getUsername(), authenticationRequestDTO.getPassword());
 
         authenticationManager.authenticate(authToken);
 
-        //Si logro pasar authenticate, quiere decir que si existe un usuario
+        // Si logro pasar authenticate, quiere decir que si existe un usuario
         UserAuthentication usuario = userAuthenticationRepository
                 .findByUsername(authenticationRequestDTO.getUsername())
                 .get();
@@ -137,21 +134,22 @@ public class UserAuthenticationService {
         return responseDTO;
     }
 
-    private Map<String,Object> generateExtraClaims(UserAuthentication usuario) {
-        Map<String,Object> extraClaims = new HashMap<>();
+    private Map<String, Object> generateExtraClaims(UserAuthentication usuario) {
+        Map<String, Object> extraClaims = new HashMap<>();
 
-        extraClaims.put("username" , usuario.getUsername());
+        extraClaims.put("username", usuario.getUsername());
         extraClaims.put("name", usuario.getUsuario().getNombre());
         extraClaims.put("surname", usuario.getUsuario().getApellido());
         extraClaims.put("image_url", usuario.getUsuario().getImagenUsuario());
         extraClaims.put("id_role", usuario.getUsuario().getRol().getTipoRol().getId());
         extraClaims.put("role", usuario.getUsuario().getRol().getTipoRol().getRol().name());
 
-        return  extraClaims;
+        return extraClaims;
     }
 
     /**
      * Autentica o registra un usuario usando un token de ID de Firebase.
+     * 
      * @param firebaseToken El JWT de Firebase enviado desde el frontend.
      * @return UserAuthenticationResponseDTO con un JWT propio generado.
      */
@@ -163,7 +161,8 @@ public class UserAuthenticationService {
         String firebaseUid = decodedToken.getUid();
         String email = decodedToken.getEmail();
 
-        // El claim de nombre puede venir en diferentes formatos, 'name' o 'email' son comunes.
+        // El claim de nombre puede venir en diferentes formatos, 'name' o 'email' son
+        // comunes.
         String displayName = decodedToken.getName();
 
         String photoUrl = decodedToken.getPicture();
@@ -175,7 +174,7 @@ public class UserAuthenticationService {
 
         if (userAuthOptional.isEmpty()) {
             // 3. Si no existe, registrar el usuario de Firebase (registro implícito)
-            userAuth = registerFirebaseUser(firebaseUid, email, displayName,photoUrl);
+            userAuth = registerFirebaseUser(firebaseUid, email, displayName, photoUrl);
         } else {
             // 4. Si existe, actualizar el firebaseUid por si acaso y obtener el objeto
             userAuth = userAuthOptional.get();
@@ -202,69 +201,69 @@ public class UserAuthenticationService {
         return responseDTO;
     }
 
+    /**
+     * Registra un nuevo usuario en la DB local tras una autenticación exitosa con
+     * Firebase.
+     */
+    private UserAuthentication registerFirebaseUser(
+            String firebaseUid, String email, String displayName, String photoUrl) {
 
-        /**
-         * Registra un nuevo usuario en la DB local tras una autenticación exitosa con Firebase.
-         */
-        private UserAuthentication registerFirebaseUser(
-                String firebaseUid, String email, String displayName, String photoUrl) {
+        String nombre = "";
+        String apellido = "";
 
-            String nombre = "";
-            String apellido = "";
+        // 1. Lógica para intentar separar Nombre y Apellido desde displayName
+        if (displayName != null && !displayName.isBlank()) {
+            String[] parts = displayName.trim().split("\\s+", 2);
 
-            // 1. Lógica para intentar separar Nombre y Apellido desde displayName
-            if (displayName != null && !displayName.isBlank()) {
-                String[] parts = displayName.trim().split("\\s+", 2);
-
-                if (parts.length > 0) {
-                    nombre = parts[0]; // La primera palabra siempre será el nombre
-                }
-
-                if (parts.length > 1) {
-                    apellido = parts[1]; // El resto es el apellido
-                }
+            if (parts.length > 0) {
+                nombre = parts[0]; // La primera palabra siempre será el nombre
             }
 
-            // 2. Fallback: Si el nombre sigue vacío (ej. Firebase solo dio el email como displayName, o es nulo),
-            // usamos la parte del email antes del @.
-            if (nombre.isBlank() && email != null && email.contains("@")) {
-                nombre = email.substring(0, email.indexOf('@'));
+            if (parts.length > 1) {
+                apellido = parts[1]; // El resto es el apellido
             }
+        }
 
-            //3. Crear el objeto Usuario
-            Usuario usuario = new Usuario();
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setEmail(email);
-            usuario.setExiste(true);
-            usuario.setImagenUsuario(photoUrl);
+        // 2. Fallback: Si el nombre sigue vacío (ej. Firebase solo dio el email como
+        // displayName, o es nulo),
+        // usamos la parte del email antes del @.
+        if (nombre.isBlank() && email != null && email.contains("@")) {
+            nombre = email.substring(0, email.indexOf('@'));
+        }
 
-            // Asignar rol de CLIENTE por defecto (usando tu lógica existente)
-            TipoRol tipoRolCliente = tipoRolRepository.findByRol(TypeRol.CUSTOMER)
-                    .orElseThrow(() -> new RuntimeException("Rol CUSTOMER no encontrado"));
+        // 3. Crear el objeto Usuario
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setEmail(email);
+        usuario.setExiste(true);
+        usuario.setImagenUsuario(photoUrl);
 
-            Rol rolCliente = new Rol();
-            rolCliente.setFechaAlta(new Date());
-            rolCliente.setTipoRol(tipoRolCliente);
-            usuario.setRol(rolCliente);
+        // Asignar rol de CLIENTE por defecto (usando tu lógica existente)
+        TipoRol tipoRolCliente = tipoRolRepository.findByRol(TypeRol.CUSTOMER)
+                .orElseThrow(() -> new RuntimeException("Rol CUSTOMER no encontrado"));
 
-            // Crear UserAuthentication
-            UserAuthentication userAuth = new UserAuthentication();
-            userAuth.setUsername(email);
-            // ⚠️ NO NECESITA CONTRASEÑA ENCRIPTADA para Firebase, usamos null o un marcador
-            userAuth.setPassword(null);
-            userAuth.setFirebaseUid(firebaseUid); // ⬅️ GUARDAR EL UID
-            userAuth.setUsuario(usuario);
+        Rol rolCliente = new Rol();
+        rolCliente.setFechaAlta(new Date());
+        rolCliente.setTipoRol(tipoRolCliente);
+        usuario.setRol(rolCliente);
 
-            // Asignar UserAuthentication al Usuario
-            usuario.setUserAuthentication(userAuth);
+        // Crear UserAuthentication
+        UserAuthentication userAuth = new UserAuthentication();
+        userAuth.setUsername(email);
+        // ⚠️ NO NECESITA CONTRASEÑA ENCRIPTADA para Firebase, usamos null o un marcador
+        userAuth.setPassword(null);
+        userAuth.setFirebaseUid(firebaseUid); // ⬅️ GUARDAR EL UID
+        userAuth.setUsuario(usuario);
 
-            // Guardar el usuario
-            usuarioRepository.save(usuario);
+        // Asignar UserAuthentication al Usuario
+        usuario.setUserAuthentication(userAuth);
 
-            return userAuth;
+        // Guardar el usuario
+        usuarioRepository.save(usuario);
+
+        return userAuth;
 
     }
-
 
 }

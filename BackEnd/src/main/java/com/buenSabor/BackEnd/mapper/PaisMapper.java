@@ -15,8 +15,18 @@ import org.mapstruct.Mapping;
  */
 @Mapper(componentModel = "spring")
 public interface PaisMapper {
+        // <--[PaisDTO dto]--
+        // ==>{Pais entity, y lo que ignora *provinciaList,id*}
         @Mapping(target = "provinciaList", ignore = true)
               @Mapping(target = "id", ignore = true)
-    Pais toEntity(PaisDTO dto);
-    PaisDTO toDTO(Pais entity);
+        Pais toEntity(PaisDTO dto);
+        // <--[Pais entity]--
+        // ==>{PaisDTO dto, y lo que ignora *-*}
+        PaisDTO toDTO(Pais entity);
+
+        // <--[PaisDTO dto, Pais entity]--
+        // ==>{void, y lo que ignora *id,provinciaList*}
+        @Mapping(target = "id", ignore = true)
+        @Mapping(target = "provinciaList", ignore = true)
+        void updateFromDto(PaisDTO dto, @org.mapstruct.MappingTarget Pais entity);
 }

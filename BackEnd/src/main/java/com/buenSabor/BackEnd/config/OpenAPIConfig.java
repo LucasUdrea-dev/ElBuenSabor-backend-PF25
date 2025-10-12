@@ -5,26 +5,33 @@
 package com.buenSabor.BackEnd.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  *
  * @author oscarloha
  */
-public class OpenAiConfig {
-    
+@Configuration
+public class OpenAPIConfig {
+
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI(); // Config base si querés personalizar
+        Info info = new Info()
+                .title("El buen sabor")
+                .description("Documentacion, proyecto Buen Sabor")
+                .version("1.0.2");
+        return new OpenAPI().info(info);
     }
-//http://localhost:8080/swagger-ui.html
+    // http://localhost:8080/dev/doc
 
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-            .group("default")
-            .packagesToScan("com.buenSabor.BackEnd.controllers") 
-            .build();
+                .group("default")
+                .packagesToScan("com.buenSabor.BackEnd.controllers")
+                .build();
     }
 }

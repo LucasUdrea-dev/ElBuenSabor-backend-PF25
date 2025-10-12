@@ -25,9 +25,21 @@ public interface UsuarioMapper {
       @Mapping(target = "pedidoList", ignore = true) 
       @Mapping(target = "id", ignore = true) 
             
+    // <--[UsuarioDTO dto]--
+    // ==>{Usuario entity, y lo que ignora *pedidoList,id*}
     Usuario toEntity(UsuarioDTO dto);
 
+    // <--[Usuario entity]--
+    // ==>{UsuarioDTO dto, y lo que ignora *-*}
     UsuarioDTO toDto(Usuario entity);
 
+    // <--[List<Usuario> list]--
+    // ==>{List<UsuarioDTO> list, y lo que ignora *-*}
     List<UsuarioDTO> toDtoList(List<Usuario> list);
+
+    // <--[UsuarioDTO dto, Usuario entity]--
+    // ==>{void, y lo que ignora *id,pedidoList*}
+    @org.mapstruct.Mapping(target = "id", ignore = true)
+    @org.mapstruct.Mapping(target = "pedidoList", ignore = true)
+    void updateFromDto(UsuarioDTO dto, @org.mapstruct.MappingTarget Usuario entity);
 }
