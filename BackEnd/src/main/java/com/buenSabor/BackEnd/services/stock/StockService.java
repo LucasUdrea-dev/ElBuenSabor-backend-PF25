@@ -8,11 +8,23 @@ import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
 import com.buenSabor.BackEnd.services.producto.ArticuloInsumoService;
 import com.buenSabor.BackEnd.services.producto.ArticuloManufacturadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
+import com.buenSabor.BackEnd.dto.stock.AddStockRequest;
+import com.buenSabor.BackEnd.dto.stock.StockResponse;
+import com.buenSabor.BackEnd.dto.stock.UpdateStockRequest;
+import com.buenSabor.BackEnd.mapper.StockMapper;
+import com.buenSabor.BackEnd.models.company.Sucursal;
+import com.buenSabor.BackEnd.repositories.producto.StockArticuloInsumoRepository;
+import com.buenSabor.BackEnd.services.company.SucursalService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -23,6 +35,85 @@ public class StockService {
 
     @Autowired
     private ArticuloManufacturadoService manufacturadoService;
+
+    @Autowired
+    private SucursalService sucursalService;
+
+    @Autowired
+    private StockArticuloInsumoRepository stockRepository;
+    
+    @Autowired
+    private StockMapper stockMapper;
+    
+    // CRUD Methods
+
+    @Transactional(readOnly = true)
+    public List<StockResponse> findAll() {
+        return stockRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<StockResponse> findAll(Pageable pageable) {
+        return stockRepository.findAll(pageable)
+                .map(this::convertToDto);
+    }
+
+    @Transactional(readOnly = true)
+    public StockResponse findById(Long id) {
+        return stockRepository.findById(id)
+                .map(this::convertToDto)
+                .orElseThrow(() -> new EntityNotFoundException("Stock no encontrado con ID: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<StockResponse> findBySucursalId(Long sucursalId) {
+        return stockRepository.findBySucursalId(sucursalId).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public StockResponse updateStock(UpdateStockRequest request) {
+        StockArticuloInsumo stock = stockRepository.findById(request.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Stock no encontrado con ID: " + request.getId()));
+
+        if (request.getCantidad() != null) {
+            stock.setCantidad(request.getCantidad());
+        }
+        if (request.getStockMinimo() != null) {
+            stock.setMinStock(request.getStockMinimo());
+        }
+
+        StockArticuloInsumo updatedStock = stockRepository.save(stock);
+        return convertToDto(updatedStock);
+    }
+
+    @Transactional
+    public void deleteStock(Long id) {
+        if (!stockRepository.existsById(id)) {
+            throw new EntityNotFoundException("Stock no encontrado con ID: " + id);
+        }
+        stockRepository.deleteById(id);
+    }
+
+    /**
+     * Convierte una entidad StockArticuloInsumo a su DTO correspondiente
+     * @param stock Entidad a convertir
+     * @return DTO convertido o null si la entrada es null
+     */
+    private StockResponse convertToDto(StockArticuloInsumo stock) {
+        if (stock == null) {
+            return null;
+        }
+        try {
+            return stockMapper.toDtoSafe(stock);
+        } catch (Exception e) {
+            log.error("Error converting StockArticuloInsumo to DTO: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al convertir el stock a DTO", e);
+        }
+    }
 
     /**
      * Actualiza el stock de un insumo de manera segura, manejando concurrencia
@@ -37,6 +128,88 @@ public class StockService {
      * Número máximo de reintentos para actualizaciones concurrentes
      */
     private static final int MAX_RETRIES = 3;
+
+    /**
+     * Agrega stock a un artículo de insumo, considerando la unidad de medida
+     * 
+     * @param request Datos de la solicitud de adición de stock
+     * @return true si la operación fue exitosa, false en caso contrario
+     */
+    @Transactional
+    public boolean agregarStock(AddStockRequest request) {
+        int intento = 0;
+        while (intento < MAX_RETRIES) {
+            try {
+                ArticuloInsumo insumo = insumoService.findById(request.getIdInsumo());
+                if (insumo == null) {
+                    log.warn("No se encontró el insumo con ID: {}", request.getIdInsumo());
+                    throw new EntityNotFoundException("Insumo no encontrado con ID: " + request.getIdInsumo());
+                }
+
+                StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
+                if (stock == null) {
+                    // Si no existe stock, creamos un nuevo registro
+                    stock = new StockArticuloInsumo();
+                    stock.setCantidad(0);
+                    stock.setMinStock(0);
+                    stock.setArticuloInsumo(insumo);
+
+                    Sucursal sucursal;
+                    try {
+                        sucursal = sucursalService.findById(request.getSucursalId());
+                    } catch (Exception e) {
+                        log.warn("No se encontró la sucursal con ID: {}", request.getSucursalId(), e);
+                        throw new EntityNotFoundException("Sucursal no encontrada con ID: " + request.getSucursalId(), e);
+                    }
+
+                    stock.setSucursal(sucursal);
+                    insumo.setStockArticuloInsumo(stock);
+                }
+
+                // Convertir la cantidad según la unidad de medida del artículo
+                double cantidadAAgregar = request.getCantidad();
+                if (insumo.getUnidadMedida() != null) {
+                    // Aquí puedes agregar lógica adicional de conversión de unidades si es
+                    // necesario
+                }
+
+                // Actualizar la cantidad de stock
+                int nuevaCantidad = stock.getCantidad() + (int) Math.round(cantidadAAgregar);
+                if (nuevaCantidad < 0) {
+                    log.warn("No hay suficiente stock disponible para el insumo ID: {}", request.getIdInsumo());
+                    throw new IllegalStateException(
+                            "Stock insuficiente para el insumo con ID: " + request.getIdInsumo());
+                }
+
+                stock.setCantidad(nuevaCantidad);
+                insumoService.save(insumo);
+                log.info("Stock actualizado para el insumo ID: {}. Nueva cantidad: {}",
+                        request.getIdInsumo(), nuevaCantidad);
+                return true;
+
+            } catch (OptimisticLockException e) {
+                intento++;
+                if (intento >= MAX_RETRIES) {
+                    log.error("Error de concurrencia al actualizar el stock para el insumo ID: {}",
+                            request.getIdInsumo(), e);
+                    throw new RuntimeException(
+                            "Error de concurrencia al actualizar el stock. Por favor, intente nuevamente.", e);
+                }
+                // Esperar un momento antes de reintentar
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    throw new RuntimeException("Operación interrumpida durante la actualización de stock", ie);
+                }
+            } catch (Exception e) {
+                log.error("Error inesperado al actualizar el stock para el insumo ID: {}",
+                        request.getIdInsumo(), e);
+                throw new RuntimeException("Error al actualizar el stock: " + e.getMessage(), e);
+            }
+        }
+        return false;
+    }
 
     @Transactional
     public boolean actualizarStockInsumo(Long idInsumo, int cantidad, Long sucursalId) {
