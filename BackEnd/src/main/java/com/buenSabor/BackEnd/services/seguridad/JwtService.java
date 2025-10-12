@@ -28,6 +28,9 @@ public class JwtService {
         Date fechaEmision = new Date(System.currentTimeMillis());
         Date fechaExpiracion = new Date(fechaEmision.getTime() + (EXPIRACTION_MINUTES * 60 * 1000));//convertir a ms
 
+        extraClaims.put("id_user", usuario.getUsuario().getId());
+
+
         return Jwts.builder()
                 .setClaims(extraClaims) //Map trae usuario y rol
                 .setSubject(usuario.getUsername()) //usuario
