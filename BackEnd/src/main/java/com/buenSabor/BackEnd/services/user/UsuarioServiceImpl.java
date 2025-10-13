@@ -98,6 +98,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuario);
     }
 
+    @Override
+    public UsuarioDTO crearUsuario(UsuarioDTO dto) {
+        throw new UnsupportedOperationException("Unimplemented method 'crearUsuario'");
+    }
+
     /*
      * @Override
      * public UsuarioDTO crearUsuario(UsuarioDTO dto) {
