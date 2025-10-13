@@ -28,8 +28,8 @@ public interface TipoRolMapper {
     List<TipoRolDTO> toDtoList(List<TipoRol> tipoRoles);
 
     // <--[TipoRolDTO dto]--
-    // ==>{TipoRol entity, y lo que ignora *id,rolList*}
-    @Mapping(target = "id", ignore = true)
+    // ==>{TipoRol entity, y lo que ignora *rolList*}
+    // IMPORTANTE: NO ignorar el ID - TipoRol está precargado en BD por TipoRolInitializer
     @Mapping(target = "rolList", ignore = true)
     TipoRol toEntity(TipoRolDTO dto);
 
