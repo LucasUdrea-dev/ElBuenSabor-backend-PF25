@@ -19,8 +19,7 @@ public class Revision implements Serializable {
     //Genera Tabla RevisionInfo
     //   id / revision_date
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "revision_seq")
-    @SequenceGenerator(name = "revision_seq", sequenceName = "rbac.seq_revision_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @RevisionNumber
     private long id;
 

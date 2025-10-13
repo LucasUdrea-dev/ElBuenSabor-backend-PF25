@@ -27,17 +27,17 @@ public interface DireccionMapper {
     DireccionDTO toDto(Direccion direccion);
 
     // <--[DireccionDTO dto]--
-    // ==>{Direccion entity, y lo que ignora *id,usuarioList,sucursal,direccionPedidos*}
+    // ==>{Direccion entity, y lo que ignora *id,usuarioDireccionList,sucursal,direccionPedidos*}
     @Mapping(target = "id", ignore = true) 
-    @Mapping(target = "usuarioList", ignore = true) 
+    @Mapping(target = "usuarioDireccionList", ignore = true) 
     @Mapping(target = "sucursal", ignore = true) 
     @Mapping(target = "direccionPedidos", ignore = true) 
     Direccion toEntity(DireccionDTO dto);
 
     // <--[DireccionDTO dto, Direccion entity]--
-    // ==>{void, y lo que ignora *id,usuarioList,sucursal,direccionPedidos*}
+    // ==>{void, y lo que ignora *id,usuarioDireccionList,sucursal,direccionPedidos*}
     @Mapping(target = "id", ignore = true) 
-    @Mapping(target = "usuarioList", ignore = true) 
+    @Mapping(target = "usuarioDireccionList", ignore = true) 
     @Mapping(target = "sucursal", ignore = true) 
     @Mapping(target = "direccionPedidos", ignore = true) 
     void updateDireccionFromDto(DireccionDTO dto, @MappingTarget Direccion entity);
