@@ -55,7 +55,7 @@ public class Direccion extends Bean {
     @JoinColumn(name = "id_ciudad")
     private Ciudad ciudad;
 
-    @ManyToMany(mappedBy = "direccionList", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "direccionList", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Usuario> usuarioList;
 
