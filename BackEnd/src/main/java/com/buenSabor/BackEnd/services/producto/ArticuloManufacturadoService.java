@@ -80,15 +80,15 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
         // 3) Crear detalles de insumo (evitar duplicados)
         List<ArticuloManufacturadoDetalleInsumo> detalles = new java.util.ArrayList<>();
         java.util.Set<Long> insumosYaProcesados = new java.util.HashSet<>();
-        
+
         for (ArticuloManufacturadoDetalleInsumoDTO d : dto.getInsumos()) {
             Long insumoId = d.getArticuloInsumo().getId();
-            
+
             // Verificar duplicados
             if (insumosYaProcesados.contains(insumoId)) {
                 continue; // Omitir duplicado
             }
-            
+
             ArticuloManufacturadoDetalleInsumo det = new ArticuloManufacturadoDetalleInsumo();
             det.setArticuloManufacturado(manufacturado);
             det.setArticuloInsumo(
@@ -160,13 +160,13 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
 
         for (ArticuloManufacturadoDetalleInsumoDTO d : nuevosDTO) {
             Long insumoId = d.getArticuloInsumo().getId();
-            
+
             // Verificar duplicados en el request
             if (insumosEnRequest.contains(insumoId)) {
                 continue; // Omitir duplicado
             }
             insumosEnRequest.add(insumoId);
-            
+
             Optional<ArticuloManufacturadoDetalleInsumo> opt = actuales.stream()
                     .filter(det -> det.getArticuloInsumo().getId().equals(insumoId))
                     .findFirst();

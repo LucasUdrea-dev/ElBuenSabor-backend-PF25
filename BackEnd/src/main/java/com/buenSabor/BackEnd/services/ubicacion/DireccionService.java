@@ -31,6 +31,7 @@ public class DireccionService extends BeanServiceImpl<Direccion,Long>{
     private UsuarioRepository usuarioRepository; 
     @Autowired
     private DireccionRepository direccionRepository;
+    @SuppressWarnings("unused")
     @Autowired
     private UsuarioDireccionRepository usuarioDireccionRepository;
     @Autowired
