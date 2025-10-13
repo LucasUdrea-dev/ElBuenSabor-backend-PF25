@@ -20,9 +20,9 @@ public interface TipoPromocionMapper {
     // ==>{TipoPromocionDTO dto, y lo que ignora *-*}
     TipoPromocionDTO toDto(TipoPromocion entity);
     // <--[TipoPromocionDTO dto]--
-    // ==>{TipoPromocion entity, y lo que ignora *promocionList,id*}
+    // ==>{TipoPromocion entity, y lo que ignora *promocionList*}
+    // IMPORTANTE: NO ignorar el ID para evitar crear duplicados
     @Mapping(target = "promocionList", ignore = true)
-               @Mapping(target = "id", ignore = true)
     TipoPromocion toEntity(TipoPromocionDTO dto);
 
     // <--[List<TipoPromocion> tipoPromociones]--
