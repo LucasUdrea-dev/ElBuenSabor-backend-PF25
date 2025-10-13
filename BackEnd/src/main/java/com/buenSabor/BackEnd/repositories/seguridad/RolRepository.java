@@ -5,8 +5,11 @@
 package com.buenSabor.BackEnd.repositories.seguridad;
 
 import com.buenSabor.BackEnd.models.seguridad.Rol;
+import com.buenSabor.BackEnd.models.seguridad.TipoRol;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  *
@@ -14,5 +17,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RolRepository extends BeanRepository<Rol,Long>{
-    
+
+    Optional<Rol> findByTipoRol(TipoRol tipoRolCliente);
 }

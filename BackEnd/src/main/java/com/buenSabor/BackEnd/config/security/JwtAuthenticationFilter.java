@@ -34,6 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         //1- Obtener el header que contiene el token o firebase
         String authHeader = request.getHeader("Authorization"); //Bearer token
 
