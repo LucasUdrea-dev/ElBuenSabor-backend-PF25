@@ -26,6 +26,6 @@ public class EmpleadoDTO extends UsuarioDTO{
    
     private Date fechaAlta;
    
-    private SucursalDTO Sucursal;
+    private SucursalDTO sucursal;
 
 }

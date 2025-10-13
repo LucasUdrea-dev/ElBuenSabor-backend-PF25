@@ -18,12 +18,23 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface TelefonoMapper {
 
+    // <--[TelefonoDTO dto]--
+    // ==>{Telefono entity, y lo que ignora *usuario,id*}
     @Mapping(target = "usuario", ignore = true) // Evitamos mapeo recursivo
                @Mapping(target = "id", ignore = true)
-
     Telefono toEntity(TelefonoDTO dto);
 
+    // <--[Telefono entity]--
+    // ==>{TelefonoDTO dto, y lo que ignora *-*}
     TelefonoDTO toDto(Telefono entity);
 
+    // <--[List<TelefonoDTO> telefonoList]--
+    // ==>{List<Telefono> list, y lo que ignora *-*}
     public List<Telefono> telefonoDtoListToEntityList(List<TelefonoDTO> telefonoList);
+
+    // <--[TelefonoDTO dto, Telefono entity]--
+    // ==>{void, y lo que ignora *id,usuario*}
+    @org.mapstruct.Mapping(target = "id", ignore = true)
+    @org.mapstruct.Mapping(target = "usuario", ignore = true)
+    void updateFromDto(TelefonoDTO dto, @org.mapstruct.MappingTarget Telefono entity);
 }

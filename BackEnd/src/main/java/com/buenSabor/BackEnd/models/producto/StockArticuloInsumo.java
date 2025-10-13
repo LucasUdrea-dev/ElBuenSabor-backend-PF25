@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +31,8 @@ import lombok.Setter;
 @Table(name = "Stock_ArticuloInsumo")
 public class StockArticuloInsumo extends Bean {
 
-    @Column(name = "max_stock")
-    private Integer maxStock;
+    @Column(name = "min_stock")
+    private Integer minStock;
 
     @Column(name = "cantidad")
     private Integer cantidad;
@@ -49,4 +50,29 @@ public class StockArticuloInsumo extends Bean {
     @JsonIgnore
     private List<HistoricoStockArticuloInsumo> historicoStockArticuloInsumoList;
 
+    @Version
+    @Column(name = "version")
+    private Long version;
+
+    /**
+     * Actualiza el stock de manera segura, verificando que no quede negativo
+     * @param cantidad Cantidad a sumar (puede ser negativa para restar)
+     * @return true si la operación fue exitosa, false si no hay suficiente stock
+     */
+    public synchronized boolean actualizarStock(int cantidad) {
+        if (this.cantidad + cantidad < 0) {
+            return false; // No hay suficiente stock
+        }
+        this.cantidad += cantidad;
+        return true;
+    }
+
+    /**
+     * Verifica si hay suficiente stock disponible
+     * @param cantidadRequerida Cantidad a verificar
+     * @return true si hay suficiente stock, false en caso contrario
+     */
+    public boolean tieneSuficienteStock(int cantidadRequerida) {
+        return this.cantidad >= cantidadRequerida;
+    }
 }

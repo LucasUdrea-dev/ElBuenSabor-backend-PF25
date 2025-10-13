@@ -7,6 +7,7 @@ package com.buenSabor.BackEnd.repositories.user;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioRepository extends BeanRepository<Usuario,Long>{
 
-    public List<Usuario> findAllByExisteTrue();
-    
+    List<Usuario> findAllByExisteTrue();
+    Optional<Usuario> findByIdAndExisteTrue(Long id);
+    Usuario findByEmail(String email);
 }

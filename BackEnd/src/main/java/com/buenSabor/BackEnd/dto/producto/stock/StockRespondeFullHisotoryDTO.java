@@ -21,7 +21,7 @@ import lombok.Setter;
 public class StockRespondeFullHisotoryDTO {
     
     private Long id;
-    private Integer maxStock;
+    private Integer minStock;
     private InsumoDTO articuloInsumo;
     //historico: 
     private Integer cantidad;

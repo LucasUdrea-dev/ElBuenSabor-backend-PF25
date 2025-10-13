@@ -35,3 +35,15 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### Properties ###
+*.properties
+**/application-*.properties
+
+### Logs ###
+logs/
+**/*.log
+**/*.log.*
+*.log
+hs_err_pid*

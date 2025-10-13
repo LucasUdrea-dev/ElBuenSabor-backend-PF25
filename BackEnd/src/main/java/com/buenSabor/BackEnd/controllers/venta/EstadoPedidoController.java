@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class EstadoPedidoController { 
 
     private final EstadoPedidoService estadoPedidoService;
+    @SuppressWarnings("unused")
     private final EstadoPedidoRepository estadoPedidoRepository; 
 
     @Autowired

@@ -9,10 +9,6 @@ package com.buenSabor.BackEnd.dto.venta.promocion;
  * @author oscarloha
  */
 
-import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
-import com.buenSabor.BackEnd.dto.venta.promocionArticulo.PromocionArticuloDTO;
-import com.buenSabor.BackEnd.dto.venta.tipopromo.TipoPromocionDTO;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

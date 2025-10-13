@@ -5,7 +5,6 @@
 package com.buenSabor.BackEnd.models.company;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +17,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
@@ -27,7 +25,6 @@ import lombok.Setter;
 @Table(name = "Empresa")
 public class Empresa extends Bean {
 
-   
     @Column(name = "nombre")
     private String nombre;
     @Column(name = "razon_social")
@@ -35,7 +32,7 @@ public class Empresa extends Bean {
     @Column(name = "cuil")
     private String cuil;
     private boolean existe;
-    @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Sucursal> sucursalList;
 
 }

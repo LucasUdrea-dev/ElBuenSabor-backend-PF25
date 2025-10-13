@@ -5,9 +5,7 @@
 package com.buenSabor.BackEnd.dto.seguridad.rol;
 
 import com.buenSabor.BackEnd.dto.seguridad.tiporol.TipoRolDTO;
-import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
 import java.util.Date;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

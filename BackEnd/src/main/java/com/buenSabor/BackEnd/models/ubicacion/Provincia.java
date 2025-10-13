@@ -32,7 +32,7 @@ public class Provincia extends Bean {
     @Column(name = "nombre")
     private String nombre;
     
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private Pais pais;
     
     @OneToMany(mappedBy = "provincia", fetch = FetchType.EAGER,cascade = CascadeType.ALL)

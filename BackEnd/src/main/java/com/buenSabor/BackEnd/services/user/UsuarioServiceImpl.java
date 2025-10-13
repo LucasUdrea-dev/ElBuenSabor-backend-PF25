@@ -1,7 +1,6 @@
 package com.buenSabor.BackEnd.services.user;
 
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
-import com.buenSabor.BackEnd.mapper.DireccionMapper;
 import com.buenSabor.BackEnd.mapper.TelefonoMapper;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
 import com.buenSabor.BackEnd.mapper.UsuarioMapper;
@@ -13,7 +12,6 @@ import com.buenSabor.BackEnd.repositories.seguridad.UserAuthenticationRepository
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,10 +27,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioMapper usuarioMapper;
     @Autowired
     private TelefonoMapper telefonoMapper;
+    @SuppressWarnings("unused")
     @Autowired
     private UserAuthenticationMapper autenticacionMapper;
-    @Autowired
-    private DireccionMapper direccionMapper;
 
     @Override
     public List<Usuario> findAll() {
@@ -74,7 +71,8 @@ public class UsuarioServiceImpl implements UsuarioService {
         // Actualiza UserAuthentication si viene con ID
         if (dto.getUserAuthentication() != null && dto.getUserAuthentication().getId() != null) {
             UserAuthentication auth = authRepository.findById(dto.getUserAuthentication().getId())
-                    .orElseThrow(() -> new RuntimeException("UserAuth no encontrado con id: " + dto.getUserAuthentication().getId()));
+                    .orElseThrow(() -> new RuntimeException(
+                            "UserAuth no encontrado con id: " + dto.getUserAuthentication().getId()));
             existente.setUserAuthentication(auth);
         }
 
@@ -83,9 +81,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             existente.setTelefonoList(telefonoMapper.telefonoDtoListToEntityList(dto.getTelefonoList()));
         }
 
-        if (dto.getDireccionList() != null) {
-            existente.setDireccionList(direccionMapper.direccionDtoListToEntityList(dto.getDireccionList()));
-        }
+        // Las direcciones se manejan a través de DireccionService
+        // No se actualizan directamente aquí para mantener la integridad de la relación
 
         Usuario guardado = usuarioRepository.save(existente);
         return usuarioMapper.toDto(guardado);
@@ -101,17 +98,24 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuarioRepository.save(usuario);
     }
 
-    /*@Override
+    @Override
     public UsuarioDTO crearUsuario(UsuarioDTO dto) {
-        Usuario entity = usuarioMapper.toEntity(dto);
+        throw new UnsupportedOperationException("Unimplemented method 'crearUsuario'");
+    }
 
-        UserAuthentication userAuth = entity.getUserAuthentication();
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userAuth.setPassword(encoder.encode(userAuth.getPassword()));
-
-        usuarioRepository.save(entity);
-        return usuarioMapper.toDto(entity);
-    }*/
+    /*
+     * @Override
+     * public UsuarioDTO crearUsuario(UsuarioDTO dto) {
+     * Usuario entity = usuarioMapper.toEntity(dto);
+     * 
+     * UserAuthentication userAuth = entity.getUserAuthentication();
+     * 
+     * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+     * userAuth.setPassword(encoder.encode(userAuth.getPassword()));
+     * 
+     * usuarioRepository.save(entity);
+     * return usuarioMapper.toDto(entity);
+     * }
+     */
 
 }

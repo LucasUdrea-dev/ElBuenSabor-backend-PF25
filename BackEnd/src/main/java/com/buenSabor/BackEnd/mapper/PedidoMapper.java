@@ -35,6 +35,8 @@ import java.util.List;
 public interface PedidoMapper {
 
      // Maps Pedido entity to PedidoConDireccionDTO (includes address)
+    // <--[Pedido pedido]--
+    // ==>{PedidoConDireccionDTO dto, y lo que ignora *-*}
     @Mapping(source = "estadoPedido", target = "estadoPedido")
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "tipoEnvio", target = "tipoEnvio")
@@ -46,6 +48,8 @@ public interface PedidoMapper {
     PedidoConDireccionDTO toPedidoConDireccionDto(Pedido pedido);
     
     // --- toDto (Entity to DTO) ---
+    // <--[Pedido pedido]--
+    // ==>{PedidoDTO dto, y lo que ignora *-*}
     @Mapping(source = "estadoPedido", target = "estadoPedido")
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "tipoEnvio", target = "tipoEnvio")
@@ -57,6 +61,8 @@ public interface PedidoMapper {
     PedidoDTO toDto(Pedido pedido);
 
     // --- toEntity (DTO to Entity) ---
+    // <--[PedidoDTO dto]--
+    // ==>{Pedido entity, y lo que ignora *usuario,detallePedidoList,detallePromocionList,direccionPedido*}
     @Mapping(source = "estadoPedido", target = "estadoPedido")
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "tipoEnvio", target = "tipoEnvio")
@@ -70,6 +76,8 @@ public interface PedidoMapper {
     @Mapping(target = "direccionPedido", ignore = true) 
     Pedido toEntity(PedidoDTO dto);
 
+    // <--[PedidoConDireccionDTO dto]--
+    // ==>{Pedido entity, y lo que ignora *id,usuario,detallePedidoList,detallePromocionList,direccionPedido*}
     @Mapping(target = "id", ignore = true) 
     @Mapping(target = "usuario", ignore = true) 
     @Mapping(target = "detallePedidoList", ignore = true) 
@@ -78,6 +86,8 @@ public interface PedidoMapper {
     Pedido toEntity(PedidoConDireccionDTO dto);
 
     // --- updatePedidoFromDto (DTO to existing Entity) ---
+    // <--[PedidoDTO dto, Pedido entity]--
+    // ==>{void, y lo que ignora *id,detallePedidoList,detallePromocionList,direccionPedido,usuario*}
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "detallePromocionList", ignore = true)
@@ -96,6 +106,8 @@ public interface PedidoMapper {
     void updatePedidoFromDto(PedidoDTO dto, @MappingTarget Pedido entity);
 
      // Updates an existing Pedido entity from a PedidoConDireccionDTO.
+    // <--[PedidoConDireccionDTO dto, Pedido entity]--
+    // ==>{void, y lo que ignora *id,detallePedidoList,detallePromocionList,direccionPedido,usuario*}
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "detallePromocionList", ignore = true)
@@ -113,6 +125,8 @@ public interface PedidoMapper {
 
 
    
+    // <--[PedidoConDireccionDTO dto]--
+    // ==>{PedidoDTO dto, y lo que ignora *-*}
     @Mapping(source = "estadoPedido", target = "estadoPedido")
     @Mapping(source = "sucursal", target = "sucursal")
     @Mapping(source = "tipoEnvio", target = "tipoEnvio")
@@ -122,7 +136,11 @@ public interface PedidoMapper {
     @Mapping(source = "detallePromocionList", target = "detallePromocionList")
     PedidoDTO toPedidoDtoFromConDireccionDto(PedidoConDireccionDTO dto);
 
+    // <--[List<Pedido> pedidos]--
+    // ==>{List<PedidoDTO> list, y lo que ignora *-*}
     List<PedidoDTO> toDtoList(List<Pedido> pedidos);
 
+    // <--[List<Pedido> pedidos]--
+    // ==>{List<PedidoConDireccionDTO> list, y lo que ignora *-*}
     public List<PedidoConDireccionDTO> toPedidoConDireccionDtoList(List<Pedido> pedidos);
 }

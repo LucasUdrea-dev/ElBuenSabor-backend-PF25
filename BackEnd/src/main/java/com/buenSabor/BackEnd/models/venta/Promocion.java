@@ -15,14 +15,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -32,8 +29,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Promocion extends Bean {
-
-
 
     @Column(name = "denominacion")
     private String denominacion;
@@ -45,25 +40,20 @@ public class Promocion extends Bean {
     private Boolean existe;
     @Column(name = "imagen_promo")
     private String imagen;
-    
-    
-    
+
     @JoinColumn(name = "sucursal_id", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal sucursal;
-    
+
     @JoinColumn(name = "id_tipo_promocion", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private TipoPromocion TipoPromocion;
-    
-    @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PromocionArticulo> promocionArticuloList;
-    
+
     @OneToMany(mappedBy = "promocion", fetch = FetchType.LAZY)
-        @JsonIgnore
+    @JsonIgnore
     private List<DetallePromocion> detallePromocionList = new ArrayList<>();
-
-
-
 
 }

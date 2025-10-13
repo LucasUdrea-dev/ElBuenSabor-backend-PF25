@@ -5,10 +5,7 @@
 package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.models.producto.Articulo;
-import com.buenSabor.BackEnd.models.producto.Categoria;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,19 +29,15 @@ import lombok.Setter;
 @Table(name = "subcategoria")
 public class Subcategoria extends Bean {
 
-
     @Column(name = "denominacion")
     private String denominacion;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria", referencedColumnName = "id")
     private Categoria categoria;
-    
-    @OneToMany(mappedBy = "subcategoria", 
-    fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+
+    @OneToMany(mappedBy = "subcategoria", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JsonIgnore
     private List<Articulo> articuloList;
 
-    
-    
 }

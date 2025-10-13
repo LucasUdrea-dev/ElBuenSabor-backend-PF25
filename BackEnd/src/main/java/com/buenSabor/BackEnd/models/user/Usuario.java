@@ -5,7 +5,6 @@
 package com.buenSabor.BackEnd.models.user;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
-import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.models.seguridad.Rol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
@@ -17,8 +16,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -48,28 +45,24 @@ public class Usuario extends Bean {
     @Column(name = "existe")
     protected Boolean existe;
     protected String imagenUsuario;
-    
-    @OneToMany(mappedBy = "usuario",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List<Telefono> telefonoList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "id_rol", referencedColumnName = "id")
     protected Rol rol;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "Usuario_Direccion",
-        joinColumns = @JoinColumn(name = "id_usuario"),
-        inverseJoinColumns = @JoinColumn(name = "id_direccion"))
-    protected List<Direccion> direccionList;
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    protected List<UsuarioDireccion> usuarioDireccionList = new ArrayList<>();
 
-
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_userAuth")
     protected UserAuthentication userAuthentication;
 
-
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-        @JsonIgnore
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JsonIgnore
     protected List<Pedido> pedidoList;
-    
+
 }

@@ -144,7 +144,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                 .orElseThrow(() -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
 
         // Validar que el tipo de envío del DTO coincida con el de la base de datos
-        if (!tipoEnvio.getTipoDelivery().equals(dto.getTipoEnvio().getTipoDelivery())) {
+        if (!tipoEnvio.getTipoDelivery().name().equals(dto.getTipoEnvio().getTipoDelivery())) {
             throw new RuntimeException("El tipo de envío proporcionado en el DTO no coincide con el tipo de envío en la base de datos.");
         }
 

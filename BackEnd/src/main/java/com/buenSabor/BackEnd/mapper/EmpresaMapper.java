@@ -20,6 +20,8 @@ public interface EmpresaMapper {
 
     EmpresaMapper mapper = Mappers.getMapper(EmpresaMapper.class);
 
+    // <--[EmpresaDTO dto]--
+    // ==>{Empresa entity, y lo que ignora *sucursalList,id*}
     @Mapping(target = "sucursalList", ignore = true)
     @Mapping(target = "id", ignore = true)
     Empresa toEntity(EmpresaDTO dto);
@@ -27,10 +29,19 @@ public interface EmpresaMapper {
     ///////////////////////////////////
     
     // Modelo
+    // <--[Empresa entity]--
+    // ==>{EmpresaDTO dto, y lo que ignora *-*}
     EmpresaDTO toDto(Empresa entity);
 
     // En EmpresaMapper
+    // <--[List<Empresa> empresas]--
+    // ==>{List<EmpresaDTO> list, y lo que ignora *-*}
     List<EmpresaDTO> toDtoList(List<Empresa> empresas);
     
+    // <--[EmpresaDTO dto, Empresa entity]--
+    // ==>{void, y lo que ignora *id,sucursalList*}
+    @org.mapstruct.Mapping(target = "id", ignore = true)
+    @org.mapstruct.Mapping(target = "sucursalList", ignore = true)
+    void updateFromDto(EmpresaDTO dto, @org.mapstruct.MappingTarget Empresa entity);
     
 }

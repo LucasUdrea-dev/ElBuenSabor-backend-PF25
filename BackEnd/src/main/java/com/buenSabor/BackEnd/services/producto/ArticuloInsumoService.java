@@ -14,7 +14,6 @@ import com.buenSabor.BackEnd.models.producto.UnidadMedida;
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloInsumoRepository;
 import com.buenSabor.BackEnd.repositories.producto.SubcategorioRepository;
-import com.buenSabor.BackEnd.repositories.producto.CategoriaRepository;
 import com.buenSabor.BackEnd.repositories.producto.UnidadMedidaRepository;
 import com.buenSabor.BackEnd.repositories.producto.StockArticuloInsumoRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
@@ -37,12 +36,9 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
 
     @Autowired
     private ArticuloInsumoRepository articuloInsumoRepository;
-    
+
     @Autowired
     private SubcategorioRepository subcategorioRepository;
-    
-    @Autowired
-    private CategoriaRepository categoriaRepository;
 
     @Autowired
     private UnidadMedidaRepository unidadMedidaRepository;
@@ -64,18 +60,21 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             ArticuloInsumo insumo = articuloMapper.toEntity(dto);
 
             Long subcategoriaId = dto.getSubcategoria().getId();
-            Subcategoria subManaged = subcategorioRepository.getById(subcategoriaId);
+            Subcategoria subManaged = subcategorioRepository.findById(subcategoriaId)
+                    .orElseThrow(() -> new EntityNotFoundException("Subcategoria no encontrada"));
             insumo.setSubcategoria(subManaged);
 
             Long unidadMedidaId = dto.getUnidadMedida().getId();
-            UnidadMedida umManaged = unidadMedidaRepository.getById(unidadMedidaId);
+            UnidadMedida umManaged = unidadMedidaRepository.findById(unidadMedidaId)
+                    .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
             insumo.setUnidadMedida(umManaged);
 
             insumo.setPrecioCompra(dto.getPrecioCompra());
 
             StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
             Long sucId = dto.getStockArticuloInsumo().getSucursalId();
-            Sucursal sucManaged = sucursalRepository.getById(sucId);
+            Sucursal sucManaged = sucursalRepository.findById(sucId)
+                    .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
             stock.setSucursal(sucManaged);
             stock.setArticuloInsumo(insumo);
             insumo.setStockArticuloInsumo(stock);
@@ -89,11 +88,11 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
     @Transactional
     public ArticuloInsumo actualizar(Long id, InsumoDTO dto) {
         try {
-            //Recupera el insumo existente
+            // Recupera el insumo existente
             ArticuloInsumo insumo = articuloInsumoRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Insumo con id " + id + " no existe"));
 
-            //Actualiza campos básicos
+            // Actualiza campos básicos
             insumo.setNombre(dto.getNombre());
             insumo.setDescripcion(dto.getDescripcion());
             insumo.setPrecio(dto.getPrecio());
@@ -102,14 +101,16 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             insumo.setImagenArticulo(dto.getImagenArticulo());
             insumo.setPrecioCompra(dto.getPrecioCompra());
 
-            //Reemplaza subcategoría y unidadMedida
-            Subcategoria subManaged = subcategorioRepository.getById(dto.getSubcategoria().getId());
+            // Reemplaza subcategoría y unidadMedida
+            Subcategoria subManaged = subcategorioRepository.findById(dto.getSubcategoria().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Subcategoria no encontrada"));
             insumo.setSubcategoria(subManaged);
 
-            UnidadMedida umManaged = unidadMedidaRepository.getById(dto.getUnidadMedida().getId());
+            UnidadMedida umManaged = unidadMedidaRepository.findById(dto.getUnidadMedida().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
             insumo.setUnidadMedida(umManaged);
 
-            //actualizo o creo stock
+            // actualizo o creo stock
             StockDTO stockDto = dto.getStockArticuloInsumo();
             StockArticuloInsumo stock;
             if (stockDto.getId() != null && stockDto.getId() > 0) {
@@ -120,13 +121,14 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             } else {
                 stock = new StockArticuloInsumo();
             }
-            stock.setMaxStock(dto.getStockArticuloInsumo().getMaxStock());
+            stock.setMinStock(dto.getStockArticuloInsumo().getMinStock());
             stock.setCantidad(dto.getStockArticuloInsumo().getCantidad());
-            Sucursal sucManaged = sucursalRepository.getById(dto.getStockArticuloInsumo().getSucursalId());
+            Sucursal sucManaged = sucursalRepository.findById(dto.getStockArticuloInsumo().getSucursalId())
+                    .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
             stock.setSucursal(sucManaged);
             insumo.setStockArticuloInsumo(stock);
 
-            //Guarda cambios
+            // Guarda cambios
             return articuloInsumoRepository.save(insumo);
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar el insumo: " + e.getMessage(), e);
@@ -135,18 +137,18 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
 
     @Transactional
     public ArticuloInsumo eliminarLogico(Long id) {
-        //Recupero articulo a eliminar
+        // Recupero articulo a eliminar
         ArticuloInsumo insumo = articuloInsumoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Insumo con id " + id + " no existe"));
 
-        //verifico que el articulo existe(atributo)
+        // verifico que el articulo existe(atributo)
         if (!insumo.getExiste()) {
             throw new IllegalStateException(
                     "El insumo con id " + id + " ya no existe");
         }
 
-        //Seteo valor y guardo
+        // Seteo valor y guardo
         insumo.setExiste(false);
         return articuloInsumoRepository.save(insumo);
     }
@@ -174,6 +176,5 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             throw new Exception("Error al buscar insumos disponibles: " + e.getMessage());
         }
     }
-    
 
 }

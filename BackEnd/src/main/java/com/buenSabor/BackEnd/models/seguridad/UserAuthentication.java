@@ -19,12 +19,9 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Entity
 @Getter
@@ -43,7 +40,6 @@ public class UserAuthentication extends Bean implements UserDetails {
     @OneToOne(mappedBy = "userAuthentication", fetch = FetchType.EAGER)
     private Usuario usuario;
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
@@ -51,7 +47,7 @@ public class UserAuthentication extends Bean implements UserDetails {
 
         Rol rol = usuario.getRol();
 
-        if(rol != null && rol.getTipoRol() !=null){
+        if (rol != null && rol.getTipoRol() != null) {
             TypeRol tipo = rol.getTipoRol().getRol();
             authorities.add(new SimpleGrantedAuthority("ROLE_" + tipo.name()));
         }

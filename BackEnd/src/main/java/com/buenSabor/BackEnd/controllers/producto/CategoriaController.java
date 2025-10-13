@@ -6,10 +6,7 @@ package com.buenSabor.BackEnd.controllers.producto;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
 import com.buenSabor.BackEnd.dto.producto.categoria.CategoriaDTO;
-import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
-import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
 import com.buenSabor.BackEnd.models.producto.Categoria;
-import com.buenSabor.BackEnd.services.producto.ArticuloManufacturadoService;
 import com.buenSabor.BackEnd.services.producto.CategoriaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  *

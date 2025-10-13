@@ -36,6 +36,9 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation group: 'com.mercadopago', name: 'sdk-java', version: '2.5.0'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+        
+        //websocket
+        implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	//Envers para auditoria
 	implementation 'org.hibernate.orm:hibernate-envers:6.6.12.Final'

@@ -22,16 +22,22 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface DireccionPedidoMapper {
 
     
+    // <--[DireccionPedido direccionPedido]--
+    // ==>{DireccionPedidoDTO dto, y lo que ignora *-*}
     @Mapping(source = "direccion", target = "direccion")
     DireccionPedidoDTO toDto(DireccionPedido direccionPedido);
 
    
+    // <--[DireccionPedidoDTO dto]--
+    // ==>{DireccionPedido entity, y lo que ignora *id,pedido*}
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "pedido", ignore = true) 
     @Mapping(source = "direccion", target = "direccion") 
     DireccionPedido toEntity(DireccionPedidoDTO dto);
 
 
+    // <--[DireccionPedidoDTO dto, DireccionPedido entity]--
+    // ==>{void, y lo que ignora *id,pedido*}
     @Mapping(target = "id", ignore = true) 
     @Mapping(target = "pedido", ignore = true)
     @Mapping(source = "direccion", target = "direccion")

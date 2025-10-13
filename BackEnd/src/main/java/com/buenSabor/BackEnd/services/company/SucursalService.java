@@ -16,15 +16,12 @@ import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.EmpresaRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.CiudadRepository;
-import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.PaisRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.ProvinciaRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.transaction.Transactional;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 /**
  *
@@ -32,11 +29,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
-
-
-    @Autowired
-    DireccionRepository direccionRepository;
-
 
     private final SucursalRepository sucursalRepository;
     private final EmpresaRepository empresaRepository;
@@ -52,8 +44,7 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
             CiudadRepository ciudadRepository,
             ProvinciaRepository provinciaRepository,
             PaisRepository paisRepository,
-            SucursalMapper sucursalMapper
-    ) {
+            SucursalMapper sucursalMapper) {
         super(beanRepository);
         this.sucursalRepository = sucursalRepository;
         this.empresaRepository = empresaRepository;
@@ -63,25 +54,25 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         this.sucursalMapper = sucursalMapper;
     }
 
-   public List<Sucursal> findAllExistente() {
+    public List<Sucursal> findAllExistente() {
         try {
-       
+
             List<Sucursal> sucursales = sucursalRepository.findByExisteIsTrue();
             return sucursales;
 
         } catch (Exception e) {
-         
+
             System.err.println("Error al buscar sucursales existentes: " + e.getMessage());
 
-           
             throw new RuntimeException("No se pudieron obtener las sucursales existentes", e);
 
         }
     }
-    
+
     @Transactional
     public SucursalDTO crearSucursal(SucursalDTO dto) {
-        // Obtener la empresa existente por ID (única entidad que debe existir previamente)
+        // Obtener la empresa existente por ID (única entidad que debe existir
+        // previamente)
         Empresa empresa = empresaRepository.findById(dto.getEmpresa().getId())
                 .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 
@@ -112,6 +103,7 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         return sucursalMapper.toDto(sucursalGuardada);
     }
 
+    @SuppressWarnings("unused")
     @Transactional
     public SucursalDTO actualizarSucursal(Long id, SucursalDTO dto) {
         // Buscar la sucursal existente
@@ -127,7 +119,8 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         sucursalActualizada.setId(id);
         sucursalActualizada.setEmpresa(empresa);
 
-        // Guardar la jerarquía completa desde cero (País → Provincia → Ciudad → Dirección)
+        // Guardar la jerarquía completa desde cero (País → Provincia → Ciudad →
+        // Dirección)
         Pais pais = paisRepository.save(sucursalActualizada.getDireccion().getCiudad().getProvincia().getPais());
         Provincia provincia = sucursalActualizada.getDireccion().getCiudad().getProvincia();
         provincia.setPais(pais);
@@ -145,8 +138,6 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         Sucursal actualizada = sucursalRepository.save(sucursalActualizada);
         return sucursalMapper.toDto(actualizada);
     }
-    
-    
 
     @Transactional
     public void eliminarSucursal(Long id) {

@@ -4,8 +4,6 @@
  */
 package com.buenSabor.BackEnd.dto.company.empresa;
 
-import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
-import java.util.List;
 import lombok.Data;
 
 /**
