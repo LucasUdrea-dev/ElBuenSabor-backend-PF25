@@ -31,7 +31,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         // Habilita un broker simple en memoria
-        // Los clientes se suscriben a /topic/public para recibir mensajes
+        // Los clientes se suscriben a /topic/* para recibir mensajes
+        // /topic/pedidos - Notificaciones generales de pedidos (dashboards)
+        // /topic/pedidos/usuario/{id} - Notificaciones específicas por usuario
         config.enableSimpleBroker("/topic");
         
         // Los mensajes con destino /app/* serán enrutados a @MessageMapping

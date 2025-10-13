@@ -182,6 +182,14 @@ public class StockService {
                 }
 
                 stock.setCantidad(nuevaCantidad);
+                
+                // Actualizar existencia del insumo según stock mínimo
+                if (nuevaCantidad >= stock.getMinStock() && !insumo.getExiste()) {
+                    log.info("Stock del insumo {} ({}) alcanzó el mínimo. Marcando como existente.", 
+                            insumo.getNombre(), request.getIdInsumo());
+                    insumo.setExiste(true);
+                }
+                
                 insumoService.save(insumo);
                 log.info("Stock actualizado para el insumo ID: {}. Nueva cantidad: {}",
                         request.getIdInsumo(), nuevaCantidad);
