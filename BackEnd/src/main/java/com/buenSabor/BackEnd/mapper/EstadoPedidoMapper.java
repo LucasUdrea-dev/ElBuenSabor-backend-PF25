@@ -27,10 +27,10 @@ public interface EstadoPedidoMapper {
     EstadoPedidoDTO toDto(EstadoPedido estadoPedido);
 
     // <--[EstadoPedidoDTO dto]--
-    // ==>{EstadoPedido entity, y lo que ignora *pedidoList,id*}
+    // ==>{EstadoPedido entity, y lo que ignora *pedidoList*}
+    // IMPORTANTE: NO ignorar el ID - EstadoPedido está precargado en BD por EstadoPedidoInitializer
     @Mapping(source = "nombreEstado", target = "nombreEstado") 
     @Mapping(target = "pedidoList", ignore = true) 
-    @Mapping(target = "id", ignore = true) 
     EstadoPedido toEntity(EstadoPedidoDTO dto);
   
     // <--[EstadoPedidoDTO dto, EstadoPedido entity]--

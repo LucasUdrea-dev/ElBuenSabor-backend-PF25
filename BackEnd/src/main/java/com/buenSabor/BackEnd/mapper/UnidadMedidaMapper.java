@@ -16,9 +16,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UnidadMedidaMapper {
     // <--[UnidadMedidaDTO dto]--
-    // ==>{UnidadMedida entity, y lo que ignora *articuloList,id*}
+    // ==>{UnidadMedida entity, y lo que ignora *articuloList*}
+    // IMPORTANTE: NO ignorar el ID - UnidadMedida está precargada en BD por MeasumentInitializer
     @Mapping(target = "articuloList", ignore = true)
-    @Mapping(target = "id", ignore = true)
     UnidadMedida toEntity(UnidadMedidaDTO dto);
     // <--[UnidadMedida entity]--
     // ==>{UnidadMedidaDTO dto, y lo que ignora *-*}

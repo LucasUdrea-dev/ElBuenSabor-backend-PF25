@@ -1,7 +1,6 @@
 package com.buenSabor.BackEnd.services.user;
 
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
-import com.buenSabor.BackEnd.mapper.DireccionMapper;
 import com.buenSabor.BackEnd.mapper.TelefonoMapper;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
 import com.buenSabor.BackEnd.mapper.UsuarioMapper;
@@ -31,8 +30,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     @SuppressWarnings("unused")
     @Autowired
     private UserAuthenticationMapper autenticacionMapper;
-    @Autowired
-    private DireccionMapper direccionMapper;
 
     @Override
     public List<Usuario> findAll() {
@@ -84,11 +81,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             existente.setTelefonoList(telefonoMapper.telefonoDtoListToEntityList(dto.getTelefonoList()));
         }
 
-        // Aquí deberías usar el mapper adecuado para Direccion, no
-        // UserAuthenticationMapper
-        if (dto.getDireccionList() != null) {
-            existente.setDireccionList(direccionMapper.direccionDtoListToEntityList(dto.getDireccionList()));
-        }
+        // Las direcciones se manejan a través de DireccionService
+        // No se actualizan directamente aquí para mantener la integridad de la relación
 
         Usuario guardado = usuarioRepository.save(existente);
         return usuarioMapper.toDto(guardado);
@@ -102,6 +96,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         usuario.setExiste(false);
         usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public UsuarioDTO crearUsuario(UsuarioDTO dto) {
+        throw new UnsupportedOperationException("Unimplemented method 'crearUsuario'");
     }
 
     /*

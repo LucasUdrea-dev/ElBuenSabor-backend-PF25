@@ -29,11 +29,11 @@ public interface TipoPagoMapper {
 
     // Map DTO to entity
     // <--[TipoPagoDTO dto]--
-    // ==>{TipoPago entity, y lo que ignora *pedidoList,mercadoPagoList,id*}
+    // ==>{TipoPago entity, y lo que ignora *pedidoList,mercadoPagoList*}
+    // IMPORTANTE: NO ignorar el ID - TipoPago está precargado en BD por TipoPagoInitializer
     @Mapping(source = "tipoPago", target = "tipoPago")
     @Mapping(target = "pedidoList", ignore = true) 
     @Mapping(target = "mercadoPagoList", ignore = true) 
-    @Mapping(target = "id", ignore = true) 
     TipoPago toEntity(TipoPagoDTO dto);
 
     // Optional: For updating an existing entity from a DTO
