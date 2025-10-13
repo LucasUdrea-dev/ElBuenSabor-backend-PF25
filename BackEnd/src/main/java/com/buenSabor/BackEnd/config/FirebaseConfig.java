@@ -9,11 +9,20 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Configuration
 public class FirebaseConfig {
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
+        // Verificar si Firebase ya está inicializado
+        List<FirebaseApp> firebaseApps = FirebaseApp.getApps();
+        if (!firebaseApps.isEmpty()) {
+            // Si ya existe, retornar la instancia existente
+            return FirebaseApp.getInstance();
+        }
+        
+        // Si no existe, inicializar Firebase
         InputStream serviceAccount = getClass().getResourceAsStream("/firebase-service-account.json");
 
         FirebaseOptions options = FirebaseOptions.builder()

@@ -42,20 +42,52 @@ public class PedidoWebSocketController {
             }
             pedidoRepository.save(pedido);
 
+            // Construir notificación
             PedidoNotificacion notif = new PedidoNotificacion();
             notif.setPedidoId(pedido.getId());
             notif.setEstadoId(nuevoEstado.getId());
             notif.setEstadoNombre(nuevoEstado.getNombreEstado().name());
             notif.setTiempoEstimado(pedido.getTiempoEstimado());
+            notif.setFecha(pedido.getFecha());
             notif.setTimestamp(new Date());
             
+            // Información del usuario
             if (pedido.getUsuario() != null) {
                 notif.setUsuarioId(pedido.getUsuario().getId());
                 notif.setUsuarioNombre(pedido.getUsuario().getNombre());
-                messagingTemplate.convertAndSend("/topic/pedidos/usuario/" + pedido.getUsuario().getId(), notif);
             }
             
+            // Información de la sucursal
+            if (pedido.getSucursal() != null) {
+                notif.setSucursalId(pedido.getSucursal().getId());
+            }
+            
+            // Enviar notificaciones a diferentes topics según el contexto
+            
+            // 1. Notificación al usuario específico (cliente que hizo el pedido)
+            if (pedido.getUsuario() != null) {
+                messagingTemplate.convertAndSend(
+                    "/topic/pedidos/usuario/" + pedido.getUsuario().getId(), 
+                    notif
+                );
+                logger.info("Notificación enviada al usuario: {}", pedido.getUsuario().getId());
+            }
+            
+            // 2. Notificación a la sucursal específica (cocineros, delivery de esa sucursal)
+            if (pedido.getSucursal() != null) {
+                messagingTemplate.convertAndSend(
+                    "/topic/pedidos/sucursal/" + pedido.getSucursal().getId(), 
+                    notif
+                );
+                logger.info("Notificación enviada a sucursal: {}", pedido.getSucursal().getId());
+            }
+            
+            // 3. Notificación general para administradores (ven todos los pedidos)
+            messagingTemplate.convertAndSend("/topic/pedidos/admin", notif);
+            
+            // 4. Notificación general (backward compatibility)
             messagingTemplate.convertAndSend("/topic/pedidos", notif);
+            
             logger.info("Estado actualizado - Pedido: {}, Estado: {}", pedido.getId(), nuevoEstado.getNombreEstado());
         } catch (Exception e) {
             logger.error("Error al cambiar estado: {}", e.getMessage());

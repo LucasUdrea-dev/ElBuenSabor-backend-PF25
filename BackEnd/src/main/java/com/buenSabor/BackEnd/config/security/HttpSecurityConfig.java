@@ -23,28 +23,32 @@ public class HttpSecurityConfig {
     private JwtAuthenticationFilter authenticationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf( crsfConfig -> crsfConfig.disable()) //Previene vulnerabilidades
-                .sessionManagement(sessionMangConfig
-                        -> sessionMangConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                            //Cada peticion sera autonoma e independiente del resto, con STATELESS Se crea sin seciones
+                .csrf(crsfConfig -> crsfConfig.disable()) // Previene vulnerabilidades
+                .httpBasic(httpBasic -> httpBasic.disable()) // Deshabilitar HTTP Basic Auth
+                .sessionManagement(
+                        sessionMangConfig -> sessionMangConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Cada peticion sera autonoma e independiente del resto, con STATELESS Se crea
+                // sin seciones
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests( authConfig ->{
+                .authorizeHttpRequests(authConfig -> {
 
-                    //Enpoints publicos
-                    authConfig.requestMatchers(HttpMethod.POST,"/api/auth/*").permitAll();
+                    // Enpoints publicos
+                    authConfig.requestMatchers(HttpMethod.POST, "/api/auth/*").permitAll();
 
-                    //Es para todos lo metodos Http, endpoint /error existe por defecto en SpringSecurity
+                    // Es para todos lo metodos Http, endpoint /error existe por defecto en
+                    // SpringSecurity
                     authConfig.requestMatchers("/error").permitAll();
 
-                    //authConfig.anyRequest().authenticated();
-                    //Endpoints privados
-                    //authConfig.requestMatchers(HttpMethod.GET, "/products").hasRole("ADMIN");
-                    //authConfig.requestMatchers(HttpMethod.POST, "/products").hasAnyRole("ADMIN","CUSTOMER");
+                    // authConfig.anyRequest().authenticated();
+                    // Endpoints privados
+                    // authConfig.requestMatchers(HttpMethod.GET, "/products").hasRole("ADMIN");
+                    // authConfig.requestMatchers(HttpMethod.POST,
+                    // "/products").hasAnyRole("ADMIN","CUSTOMER");
 
-                    //Cualquier endpoint no declarado anteriormente, configuro como permitido
+                    // Cualquier endpoint no declarado anteriormente, configuro como permitido
                     authConfig.anyRequest().permitAll();
                 });
 
