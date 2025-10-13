@@ -24,15 +24,15 @@ import java.util.List;
 public interface EmpleadoMapper {
 
     // --- Entity to DTO ---
-    @Mapping(source = "idSucursal", target = "Sucursal")
+    @Mapping(source = "idSucursal", target = "sucursal")
     @Mapping(source = "rol", target = "rol")
     @Mapping(source = "userAuthentication", target = "userAuthentication")
     @Mapping(source = "telefonoList", target = "telefonoList")
-    @Mapping(target = "usuarioDireccionList", ignore = true)
+    @Mapping(target = "direccionList", ignore = true)
     EmpleadoDTO toDto(Empleado empleado);
 
     // --- DTO to Entity ---
-    @Mapping(source = "Sucursal", target = "idSucursal")
+    @Mapping(source = "sucursal", target = "idSucursal")
     @Mapping(target = "rol", ignore = true)
     @Mapping(target = "userAuthentication", ignore = true)
     @Mapping(target = "telefonoList", ignore = true)
@@ -42,7 +42,7 @@ public interface EmpleadoMapper {
 
     // --- Update Entity from DTO ---
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "Sucursal", target = "idSucursal")
+    @Mapping(source = "sucursal", target = "idSucursal")
     @Mapping(target = "rol", ignore = true)
     @Mapping(target = "userAuthentication", ignore = true)
     @Mapping(target = "telefonoList", ignore = true)
