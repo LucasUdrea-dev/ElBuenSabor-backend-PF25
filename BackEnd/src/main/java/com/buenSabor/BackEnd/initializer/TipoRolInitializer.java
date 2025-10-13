@@ -25,10 +25,13 @@ public class TipoRolInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
         if (tipoRolRepository.count() == 0) {
             Arrays.stream(TypeRol.values())
                   .map(tipo -> new TipoRol(tipo, new ArrayList<>()))
                   .forEach(tipoRolRepository::save);
         }
+
+
     }
 }

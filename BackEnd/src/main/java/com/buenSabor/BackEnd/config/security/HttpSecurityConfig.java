@@ -33,19 +33,38 @@ public class HttpSecurityConfig {
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests( authConfig ->{
 
-                    //Enpoints publicos
-                    authConfig.requestMatchers(HttpMethod.POST,"/api/auth/*").permitAll();
+                    // =======================================================================================
+                    //                              ENDPOINTS PÚBLICOS
+                    // =======================================================================================
+
+                    //Login
+                    authConfig.requestMatchers("/api/auth/**").permitAll();
 
                     //Es para todos lo metodos Http, endpoint /error existe por defecto en SpringSecurity
                     authConfig.requestMatchers("/error").permitAll();
+                    authConfig.requestMatchers(
+                                    "/swagger-ui/**",
+                                    "/swagger-ui.html",
+                                    "/swagger-ui/index.html",
+                                    "/v3/api-docs/**",
+                                    "/v3/api-docs",
+                                    "/swagger-resources/**",
+                                    "/webjars/**"
+                            ).permitAll();
 
-                    //authConfig.anyRequest().authenticated();
-                    //Endpoints privados
+                    // =======================================================================================
+                    //                              ENDPOINTS PRIVADOS
+                    // =======================================================================================
+
+                    //Company
+                    authConfig.requestMatchers("/api/empresas").hasRole("ADMIN");
+                    authConfig.requestMatchers(HttpMethod.GET,"/api/sucursales/").authenticated();
+
                     //authConfig.requestMatchers(HttpMethod.GET, "/products").hasRole("ADMIN");
                     //authConfig.requestMatchers(HttpMethod.POST, "/products").hasAnyRole("ADMIN","CUSTOMER");
 
-                    //Cualquier endpoint no declarado anteriormente, configuro como permitido
-                    authConfig.anyRequest().permitAll();
+                    //Por defecto, cualquier enpoint no declarado anteriormente necesita ser autenticado
+                    authConfig.anyRequest().authenticated();
                 });
 
         return httpSecurity.build();

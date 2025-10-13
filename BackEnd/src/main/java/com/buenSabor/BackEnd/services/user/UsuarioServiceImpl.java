@@ -83,7 +83,6 @@ public class UsuarioServiceImpl implements UsuarioService {
             existente.setTelefonoList(telefonoMapper.telefonoDtoListToEntityList(dto.getTelefonoList()));
         }
 
-        // Aquí deberías usar el mapper adecuado para Direccion, no UserAuthenticationMapper
         if (dto.getDireccionList() != null) {
             existente.setDireccionList(direccionMapper.direccionDtoListToEntityList(dto.getDireccionList()));
         }

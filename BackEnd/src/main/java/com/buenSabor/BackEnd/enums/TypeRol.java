@@ -10,7 +10,8 @@ package com.buenSabor.BackEnd.enums;
  */
 public enum TypeRol {
     ADMIN,
-    ADMINAREA,
-    EMPLOYEE,
+    CAJERO,
+    COCINERO,
+    DELIVERY,
     CUSTOMER
 }

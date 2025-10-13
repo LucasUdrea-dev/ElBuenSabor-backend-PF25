@@ -55,8 +55,6 @@ public class UserAuthenticationController {
         return ResponseEntity.ok(userAuthMapper.toDto(updated));
     }
 
-    // --- Nuevo Endpoint para Firebase ---
-
     @Operation(summary = "Login con Token de Firebase",
             description = "Recibe el ID Token de Firebase y devuelve un JWT propio.")
     @PostMapping("/firebase-login")

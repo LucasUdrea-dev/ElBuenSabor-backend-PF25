@@ -85,7 +85,6 @@ public class UserAuthenticationService {
         rolCliente.setTipoRol(tipoRolCliente);
         usuario.setRol(rolCliente);
 
-
         // Crear UserAuthentication
         UserAuthentication userAuth = new UserAuthentication();
         userAuth.setUsername(registroDTO.getEmail());
@@ -145,6 +144,7 @@ public class UserAuthenticationService {
         extraClaims.put("surname", usuario.getUsuario().getApellido());
         extraClaims.put("image_url", usuario.getUsuario().getImagenUsuario());
         extraClaims.put("id_role", usuario.getUsuario().getRol().getTipoRol().getId());
+        extraClaims.put("id_user", usuario.getUsuario().getId());
         extraClaims.put("role", usuario.getUsuario().getRol().getTipoRol().getRol().name());
 
         return  extraClaims;
@@ -202,67 +202,66 @@ public class UserAuthenticationService {
         return responseDTO;
     }
 
+    /**
+     * Registra un nuevo usuario en la DB local tras una autenticación exitosa con Firebase.
+     */
+    private UserAuthentication registerFirebaseUser(
+            String firebaseUid, String email, String displayName, String photoUrl) {
 
-        /**
-         * Registra un nuevo usuario en la DB local tras una autenticación exitosa con Firebase.
-         */
-        private UserAuthentication registerFirebaseUser(
-                String firebaseUid, String email, String displayName, String photoUrl) {
+        String nombre = "";
+        String apellido = "";
 
-            String nombre = "";
-            String apellido = "";
+        // 1. Lógica para intentar separar Nombre y Apellido desde displayName
+        if (displayName != null && !displayName.isBlank()) {
+            String[] parts = displayName.trim().split("\\s+", 2);
 
-            // 1. Lógica para intentar separar Nombre y Apellido desde displayName
-            if (displayName != null && !displayName.isBlank()) {
-                String[] parts = displayName.trim().split("\\s+", 2);
-
-                if (parts.length > 0) {
-                    nombre = parts[0]; // La primera palabra siempre será el nombre
-                }
-
-                if (parts.length > 1) {
-                    apellido = parts[1]; // El resto es el apellido
-                }
+            if (parts.length > 0) {
+                nombre = parts[0]; // La primera palabra siempre será el nombre
             }
 
-            // 2. Fallback: Si el nombre sigue vacío (ej. Firebase solo dio el email como displayName, o es nulo),
-            // usamos la parte del email antes del @.
-            if (nombre.isBlank() && email != null && email.contains("@")) {
-                nombre = email.substring(0, email.indexOf('@'));
+            if (parts.length > 1) {
+                apellido = parts[1]; // El resto es el apellido
             }
+        }
 
-            //3. Crear el objeto Usuario
-            Usuario usuario = new Usuario();
-            usuario.setNombre(nombre);
-            usuario.setApellido(apellido);
-            usuario.setEmail(email);
-            usuario.setExiste(true);
-            usuario.setImagenUsuario(photoUrl);
+        // 2. Fallback: Si el nombre sigue vacío (ej. Firebase solo dio el email como displayName, o es nulo),
+        // usamos la parte del email antes del @.
+        if (nombre.isBlank() && email != null && email.contains("@")) {
+            nombre = email.substring(0, email.indexOf('@'));
+        }
 
-            // Asignar rol de CLIENTE por defecto (usando tu lógica existente)
-            TipoRol tipoRolCliente = tipoRolRepository.findByRol(TypeRol.CUSTOMER)
-                    .orElseThrow(() -> new RuntimeException("Rol CUSTOMER no encontrado"));
+        //3. Crear el objeto Usuario
+        Usuario usuario = new Usuario();
+        usuario.setNombre(nombre);
+        usuario.setApellido(apellido);
+        usuario.setEmail(email);
+        usuario.setExiste(true);
+        usuario.setImagenUsuario(photoUrl);
 
-            Rol rolCliente = new Rol();
-            rolCliente.setFechaAlta(new Date());
-            rolCliente.setTipoRol(tipoRolCliente);
-            usuario.setRol(rolCliente);
+        // Asignar rol de CLIENTE por defecto (usando tu lógica existente)
+        TipoRol tipoRolCliente = tipoRolRepository.findByRol(TypeRol.CUSTOMER)
+                .orElseThrow(() -> new RuntimeException("Rol CUSTOMER no encontrado"));
 
-            // Crear UserAuthentication
-            UserAuthentication userAuth = new UserAuthentication();
-            userAuth.setUsername(email);
-            // ⚠️ NO NECESITA CONTRASEÑA ENCRIPTADA para Firebase, usamos null o un marcador
-            userAuth.setPassword(null);
-            userAuth.setFirebaseUid(firebaseUid); // ⬅️ GUARDAR EL UID
-            userAuth.setUsuario(usuario);
+        Rol rolCliente = new Rol();
+        rolCliente.setFechaAlta(new Date());
+        rolCliente.setTipoRol(tipoRolCliente);
+        usuario.setRol(rolCliente);
 
-            // Asignar UserAuthentication al Usuario
-            usuario.setUserAuthentication(userAuth);
+        // Crear UserAuthentication
+        UserAuthentication userAuth = new UserAuthentication();
+        userAuth.setUsername(email);
+        // ⚠️ NO NECESITA CONTRASEÑA ENCRIPTADA para Firebase, usamos null o un marcador
+        userAuth.setPassword(null);
+        userAuth.setFirebaseUid(firebaseUid); // ⬅️ GUARDAR EL UID
+        userAuth.setUsuario(usuario);
 
-            // Guardar el usuario
-            usuarioRepository.save(usuario);
+        // Asignar UserAuthentication al Usuario
+        usuario.setUserAuthentication(userAuth);
 
-            return userAuth;
+        // Guardar el usuario
+        usuarioRepository.save(usuario);
+
+        return userAuth;
 
     }
 

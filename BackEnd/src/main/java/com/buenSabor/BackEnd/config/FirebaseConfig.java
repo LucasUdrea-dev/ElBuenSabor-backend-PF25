@@ -12,6 +12,20 @@ import java.io.InputStream;
 
 @Configuration
 public class FirebaseConfig {
+
+    @Bean
+    public FirebaseApp initializeFirebase() {
+        try {
+            if (FirebaseApp.getApps().isEmpty()) {
+                return FirebaseApp.initializeApp();
+            } else {
+                return FirebaseApp.getInstance();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al inicializar Firebase. Asegúrate de que GOOGLE_APPLICATION_CREDENTIALS esté configurada.", e);
+        }
+    }
+    /*
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
         InputStream serviceAccount = getClass().getResourceAsStream("/firebase-service-account.json");
@@ -21,7 +35,7 @@ public class FirebaseConfig {
                 .build();
 
         return FirebaseApp.initializeApp(options);
-    }
+    }*/
 
     @Bean
     public FirebaseAuth firebaseAuth(FirebaseApp firebaseApp) {
