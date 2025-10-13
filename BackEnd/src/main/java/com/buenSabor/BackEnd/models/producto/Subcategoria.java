@@ -32,7 +32,7 @@ public class Subcategoria extends Bean {
     @Column(name = "denominacion")
     private String denominacion;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria", referencedColumnName = "id")
     private Categoria categoria;
 

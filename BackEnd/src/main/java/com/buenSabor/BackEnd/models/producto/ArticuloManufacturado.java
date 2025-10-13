@@ -34,7 +34,7 @@ public class ArticuloManufacturado extends Articulo {
     @OneToMany(mappedBy = "articuloManufacturado", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ArticuloManufacturadoDetalleInsumo> detalleInsumos = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JsonIgnore
     private Sucursal sucursal;
 
