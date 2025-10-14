@@ -26,9 +26,26 @@ public interface ArticuloMapper {
 
     // <--[Articulo articulo]--
     // ==>{ArticuloDTO dto, y lo que ignora *-*}
+    @SubclassMapping(source = ArticuloInsumo.class, target = InsumoDTO.class)
+    @SubclassMapping(source = ArticuloManufacturado.class, target = ArticuloManufacturadoDTO.class)
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     ArticuloDTO toArticuloDTO(Articulo articulo);
+
+    // <--[ArticuloInsumo entity]--
+    // ==>{InsumoDTO dto, y lo que ignora *-*}
+    @Mapping(target = "subcategoria", source = "subcategoria")
+    @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "stockArticuloInsumo", source = "stockArticuloInsumo")
+    InsumoDTO toInsumoDTO(ArticuloInsumo entity);
+
+    // <--[ArticuloManufacturado entity]--
+    // ==>{ArticuloManufacturadoDTO dto, y lo que ignora *-*}
+    @Mapping(target = "subcategoria", source = "subcategoria")
+    @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "insumos", source = "detalleInsumos")
+    @Mapping(target = "sucursalId", source = "sucursal.id")
+    ArticuloManufacturadoDTO toArticuloManufacturadoDTO(ArticuloManufacturado entity);
 
     // <--[ArticuloDTO dto]--
     // ==>{Articulo entity, y lo que ignora *promocionArticuloList,historicoPrecioVentaArticuloList,detallePedidoList,id*}

@@ -20,15 +20,15 @@ public interface SucursalMapper {
     
     SucursalMapper mapper = Mappers.getMapper(SucursalMapper.class);
     
-       // <--[SucursalDTO dto]--
-       // ==>{Sucursal entity, y lo que ignora *empleadoList,stockArticuloInsumoList,pedidoList,promocionList,id,empresa*}
-       @Mapping(target = "empleadoList", ignore = true)
-       @Mapping(target = "stockArticuloInsumoList", ignore = true)
-       @Mapping(target = "pedidoList", ignore = true)
-       @Mapping(target = "promocionList", ignore = true)
-               @Mapping(target = "id", ignore = true)
-              @Mapping(target = "empresa", ignore = true)
-     Sucursal toEntity(SucursalDTO dto);
+    // <--[SucursalDTO dto]--
+    // ==>{Sucursal entity, y lo que ignora *empleadoList,stockArticuloInsumoList,pedidoList,promocionList,id,empresa*}
+    @Mapping(target = "empleadoList", ignore = true)
+    @Mapping(target = "stockArticuloInsumoList", ignore = true)
+    @Mapping(target = "pedidoList", ignore = true)
+    @Mapping(target = "promocionList", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "empresa", ignore = true)
+    Sucursal toEntity(SucursalDTO dto);
      
     // <--[Sucursal entity]--
     // ==>{SucursalDTO dto, y lo que ignora *-*}

@@ -15,24 +15,24 @@ import org.mapstruct.Mapping;
  * @author oscarloha
  */
 @Mapper(componentModel = "spring", uses = {
-    DireccionMapper.class,
-    TelefonoMapper.class,
-    RolMapper.class,
-    UserAuthenticationMapper.class
+        DireccionMapper.class,
+        TelefonoMapper.class,
+        RolMapper.class,
+        UserAuthenticationMapper.class
 })
 public interface UsuarioMapper {
 
-      @Mapping(target = "pedidoList", ignore = true) 
-      @Mapping(target = "id", ignore = true) 
-      @Mapping(target = "usuarioDireccionList", ignore = true)
-            
+    @Mapping(target = "pedidoList", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "usuarioDireccionList", ignore = true)
+
     // <--[UsuarioDTO dto]--
     // ==>{Usuario entity, y lo que ignora *pedidoList,id,usuarioDireccionList*}
     Usuario toEntity(UsuarioDTO dto);
 
     // <--[Usuario entity]--
     // ==>{UsuarioDTO dto, y lo que ignora *usuarioDireccionList*}
-    @Mapping(target = "direccionList", ignore = true)
+    // @Mapping(target = "direccionList", ignore = true)
     UsuarioDTO toDto(Usuario entity);
 
     // <--[List<Usuario> list]--
@@ -43,6 +43,6 @@ public interface UsuarioMapper {
     // ==>{void, y lo que ignora *id,pedidoList,usuarioDireccionList*}
     @org.mapstruct.Mapping(target = "id", ignore = true)
     @org.mapstruct.Mapping(target = "pedidoList", ignore = true)
-    @org.mapstruct.Mapping(target = "usuarioDireccionList", ignore = true)
+    // @org.mapstruct.Mapping(target = "usuarioDireccionList", ignore = true)
     void updateFromDto(UsuarioDTO dto, @org.mapstruct.MappingTarget Usuario entity);
 }

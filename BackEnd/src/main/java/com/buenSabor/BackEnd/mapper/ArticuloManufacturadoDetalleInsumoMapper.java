@@ -19,7 +19,7 @@ public interface ArticuloManufacturadoDetalleInsumoMapper {
     // <--[ArticuloManufacturadoDetalleInsumoDTO dto]--
     // ==>{ArticuloManufacturadoDetalleInsumo entity, y lo que ignora *articuloManufacturado,id*}
     @Mapping(target = "articuloManufacturado", ignore = true)
-              @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id", ignore = true)
     ArticuloManufacturadoDetalleInsumo toEntity(ArticuloManufacturadoDetalleInsumoDTO dto);
     // <--[ArticuloManufacturadoDetalleInsumo entity]--
     // ==>{ArticuloManufacturadoDetalleInsumoDTO dto, y lo que ignora *-*}

@@ -18,8 +18,8 @@ import org.mapstruct.MappingTarget;
 public interface StockArticuloInsumoMapper {
 
     // <--[StockArticuloInsumo entity]--
-    // ==>{StockDTO dto, y lo que ignora *sucursalId*}
-    @Mapping(target = "sucursalId", ignore = true)
+    // ==>{StockDTO dto, y lo que ignora *-*}
+    @Mapping(source = "sucursal.id", target = "sucursalId")
     StockDTO toDTO(StockArticuloInsumo entity);
 
     // <--[StockDTO dto]--

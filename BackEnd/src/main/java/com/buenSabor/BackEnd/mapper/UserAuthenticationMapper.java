@@ -19,7 +19,7 @@ public interface UserAuthenticationMapper {
     // <--[UserAuthenticationRequestDTO dto]--
     // ==>{UserAuthentication entity, y lo que ignora *usuario,id,firebaseUid,authorities*}
     @Mapping(target = "usuario", ignore = true) // Evitamos mapeo circular
-               @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "firebaseUid", ignore = true)
     @Mapping(target = "authorities", ignore = true)
     UserAuthentication toEntity(UserAuthenticationRequestDTO dto);

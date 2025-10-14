@@ -15,7 +15,7 @@ import org.mapstruct.MappingTarget;
  */
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {ArticuloMapper.class, PromocionMapper.class}) // Add PromocionMapper
+@Mapper(componentModel = "spring", uses = {ArticuloMapper.class, PromocionMapper.class})
 public interface PromocionArticuloMapper {
 
     // Map entity to DTO
