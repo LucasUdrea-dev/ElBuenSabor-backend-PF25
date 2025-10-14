@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.services.producto;
 
 import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
@@ -21,10 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- *
- * @author oscarloha
- */
 @Service
 public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufacturado, Long> {
 

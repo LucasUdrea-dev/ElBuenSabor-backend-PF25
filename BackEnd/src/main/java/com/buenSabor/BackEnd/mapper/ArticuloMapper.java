@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloDTO;
@@ -21,11 +17,8 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author oscarloha
- */
-@Mapper(componentModel = "spring", uses = {SubcategoriaMapper.class, UnidadMedidaMapper.class, StockArticuloInsumoMapper.class})
+@Mapper(componentModel = "spring", uses = { SubcategoriaMapper.class, UnidadMedidaMapper.class,
+        StockArticuloInsumoMapper.class })
 public interface ArticuloMapper {
 
     ArticuloMapper mapper = Mappers.getMapper(ArticuloMapper.class);
@@ -61,7 +54,7 @@ public interface ArticuloMapper {
                 ArticuloManufacturadoDetalleInsumoDTO detalleDTO = new ArticuloManufacturadoDetalleInsumoDTO();
                 detalleDTO.setId(detalle.getId());
                 detalleDTO.setCantidad(detalle.getCantidad());
-                
+
                 // Mapear el insumo manualmente
                 if (detalle.getArticuloInsumo() != null) {
                     detalleDTO.setArticuloInsumo(toInsumoDTO(detalle.getArticuloInsumo()));
@@ -73,7 +66,8 @@ public interface ArticuloMapper {
     }
 
     // <--[ArticuloDTO dto]--
-    // ==>{Articulo entity, y lo que ignora *promocionArticuloList,historicoPrecioVentaArticuloList,detallePedidoList,id*}
+    // ==>{Articulo entity, y lo que ignora
+    // *promocionArticuloList,historicoPrecioVentaArticuloList,detallePedidoList,id*}
     @SubclassMapping(source = InsumoDTO.class, target = ArticuloInsumo.class)
     @SubclassMapping(source = ArticuloManufacturadoDTO.class, target = ArticuloManufacturado.class)
     @Mapping(target = "promocionArticuloList", ignore = true)
@@ -85,7 +79,8 @@ public interface ArticuloMapper {
     Articulo toArticulo(ArticuloDTO dto);
 
     // <--[InsumoDTO dto]--
-    // ==>{ArticuloInsumo entity, y lo que ignora *detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,historicoPrecioCostoArticuloInsumoList,detalleManufacturas,id*}
+    // ==>{ArticuloInsumo entity, y lo que ignora
+    // *detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,historicoPrecioCostoArticuloInsumoList,detalleManufacturas,id*}
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
     @Mapping(target = "promocionArticuloList", ignore = true)
@@ -97,7 +92,8 @@ public interface ArticuloMapper {
     ArticuloInsumo toEntity(InsumoDTO dto);
 
     // <--[ArticuloManufacturadoDTO dto]--
-    // ==>{ArticuloManufacturado entity, y lo que ignora *detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,detalleInsumos,sucursal,id*}
+    // ==>{ArticuloManufacturado entity, y lo que ignora
+    // *detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,detalleInsumos,sucursal,id*}
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
     @Mapping(target = "promocionArticuloList", ignore = true)
@@ -109,7 +105,8 @@ public interface ArticuloMapper {
     ArticuloManufacturado toEntity(ArticuloManufacturadoDTO dto);
 
     // <--[ArticuloDTO dto, Articulo entity]--
-    // ==>{void, y lo que ignora *id,promocionArticuloList,historicoPrecioVentaArticuloList,detallePedidoList*}
+    // ==>{void, y lo que ignora
+    // *id,promocionArticuloList,historicoPrecioVentaArticuloList,detallePedidoList*}
     @org.mapstruct.Mapping(target = "id", ignore = true)
     @org.mapstruct.Mapping(target = "promocionArticuloList", ignore = true)
     @org.mapstruct.Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
@@ -119,7 +116,8 @@ public interface ArticuloMapper {
     void updateFromDto(ArticuloDTO dto, @org.mapstruct.MappingTarget Articulo entity);
 
     // <--[InsumoDTO dto, ArticuloInsumo entity]--
-    // ==>{void, y lo que ignora *id,detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,historicoPrecioCostoArticuloInsumoList,detalleManufacturas*}
+    // ==>{void, y lo que ignora
+    // *id,detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,historicoPrecioCostoArticuloInsumoList,detalleManufacturas*}
     @org.mapstruct.Mapping(target = "id", ignore = true)
     @org.mapstruct.Mapping(target = "detallePedidoList", ignore = true)
     @org.mapstruct.Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
@@ -131,7 +129,8 @@ public interface ArticuloMapper {
     void updateFromDto(InsumoDTO dto, @org.mapstruct.MappingTarget ArticuloInsumo entity);
 
     // <--[ArticuloManufacturadoDTO dto, ArticuloManufacturado entity]--
-    // ==>{void, y lo que ignora *id,detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,detalleInsumos,sucursal*}
+    // ==>{void, y lo que ignora
+    // *id,detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,detalleInsumos,sucursal*}
     @org.mapstruct.Mapping(target = "id", ignore = true)
     @org.mapstruct.Mapping(target = "detallePedidoList", ignore = true)
     @org.mapstruct.Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)

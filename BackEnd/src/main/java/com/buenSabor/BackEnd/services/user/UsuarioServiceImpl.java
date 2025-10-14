@@ -47,7 +47,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioRepository.findById(id).orElse(null);
     }
 
-
     public List<Usuario> getUsuariosCustomer() {
         return usuarioRepository.findByTipoRol(TypeRol.CUSTOMER);
     }
@@ -88,7 +87,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
 
         // Las direcciones se manejan a través de DireccionService
-        // No se actualizan directamente aquí para mantener la integridad de la relación
 
         Usuario guardado = usuarioRepository.save(existente);
         return usuarioMapper.toDto(guardado);

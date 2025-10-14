@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -27,12 +23,12 @@ import lombok.Setter;
 public class DetallePedido extends Bean {
 
     @ManyToOne(fetch = FetchType.EAGER)
-        @JsonIgnore
+    @JsonIgnore
     private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_articulo")
-        @JsonIgnore
+    @JsonIgnore
     private Articulo articulo;
 
     @Column(name = "cantidad")

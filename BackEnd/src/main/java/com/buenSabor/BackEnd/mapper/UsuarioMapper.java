@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
@@ -10,10 +6,6 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-/**
- *
- * @author oscarloha
- */
 @Mapper(componentModel = "spring", uses = {
         DireccionMapper.class,
         TelefonoMapper.class,

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.dto.producto.articulo;
 
 import com.buenSabor.BackEnd.dto.producto.medida.UnidadMedidaDTO;
@@ -12,23 +8,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author oscarloha
- */
-//@JsonTypeInfo(
-//        use = JsonTypeInfo.Id.NAME,
-//        include = JsonTypeInfo.As.PROPERTY,
-//        property = "tipo"
-//)
-//@JsonSubTypes({
-//        @JsonSubTypes.Type(value = InsumoDTO.class, name = "insumo"),
-//        @JsonSubTypes.Type(value = ArticuloManufacturadoDTO.class, name = "manufacturado")
-//})
-@Getter  
-@Setter  
-@NoArgsConstructor  
-@AllArgsConstructor 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ArticuloDTO {
 
@@ -42,6 +25,7 @@ public class ArticuloDTO {
 
     protected SubcategoriaDTO subcategoria;
     protected UnidadMedidaDTO unidadMedida;
-   
-    // Relaciones omitidas: detallePedidoList, historicoPrecioVentaArticuloList, promocionArticuloList
+
+    // Relaciones omitidas: detallePedidoList, historicoPrecioVentaArticuloList,
+    // promocionArticuloList
 }

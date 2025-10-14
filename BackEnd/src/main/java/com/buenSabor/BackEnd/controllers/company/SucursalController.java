@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.buenSabor.BackEnd.controllers.company;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
@@ -28,14 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- *
- * @author oscarloha
- */
 @RestController
 @RequestMapping("api/sucursales")
 @Tag(name = "Sucursales", description = "Operaciones relacionadas con la entidad Sucursal")
-public class SucursalController extends BeanControllerImpl<Sucursal,SucursalService>{
+public class SucursalController extends BeanControllerImpl<Sucursal, SucursalService> {
 
     private final SucursalService sucursalService;
     private final SucursalMapper sucursalMapper;
@@ -72,6 +65,7 @@ public class SucursalController extends BeanControllerImpl<Sucursal,SucursalServ
                     .body("{\"error\":\"Error al obtener las sucursales.\"}");
         }
     }
+
     @Operation(summary = "Listar todas las sucursales existentes")
     @GetMapping("")
     public ResponseEntity<?> findAllSucursalesExistentes() {

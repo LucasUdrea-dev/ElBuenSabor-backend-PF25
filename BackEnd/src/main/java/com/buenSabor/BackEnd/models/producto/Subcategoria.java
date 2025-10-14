@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -32,7 +28,7 @@ public class Subcategoria extends Bean {
     @Column(name = "denominacion")
     private String denominacion;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_categoria", referencedColumnName = "id")
     private Categoria categoria;
 

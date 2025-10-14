@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.company;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -25,10 +21,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author oscarloha
- */
 @Entity
 @Getter
 @Setter
@@ -46,31 +38,26 @@ public class Sucursal extends Bean {
     @Column(name = "existe")
     private Boolean existe;
 
-    //----
-       @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    // ----
+    @OneToMany(mappedBy = "idSucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Empleado> empleadoList;
 
-   
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<StockArticuloInsumo> stockArticuloInsumoList;
 
-  
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Pedido> pedidoList;
 
-  
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Direccion direccion;
 
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JsonIgnore
     private Empresa empresa;
 
-   
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Promocion> promocionList;

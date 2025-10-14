@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.buenSabor.BackEnd.repositories.producto;
 
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
@@ -17,16 +13,16 @@ import java.util.Optional;
 
 @Repository
 public interface StockArticuloInsumoRepository extends BeanRepository<StockArticuloInsumo, Long> {
-    
+
     Optional<StockArticuloInsumo> findByArticuloInsumoId(Long articuloInsumoId);
-    
+
     List<StockArticuloInsumo> findBySucursalId(Long sucursalId);
-    
+
     @Query("SELECT s FROM StockArticuloInsumo s WHERE s.articuloInsumo.nombre LIKE %:nombre%")
     Page<StockArticuloInsumo> findByArticuloNombreContaining(
-            @Param("nombre") String nombre, 
+            @Param("nombre") String nombre,
             Pageable pageable);
-    
+
     @Query("SELECT s FROM StockArticuloInsumo s WHERE s.sucursal.id = :sucursalId AND s.articuloInsumo.nombre LIKE %:nombre%")
     Page<StockArticuloInsumo> findBySucursalAndArticuloNombreContaining(
             @Param("sucursalId") Long sucursalId,

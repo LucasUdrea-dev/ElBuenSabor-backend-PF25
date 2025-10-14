@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.services.producto;
 
 import com.buenSabor.BackEnd.dto.producto.categoria.CategoriaConSubcategoriasDTO;
@@ -19,12 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author oscarloha
- */
 @Service
-public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
+public class CategoriaService extends BeanServiceImpl<Categoria, Long> {
 
     @Autowired
     CategoriaMapper mapper;
@@ -39,35 +31,33 @@ public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
     @Transactional
     public CategoriaDTO crearCategoria(CategoriaDTO dto) {
 
-        //Mapear DTO → Entidad
+        // Mapear DTO → Entidad
         Categoria categoria = mapper.toEntity(dto);
 
-        //Persistir
+        // Persistir
         Categoria saved = categoriaRepository.save(categoria);
         // Rellenar el DTO con los IDs generados
 
         dto = mapper.toDTO(saved);
 
-        //Devolver el DTO
+        // Devolver el DTO
         return dto;
     }
 
     @Transactional
     public CategoriaDTO actualizarCategoria(Long id, CategoriaDTO dto) {
-        //Recuperar la entidad existente
         Categoria categoria = categoriaRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(
+                .orElseThrow(() -> new EntityNotFoundException(
                         "Categoria con id: " + id + " no existe"));
 
-        //Actualizar campos simples
         categoria.setDenominacion(dto.getDenominacion());
         categoria.setImagen(dto.getImagen());
         categoria.setEsParaElaborar(dto.isEsParaElaborar());
 
-        //Guardar cambios
+        // Guardar cambios
         Categoria saved = categoriaRepository.save(categoria);
 
-        //Entity -> DTO
+        // Entity -> DTO
         dto = mapper.toDTO(saved);
 
         return dto;
@@ -90,15 +80,15 @@ public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
     }
 
     @Transactional
-    public List<CategoriaConSubcategoriasDTO> findParaVenta() throws Exception{
-        try{
+    public List<CategoriaConSubcategoriasDTO> findParaVenta() throws Exception {
+        try {
 
             List<Categoria> categorias = categoriaRepository.findByEsParaElaborarFalse();
 
             List<CategoriaConSubcategoriasDTO> categoriasConSubcategorias = new ArrayList<>();
 
             for (Categoria categoria : categorias) {
-                
+
                 CategoriaConSubcategoriasDTO categoriaResponseDTO = new CategoriaConSubcategoriasDTO();
 
                 categoriaResponseDTO.setId(categoria.getId());
@@ -117,15 +107,17 @@ public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
         }
     }
 
-   /* @Transactional
-    public Categoria eliminarLogico(Long id) {
-        //Recuperar la entidad existente
-        Categoria categoria = categoriaRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(
-                        "Categoria con id: " + id + " no existe"));
-
-        //Seteo valor y guardo
-        categoria.setExiste(false);
-        return categoriaRepository.save(categoria);
-    }*/
+    /*
+     * @Transactional
+     * public Categoria eliminarLogico(Long id) {
+     * //Recuperar la entidad existente
+     * Categoria categoria = categoriaRepository.findById(id)
+     * .orElseThrow(()-> new EntityNotFoundException(
+     * "Categoria con id: " + id + " no existe"));
+     * 
+     * //Seteo valor y guardo
+     * categoria.setExiste(false);
+     * return categoriaRepository.save(categoria);
+     * }
+     */
 }

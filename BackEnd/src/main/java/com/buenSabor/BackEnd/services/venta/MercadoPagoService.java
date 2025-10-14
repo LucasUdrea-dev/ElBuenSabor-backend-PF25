@@ -9,12 +9,17 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.util.List;
-import org.springframework.stereotype.Service;
 
 @Service
 public class MercadoPagoService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MercadoPagoService.class);
 
     public PreferenceMP generarPreferencia(BigDecimal monto, String frontendUrl) {
         try {
@@ -51,11 +56,12 @@ public class MercadoPagoService {
             return mpPreference;
 
         } catch (MPApiException e) {
-            System.err.println("MP ERROR " + e.getApiResponse().getStatusCode());
-            System.err.println(e.getApiResponse().getContent());
+            logger.error("MercadoPago API Error - Status: {}, Content: {}", 
+                e.getApiResponse().getStatusCode(), 
+                e.getApiResponse().getContent());
             return null;
         } catch (MPException e) {
-            e.printStackTrace();
+            logger.error("MercadoPago Exception: {}", e.getMessage(), e);
             return null;
         }
     }

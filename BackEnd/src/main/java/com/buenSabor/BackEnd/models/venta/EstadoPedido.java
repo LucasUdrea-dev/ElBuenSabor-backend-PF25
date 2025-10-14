@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -20,7 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 
-
 @Entity
 @Table(name = "Estado_Pedido")
 @Getter
@@ -29,7 +24,6 @@ import java.util.List;
 @NoArgsConstructor
 public class EstadoPedido extends Bean {
 
-
     @Enumerated(EnumType.STRING)
     @Column(name = "nombre_estado")
     private TypeState nombreEstado;
@@ -37,5 +31,4 @@ public class EstadoPedido extends Bean {
     @JsonIgnore
     private List<Pedido> pedidoList;
 
-    
 }

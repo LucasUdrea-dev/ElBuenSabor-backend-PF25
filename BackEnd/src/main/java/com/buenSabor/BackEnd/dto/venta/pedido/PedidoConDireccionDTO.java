@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.dto.venta.pedido;
 
 import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
@@ -18,31 +14,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author oscarloha
- */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class PedidoConDireccionDTO {
-    private Long id; 
+    private Long id;
     private String tiempoEstimado;
     private Boolean existe;
     private Date fecha;
 
-    
     private List<DetallePedidoDTO> detallePedidoList;
 
     private EstadoPedidoDTO estadoPedido;
     private SucursalDTO sucursal;
     private TipoEnvioDTO tipoEnvio;
     private TipoPagoDTO tipoPago;
-    private UsuarioDTO usuario; 
+    private UsuarioDTO usuario;
 
-   
     private List<DetallePromocionDTO> detallePromocionList;
     private DireccionPedidoDTO direccion;
-      
+
 }

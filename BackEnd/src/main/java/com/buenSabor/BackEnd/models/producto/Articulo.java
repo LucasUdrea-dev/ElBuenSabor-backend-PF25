@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.listeners.ArticuloListener;
@@ -57,10 +53,10 @@ public class Articulo extends Bean {
     @JsonIgnore
     protected List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     protected Subcategoria subcategoria;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     protected UnidadMedida unidadMedida;
 
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)

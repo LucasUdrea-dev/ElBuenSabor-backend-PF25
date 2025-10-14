@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -17,30 +13,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author oscarloha
- */
 @Entity
 @Table(name = "Detalle_Promocion")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class DetallePromocion extends Bean{
-    
-    
+public class DetallePromocion extends Bean {
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pedido_id")
-        @JsonIgnore
+    @JsonIgnore
     private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "promocion_id")
-        @JsonIgnore
+    @JsonIgnore
     private Promocion promocion;
 
     @Column(name = "cantidad")
     private int cantidad;
-    
+
 }
