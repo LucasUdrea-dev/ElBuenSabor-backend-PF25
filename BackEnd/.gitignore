@@ -47,3 +47,4 @@ logs/
 **/*.log.*
 *.log
 hs_err_pid*
+VariablesEntorno/*.json

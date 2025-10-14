@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -78,18 +77,27 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
                 .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
         manufacturado.setSucursal(sucManaged);
 
-        // 3) Crear detalles de insumo
-        List<ArticuloManufacturadoDetalleInsumo> detalles = dto.getInsumos().stream()
-                .map(d -> {
-                    ArticuloManufacturadoDetalleInsumo det = new ArticuloManufacturadoDetalleInsumo();
-                    det.setArticuloManufacturado(manufacturado);
-                    det.setArticuloInsumo(
-                            insumoRepository.findById(d.getArticuloInsumo().getId())
-                                    .orElseThrow(() -> new EntityNotFoundException("Articulo insumo no encontrado")));
-                    det.setCantidad(d.getCantidad());
-                    return det;
-                })
-                .collect(Collectors.toList());
+        // 3) Crear detalles de insumo (evitar duplicados)
+        List<ArticuloManufacturadoDetalleInsumo> detalles = new java.util.ArrayList<>();
+        java.util.Set<Long> insumosYaProcesados = new java.util.HashSet<>();
+
+        for (ArticuloManufacturadoDetalleInsumoDTO d : dto.getInsumos()) {
+            Long insumoId = d.getArticuloInsumo().getId();
+
+            // Verificar duplicados
+            if (insumosYaProcesados.contains(insumoId)) {
+                continue; // Omitir duplicado
+            }
+
+            ArticuloManufacturadoDetalleInsumo det = new ArticuloManufacturadoDetalleInsumo();
+            det.setArticuloManufacturado(manufacturado);
+            det.setArticuloInsumo(
+                    insumoRepository.findById(insumoId)
+                            .orElseThrow(() -> new EntityNotFoundException("Articulo insumo no encontrado")));
+            det.setCantidad(d.getCantidad());
+            detalles.add(det);
+            insumosYaProcesados.add(insumoId);
+        }
         manufacturado.setDetalleInsumos(detalles);
 
         // 4) Persistir
@@ -145,13 +153,22 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
                 sucursalRepository.findById(dto.getSucursalId())
                         .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada")));
 
-        // Agregar nuevo insumo sin eliminar los anteriores
+        // 4) Actualizar detalles de insumo (evitar duplicados)
         List<ArticuloManufacturadoDetalleInsumo> actuales = manufacturado.getDetalleInsumos();
         List<ArticuloManufacturadoDetalleInsumoDTO> nuevosDTO = dto.getInsumos();
+        java.util.Set<Long> insumosEnRequest = new java.util.HashSet<>();
 
         for (ArticuloManufacturadoDetalleInsumoDTO d : nuevosDTO) {
+            Long insumoId = d.getArticuloInsumo().getId();
+
+            // Verificar duplicados en el request
+            if (insumosEnRequest.contains(insumoId)) {
+                continue; // Omitir duplicado
+            }
+            insumosEnRequest.add(insumoId);
+
             Optional<ArticuloManufacturadoDetalleInsumo> opt = actuales.stream()
-                    .filter(det -> det.getArticuloInsumo().getId().equals(d.getArticuloInsumo().getId()))
+                    .filter(det -> det.getArticuloInsumo().getId().equals(insumoId))
                     .findFirst();
 
             if (opt.isPresent()) {
@@ -162,7 +179,7 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
                 // si no existía, lo CREO
                 ArticuloManufacturadoDetalleInsumo nuevoDetalle = new ArticuloManufacturadoDetalleInsumo();
                 nuevoDetalle.setArticuloManufacturado(manufacturado);
-                nuevoDetalle.setArticuloInsumo(insumoRepository.findById(d.getArticuloInsumo().getId())
+                nuevoDetalle.setArticuloInsumo(insumoRepository.findById(insumoId)
                         .orElseThrow(() -> new EntityNotFoundException("Articulo insumo no encontrado")));
                 nuevoDetalle.setCantidad(d.getCantidad());
                 actuales.add(nuevoDetalle);

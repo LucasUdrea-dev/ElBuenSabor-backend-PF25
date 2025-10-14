@@ -17,4 +17,5 @@ import java.util.Optional;
 @Repository
 public interface UserAuthenticationRepository extends BeanRepository<UserAuthentication,Long>{
     Optional<UserAuthentication> findByUsername(String username);
+    Optional<UserAuthentication> findById(Long id);
 }

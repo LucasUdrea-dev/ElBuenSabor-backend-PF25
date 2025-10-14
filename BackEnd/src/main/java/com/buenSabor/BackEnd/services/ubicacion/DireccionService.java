@@ -9,13 +9,16 @@ import com.buenSabor.BackEnd.mapper.DireccionMapper;
 import com.buenSabor.BackEnd.models.ubicacion.Ciudad;
 import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.user.Usuario;
+import com.buenSabor.BackEnd.models.user.UsuarioDireccion;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.CiudadRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
+import com.buenSabor.BackEnd.repositories.user.UsuarioDireccionRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +33,9 @@ public class DireccionService extends BeanServiceImpl<Direccion,Long>{
     private UsuarioRepository usuarioRepository; 
     @Autowired
     private DireccionRepository direccionRepository;
+    @SuppressWarnings("unused")
+    @Autowired
+    private UsuarioDireccionRepository usuarioDireccionRepository;
     @Autowired
     private DireccionMapper direccionMapper;
     @Autowired
@@ -51,7 +57,9 @@ public class DireccionService extends BeanServiceImpl<Direccion,Long>{
         
         Usuario usuario = usuarioOptional.get();
         
-        return usuario.getDireccionList(); 
+        return usuario.getUsuarioDireccionList().stream()
+                .map(UsuarioDireccion::getDireccion)
+                .collect(Collectors.toList()); 
     }
 
     public DireccionDTO crearDireccionParaUsuario(Long idUsuario, DireccionDTO dto) throws Exception {
@@ -86,8 +94,12 @@ public class DireccionService extends BeanServiceImpl<Direccion,Long>{
         }
         boolean yaAsociada = usuario.getDireccionList().stream()
                 .anyMatch(d -> d.getId() != null && d.getId().equals(guardada.getId()));
+
         if (!yaAsociada) {
-            usuario.getDireccionList().add(guardada);
+            UsuarioDireccion usuarioDireccion = new UsuarioDireccion();
+            usuarioDireccion.setUsuario(usuario);
+            usuarioDireccion.setDireccion(guardada);
+            usuario.getUsuarioDireccionList().add(usuarioDireccion);
             usuarioRepository.save(usuario);
         }
 
@@ -102,8 +114,8 @@ public class DireccionService extends BeanServiceImpl<Direccion,Long>{
         Usuario usuario = usuarioOptional.get();
         Direccion direccion = direccionRepository.findById(idDireccion)
                 .orElseThrow(() -> new Exception("Direccion con ID " + idDireccion + " no encontrada."));
-        boolean pertenece = usuario.getDireccionList() != null && usuario.getDireccionList().stream()
-                .anyMatch(d -> d.getId() != null && d.getId().equals(idDireccion));
+        boolean pertenece = usuario.getUsuarioDireccionList().stream()
+                .anyMatch(ud -> ud.getDireccion().getId() != null && ud.getDireccion().getId().equals(idDireccion));
         if (!pertenece) {
             throw new Exception("La direccion no pertenece al usuario indicado.");
         }
@@ -120,10 +132,11 @@ public class DireccionService extends BeanServiceImpl<Direccion,Long>{
         Usuario usuario = usuarioOptional.get();
         direccionRepository.findById(idDireccion)
                 .orElseThrow(() -> new Exception("Direccion con ID " + idDireccion + " no encontrada."));
-        if (usuario.getDireccionList() == null) {
+        if (usuario.getUsuarioDireccionList() == null || usuario.getUsuarioDireccionList().isEmpty()) {
             throw new Exception("El usuario no tiene direcciones asociadas.");
         }
-        boolean removed = usuario.getDireccionList().removeIf(d -> d.getId() != null && d.getId().equals(idDireccion));
+        boolean removed = usuario.getUsuarioDireccionList().removeIf(ud -> 
+                ud.getDireccion().getId() != null && ud.getDireccion().getId().equals(idDireccion));
         if (!removed) {
             throw new Exception("La direccion no pertenece al usuario indicado.");
         }
@@ -136,10 +149,11 @@ public class DireccionService extends BeanServiceImpl<Direccion,Long>{
             throw new Exception("Usuario con ID " + idUsuario + " no encontrado o inactivo.");
         }
         Usuario usuario = usuarioOptional.get();
-        if (usuario.getDireccionList() == null) {
+        if (usuario.getUsuarioDireccionList() == null || usuario.getUsuarioDireccionList().isEmpty()) {
             throw new Exception("El usuario no tiene direcciones asociadas.");
         }
-        Direccion direccion = usuario.getDireccionList().stream()
+        Direccion direccion = usuario.getUsuarioDireccionList().stream()
+                .map(UsuarioDireccion::getDireccion)
                 .filter(d -> d.getId() != null && d.getId().equals(idDireccion))
                 .findFirst()
                 .orElseThrow(() -> new Exception("La direccion no pertenece al usuario indicado."));

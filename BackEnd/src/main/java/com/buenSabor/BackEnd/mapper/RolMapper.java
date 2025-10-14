@@ -18,9 +18,9 @@ import org.mapstruct.MappingTarget;
 public interface RolMapper {
 
     // <--[RolDTO dto]--
-    // ==>{Rol entity, y lo que ignora *usuarioList,id*}
+    // ==>{Rol entity, y lo que ignora *usuarioList*}
+    // IMPORTANTE: NO ignorar el ID para evitar crear duplicados de Rol
     @Mapping(target = "usuarioList", ignore = true)
-    @Mapping(target = "id", ignore = true)
     Rol toEntity(RolDTO dto);
 
     // <--[Rol entity]--

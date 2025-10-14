@@ -29,10 +29,10 @@ public interface TipoEnvioMapper {
 
     // Map DTO to entity
     // <--[TipoEnvioDTO dto]--
-    // ==>{TipoEnvio entity, y lo que ignora *pedidoList,id*}
+    // ==>{TipoEnvio entity, y lo que ignora *pedidoList*}
+    // IMPORTANTE: NO ignorar el ID - TipoEnvio está precargado en BD por TypeDeliveryInitializer
     @Mapping(source = "tipoDelivery", target = "tipoDelivery") 
     @Mapping(target = "pedidoList", ignore = true) 
-    @Mapping(target = "id", ignore = true) 
     TipoEnvio toEntity(TipoEnvioDTO dto);
 
    

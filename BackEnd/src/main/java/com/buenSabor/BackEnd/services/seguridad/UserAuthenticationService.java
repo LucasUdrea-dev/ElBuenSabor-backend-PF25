@@ -11,18 +11,21 @@ import com.buenSabor.BackEnd.models.seguridad.TipoRol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import com.buenSabor.BackEnd.models.user.Telefono;
 import com.buenSabor.BackEnd.models.user.Usuario;
+import com.buenSabor.BackEnd.repositories.seguridad.RolRepository;
 import com.buenSabor.BackEnd.repositories.seguridad.TipoRolRepository;
 import com.buenSabor.BackEnd.repositories.seguridad.UserAuthenticationRepository;
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.*;
 
 @Service
@@ -34,6 +37,8 @@ public class UserAuthenticationService {
     private UserAuthenticationRepository userAuthenticationRepository;
     @Autowired
     private TipoRolRepository tipoRolRepository;
+    @Autowired
+    private RolRepository rolRepository;
     @Autowired
     private UsuarioRepository usuarioRepository;
     @Autowired
@@ -77,12 +82,19 @@ public class UserAuthenticationService {
 
         // Asignar rol de CLIENTE por defecto
         TipoRol tipoRolCliente = tipoRolRepository.findByRol(TypeRol.CUSTOMER)
-                .orElseThrow(() -> new RuntimeException("Rol CUSTOMER no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Tipo Rol CUSTOMER no encontrado"));
 
-        Rol rolCliente = new Rol();
-        rolCliente.setFechaAlta(new Date());
-        rolCliente.setTipoRol(tipoRolCliente);
+        // Buscar Rol existente de ese TipoRol
+        Rol rolCliente = rolRepository.findByTipoRol(tipoRolCliente)
+                .orElseGet(() -> {
+                    Rol nuevoRol = new Rol();
+                    nuevoRol.setTipoRol(tipoRolCliente);
+                    nuevoRol.setFechaAlta(new Date());
+                    return rolRepository.save(nuevoRol);
+                });
+
         usuario.setRol(rolCliente);
+
 
         // Crear UserAuthentication
         UserAuthentication userAuth = new UserAuthentication();
@@ -100,12 +112,19 @@ public class UserAuthenticationService {
     }
 
     public UserAuthentication update(Long id, UserAuthentication newData) {
-        UserAuthentication existing = userAuthenticationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("UserAuthentication no encontrado con id: " + id));
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " +id));
 
-        existing.setUsername(newData.getUsername());
-        existing.setPassword(newData.getPassword());
-        return userAuthenticationRepository.save(existing);
+        UserAuthentication userAuth = usuario.getUserAuthentication();
+        if (userAuth == null) {
+            throw new EntityNotFoundException("El usuario no tiene credenciales asociadas");
+        }
+
+        //userAuth.setPassword(passwordEncoder.encode(registroDTO.getUserAuth().getPassword()));
+        userAuth.setUsername(newData.getUsername());
+        userAuth.setPassword(passwordEncoder.encode(newData.getPassword()));
+
+        return userAuthenticationRepository.save(userAuth);
     }
 
     public UserAuthenticationResponseDTO login(UserAuthenticationRequestDTO authenticationRequestDTO) {
@@ -239,19 +258,25 @@ public class UserAuthenticationService {
         usuario.setExiste(true);
         usuario.setImagenUsuario(photoUrl);
 
-        // Asignar rol de CLIENTE por defecto (usando tu lógica existente)
+        // Asignar rol de CLIENTE por defecto
         TipoRol tipoRolCliente = tipoRolRepository.findByRol(TypeRol.CUSTOMER)
-                .orElseThrow(() -> new RuntimeException("Rol CUSTOMER no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Tipo Rol CUSTOMER no encontrado"));
 
-        Rol rolCliente = new Rol();
-        rolCliente.setFechaAlta(new Date());
-        rolCliente.setTipoRol(tipoRolCliente);
+        // Buscar Rol existente de ese TipoRol
+        Rol rolCliente = rolRepository.findByTipoRol(tipoRolCliente)
+                .orElseGet(() -> {
+                    Rol nuevoRol = new Rol();
+                    nuevoRol.setTipoRol(tipoRolCliente);
+                    nuevoRol.setFechaAlta(new Date());
+                    return rolRepository.save(nuevoRol);
+                });
+
         usuario.setRol(rolCliente);
 
         // Crear UserAuthentication
         UserAuthentication userAuth = new UserAuthentication();
         userAuth.setUsername(email);
-        // ⚠️ NO NECESITA CONTRASEÑA ENCRIPTADA para Firebase, usamos null o un marcador
+        //  NO NECESITA CONTRASEÑA ENCRIPTADA para Firebase, usamos null o un marcador
         userAuth.setPassword(null);
         userAuth.setFirebaseUid(firebaseUid); // ⬅️ GUARDAR EL UID
         userAuth.setUsuario(usuario);

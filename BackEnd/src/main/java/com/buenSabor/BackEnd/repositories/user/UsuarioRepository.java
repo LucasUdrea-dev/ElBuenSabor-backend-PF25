@@ -17,6 +17,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioRepository extends BeanRepository<Usuario,Long>{
 
-    public List<Usuario> findAllByExisteTrue();
-    public Optional<Usuario> findByIdAndExisteTrue(Long id);
+    List<Usuario> findAllByExisteTrue();
+    Optional<Usuario> findByIdAndExisteTrue(Long id);
+    Usuario findByEmail(String email);
+    Optional<Usuario> findById(Long id);
 }
