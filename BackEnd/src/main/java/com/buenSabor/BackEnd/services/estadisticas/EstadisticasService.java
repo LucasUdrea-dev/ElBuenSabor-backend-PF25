@@ -10,7 +10,6 @@ import com.buenSabor.BackEnd.models.venta.DetallePedido;
 import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloInsumoRepository;
 import com.buenSabor.BackEnd.repositories.producto.HistoricoStockArticuloInsumoRepository;
-import com.buenSabor.BackEnd.repositories.venta.DetallePedidoRepository;
 import com.buenSabor.BackEnd.repositories.venta.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.TextStyle;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,9 +34,6 @@ public class EstadisticasService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
-
-    @Autowired
-    private DetallePedidoRepository detallePedidoRepository;
 
     public List<InsumoStockDTO> obtenerInsumosConStock(Long sucursalId) {
         List<ArticuloInsumo> insumos = articuloInsumoRepository.findAll();
@@ -89,13 +83,29 @@ public class EstadisticasService {
             pedidoRepository.findBySucursal_IdAndFechaBetween(sucursalId, fechaInicio, fechaFin) :
             pedidoRepository.findByFechaBetween(fechaInicio, fechaFin);
         
+        if (pedidos == null || pedidos.isEmpty()) {
+            return new ArrayList<>();
+        }
+        
         Map<String, List<DetallePedido>> detallesPorArticulo = new HashMap<>();
         
         for (Pedido pedido : pedidos) {
+            if (pedido.getDetallePedidoList() == null || pedido.getDetallePedidoList().isEmpty()) {
+                continue;
+            }
+            
             for (DetallePedido detalle : pedido.getDetallePedidoList()) {
+                if (detalle.getArticulo() == null || detalle.getArticulo().getNombre() == null) {
+                    continue;
+                }
+                
                 String nombreArticulo = detalle.getArticulo().getNombre();
                 detallesPorArticulo.computeIfAbsent(nombreArticulo, k -> new ArrayList<>()).add(detalle);
             }
+        }
+        
+        if (detallesPorArticulo.isEmpty()) {
+            return new ArrayList<>();
         }
         
         return detallesPorArticulo.entrySet().stream()
@@ -124,6 +134,7 @@ public class EstadisticasService {
         for (int i = 23; i >= 0; i--) {
             LocalDate fecha = ahora.minusDays(i);
             int ventas = detalles.stream()
+                .filter(d -> d.getPedido() != null && d.getPedido().getFecha() != null)
                 .filter(d -> {
                     LocalDate fechaPedido = d.getPedido().getFecha().toInstant()
                         .atZone(ZoneId.systemDefault()).toLocalDate();
@@ -143,6 +154,7 @@ public class EstadisticasService {
             LocalDate inicioSemana = finSemana.minusDays(6);
             
             int ventas = detalles.stream()
+                .filter(d -> d.getPedido() != null && d.getPedido().getFecha() != null)
                 .filter(d -> {
                     LocalDate fechaPedido = d.getPedido().getFecha().toInstant()
                         .atZone(ZoneId.systemDefault()).toLocalDate();
@@ -163,6 +175,7 @@ public class EstadisticasService {
             LocalDate finMes = mes.with(TemporalAdjusters.lastDayOfMonth());
             
             int ventas = detalles.stream()
+                .filter(d -> d.getPedido() != null && d.getPedido().getFecha() != null)
                 .filter(d -> {
                     LocalDate fechaPedido = d.getPedido().getFecha().toInstant()
                         .atZone(ZoneId.systemDefault()).toLocalDate();
