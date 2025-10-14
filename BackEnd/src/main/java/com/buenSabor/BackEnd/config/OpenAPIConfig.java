@@ -6,6 +6,8 @@ package com.buenSabor.BackEnd.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,11 +21,24 @@ public class OpenAPIConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        Info info = new Info()
-                .title("El buen sabor")
-                .description("Documentacion, proyecto Buen Sabor")
-                .version("1.0.2");
-        return new OpenAPI().info(info);
+
+        final String securitySchemeName = "bearerAuth";
+
+        return new OpenAPI()
+                .info(new Info()
+                        .title("El Buen Sabor")
+                        .description("Documentación del proyecto Buen Sabor")
+                        .version("1.0.2"))
+                // Agregamos el esquema de seguridad
+                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .components(new io.swagger.v3.oas.models.Components()
+                        .addSecuritySchemes(securitySchemeName,
+                                new SecurityScheme()
+                                        .name(securitySchemeName)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                                        .in(SecurityScheme.In.HEADER)));
     }
     // http://localhost:8080/dev/doc
 
