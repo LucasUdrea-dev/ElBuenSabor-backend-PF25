@@ -5,8 +5,11 @@
 package com.buenSabor.BackEnd.repositories.producto;
 
 import com.buenSabor.BackEnd.models.producto.HistoricoStockArticuloInsumo;
+import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  *
@@ -16,4 +19,9 @@ import org.springframework.stereotype.Repository;
 public interface HistoricoStockArticuloInsumoRepository extends 
         BeanRepository<HistoricoStockArticuloInsumo,Long>{
     
+    HistoricoStockArticuloInsumo findTopByIdstockarticuloInsumoOrderByFechaActualizacionDesc(StockArticuloInsumo stock);
+    
+    List<HistoricoStockArticuloInsumo> findByIdstockarticuloInsumoOrderByFechaActualizacionDesc(StockArticuloInsumo stock);
+    
+    List<HistoricoStockArticuloInsumo> findByIdstockarticuloInsumo_IdOrderByFechaActualizacionDesc(Long stockId);
 }

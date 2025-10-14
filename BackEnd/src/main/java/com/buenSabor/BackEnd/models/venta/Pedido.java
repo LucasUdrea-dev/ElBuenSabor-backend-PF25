@@ -4,12 +4,14 @@
  */
 package com.buenSabor.BackEnd.models.venta;
 
+import com.buenSabor.BackEnd.listeners.PedidoListener;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -32,6 +34,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(PedidoListener.class)
 public class Pedido extends Bean {
 
     @Column(name = "tiempo_estimado")
