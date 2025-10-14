@@ -31,8 +31,8 @@ public interface UsuarioMapper {
     Usuario toEntity(UsuarioDTO dto);
 
     // <--[Usuario entity]--
-    // ==>{UsuarioDTO dto, y lo que ignora *usuarioDireccionList*}
-    // @Mapping(target = "direccionList", ignore = true)
+    // ==>{UsuarioDTO dto, y lo que ignora *direccionList*}
+    @Mapping(target = "direccionList", ignore = true)
     UsuarioDTO toDto(Usuario entity);
 
     // <--[List<Usuario> list]--
@@ -43,6 +43,6 @@ public interface UsuarioMapper {
     // ==>{void, y lo que ignora *id,pedidoList,usuarioDireccionList*}
     @org.mapstruct.Mapping(target = "id", ignore = true)
     @org.mapstruct.Mapping(target = "pedidoList", ignore = true)
-    // @org.mapstruct.Mapping(target = "usuarioDireccionList", ignore = true)
+    @org.mapstruct.Mapping(target = "usuarioDireccionList", ignore = true)
     void updateFromDto(UsuarioDTO dto, @org.mapstruct.MappingTarget Usuario entity);
 }

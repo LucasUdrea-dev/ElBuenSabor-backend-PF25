@@ -7,19 +7,25 @@ package com.buenSabor.BackEnd.mapper;
 import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloDTO;
 import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
 import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleInsumoDTO;
 import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
+import com.buenSabor.BackEnd.models.producto.ArticuloManufacturadoDetalleInsumo;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.SubclassMapping;
 import org.mapstruct.factory.Mappers;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author oscarloha
  */
-@Mapper(componentModel = "spring", uses = {DireccionMapper.class, SubcategoriaMapper.class, UnidadMedidaMapper.class, ArticuloManufacturadoDetalleInsumoMapper.class, StockArticuloInsumoMapper.class})
+@Mapper(componentModel = "spring", uses = {SubcategoriaMapper.class, UnidadMedidaMapper.class, StockArticuloInsumoMapper.class})
 public interface ArticuloMapper {
 
     ArticuloMapper mapper = Mappers.getMapper(ArticuloMapper.class);
@@ -43,9 +49,28 @@ public interface ArticuloMapper {
     // ==>{ArticuloManufacturadoDTO dto, y lo que ignora *-*}
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
-    @Mapping(target = "insumos", source = "detalleInsumos")
+    @Mapping(target = "insumos", ignore = true) // Mapeo manual para evitar ciclo
     @Mapping(target = "sucursalId", source = "sucursal.id")
     ArticuloManufacturadoDTO toArticuloManufacturadoDTO(ArticuloManufacturado entity);
+
+    @AfterMapping
+    default void mapInsumos(ArticuloManufacturado entity, @MappingTarget ArticuloManufacturadoDTO dto) {
+        if (entity.getDetalleInsumos() != null && !entity.getDetalleInsumos().isEmpty()) {
+            List<ArticuloManufacturadoDetalleInsumoDTO> insumosDTO = new ArrayList<>();
+            for (ArticuloManufacturadoDetalleInsumo detalle : entity.getDetalleInsumos()) {
+                ArticuloManufacturadoDetalleInsumoDTO detalleDTO = new ArticuloManufacturadoDetalleInsumoDTO();
+                detalleDTO.setId(detalle.getId());
+                detalleDTO.setCantidad(detalle.getCantidad());
+                
+                // Mapear el insumo manualmente
+                if (detalle.getArticuloInsumo() != null) {
+                    detalleDTO.setArticuloInsumo(toInsumoDTO(detalle.getArticuloInsumo()));
+                }
+                insumosDTO.add(detalleDTO);
+            }
+            dto.setInsumos(insumosDTO);
+        }
+    }
 
     // <--[ArticuloDTO dto]--
     // ==>{Articulo entity, y lo que ignora *promocionArticuloList,historicoPrecioVentaArticuloList,detallePedidoList,id*}
