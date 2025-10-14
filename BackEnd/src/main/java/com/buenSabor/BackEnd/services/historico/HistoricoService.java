@@ -1,5 +1,6 @@
 package com.buenSabor.BackEnd.services.historico;
 
+import com.buenSabor.BackEnd.dto.estadisticas.TodosHistoricosDTO;
 import com.buenSabor.BackEnd.models.producto.HistoricoPrecioCostoArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.HistoricoPrecioVentaArticulo;
 import com.buenSabor.BackEnd.models.producto.HistoricoStockArticuloInsumo;
@@ -64,5 +65,30 @@ public class HistoricoService {
     public HistoricoStockArticuloInsumo obtenerUltimoStockInsumo(Long stockId) {
         List<HistoricoStockArticuloInsumo> historicos = historicoStockRepository.findByIdstockarticuloInsumo_IdOrderByFechaActualizacionDesc(stockId);
         return historicos.isEmpty() ? null : historicos.get(0);
+    }
+
+    public List<HistoricoPrecioCostoArticuloInsumo> obtenerTodosHistoricosPrecioCosto() {
+        return historicoPrecioCostoRepository.findAll();
+    }
+
+    public List<HistoricoPrecioVentaArticulo> obtenerTodosHistoricosPrecioVenta() {
+        return historicoPrecioVentaRepository.findAll();
+    }
+
+    public List<HistoricoStockArticuloInsumo> obtenerTodosHistoricosStock() {
+        return historicoStockRepository.findAll();
+    }
+
+    public List<HistoricoEstadoPedido> obtenerTodosHistoricosEstadoPedido() {
+        return historicoEstadoPedidoRepository.findAll();
+    }
+
+    public TodosHistoricosDTO obtenerTodosLosHistoricos() {
+        TodosHistoricosDTO todosHistoricos = new TodosHistoricosDTO();
+        todosHistoricos.setHistoricosPrecioCosto(historicoPrecioCostoRepository.findAll());
+        todosHistoricos.setHistoricosPrecioVenta(historicoPrecioVentaRepository.findAll());
+        todosHistoricos.setHistoricosStock(historicoStockRepository.findAll());
+        todosHistoricos.setHistoricosEstadoPedido(historicoEstadoPedidoRepository.findAll());
+        return todosHistoricos;
     }
 }
