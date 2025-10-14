@@ -180,6 +180,7 @@ public class EstadisticasService {
         LocalDate inicioSemana = ahora.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         
         List<IngresoDataDTO> ingresos = new ArrayList<>();
+        String[] diasSemana = {"Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"};
         
         for (int i = 0; i < 7; i++) {
             LocalDate fecha = inicioSemana.plusDays(i);
@@ -195,8 +196,7 @@ public class EstadisticasService {
                 .mapToDouble(d -> d.getArticulo().getPrecio() * d.getCantidad())
                 .sum();
             
-            String diaSemana = fecha.getDayOfWeek().getDisplayName(TextStyle.SHORT, new Locale("es", "ES"));
-            ingresos.add(new IngresoDataDTO(diaSemana, totalOrdenes, totalGanancias));
+            ingresos.add(new IngresoDataDTO(diasSemana[i], totalOrdenes, totalGanancias));
         }
         
         return ingresos;
@@ -232,6 +232,7 @@ public class EstadisticasService {
     public List<IngresoDataDTO> obtenerIngresosMensuales(Long sucursalId) {
         LocalDate ahora = LocalDate.now();
         List<IngresoDataDTO> ingresos = new ArrayList<>();
+        String[] nombresMeses = {"Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"};
         
         for (int i = 5; i >= 0; i--) {
             LocalDate mes = ahora.minusMonths(i);
@@ -251,7 +252,7 @@ public class EstadisticasService {
                 .mapToDouble(d -> d.getArticulo().getPrecio() * d.getCantidad())
                 .sum();
             
-            String nombreMes = mes.getMonth().getDisplayName(TextStyle.SHORT, new Locale("es", "ES"));
+            String nombreMes = nombresMeses[mes.getMonthValue() - 1];
             ingresos.add(new IngresoDataDTO(nombreMes, totalOrdenes, totalGanancias));
         }
         
