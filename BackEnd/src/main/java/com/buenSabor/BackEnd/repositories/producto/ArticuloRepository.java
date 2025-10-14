@@ -32,4 +32,8 @@ public interface ArticuloRepository extends BeanRepository<Articulo,Long>{
 
     // Busca artículos que son para elaborar y existen
     List<Articulo> findByEsParaElaborarTrueAndExisteTrue();
+
+    List<Articulo> findByExisteTrueAndEsParaElaborarFalse();
+
+    List<Articulo> findByEsParaElaborarFalse();
 }

@@ -51,7 +51,7 @@ public class PromocionController {
     }
 
     @Operation(summary = "Listar todas las promociones")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getAll() {
         try {
             List<PromocionDTO> promociones = promocionService.findAllPromocionesDTO();

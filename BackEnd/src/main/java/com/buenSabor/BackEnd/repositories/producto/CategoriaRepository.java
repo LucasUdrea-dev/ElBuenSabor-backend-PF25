@@ -22,6 +22,8 @@ public interface CategoriaRepository extends BeanRepository<Categoria,Long>{
     //Filtra si es categoria para elaborar
     List<Categoria> findCategoriaByEsParaElaborarTrue();
 
+    List<Categoria> findByEsParaElaborarFalse();
+
     //Busca si categoria existe
     //List<Categoria> findByExisteTrue();
 

@@ -116,8 +116,8 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         // Procesar artículos de la promoción (evitar duplicados)
         List<PromocionArticulo> promocionArticulos = new ArrayList<>();
 
-        if (dto.getArticulos() != null && !dto.getArticulos().isEmpty()) {
-            for (PromocionArticuloDTO paDto : dto.getArticulos()) {
+        if (dto.getPromocionArticuloList() != null && !dto.getPromocionArticuloList().isEmpty()) {
+            for (PromocionArticuloDTO paDto : dto.getPromocionArticuloList()) {
                 if (paDto.getArticulo() == null || paDto.getArticulo().getId() == null) {
                     throw new RuntimeException("Cada artículo debe tener un ID válido.");
                 }
@@ -203,10 +203,10 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         // Limpiar la lista existente (orphanRemoval se encargará de eliminar los huérfanos)
         existingPromocion.getPromocionArticuloList().clear();
         
-        if (dto.getArticulos() != null && !dto.getArticulos().isEmpty()) {
+        if (dto.getPromocionArticuloList() != null && !dto.getPromocionArticuloList().isEmpty()) {
             List<Long> articulosYaProcesados = new ArrayList<>();
             
-            for (PromocionArticuloDTO paDto : dto.getArticulos()) {
+            for (PromocionArticuloDTO paDto : dto.getPromocionArticuloList()) {
                 if (paDto.getArticulo() == null || paDto.getArticulo().getId() == null) {
                     throw new RuntimeException("Cada artículo debe tener un ID válido.");
                 }
