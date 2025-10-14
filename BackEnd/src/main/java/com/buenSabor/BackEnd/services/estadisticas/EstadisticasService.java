@@ -57,7 +57,7 @@ public class EstadisticasService {
                 dto.setNivelMinimo(stock.getMinStock());
                 dto.setNivelMaximo(100);
                 dto.setUnidad(insumo.getUnidadMedida() != null ? 
-                    insumo.getUnidadMedida().getDenominacion() : "unidad");
+                    insumo.getUnidadMedida().getUnidad().toString() : "unidad");
                 
                 List<HistoricoStockArticuloInsumo> historico = 
                     historicoStockRepository.findByIdstockarticuloInsumo_IdOrderByFechaActualizacionDesc(stock.getId());
