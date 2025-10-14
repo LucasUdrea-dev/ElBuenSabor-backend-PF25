@@ -1,4 +1,4 @@
-package com.buenSabor.BackEnd.controllers;
+package com.buenSabor.BackEnd.controllers.estadistica;
 
 import com.buenSabor.BackEnd.models.producto.HistoricoPrecioCostoArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.HistoricoPrecioVentaArticulo;
