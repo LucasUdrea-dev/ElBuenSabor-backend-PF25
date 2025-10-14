@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.ubicacion;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -50,7 +46,7 @@ public class Direccion extends Bean {
     @Column(name = "descripcion_entrega", columnDefinition = "TEXT")
     private String descripcionEntrega;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "id_ciudad")
     private Ciudad ciudad;
 

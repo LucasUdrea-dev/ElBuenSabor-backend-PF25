@@ -19,10 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- *
- * @author oscarloha
- */
 @RestController
 @RequestMapping("api/articulo")
 @Tag(name = "Articulo", description = "Operaciones relacionadas con entidad Articulo")
@@ -78,7 +74,7 @@ public class ArticuloController extends BeanControllerImpl<Articulo, ArticuloSer
 
     @Operation(summary = "Obtener articulos para vender y disponibles")
     @GetMapping("/venta")
-    public ResponseEntity<?> obtenerArticulosParaVender(){
+    public ResponseEntity<?> obtenerArticulosParaVender() {
 
         try {
             return ResponseEntity.status(HttpStatus.OK).body(articuloService.listarDisponiblesYParaVenta());
@@ -90,7 +86,7 @@ public class ArticuloController extends BeanControllerImpl<Articulo, ArticuloSer
 
     @Operation(summary = "Obtener articulos para incluir en promos")
     @GetMapping("/promos")
-    public ResponseEntity<?> obtenerArticulosParaPromos(){
+    public ResponseEntity<?> obtenerArticulosParaPromos() {
 
         try {
             return ResponseEntity.status(HttpStatus.OK).body(articuloService.listarParaPromos());

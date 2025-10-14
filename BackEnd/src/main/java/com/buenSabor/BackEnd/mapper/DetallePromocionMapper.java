@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.venta.detallepromocion.DetallePromocionDTO;
@@ -12,33 +8,27 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-/**
- *
- * @author oscarloha
- */
-
-@Mapper(componentModel = "spring",
-        uses = { PromocionMapper.class }, 
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", uses = {
+        PromocionMapper.class }, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DetallePromocionMapper {
 
     // <--[DetallePromocion detallePromocion]--
     // ==>{DetallePromocionDTO dto, y lo que ignora *-*}
-    @Mapping(source = "promocion", target = "promocion") 
-//    @Mapping(target = "pedido", ignore = true) 
+    @Mapping(source = "promocion", target = "promocion")
+    // @Mapping(target = "pedido", ignore = true)
     DetallePromocionDTO toDto(DetallePromocion detallePromocion);
 
     // <--[DetallePromocionDTO dto]--
     // ==>{DetallePromocion entity, y lo que ignora *pedido,id*}
-    @Mapping(source = "promocion", target = "promocion") 
-    @Mapping(target = "pedido", ignore = true) 
-    @Mapping(target = "id", ignore = true) 
+    @Mapping(source = "promocion", target = "promocion")
+    @Mapping(target = "pedido", ignore = true)
+    @Mapping(target = "id", ignore = true)
     DetallePromocion toEntity(DetallePromocionDTO dto);
 
     // <--[DetallePromocionDTO dto, DetallePromocion entity]--
     // ==>{void, y lo que ignora *id,pedido*}
-    @Mapping(target = "id", ignore = true) 
-    @Mapping(target = "pedido", ignore = true) 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "pedido", ignore = true)
     void updateDetallePromocionFromDto(DetallePromocionDTO dto, @MappingTarget DetallePromocion entity);
 
     // <--[List<DetallePromocion> detallePromociones]--

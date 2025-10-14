@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.user;
 
 import com.buenSabor.BackEnd.models.company.Sucursal;
@@ -19,7 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
@@ -27,7 +22,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "Empleado")
 public class Empleado extends Usuario {
-
 
     @Column(name = "sueldo")
     private Double sueldo;
@@ -38,5 +32,4 @@ public class Empleado extends Usuario {
     @ManyToOne(fetch = FetchType.EAGER)
     private Sucursal idSucursal;
 
-        
 }

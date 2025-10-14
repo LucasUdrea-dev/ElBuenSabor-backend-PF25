@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.buenSabor.BackEnd.controllers.otros;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -25,10 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- *
- * @author oscarloha
- */
 @RestController
 @RequestMapping("/api/imagenes")
 public class ImagenController {

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -24,8 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PromocionArticulo extends Bean {
 
-
-    private int cantidad; 
+    private int cantidad;
     @JoinColumn(name = "id_articulo", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Articulo idArticulo;
@@ -33,5 +28,4 @@ public class PromocionArticulo extends Bean {
     @ManyToOne(fetch = FetchType.EAGER)
     private Promocion idPromocion;
 
-    
 }

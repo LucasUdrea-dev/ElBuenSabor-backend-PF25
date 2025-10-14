@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
@@ -10,28 +6,24 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-/**
- *
- * @author oscarloha
- */
 @Mapper(componentModel = "spring", uses = {
-    DireccionMapper.class,
-    TelefonoMapper.class,
-    RolMapper.class,
-    UserAuthenticationMapper.class
+        DireccionMapper.class,
+        TelefonoMapper.class,
+        RolMapper.class,
+        UserAuthenticationMapper.class
 })
 public interface UsuarioMapper {
 
-      @Mapping(target = "pedidoList", ignore = true) 
-      @Mapping(target = "id", ignore = true) 
-      @Mapping(target = "usuarioDireccionList", ignore = true)
-            
+    @Mapping(target = "pedidoList", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "usuarioDireccionList", ignore = true)
+
     // <--[UsuarioDTO dto]--
     // ==>{Usuario entity, y lo que ignora *pedidoList,id,usuarioDireccionList*}
     Usuario toEntity(UsuarioDTO dto);
 
     // <--[Usuario entity]--
-    // ==>{UsuarioDTO dto, y lo que ignora *usuarioDireccionList*}
+    // ==>{UsuarioDTO dto, y lo que ignora *direccionList*}
     @Mapping(target = "direccionList", ignore = true)
     UsuarioDTO toDto(Usuario entity);
 

@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/tipoRoles")
 @Tag(name = "TipoRoles", description = "Operaciones relacionadas con entidad TipoRol")
 public class TipoRolController extends BeanControllerImpl<TipoRol, TipoRolService> {
-    
-     private final TipoRolService tipoRolService;
+
+    private final TipoRolService tipoRolService;
 
     @Autowired
     public TipoRolController(TipoRolService tipoRolService) {
@@ -28,10 +28,10 @@ public class TipoRolController extends BeanControllerImpl<TipoRol, TipoRolServic
     }
 
     @Operation(summary = "Listar todas los tipos de rol con DTO")
-    @GetMapping("/listar") // Or just @GetMapping if you prefer /api/tipoRoles directly for listing all
-    public ResponseEntity<?> findAllTipoRolesDTO() { // Renamed method for clarity
+    @GetMapping("/listar")
+    public ResponseEntity<?> findAllTipoRolesDTO() {
         try {
-            // Call the service method that returns the DTO list directly
+
             List<TipoRolDTO> dtos = tipoRolService.findAllTipoRolesDTO();
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
@@ -41,7 +41,7 @@ public class TipoRolController extends BeanControllerImpl<TipoRol, TipoRolServic
     }
 
     @Operation(summary = "Ver un tipo de rol por ID con DTO")
-    @GetMapping("/dto/{id}") // Added /dto to differentiate if BeanControllerImpl also has a getById
+    @GetMapping("/dto/{id}")
     public ResponseEntity<?> getTipoRolDTOById(@PathVariable Long id) {
         try {
             TipoRolDTO tipoRolDTO = tipoRolService.findTipoRolDTOById(id);
@@ -55,5 +55,5 @@ public class TipoRolController extends BeanControllerImpl<TipoRol, TipoRolServic
                     .body("{\"error\":\"Error al obtener el tipo de rol por ID: " + e.getMessage() + "\"}");
         }
     }
-    
+
 }

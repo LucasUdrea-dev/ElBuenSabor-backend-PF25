@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.venta.promocion.PromocionDTO;
@@ -10,10 +6,6 @@ import com.buenSabor.BackEnd.models.venta.Promocion;
 import java.util.List;
 import java.util.Set;
 
-/**
- *
- * @author oscarloha
- */
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

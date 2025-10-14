@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.venta.promocionArticulo.PromocionArticuloDTO;
@@ -9,24 +5,21 @@ import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
-/**
- *
- * @author oscarloha
- */
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {ArticuloMapper.class, PromocionMapper.class}) // Add PromocionMapper
+@Mapper(componentModel = "spring", uses = { ArticuloMapper.class, PromocionMapper.class })
 public interface PromocionArticuloMapper {
 
     // Map entity to DTO
     // <--[PromocionArticulo entity]--
     // ==> {PromocionArticuloDTO dto, y lo que ignora *-*}
-    @Mapping(source = "idArticulo", target = "articulo") 
+    @Mapping(source = "idArticulo", target = "articulo")
     @Mapping(source = "id", target = "id")
     PromocionArticuloDTO toDto(PromocionArticulo entity);
 
     // Map DTO to entity
-    // @InheritInverseConfiguration // You can use this, but I'll explicitly map for clarity here
+    // @InheritInverseConfiguration // You can use this, but I'll explicitly map for
+    // clarity here
     // <--[PromocionArticuloDTO dto]--
     // ==> {PromocionArticulo entity, y lo que ignora *idPromocion*}
     @Mapping(target = "idArticulo", source = "articulo")

@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.producto;
-
 
 import com.buenSabor.BackEnd.listeners.ArticuloInsumoListener;
 import jakarta.persistence.CascadeType;
@@ -21,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Entity
 @Getter
@@ -41,7 +35,7 @@ public class ArticuloInsumo extends Articulo {
     @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<HistoricoPrecioCostoArticuloInsumo> historicoPrecioCostoArticuloInsumoList;
-    
+
     @OneToMany(mappedBy = "articuloInsumo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<ArticuloManufacturadoDetalleInsumo> detalleManufacturas = new ArrayList<>();

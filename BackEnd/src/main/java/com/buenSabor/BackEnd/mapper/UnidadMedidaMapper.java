@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package com.buenSabor.BackEnd.mapper;
 
 import com.buenSabor.BackEnd.dto.producto.medida.UnidadMedidaDTO;
@@ -9,17 +5,15 @@ import com.buenSabor.BackEnd.models.producto.UnidadMedida;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-/**
- *
- * @author oscarloha
- */
 @Mapper(componentModel = "spring")
 public interface UnidadMedidaMapper {
     // <--[UnidadMedidaDTO dto]--
     // ==>{UnidadMedida entity, y lo que ignora *articuloList*}
-    // IMPORTANTE: NO ignorar el ID - UnidadMedida está precargada en BD por MeasumentInitializer
+    // IMPORTANTE: NO ignorar el ID - UnidadMedida está precargada en BD por
+    // MeasumentInitializer
     @Mapping(target = "articuloList", ignore = true)
     UnidadMedida toEntity(UnidadMedidaDTO dto);
+
     // <--[UnidadMedida entity]--
     // ==>{UnidadMedidaDTO dto, y lo que ignora *-*}
     UnidadMedidaDTO toDTO(UnidadMedida entity);
