@@ -33,7 +33,7 @@ public class TipoRol extends Bean {
     @Enumerated(EnumType.STRING)
     @Column(name = "nombre_rol")
     private TypeRol rol;
-    @OneToMany(mappedBy = "tipoRol", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tipoRol", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Rol> rolList;
 

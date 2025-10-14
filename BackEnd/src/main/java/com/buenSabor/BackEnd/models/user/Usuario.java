@@ -59,6 +59,7 @@ public class Usuario extends Bean {
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_userAuth")
+    @JsonIgnore
     protected UserAuthentication userAuthentication;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })

@@ -21,4 +21,6 @@ public interface UsuarioService {
     UsuarioDTO actualizarUsuario(Long id, UsuarioDTO dto);
 
     void eliminarUsuario(Long id);
+
+    List<Usuario> getUsuariosCustomer();
 }

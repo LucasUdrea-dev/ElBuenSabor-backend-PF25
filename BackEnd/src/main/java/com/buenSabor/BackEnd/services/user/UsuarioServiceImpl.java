@@ -1,6 +1,7 @@
 package com.buenSabor.BackEnd.services.user;
 
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
+import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.mapper.TelefonoMapper;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
 import com.buenSabor.BackEnd.mapper.UsuarioMapper;
@@ -44,6 +45,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario findById(Long id) {
         return usuarioRepository.findById(id).orElse(null);
+    }
+
+
+    public List<Usuario> getUsuariosCustomer() {
+        return usuarioRepository.findByTipoRol(TypeRol.CUSTOMER);
     }
 
     @Override
