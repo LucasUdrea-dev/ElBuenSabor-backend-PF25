@@ -89,10 +89,10 @@ public class DireccionService extends BeanServiceImpl<Direccion,Long>{
         Direccion guardada = direccionRepository.save(nueva);
 
         // Asociar al usuario
-        if (usuario.getDireccionList() == null) {
-            usuario.setDireccionList(new java.util.ArrayList<>());
+        if (usuario.getUsuarioDireccionList() == null) {
+            usuario.setUsuarioDireccionList(new java.util.ArrayList<>());
         }
-        boolean yaAsociada = usuario.getDireccionList().stream()
+        boolean yaAsociada = usuario.getUsuarioDireccionList().stream()
                 .anyMatch(d -> d.getId() != null && d.getId().equals(guardada.getId()));
 
         if (!yaAsociada) {
