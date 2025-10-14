@@ -77,6 +77,17 @@ public class CategoriaController extends BeanControllerImpl<Categoria,CategoriaS
         }
     }
 
+    @GetMapping("/ventas")
+    public ResponseEntity<?> obtenerTodasCategorias(){
+
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(categoriaService.findParaVenta());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+        }
+
+    }
+
     /*@Operation(summary = "Borrado lógico de una Categoria (marca existe=false)")
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {

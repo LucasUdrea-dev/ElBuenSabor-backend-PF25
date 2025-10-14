@@ -75,4 +75,28 @@ public class ArticuloController extends BeanControllerImpl<Articulo, ArticuloSer
                     .body("{\"error\":\"Error al obtener artículos para elaborar existentes.\"}");
         }
     }
+
+    @Operation(summary = "Obtener articulos para vender y disponibles")
+    @GetMapping("/venta")
+    public ResponseEntity<?> obtenerArticulosParaVender(){
+
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(articuloService.listarDisponiblesYParaVenta());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+        }
+
+    }
+
+    @Operation(summary = "Obtener articulos para incluir en promos")
+    @GetMapping("/promos")
+    public ResponseEntity<?> obtenerArticulosParaPromos(){
+
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(articuloService.listarParaPromos());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+        }
+
+    }
 }

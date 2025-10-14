@@ -4,6 +4,7 @@
  */
 package com.buenSabor.BackEnd.services.producto;
 
+import com.buenSabor.BackEnd.dto.producto.categoria.CategoriaConSubcategoriasDTO;
 import com.buenSabor.BackEnd.dto.producto.categoria.CategoriaDTO;
 import com.buenSabor.BackEnd.mapper.CategoriaMapper;
 import com.buenSabor.BackEnd.models.producto.*;
@@ -15,6 +16,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,6 +86,34 @@ public class CategoriaService extends BeanServiceImpl<Categoria,Long>{
             return categoriaRepository.findCategoriaByEsParaElaborarTrue();
         } catch (Exception e) {
             throw new Exception("Error al buscar categorias para elaborar: " + e.getMessage());
+        }
+    }
+
+    @Transactional
+    public List<CategoriaConSubcategoriasDTO> findParaVenta() throws Exception{
+        try{
+
+            List<Categoria> categorias = categoriaRepository.findByEsParaElaborarFalse();
+
+            List<CategoriaConSubcategoriasDTO> categoriasConSubcategorias = new ArrayList<>();
+
+            for (Categoria categoria : categorias) {
+                
+                CategoriaConSubcategoriasDTO categoriaResponseDTO = new CategoriaConSubcategoriasDTO();
+
+                categoriaResponseDTO.setId(categoria.getId());
+                categoriaResponseDTO.setDenominacion(categoria.getDenominacion());
+                categoriaResponseDTO.setImagen(categoria.getImagen());
+                categoriaResponseDTO.setEsParaElaborar(categoria.isEsParaElaborar());
+                categoriaResponseDTO.setSubcategorias(categoria.getSubcategorias());
+
+                categoriasConSubcategorias.add(categoriaResponseDTO);
+
+            }
+
+            return categoriasConSubcategorias;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
     }
 

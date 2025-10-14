@@ -69,12 +69,28 @@ public class ArticuloService extends BeanServiceImpl<Articulo, Long> {
         }
     }
 
+    public List<Articulo> listarDisponiblesYParaVenta() throws Exception {
+        try {
+            return articuloRepository.findByExisteTrueAndEsParaElaborarFalse();
+        } catch (Exception e) {
+            throw new Exception("Error al buscar artículos disponibles: " + e.getMessage());
+        }
+    }
+
     public List<Articulo> buscarArticuloSiEsParaElaborarYExiste() throws Exception {
         try {
             return articuloRepository.findByEsParaElaborarTrueAndExisteTrue();
         } catch (Exception e) {
             throw new Exception(
                     "Error al buscar articulos con filtro: Es para elaborar y Existe. Message: " + e.getMessage());
+        }
+    }
+
+    public List<Articulo> listarParaPromos() throws Exception {
+        try {
+            return articuloRepository.findByEsParaElaborarFalse();
+        } catch (Exception e) {
+            throw new Exception("Error al buscar artículos disponibles: " + e.getMessage());
         }
     }
 

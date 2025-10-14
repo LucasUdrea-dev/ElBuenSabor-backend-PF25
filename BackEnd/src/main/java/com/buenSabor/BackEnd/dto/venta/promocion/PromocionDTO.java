@@ -35,6 +35,6 @@ public class PromocionDTO {
     private TipoPromocionDTO tipoPromocion; 
     
     // Lista de DTOs para las relaciones 'ToMany'
-    private List<PromocionArticuloDTO> articulos; // Asume que tienes un PromocionArticuloDto
+    private List<PromocionArticuloDTO> promocionArticuloList; // Asume que tienes un PromocionArticuloDto
 
 }
