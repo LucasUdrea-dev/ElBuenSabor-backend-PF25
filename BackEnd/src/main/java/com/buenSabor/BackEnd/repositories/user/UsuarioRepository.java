@@ -5,7 +5,6 @@
 package com.buenSabor.BackEnd.repositories.user;
 
 import com.buenSabor.BackEnd.enums.TypeRol;
-import com.buenSabor.BackEnd.models.seguridad.TipoRol;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import java.util.List;
@@ -20,11 +19,14 @@ import org.springframework.stereotype.Repository;
  * @author oscarloha
  */
 @Repository
-public interface UsuarioRepository extends BeanRepository<Usuario,Long>{
+public interface UsuarioRepository extends BeanRepository<Usuario, Long> {
 
     List<Usuario> findAllByExisteTrue();
+
     Optional<Usuario> findByIdAndExisteTrue(Long id);
+
     Usuario findByEmail(String email);
+
     Optional<Usuario> findById(Long id);
 
     // Trae todos los usuarios cuyo rol tenga tipoRol = CUSTOMER
