@@ -182,4 +182,10 @@ public class UsuarioController {
                     .body("{\"error\":\"Error al eliminar el usuario.\"}");
         }
     }
+
+    @GetMapping("/customer")
+    public ResponseEntity<List<Usuario>> getUsuariosCustomer() {
+        List<Usuario> customers = usuarioService.getUsuariosCustomer();
+        return ResponseEntity.ok(customers);
+    }
 }
