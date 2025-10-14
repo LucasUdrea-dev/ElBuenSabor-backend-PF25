@@ -60,44 +60,45 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         return ResponseEntity.status(status).body(apiError);
     }
 
-//
-//    @Operation(summary = "Guardar un nuevo registro")
-//    @PostMapping("/full/save")
-//    public ResponseEntity<?> save(@RequestBody E entity){
-//        try {
-//            return ResponseEntity.status(HttpStatus.OK).body(service.save(entity));
-//        } catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
-//        }
-//    }
-//
-//    @Operation(summary = "Actualizar un registro existente")
-//    @PutMapping("/full/update/{id}")
-//    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody E entity){
-//        try {
-//            return ResponseEntity.status(HttpStatus.OK).body(service.update(id, entity));
-//        } catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
-//        }
-//    }
-//
-//    @Operation(summary = "Eliminar un registro por ID")
-//    @DeleteMapping("/full/drop/{id}")
-//    public ResponseEntity<?> delete(@PathVariable Long id){
-//        try {
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(service.delete(id));
-//        } catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
-//        }
-//    }
+    @Operation(summary = "Guardar un nuevo registro")
+    @PostMapping("/full/save")
+    public ResponseEntity<?> save(@RequestBody E entity){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.save(entity));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
+        }
+    }
 
-//    @Operation(summary = "Obtener todos los registros paginados")
-//    @GetMapping("/full/pagedd")
-//    public ResponseEntity<?> getAll(Pageable pageable) {
-//        try {
-//            return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
-//        } catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
-//        }
-//    }
+    @Operation(summary = "Actualizar un registro existente")
+    @PutMapping("/full/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody E entity){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.update(id, entity));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
+        }
+    }
+
+    @Operation(summary = "Eliminar un registro por ID")
+    @DeleteMapping("/full/drop/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        try {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(service.delete(id));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Intente más tarde.\"}");
+        }
+    }
+
+    /*
+    @Operation(summary = "Obtener todos los registros paginados")
+    @GetMapping("/full/pagedd")
+    public ResponseEntity<?> getAll(Pageable pageable) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.findAll(pageable));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. Intente más tarde.\"}");
+        }
+    }
+     */
 }

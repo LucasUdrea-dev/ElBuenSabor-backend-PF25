@@ -20,4 +20,5 @@ public interface UsuarioRepository extends BeanRepository<Usuario,Long>{
     List<Usuario> findAllByExisteTrue();
     Optional<Usuario> findByIdAndExisteTrue(Long id);
     Usuario findByEmail(String email);
+    Optional<Usuario> findById(Long id);
 }
