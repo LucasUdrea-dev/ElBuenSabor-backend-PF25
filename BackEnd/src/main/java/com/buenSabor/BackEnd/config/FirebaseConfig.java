@@ -26,7 +26,7 @@ public class FirebaseConfig {
             throw new RuntimeException("Error al inicializar Firebase. Asegúrate de que GOOGLE_APPLICATION_CREDENTIALS esté configurada.", e);
         }
     }
-    /*
+    
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
         // Verificar si Firebase ya está inicializado
@@ -44,7 +44,7 @@ public class FirebaseConfig {
                 .build();
 
         return FirebaseApp.initializeApp(options);
-    }*/
+    }
 
     @Bean
     public FirebaseAuth firebaseAuth(FirebaseApp firebaseApp) {
