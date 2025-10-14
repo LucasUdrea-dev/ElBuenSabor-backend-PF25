@@ -123,6 +123,10 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers("/api/empleados/**").hasRole("ADMIN");
 
                     // Teléfonos
+                    authConfig.requestMatchers(HttpMethod.GET, "/api/telefonos/usuario/**").authenticated();
+                    authConfig.requestMatchers(HttpMethod.POST, "/api/telefonos/usuario/**").authenticated();
+                    authConfig.requestMatchers(HttpMethod.PUT, "/api/telefonos/usuario/**").authenticated();
+                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/telefonos/usuario/**").authenticated();
                     authConfig.requestMatchers("/api/telefonos/**").hasRole("ADMIN");
 
                     // Roles y Tipos de Rol

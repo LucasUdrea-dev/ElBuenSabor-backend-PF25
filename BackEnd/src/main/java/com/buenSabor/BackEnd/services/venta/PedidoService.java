@@ -153,7 +153,16 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
                 .orElseThrow(() -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
 
-        // 2. VALIDACIÓN DE STOCK - Construir request para verificación
+        // 2. Validar que el pedido tenga al menos un artículo o una promoción
+        boolean tieneArticulos = dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty();
+        boolean tienePromociones = dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty();
+        
+        if (!tieneArticulos && !tienePromociones) {
+            logger.warn("Intento de crear pedido sin artículos ni promociones para usuario ID: {}", dto.getUsuario().getId());
+            throw new RuntimeException("El pedido debe contener al menos un artículo o una promoción.");
+        }
+
+        // 3. VALIDACIÓN DE STOCK - Construir request para verificación
         Map<Long, Integer> insumosNecesarios = new HashMap<>();
         
         // Procesar artículos del pedido
@@ -204,7 +213,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             }
         }
 
-        // 3. Verificar stock disponible y generar respuesta detallada
+        // 4. Verificar stock disponible y generar respuesta detallada
         StockCheckResponse stockResponse = verificarYValidarStock(insumosNecesarios, sucursal.getId());
         
         if (!stockResponse.isHayStockSuficiente()) {
@@ -214,7 +223,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                     ". Productos faltantes: " + stockResponse.getProductosFaltantes());
         }
 
-        // 4. Stock validado - Proceder con la creación del pedido
+        // 5. Stock validado - Proceder con la creación del pedido
         logger.info("Stock validado correctamente. Procediendo con la creación del pedido.");
         
         Pedido pedido = pedidoMapper.toEntity(dto);
@@ -226,7 +235,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         pedido.setDetallePedidoList(new ArrayList<>());
         pedido.setDetallePromocionList(new ArrayList<>());
 
-        // 5. Manejar DireccionPedido
+        // 6. Manejar DireccionPedido
         if (tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY) {
             if (dto.getDireccion() == null || dto.getDireccion().getDireccion() == null) {
                 throw new RuntimeException("Para el tipo de envío " + tipoEnvio.getTipoDelivery() + ", se requiere una Dirección de Pedido completa.");
@@ -241,10 +250,10 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             pedido.setDireccionPedido(null);
         }
 
-        // 6. Guardar pedido
+        // 7. Guardar pedido
         Pedido savedPedido = pedidoRepository.save(pedido);
 
-        // 7. Agregar DetallePedido
+        // 8. Agregar DetallePedido
         if (dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty()) {
             for (DetallePedidoDTO detalleDto : dto.getDetallePedidoList()) {
                 Articulo articulo = articuloRepository.findById(detalleDto.getArticulo().getId())
@@ -256,7 +265,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             }
         }
 
-        // 8. Agregar DetallePromocion
+        // 9. Agregar DetallePromocion
         if (dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty()) {
             for (DetallePromocionDTO detalleDto : dto.getDetallePromocionList()) {
                 Promocion promocion = promocionRepository.findById(detalleDto.getPromocion().getId())
@@ -268,10 +277,10 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             }
         }
 
-        // 9. REDUCIR STOCK y actualizar existencia de insumos
+        // 10. REDUCIR STOCK y actualizar existencia de insumos
         reducirStockYActualizarExistencia(insumosNecesarios, sucursal.getId());
 
-        // 10. Guardar cambios finales
+        // 11. Guardar cambios finales
         Pedido finalPedido = pedidoRepository.save(savedPedido);
         logger.info("Pedido creado exitosamente con ID: {}", finalPedido.getId());
         
