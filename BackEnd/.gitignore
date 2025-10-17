@@ -48,3 +48,5 @@ logs/
 *.log
 hs_err_pid*
 VariablesEntorno/*.json
+logs/
+src/main/resources/application.properties

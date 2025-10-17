@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/telefonos")
-@CrossOrigin(origins = "*")
 @Tag(name = "Telefono", description = "Operaciones relacionadas con entidad Telefono")
 public class TelefonoController extends BeanControllerImpl<Telefono, TelefonoService> {
 

@@ -41,6 +41,7 @@ public class UserAuthenticationController {
         }
     }
 
+    @Operation(summary = "Login con correo y contraseña")
     @PostMapping("/login")
     public UserAuthenticationResponseDTO login(
             @RequestBody @Valid UserAuthenticationRequestDTO authRequest){
@@ -50,6 +51,7 @@ public class UserAuthenticationController {
         return jwtDto;
     }
 
+    @Operation(summary = "Actualizar usuario y contraseña")
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody UserAuthenticationRequestDTO dto) {
         try {
@@ -59,6 +61,28 @@ public class UserAuthenticationController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 
+    }
+
+    @Operation(summary = "Actualizar username")
+    @PutMapping("/updateUsername/{id}")
+    public ResponseEntity<?> updateUsername(@PathVariable Long id, @RequestBody UserAuthenticationRequestDTO dto) {
+        try {
+            UserAuthentication updated = userAuthService.updateUsername(id, userAuthMapper.toEntity(dto));
+            return ResponseEntity.ok(userAuthMapper.toDto(updated));
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Actualizar contraseña")
+    @PutMapping("/updatePassword/{id}")
+    public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody UserAuthenticationRequestDTO dto) {
+        try {
+            UserAuthentication updated = userAuthService.updatePassword(id, userAuthMapper.toEntity(dto));
+            return ResponseEntity.ok(userAuthMapper.toDto(updated));
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @Operation(summary = "Login con Token de Firebase",

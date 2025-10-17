@@ -6,6 +6,7 @@ import com.buenSabor.BackEnd.models.user.Empleado;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.repositories.user.EmpleadoRepository;
 import com.buenSabor.BackEnd.services.user.EmpleadoService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,7 +23,7 @@ public class EmpleadoController extends BeanControllerImpl<Empleado, EmpleadoSer
     @Autowired
     private EmpleadoRepository empleadoRepository;
 
-    // Endpoint que trae todos los empleados con rol Cocinero, Cajero o Delivery
+    @Operation(summary = "Obtener todos los empleados (Cocinero, Cajero y Delivery)")
     @GetMapping("/getEmpleados")
     public List<Usuario> getEmpleadosPorRoles() {
         List<TypeRol> roles = List.of(TypeRol.COCINERO, TypeRol.CAJERO, TypeRol.DELIVERY);

@@ -291,4 +291,45 @@ public class UserAuthenticationService {
 
     }
 
+    public UserAuthentication updateUsername(Long id, UserAuthentication entity) {
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " +id));
+
+        UserAuthentication userAuth = usuario.getUserAuthentication();
+        if (userAuth == null) {
+            throw new EntityNotFoundException("El usuario no tiene credenciales asociadas");
+        }
+
+        Optional<UserAuthentication> existe = userAuthenticationRepository.findByUsername(entity.getUsername());
+
+        if(existe.isPresent()
+                && !existe.get().getId().equals(userAuth.getId())){
+            throw new RuntimeException("El nombre de usuario ya está en uso por otro usuario");
+        }
+
+        userAuth.setUsername(entity.getUsername());
+        return userAuthenticationRepository.save(userAuth);
+    }
+
+    public UserAuthentication updatePassword(Long id, UserAuthentication entity) {
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " +id));
+
+        UserAuthentication userAuth = usuario.getUserAuthentication();
+        if (userAuth == null) {
+            throw new EntityNotFoundException("El usuario no tiene credenciales asociadas");
+        }
+
+        String passwordNuevo = entity.getPassword();
+
+        if(passwordEncoder.matches(passwordNuevo,userAuth.getPassword())){
+            throw new IllegalArgumentException("La nueva contraseña no puede ser igual a la actual");
+        }
+
+        userAuth.setPassword(passwordEncoder.encode(passwordNuevo));
+
+        return userAuthenticationRepository.save(userAuth);
+    }
 }
