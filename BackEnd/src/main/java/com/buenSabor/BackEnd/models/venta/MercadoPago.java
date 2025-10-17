@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -15,17 +11,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-
 @Entity
 @Table(name = "Mercado_Pago")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MercadoPago  extends Bean{
-
-   
+public class MercadoPago extends Bean {
 
     @Column(name = "mpMerchantOrderId")
     private Integer mpMerchantOrderId;
@@ -37,6 +29,4 @@ public class MercadoPago  extends Bean{
     @ManyToOne(fetch = FetchType.EAGER)
     private TipoPago tipoPago;
 
-    
-    
 }

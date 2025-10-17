@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.buenSabor.BackEnd.repositories.venta.DetallePromocionArticuloRepository;
 
 @Service
 public class PromocionService extends BeanServiceImpl<Promocion, Long> {
@@ -33,8 +32,6 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
 
     private final PromocionRepository promocionRepository;
     private final ArticuloRepository articuloRepository;
-    @SuppressWarnings("unused")
-    private final DetallePromocionArticuloRepository promocionArticuloRepository;
     private final SucursalRepository sucursalRepository;
     private final TipoPromocionRepository tipoPromocionRepository;
     private final PromocionMapper promocionMapper;
@@ -44,14 +41,12 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
             BeanRepository<Promocion, Long> beanRepository,
             PromocionRepository promocionRepository,
             ArticuloRepository articuloRepository,
-            DetallePromocionArticuloRepository promocionArticuloRepository,
             SucursalRepository sucursalRepository,
             TipoPromocionRepository tipoPromocionRepository,
             PromocionMapper promocionMapper) {
         super(beanRepository);
         this.promocionRepository = promocionRepository;
         this.articuloRepository = articuloRepository;
-        this.promocionArticuloRepository = promocionArticuloRepository;
         this.sucursalRepository = sucursalRepository;
         this.tipoPromocionRepository = tipoPromocionRepository;
         this.promocionMapper = promocionMapper;
@@ -81,7 +76,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     @Transactional
     public PromocionDTO crearPromocion(PromocionDTO dto) {
         logger.info("Creando nueva promoción: {}", dto.getDenominacion());
-        
+
         // Asegurar que es una nueva promoción
         dto.setId(null);
 
@@ -100,7 +95,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         TipoPromocion tipoPromocion = tipoPromocionRepository.findById(dto.getTipoPromocion().getId())
                 .orElseThrow(() -> new RuntimeException(
                         "Tipo de Promoción con ID " + dto.getTipoPromocion().getId() + " no encontrado."));
-        
+
         logger.debug("TipoPromocion encontrado: {} (ID: {})", tipoPromocion.getTipoPromocion(), tipoPromocion.getId());
 
         // Mapear DTO a entidad (sin relaciones complejas)
@@ -116,12 +111,12 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         // Procesar artículos de la promoción (evitar duplicados)
         List<PromocionArticulo> promocionArticulos = new ArrayList<>();
 
-        if (dto.getArticulos() != null && !dto.getArticulos().isEmpty()) {
-            for (PromocionArticuloDTO paDto : dto.getArticulos()) {
+        if (dto.getPromocionArticuloList() != null && !dto.getPromocionArticuloList().isEmpty()) {
+            for (PromocionArticuloDTO paDto : dto.getPromocionArticuloList()) {
                 if (paDto.getArticulo() == null || paDto.getArticulo().getId() == null) {
                     throw new RuntimeException("Cada artículo debe tener un ID válido.");
                 }
-                
+
                 // Verificar que el artículo existe
                 Articulo articulo = articuloRepository.findById(paDto.getArticulo().getId())
                         .orElseThrow(() -> new RuntimeException(
@@ -130,7 +125,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
                 // Verificar que no se duplique el artículo en la misma promoción
                 boolean articuloDuplicado = promocionArticulos.stream()
                         .anyMatch(pa -> pa.getIdArticulo().getId().equals(articulo.getId()));
-                
+
                 if (articuloDuplicado) {
                     logger.warn("Artículo con ID {} ya está en la promoción, se omite duplicado.", articulo.getId());
                     continue;
@@ -151,14 +146,14 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         // Guardar la promoción (cascade guardará los PromocionArticulo)
         Promocion savedPromocion = promocionRepository.save(promocion);
         logger.info("Promoción creada exitosamente con ID: {}", savedPromocion.getId());
-        
+
         return promocionMapper.toDto(savedPromocion);
     }
 
     @Transactional
     public PromocionDTO actualizarPromocion(Long id, PromocionDTO dto) {
         logger.info("Actualizando promoción con ID: {}", id);
-        
+
         // 1. Buscar la promoción existente
         Promocion existingPromocion = promocionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Promoción con ID " + id + " no encontrada."));
@@ -177,7 +172,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         TipoPromocion tipoPromocion = tipoPromocionRepository.findById(dto.getTipoPromocion().getId())
                 .orElseThrow(() -> new RuntimeException(
                         "Tipo de Promoción con ID " + dto.getTipoPromocion().getId() + " no encontrado."));
-        
+
         logger.debug("TipoPromocion encontrado: {} (ID: {})", tipoPromocion.getTipoPromocion(), tipoPromocion.getId());
 
         // 3. Actualizar campos básicos
@@ -200,25 +195,26 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         existingPromocion.setTipoPromocion(tipoPromocion);
 
         // 4. Manejar artículos de la promoción (evitar duplicados)
-        // Limpiar la lista existente (orphanRemoval se encargará de eliminar los huérfanos)
+        // Limpiar la lista existente (orphanRemoval se encargará de eliminar los
+        // huérfanos)
         existingPromocion.getPromocionArticuloList().clear();
-        
-        if (dto.getArticulos() != null && !dto.getArticulos().isEmpty()) {
+
+        if (dto.getPromocionArticuloList() != null && !dto.getPromocionArticuloList().isEmpty()) {
             List<Long> articulosYaProcesados = new ArrayList<>();
-            
-            for (PromocionArticuloDTO paDto : dto.getArticulos()) {
+
+            for (PromocionArticuloDTO paDto : dto.getPromocionArticuloList()) {
                 if (paDto.getArticulo() == null || paDto.getArticulo().getId() == null) {
                     throw new RuntimeException("Cada artículo debe tener un ID válido.");
                 }
-                
+
                 Long articuloId = paDto.getArticulo().getId();
-                
+
                 // Verificar duplicados en el mismo request
                 if (articulosYaProcesados.contains(articuloId)) {
                     logger.warn("Artículo con ID {} duplicado en el request, se omite.", articuloId);
                     continue;
                 }
-                
+
                 Articulo articulo = articuloRepository.findById(articuloId)
                         .orElseThrow(() -> new RuntimeException(
                                 "Artículo con ID " + articuloId + " no encontrado."));
@@ -228,7 +224,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
                 promocionArticulo.setCantidad(paDto.getCantidad());
                 promocionArticulo.setIdArticulo(articulo);
                 promocionArticulo.setIdPromocion(existingPromocion);
-                
+
                 existingPromocion.getPromocionArticuloList().add(promocionArticulo);
                 articulosYaProcesados.add(articuloId);
             }

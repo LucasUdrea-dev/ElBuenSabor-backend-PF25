@@ -12,11 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Entidad intermedia para la relación ManyToMany entre Usuario y Direccion.
- * Usa su propio ID en lugar de una clave primaria compuesta para compatibilidad
- * con MySQL que tiene sql_require_primary_key=1.
- */
 @Entity
 @Getter
 @Setter

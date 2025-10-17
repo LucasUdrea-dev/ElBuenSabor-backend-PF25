@@ -9,18 +9,12 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-/**
- * Mapper para convertir entre Empleado (entidad) y EmpleadoDTO.
- * Utiliza MapStruct para generación automática de código.
- */
-@Mapper(componentModel = "spring",
-        uses = {
-            RolMapper.class,
-            UserAuthenticationMapper.class,
-            TelefonoMapper.class,
-            SucursalMapper.class
-        },
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", uses = {
+        RolMapper.class,
+        UserAuthenticationMapper.class,
+        TelefonoMapper.class,
+        SucursalMapper.class
+}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface EmpleadoMapper {
 
     // --- Entity to DTO ---
@@ -52,6 +46,6 @@ public interface EmpleadoMapper {
 
     // --- List mappings ---
     List<EmpleadoDTO> toDtoList(List<Empleado> empleados);
-    
+
     List<Empleado> toEntityList(List<EmpleadoDTO> dtos);
 }

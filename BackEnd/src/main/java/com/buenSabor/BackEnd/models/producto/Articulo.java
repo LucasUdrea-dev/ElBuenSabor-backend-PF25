@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.producto;
 
+import com.buenSabor.BackEnd.listeners.ArticuloListener;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.venta.DetallePedido;
 import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
@@ -12,6 +9,7 @@ import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -32,6 +30,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Articulo")
+@EntityListeners(ArticuloListener.class)
 public class Articulo extends Bean {
 
     @Column(name = "nombre")
@@ -54,10 +53,10 @@ public class Articulo extends Bean {
     @JsonIgnore
     protected List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     protected Subcategoria subcategoria;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     protected UnidadMedida unidadMedida;
 
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)

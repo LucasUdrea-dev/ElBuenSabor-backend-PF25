@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.producto;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -23,16 +19,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticuloManufacturadoDetalleInsumo extends Bean{
-    
+public class ArticuloManufacturadoDetalleInsumo extends Bean {
+
     @ManyToOne
     @JoinColumn(name = "id_articulo_manufacturado")
     @JsonIgnore
     private ArticuloManufacturado articuloManufacturado;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "id_articulo_insumo")
-        @JsonIgnore
+    @JsonIgnore
     private ArticuloInsumo articuloInsumo;
 
     @Column(name = "cantidad")

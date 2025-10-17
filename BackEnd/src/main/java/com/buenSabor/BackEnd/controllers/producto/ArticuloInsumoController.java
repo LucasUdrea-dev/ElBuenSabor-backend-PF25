@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.buenSabor.BackEnd.controllers.producto;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
@@ -21,38 +18,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Controlador REST para gestionar operaciones CRUD de Artículos Insumo.
- * Utiliza DTOs y mappers para la transferencia de datos.
- * 
- * @author oscarloha
- */
 @RestController
 @RequestMapping("api/insumos")
 @Tag(name = "ArticuloInsumo", description = "Operaciones relacionadas con entidad ArticuloInsumo")
-public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,ArticuloInsumoService>{
+public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo, ArticuloInsumoService> {
 
     private static final Logger logger = LoggerFactory.getLogger(ArticuloInsumoController.class);
 
     @Autowired
     private ArticuloInsumoService articuloInsumoService;
 
-    @Operation(summary = "Crear un nuevo artículo insumo", 
-               description = "Crea un artículo insumo con su stock inicial")
+    @Operation(summary = "Crear un nuevo artículo insumo", description = "Crea un artículo insumo con su stock inicial")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Insumo creado exitosamente"),
-        @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode = "201", description = "Insumo creado exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PostMapping("/crear")
     public ResponseEntity<?> saveFromDTO(
-            @Parameter(description = "Datos del insumo a crear", required = true)
-            @Valid @RequestBody InsumoDTO dto) {
+            @Parameter(description = "Datos del insumo a crear", required = true) @Valid @RequestBody InsumoDTO dto) {
         try {
             logger.info("Creando artículo insumo: {}", dto.getNombre());
             Long sucursalId = dto.getStockArticuloInsumo().getSucursalId();
             ArticuloInsumo savedInsumo = articuloInsumoService.crearInsumo(dto, sucursalId);
-            
+
             // Actualizar el DTO con los IDs generados
             dto.setId(savedInsumo.getId());
             if (savedInsumo.getStockArticuloInsumo() != null) {
@@ -71,20 +60,17 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
         }
     }
 
-    @Operation(summary = "Actualizar un artículo insumo", 
-               description = "Actualiza los datos de un insumo existente incluyendo su stock")
+    @Operation(summary = "Actualizar un artículo insumo", description = "Actualiza los datos de un insumo existente incluyendo su stock")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Insumo actualizado exitosamente"),
-        @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos"),
-        @ApiResponse(responseCode = "404", description = "Insumo no encontrado"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode = "200", description = "Insumo actualizado exitosamente"),
+            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos"),
+            @ApiResponse(responseCode = "404", description = "Insumo no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> updateInsumo(
-            @Parameter(description = "ID del insumo a actualizar", required = true)
-            @PathVariable Long id, 
-            @Parameter(description = "Datos actualizados del insumo", required = true)
-            @Valid @RequestBody InsumoDTO dto) {
+            @Parameter(description = "ID del insumo a actualizar", required = true) @PathVariable Long id,
+            @Parameter(description = "Datos actualizados del insumo", required = true) @Valid @RequestBody InsumoDTO dto) {
         try {
             logger.info("Actualizando insumo con ID: {}", id);
             ArticuloInsumo updatedInsumo = articuloInsumoService.actualizar(id, dto);
@@ -101,17 +87,15 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
         }
     }
 
-    @Operation(summary = "Eliminar un insumo (soft delete)", 
-               description = "Realiza una eliminación lógica marcando existe=false")
+    @Operation(summary = "Eliminar un insumo (soft delete)", description = "Realiza una eliminación lógica marcando existe=false")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Insumo eliminado exitosamente"),
-        @ApiResponse(responseCode = "404", description = "Insumo no encontrado"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode = "200", description = "Insumo eliminado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Insumo no encontrado"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminar(
-            @Parameter(description = "ID del insumo a eliminar", required = true)
-            @PathVariable Long id) {
+            @Parameter(description = "ID del insumo a eliminar", required = true) @PathVariable Long id) {
         try {
             logger.info("Eliminando insumo con ID: {}", id);
             ArticuloInsumo actualizado = articuloInsumoService.eliminarLogico(id);
@@ -128,11 +112,10 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
         }
     }
 
-    @Operation(summary = "Listar insumos activos", 
-               description = "Retorna todos los insumos marcados como existentes")
+    @Operation(summary = "Listar insumos activos", description = "Retorna todos los insumos marcados como existentes")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/existentes")
     public ResponseEntity<?> getInsumosExistentes() {
@@ -147,16 +130,14 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
         }
     }
 
-    @Operation(summary = "Buscar insumos por subcategoría", 
-               description = "Retorna insumos filtrados por ID de subcategoría")
+    @Operation(summary = "Buscar insumos por subcategoría", description = "Retorna insumos filtrados por ID de subcategoría")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/subcategoria")
     public ResponseEntity<?> getInsumosBySubcategoria(
-            @Parameter(description = "ID de la subcategoría", required = true)
-            @RequestParam("idSubcategoria") Long idSubcategoria) {
+            @Parameter(description = "ID de la subcategoría", required = true) @RequestParam("idSubcategoria") Long idSubcategoria) {
         try {
             logger.info("Buscando insumos por subcategoría ID: {}", idSubcategoria);
             return ResponseEntity.status(HttpStatus.OK)
@@ -168,16 +149,14 @@ public class ArticuloInsumoController extends BeanControllerImpl<ArticuloInsumo,
         }
     }
 
-    @Operation(summary = "Buscar insumos por nombre", 
-               description = "Retorna insumos que contengan el texto en su nombre")
+    @Operation(summary = "Buscar insumos por nombre", description = "Retorna insumos que contengan el texto en su nombre")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+            @ApiResponse(responseCode = "200", description = "Lista obtenida exitosamente"),
+            @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/nombre")
     public ResponseEntity<?> getInsumosByNombre(
-            @Parameter(description = "Nombre o parte del nombre a buscar", required = true)
-            @RequestParam("nombre") String nombre) {
+            @Parameter(description = "Nombre o parte del nombre a buscar", required = true) @RequestParam("nombre") String nombre) {
         try {
             logger.info("Buscando insumos por nombre: {}", nombre);
             return ResponseEntity.status(HttpStatus.OK)

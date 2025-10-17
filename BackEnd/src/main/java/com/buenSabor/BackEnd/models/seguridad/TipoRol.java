@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.seguridad;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -20,7 +16,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
@@ -29,7 +24,6 @@ import lombok.Setter;
 @Table(name = "Tipo_Rol")
 public class TipoRol extends Bean {
 
-    
     @Enumerated(EnumType.STRING)
     @Column(name = "nombre_rol")
     private TypeRol rol;
@@ -37,5 +31,4 @@ public class TipoRol extends Bean {
     @JsonIgnore
     private List<Rol> rolList;
 
-    
 }

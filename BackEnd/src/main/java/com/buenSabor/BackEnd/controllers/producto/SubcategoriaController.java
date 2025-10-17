@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.controllers.producto;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
@@ -15,14 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- *
- * @author oscarloha
- */
 @RestController
 @RequestMapping("api/subcategoria")
 @Tag(name = "Subcategoria", description = "Operaciones relacionadas con entidad Subcategoria")
-public class SubcategoriaController extends BeanControllerImpl<Subcategoria,SubcategoriaService>{
+public class SubcategoriaController extends BeanControllerImpl<Subcategoria, SubcategoriaService> {
 
     @Autowired
     private SubcategoriaService subcategoriaService;
@@ -36,21 +28,23 @@ public class SubcategoriaController extends BeanControllerImpl<Subcategoria,Subc
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"error\":\"Error al guardar subcategoria: " + e.getMessage() + "\", " +
-                            "\"causa\":\"" + (e.getCause() != null ? e.getCause().getMessage() : "No hay causa específica") + "\"}");
+                            "\"causa\":\""
+                            + (e.getCause() != null ? e.getCause().getMessage() : "No hay causa específica") + "\"}");
         }
     }
 
     @Operation(summary = "Actualizar una Subcategoria existente a partir de un DTO")
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<?> updateFromDTO( @PathVariable Long id,   @RequestBody SubcategoriaDTO dto) {
+    public ResponseEntity<?> updateFromDTO(@PathVariable Long id, @RequestBody SubcategoriaDTO dto) {
         try {
             SubcategoriaDTO updatedDTO = subcategoriaService.actualizarSubcategoria(id, dto);
 
             return ResponseEntity.ok(updatedDTO);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"error\":\"Error al actualizar subcategoria: " + e.getMessage() + "\", " +
-                            "\"causa\":\"" + (e.getCause() != null ? e.getCause().getMessage() : "No hay causa específica") + "\"}");
+                            "\"causa\":\""
+                            + (e.getCause() != null ? e.getCause().getMessage() : "No hay causa específica") + "\"}");
         }
     }
 
@@ -78,17 +72,21 @@ public class SubcategoriaController extends BeanControllerImpl<Subcategoria,Subc
         }
     }
 
-    /*@Operation(summary = "Borrado lógico de una Subcategoria (marca existe=false)")
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id) {
-        try {
-            Subcategoria subcategoria = subcategoriaService.eliminarLogico(id);
-            return ResponseEntity.ok(subcategoria);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"error\":\"" + e.getMessage() + "\"}");
-        }
-
-    }*/
+    /*
+     * @Operation(summary =
+     * "Borrado lógico de una Subcategoria (marca existe=false)")
+     * 
+     * @DeleteMapping("/eliminar/{id}")
+     * public ResponseEntity<?> eliminar(@PathVariable Long id) {
+     * try {
+     * Subcategoria subcategoria = subcategoriaService.eliminarLogico(id);
+     * return ResponseEntity.ok(subcategoria);
+     * } catch (Exception e) {
+     * return ResponseEntity.status(HttpStatus.NOT_FOUND)
+     * .body("{\"error\":\"" + e.getMessage() + "\"}");
+     * }
+     * 
+     * }
+     */
 
 }

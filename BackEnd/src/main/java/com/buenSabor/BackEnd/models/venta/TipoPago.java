@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.venta;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -20,7 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 
-
 @Entity
 @Table(name = "Tipo_Pago")
 @Getter
@@ -29,17 +24,13 @@ import java.util.List;
 @NoArgsConstructor
 public class TipoPago extends Bean {
 
-
-
     @Enumerated(EnumType.STRING)
     @Column(name = "nombre_pago")
     private TypePay tipoPago;
     @OneToMany(mappedBy = "tipoPago", fetch = FetchType.EAGER)
-        @JsonIgnore
+    @JsonIgnore
     private List<Pedido> pedidoList;
     @OneToMany(mappedBy = "tipoPago", fetch = FetchType.EAGER)
     private List<MercadoPago> mercadoPagoList;
 
-
-    
 }

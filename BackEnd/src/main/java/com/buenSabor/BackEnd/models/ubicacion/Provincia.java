@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.models.ubicacion;
 
 import com.buenSabor.BackEnd.models.bean.Bean;
@@ -27,17 +23,14 @@ import lombok.Setter;
 @Table(name = "Provincia")
 public class Provincia extends Bean {
 
-
-
     @Column(name = "nombre")
     private String nombre;
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     private Pais pais;
-    
-    @OneToMany(mappedBy = "provincia", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "provincia", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Ciudad> ciudadList;
 
-   
 }

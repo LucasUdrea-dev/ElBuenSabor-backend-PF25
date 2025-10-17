@@ -36,10 +36,9 @@ public class TipoPromocionService extends BeanServiceImpl<TipoPromocion, Long> {
 
     @Transactional
     public TipoPromocionDTO findTipoPromocionDTOById(Long id) {
-        // Use the specific repository or super.findById() if exposed
+
         Optional<TipoPromocion> tipoPromocion = tipoPromocionRepository.findById(id);
-        return tipoPromocion.map(tipoPromocionMapper::toDto).orElse(null); // Returns null if not found
+        return tipoPromocion.map(tipoPromocionMapper::toDto).orElse(null);
     }
 
- 
 }

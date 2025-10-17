@@ -43,7 +43,7 @@ public class PromocionController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Promoción no encontrada.\"}");
             }
-            return ResponseEntity.ok(promocionDTO); // Service returns DTO directly
+            return ResponseEntity.ok(promocionDTO);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"Error al obtener la promoción: " + e.getMessage() + "\"}");
@@ -51,7 +51,7 @@ public class PromocionController {
     }
 
     @Operation(summary = "Listar todas las promociones")
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<?> getAll() {
         try {
             List<PromocionDTO> promociones = promocionService.findAllPromocionesDTO();
@@ -165,8 +165,7 @@ public class PromocionController {
                     .body("{\"error\":\"Error al listar las promociones lite: " + e.getMessage() + "\"}");
         }
     }
-    
-    
+
     @Operation(summary = "Listar todas las promociones (versión lite) y condicionadas por existe")
     @GetMapping("/lite/existente") // New endpoint path for lite version
     public ResponseEntity<?> getAllLiteExist() {
@@ -178,12 +177,11 @@ public class PromocionController {
                     .body("{\"error\":\"Error al listar las promociones lite: " + e.getMessage() + "\"}");
         }
     }
-    
-    
+
     @Operation(summary = "Listar todas las promociones y condicionadas por existe")
     @GetMapping("/existente") // New endpoint path for lite version
     public ResponseEntity<?> getAllExist() {
-         try {
+        try {
             List<PromocionDTO> promociones = promocionService.findAllPromocionesExistentesDTO();
             return ResponseEntity.ok(promociones);
         } catch (Exception e) {
@@ -192,4 +190,3 @@ public class PromocionController {
         }
     }
 }
-

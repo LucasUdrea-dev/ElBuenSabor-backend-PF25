@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.buenSabor.BackEnd.services.company;
 
 import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
@@ -23,10 +19,6 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-/**
- *
- * @author oscarloha
- */
 @Service
 public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
 
@@ -106,15 +98,13 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
     @SuppressWarnings("unused")
     @Transactional
     public SucursalDTO actualizarSucursal(Long id, SucursalDTO dto) {
-        // Buscar la sucursal existente
+
         Sucursal sucursalExistente = sucursalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
 
-        // Obtener la empresa asociada (solo por ID, debe existir)
         Empresa empresa = empresaRepository.findById(dto.getEmpresa().getId())
                 .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 
-        // Mapear DTO a entidad, mantener el ID original
         Sucursal sucursalActualizada = sucursalMapper.toEntity(dto);
         sucursalActualizada.setId(id);
         sucursalActualizada.setEmpresa(empresa);
