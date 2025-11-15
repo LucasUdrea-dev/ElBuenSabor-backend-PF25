@@ -1,5 +1,6 @@
 package com.buenSabor.BackEnd.dto.websocket;
 
+import com.buenSabor.BackEnd.enums.TypeState;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CambioEstadoPedidoRequest {
     private Long pedidoId;
-    private Long nuevoEstadoId;
-    private String tiempoEstimado; // Opcional, puede actualizarse junto con el estado
+    private TypeState nuevoEstadoId;
+    private String tiempoEstimado; 
 }
