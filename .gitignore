@@ -1,3 +1,7 @@
 # Ignorar archivos del sistema
 .DS_Store
 VariablesEntorno/*.json
+
+### Properties ###
+*.properties
+**/application-*.properties

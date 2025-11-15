@@ -146,12 +146,12 @@ PASO 2: Backend (PedidoWebSocketController)
 
 ## 🎯 Tabla de Responsabilidades
 
-| Dashboard | Suscrito a | Puede Cambiar Estado | Estados Relevantes |
-|-----------|------------|----------------------|-------------------|
-| **Admin** | `/topic/pedidos/admin` | ✅ Todos | Todos (1-6) |
-| **Cocina** | `/topic/pedidos/sucursal/{id}` | ✅ Solo de su sucursal | PENDIENTE (1), EN_PREPARACION (2) |
-| **Delivery** | `/topic/pedidos/sucursal/{id}` | ✅ Solo de su sucursal | LISTO (3), EN_CAMINO (4) |
-| **Cliente** | `/topic/pedidos/usuario/{id}` | ❌ No puede cambiar | Todos (solo lectura) |
+| Dashboard    | Suscrito a                     | Puede Cambiar Estado   | Estados Relevantes                |
+| ------------ | ------------------------------ | ---------------------- | --------------------------------- |
+| **Admin**    | `/topic/pedidos/admin`         | ✅ Todos               | Todos (1-6)                       |
+| **Cocina**   | `/topic/pedidos/sucursal/{id}` | ✅ Solo de su sucursal | PENDIENTE (1), EN_PREPARACION (2) |
+| **Delivery** | `/topic/pedidos/sucursal/{id}` | ✅ Solo de su sucursal | LISTO (3), EN_CAMINO (4)          |
+| **Cliente**  | `/topic/pedidos/usuario/{id}`  | ❌ No puede cambiar    | Todos (solo lectura)              |
 
 ---
 
@@ -169,23 +169,23 @@ public void cambiarEstadoPedido(
     // Obtener usuario del token JWT
     String username = principal.getName();
     Usuario usuario = usuarioRepository.findByUsername(username);
-    
+
     // Validar permisos según rol
     if (usuario.getRol().getTipoRol() == TipoRol.COCINERO) {
         // Verificar que el pedido sea de su sucursal
         Pedido pedido = pedidoRepository.findById(request.getPedidoId())
             .orElseThrow();
-        
+
         if (!pedido.getSucursal().getId().equals(usuario.getSucursal().getId())) {
             throw new UnauthorizedException("No tienes permiso para modificar este pedido");
         }
-        
+
         // Verificar que solo pueda cambiar a estados permitidos
         if (request.getNuevoEstadoId() > 3) {
             throw new UnauthorizedException("Cocinero solo puede marcar hasta LISTO");
         }
     }
-    
+
     // ... resto de la lógica
 }
 ```
@@ -228,34 +228,39 @@ Ventana 4: Vista Cliente (Usuario 123)
 ### 2. Crear un pedido nuevo (Usuario 123, Sucursal 1)
 
 **Resultado esperado:**
-- ✅ Ventana 1 (Admin): Ve el nuevo pedido
-- ✅ Ventana 2 (Cocina): Ve el nuevo pedido
-- ✅ Ventana 3 (Delivery): NO ve el pedido (aún no está listo)
-- ✅ Ventana 4 (Cliente): Ve su pedido como PENDIENTE
+
+-   ✅ Ventana 1 (Admin): Ve el nuevo pedido
+-   ✅ Ventana 2 (Cocina): Ve el nuevo pedido
+-   ✅ Ventana 3 (Delivery): NO ve el pedido (aún no está listo)
+-   ✅ Ventana 4 (Cliente): Ve su pedido como PENDIENTE
 
 ### 3. Cocinero marca como "EN_PREPARACION"
 
 **Resultado esperado:**
-- ✅ Todas las ventanas se actualizan en tiempo real
-- ✅ Cliente recibe notificación: "Tu pedido está en preparación"
+
+-   ✅ Todas las ventanas se actualizan en tiempo real
+-   ✅ Cliente recibe notificación: "Tu pedido está en preparación"
 
 ### 4. Cocinero marca como "LISTO"
 
 **Resultado esperado:**
-- ✅ Ventana 3 (Delivery): 🔔 ALERTA sonora + pedido aparece en "Listos para entregar"
-- ✅ Cliente recibe notificación: "Tu pedido está listo"
+
+-   ✅ Ventana 3 (Delivery): 🔔 ALERTA sonora + pedido aparece en "Listos para entregar"
+-   ✅ Cliente recibe notificación: "Tu pedido está listo"
 
 ### 5. Delivery marca como "EN_CAMINO"
 
 **Resultado esperado:**
-- ✅ Cliente recibe notificación: "Tu pedido está en camino"
+
+-   ✅ Cliente recibe notificación: "Tu pedido está en camino"
 
 ### 6. Delivery marca como "ENTREGADO"
 
 **Resultado esperado:**
-- ✅ Cliente recibe notificación: "Tu pedido ha sido entregado"
-- ✅ Pedido desaparece de dashboards de Cocina y Delivery
-- ✅ Admin sigue viendo el pedido (historial completo)
+
+-   ✅ Cliente recibe notificación: "Tu pedido ha sido entregado"
+-   ✅ Pedido desaparece de dashboards de Cocina y Delivery
+-   ✅ Admin sigue viendo el pedido (historial completo)
 
 ---
 
@@ -270,10 +275,10 @@ const [pedidosActivos, setPedidosActivos] = useState(0);
 useEffect(() => {
     // Actualizar contador cuando llega notificación
     webSocketService.subscribe(topic, (notif) => {
-        setPedidosActivos(prev => prev + 1);
-        
+        setPedidosActivos((prev) => prev + 1);
+
         // Animación de badge
-        document.getElementById('badge').classList.add('pulse');
+        document.getElementById("badge").classList.add("pulse");
     });
 }, []);
 ```
@@ -282,9 +287,9 @@ useEffect(() => {
 
 ```javascript
 const sonidos = {
-    nuevoPedido: '/sounds/new-order.mp3',
-    pedidoListo: '/sounds/order-ready.mp3',
-    pedidoEntregado: '/sounds/delivered.mp3'
+    nuevoPedido: "/sounds/new-order.mp3",
+    pedidoListo: "/sounds/order-ready.mp3",
+    pedidoEntregado: "/sounds/delivered.mp3",
 };
 
 const reproducirSonidoSegunEstado = (estadoId) => {
@@ -292,23 +297,3 @@ const reproducirSonidoSegunEstado = (estadoId) => {
     audio.play();
 };
 ```
-
----
-
-## ✅ Checklist de Implementación
-
-- [x] Backend envía a múltiples topics
-- [x] Servicio WebSocket base
-- [x] Dashboard Admin (todos los pedidos)
-- [x] Dashboard Cocina (filtrado por sucursal)
-- [x] Dashboard Delivery (filtrado por sucursal)
-- [x] Vista Cliente (filtrado por usuario)
-- [ ] Autenticación en WebSocket
-- [ ] Validación de permisos por rol
-- [ ] Reconexión automática
-- [ ] Notificaciones push del navegador
-- [ ] Persistencia de notificaciones no leídas
-
----
-
-**¡La arquitectura está lista para soportar múltiples dashboards simultáneos!** 🚀

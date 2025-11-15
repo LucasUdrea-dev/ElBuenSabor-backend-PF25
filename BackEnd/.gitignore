@@ -48,3 +48,8 @@ logs/
 *.log
 hs_err_pid*
 VariablesEntorno/*.json
+
+
+# Dependencias de Node.js
+node_modules
+npm-debug.log
