@@ -2,6 +2,8 @@ package com.buenSabor.BackEnd.controllers.seguridad;
 
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
+import com.buenSabor.BackEnd.dto.seguridad.registro.UpdatePasswordDTO;
+import com.buenSabor.BackEnd.dto.seguridad.registro.UpdateUsernameDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.UsuarioRegistroDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -65,23 +68,30 @@ public class UserAuthenticationController {
 
     @Operation(summary = "Actualizar username")
     @PutMapping("/updateUsername/{id}")
-    public ResponseEntity<?> updateUsername(@PathVariable Long id, @RequestBody UserAuthenticationRequestDTO dto) {
+    public ResponseEntity<?> updateUsername(@PathVariable Long id
+            , @Valid @RequestBody UpdateUsernameDTO dto) {
+
         try {
-            UserAuthentication updated = userAuthService.updateUsername(id, userAuthMapper.toEntity(dto));
+            UserAuthentication updated = userAuthService.updateUsername(id, dto);
             return ResponseEntity.ok(userAuthMapper.toDto(updated));
         }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @Operation(summary = "Actualizar contraseña")
     @PutMapping("/updatePassword/{id}")
-    public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody UserAuthenticationRequestDTO dto) {
+    public ResponseEntity<?> updatePassword(@PathVariable Long id, @RequestBody UpdatePasswordDTO dto) {
         try {
-            UserAuthentication updated = userAuthService.updatePassword(id, userAuthMapper.toEntity(dto));
+            UserAuthentication updated = userAuthService.updatePassword(id, dto);
             return ResponseEntity.ok(userAuthMapper.toDto(updated));
         }catch (EntityNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
         }
     }
 
