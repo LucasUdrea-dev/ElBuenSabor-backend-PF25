@@ -92,16 +92,12 @@ public class UserAuthenticationService {
         TipoRol tipoRolCliente = tipoRolRepository.findByRol(TypeRol.CUSTOMER)
                 .orElseThrow(() -> new RuntimeException("Tipo Rol CUSTOMER no encontrado"));
 
-        // Buscar Rol existente de ese TipoRol
-        Rol rolCliente = rolRepository.findByTipoRol(tipoRolCliente)
-                .orElseGet(() -> {
-                    Rol nuevoRol = new Rol();
-                    nuevoRol.setTipoRol(tipoRolCliente);
-                    nuevoRol.setFechaAlta(new Date());
-                    return rolRepository.save(nuevoRol);
-                });
+        Rol nuevoRol = new Rol();
+        nuevoRol.setTipoRol(tipoRolCliente);
+        nuevoRol.setFechaAlta(new Date());
+        rolRepository.save(nuevoRol);
 
-        usuario.setRol(rolCliente);
+        usuario.setRol(nuevoRol);
 
 
         // Crear UserAuthentication
@@ -270,16 +266,12 @@ public class UserAuthenticationService {
         TipoRol tipoRolCliente = tipoRolRepository.findByRol(TypeRol.CUSTOMER)
                 .orElseThrow(() -> new RuntimeException("Tipo Rol CUSTOMER no encontrado"));
 
-        // Buscar Rol existente de ese TipoRol
-        Rol rolCliente = rolRepository.findByTipoRol(tipoRolCliente)
-                .orElseGet(() -> {
-                    Rol nuevoRol = new Rol();
-                    nuevoRol.setTipoRol(tipoRolCliente);
-                    nuevoRol.setFechaAlta(new Date());
-                    return rolRepository.save(nuevoRol);
-                });
+        Rol nuevoRol = new Rol();
+        nuevoRol.setTipoRol(tipoRolCliente);
+        nuevoRol.setFechaAlta(new Date());
+        rolRepository.save(nuevoRol);
 
-        usuario.setRol(rolCliente);
+        usuario.setRol(nuevoRol);
 
         // Crear UserAuthentication
         UserAuthentication userAuth = new UserAuthentication();
@@ -385,18 +377,12 @@ public class UserAuthenticationService {
         TipoRol tipoRol = tipoRolRepository.findById(registroDTO.getIdRol())
                 .orElseThrow(() -> new RuntimeException("No existe rol con id: " + registroDTO.getIdRol()));
 
+        Rol nuevoRol = new Rol();
+        nuevoRol.setTipoRol(tipoRol);
+        nuevoRol.setFechaAlta(new Date());
+        rolRepository.save(nuevoRol);
 
-        // Buscar Rol existente de ese TipoRol
-        Rol rolEmpleado = rolRepository.findByTipoRol(tipoRol)
-                .orElseGet(() -> {
-                    Rol nuevoRol = new Rol();
-                    nuevoRol.setTipoRol(tipoRol);
-                    nuevoRol.setFechaAlta(new Date());
-                    return rolRepository.save(nuevoRol);
-                });
-
-        empleado.setRol(rolEmpleado);
-
+        empleado.setRol(nuevoRol);
 
         // Crear UserAuthentication
         UserAuthentication userAuth = new UserAuthentication();
