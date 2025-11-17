@@ -62,6 +62,10 @@ dependencies {
 	//Firebase
 	implementation 'com.google.firebase:firebase-admin:9.2.0'
 
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+
 }
 
 tasks.named('test') {

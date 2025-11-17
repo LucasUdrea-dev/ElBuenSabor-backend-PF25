@@ -24,6 +24,8 @@ public class EmpleadoRegistroDTO {
 
     private String email;
 
+    private boolean existe;
+
     private String urlImagen;
 
     private Double sueldo;

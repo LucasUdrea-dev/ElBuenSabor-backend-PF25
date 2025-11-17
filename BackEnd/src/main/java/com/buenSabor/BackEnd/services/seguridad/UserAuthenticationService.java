@@ -334,15 +334,15 @@ public class UserAuthenticationService {
             throw new EntityNotFoundException("El usuario no tiene credenciales asociadas");
         }
 
+        if(!passwordEncoder.matches(entity.getPasswordActual() ,userAuth.getPassword())){
+            throw new IllegalArgumentException("Ingrese contraseña actual correctamente.");
+        }
+
         if(entity.getPasswordActual().equals(entity.getPasswordNuevo())){
-            throw new IllegalArgumentException("Contraseña nueva es igual a la anterior.");
+            throw new IllegalArgumentException("La nueva contraseña no puede ser igual a la actual");
         }
 
         String passwordNuevo = entity.getPasswordNuevo();
-
-        if(passwordEncoder.matches(passwordNuevo,userAuth.getPassword())){
-            throw new IllegalArgumentException("La nueva contraseña no puede ser igual a la actual");
-        }
 
         userAuth.setPassword(passwordEncoder.encode(passwordNuevo));
 

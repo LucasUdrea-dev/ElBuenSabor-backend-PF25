@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdatePasswordDTO {
+
     protected String passwordActual;
 
     protected String passwordNuevo;
