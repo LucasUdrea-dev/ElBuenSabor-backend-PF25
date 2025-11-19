@@ -52,7 +52,7 @@ public class EmpleadoController extends BeanControllerImpl<Empleado, EmpleadoSer
 
     @Operation(summary = "Crear un nuevo empleado")
     @PostMapping("/crear")
-    public ResponseEntity<?> crearEmpleado(@RequestBody EmpleadoRegistroDTO dto) {
+    public ResponseEntity<?> crearEmpleado(@Valid @RequestBody EmpleadoRegistroDTO dto) {
         try {
             EmpleadoDTO guardado = userAuthService.crearEmpleado(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(guardado);

@@ -94,7 +94,7 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers(HttpMethod.POST, "/api/insumos/**").hasAnyRole("ADMIN", "COCINERO");
                     authConfig.requestMatchers(HttpMethod.PUT, "/api/insumos/**").hasAnyRole("ADMIN", "COCINERO");
                     authConfig.requestMatchers(HttpMethod.DELETE, "/api/insumos/**").hasAnyRole("ADMIN", "COCINERO");
-                    
+
                     // Artículos Manufacturados
                     authConfig.requestMatchers(HttpMethod.GET, "/api/articuloManufacturado/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/api/articuloManufacturado/**").hasAnyRole("ADMIN",

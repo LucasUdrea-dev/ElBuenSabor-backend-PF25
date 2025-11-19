@@ -5,6 +5,9 @@ import com.buenSabor.BackEnd.dto.seguridad.rol.RolDTO;
 import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
 import java.util.List;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +25,8 @@ public class UsuarioDTO {
 
     protected String apellido;
 
+    @NotBlank(message = "El nombre de usuario no puede estar vacio")
+    @Email(message = "El nombre de usuario debe tener formato de correo")
     protected String email;
 
     protected Boolean existe;

@@ -5,6 +5,9 @@ import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationReque
 import com.buenSabor.BackEnd.dto.seguridad.rol.RolDTO;
 import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +25,8 @@ public class EmpleadoRegistroDTO {
 
     private String apellido;
 
+    @NotBlank(message = "El nombre de usuario no puede estar vacio")
+    @Email(message = "El nombre de usuario debe tener formato de correo")
     private String email;
 
     private boolean existe;
@@ -34,5 +39,6 @@ public class EmpleadoRegistroDTO {
 
     private Long idRol;
 
+    @Valid
     protected UserAuthenticationRequestDTO userAuth;
 }
