@@ -1,14 +1,19 @@
-
 package com.buenSabor.BackEnd.controllers.company;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
-import com.buenSabor.BackEnd.dto.company.empresa.EmpresaDTO;
+import com.buenSabor.BackEnd.dto.company.empresa.EmpresaCreateDTO;
+import com.buenSabor.BackEnd.dto.company.empresa.EmpresaResponseDTO;
+import com.buenSabor.BackEnd.dto.company.empresa.EmpresaUpdateDTO;
 import com.buenSabor.BackEnd.mapper.EmpresaMapper;
 import com.buenSabor.BackEnd.models.company.Empresa;
 import com.buenSabor.BackEnd.services.company.EmpresaService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +41,10 @@ public class EmpresaController extends BeanControllerImpl<Empresa, EmpresaServic
     @Autowired
     private EmpresaService empresaService;
 
-    @Operation(summary = "Ver una empresa por ID (DTO)")
+    @Operation(summary = "Ver una empresa por ID (ResponseDTO)", responses = {
+            @ApiResponse(responseCode = "200", description = "Empresa encontrada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmpresaResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Empresa no encontrada")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try {
@@ -45,18 +53,21 @@ public class EmpresaController extends BeanControllerImpl<Empresa, EmpresaServic
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Empresa no encontrada.\"}");
             }
-            return ResponseEntity.ok(empresaMapper.toDto(empresa));
+            return ResponseEntity.ok(empresaMapper.toResponseDto(empresa));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body("{\"error\":\"Error al obtener la empresa.\"}");
         }
     }
 
-    @Operation(summary = "Listar todas las empresas (DTO)")
+    @Operation(summary = "Listar todas las empresas (ResponseDTO)", responses = {
+            @ApiResponse(responseCode = "200", description = "Lista de empresas", content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmpresaResponseDTO.class)))
+    })
     @GetMapping("")
+    @Override
     public ResponseEntity<?> getAll() {
         try {
-            List<EmpresaDTO> empresas = empresaMapper.toDtoList(empresaService.findAll());
+            List<EmpresaResponseDTO> empresas = empresaMapper.toResponseDtoList(empresaService.findAll());
             return ResponseEntity.ok(empresas);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
@@ -65,21 +76,21 @@ public class EmpresaController extends BeanControllerImpl<Empresa, EmpresaServic
     }
 
     @Operation(summary = "Guardar una nueva empresa")
-    @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody EmpresaDTO dto) {
+    @PostMapping("/crear")
+    public ResponseEntity<?> crearEmpresa(@Valid @RequestBody EmpresaCreateDTO dto) {
         try {
-            Empresa nuevaEmpresa = empresaMapper.toEntity(dto);
-            Empresa guardada = empresaService.save(nuevaEmpresa);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(empresaMapper.toDto(guardada));
+            Empresa empresa = empresaMapper.toEntity(dto);
+            Empresa guardada = empresaService.save(empresa);
+            return ResponseEntity.status(HttpStatus.CREATED).body(empresaMapper.toResponseDto(guardada));
         } catch (Exception e) {
-            return ResponseEntity.badRequest()
-                    .body("{\"error\":\"Error al guardar la empresa.\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"Error al crear la empresa.\"}");
         }
     }
 
     @Operation(summary = "Eliminar una empresa por ID")
     @DeleteMapping("/{id}")
+    @Override
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             empresaService.delete(id);
@@ -92,18 +103,18 @@ public class EmpresaController extends BeanControllerImpl<Empresa, EmpresaServic
 
     @Operation(summary = "Actualizar una empresa")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody EmpresaDTO dto) {
+    public ResponseEntity<?> actualizarEmpresa(@PathVariable Long id, @Valid @RequestBody EmpresaUpdateDTO dto) {
         try {
-            Empresa empresaExistente = empresaService.findById(id);
-            if (empresaExistente == null) {
+            Empresa empresa = empresaService.findById(id);
+            if (empresa == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Empresa no encontrada.\"}");
             }
-            empresaMapper.updateFromDto(dto, empresaExistente);
-            Empresa actualizada = empresaService.save(empresaExistente);
-            return ResponseEntity.ok(empresaMapper.toDto(actualizada));
+            empresaMapper.updateFromUpdateDto(dto, empresa);
+            Empresa actualizada = empresaService.save(empresa);
+            return ResponseEntity.ok(empresaMapper.toResponseDto(actualizada));
         } catch (Exception e) {
-            return ResponseEntity.badRequest()
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("{\"error\":\"Error al actualizar la empresa.\"}");
         }
     }
@@ -115,8 +126,11 @@ public class EmpresaController extends BeanControllerImpl<Empresa, EmpresaServic
             @RequestParam(defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<EmpresaDTO> pageResult = empresaService.findAll(pageable)
-                    .map(empresaMapper::toDto);
+            Page<EmpresaResponseDTO> pageResult;
+            pageResult = empresaService.findAll(pageable)
+                    .map(() -> {
+                return empresaMapper.toDto();
+            });
             return ResponseEntity.ok(pageResult);
         } catch (Exception e) {
             return ResponseEntity.badRequest()

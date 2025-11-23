@@ -1,5 +1,8 @@
 package com.buenSabor.BackEnd.mapper;
 
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalCreateDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalResponseDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalUpdateDTO;
 import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import java.util.List;
@@ -41,4 +44,14 @@ public interface SucursalMapper {
     @org.mapstruct.Mapping(target = "promocionList", ignore = true)
     @org.mapstruct.Mapping(target = "empresa", ignore = true)
     void updateFromDto(SucursalDTO dto, @org.mapstruct.MappingTarget Sucursal entity);
+
+    @Mapping(target = "id", ignore = true)
+    Sucursal toEntity(SucursalCreateDTO dto);
+
+    @Mapping(target = "id", ignore = true)
+    void updateFromDto(SucursalUpdateDTO dto, @org.mapstruct.MappingTarget Sucursal entity);
+
+    SucursalResponseDTO toResponseDto(Sucursal entity);
+
+    public List<SucursalResponseDTO> toResponseDtoList(List<Sucursal> findAllExistente);
 }

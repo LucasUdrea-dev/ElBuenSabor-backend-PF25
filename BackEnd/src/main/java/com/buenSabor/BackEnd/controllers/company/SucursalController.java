@@ -1,14 +1,16 @@
-
 package com.buenSabor.BackEnd.controllers.company;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
-import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalCreateDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalResponseDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalUpdateDTO;
 import com.buenSabor.BackEnd.mapper.SucursalMapper;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.services.company.SucursalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,24 +35,21 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
     private final SucursalService sucursalService;
     private final SucursalMapper sucursalMapper;
 
-    @Autowired
     public SucursalController(SucursalService sucursalService, SucursalMapper sucursalMapper) {
         this.sucursalService = sucursalService;
         this.sucursalMapper = sucursalMapper;
     }
 
-    @Operation(summary = "Guardar una nueva sucursal a partir de un DTO")
+    @Operation(summary = "Guardar una nueva sucursal")
     @PostMapping("/crear")
-    public ResponseEntity<?> crearSucursal(@RequestBody SucursalDTO dto) {
+    public ResponseEntity<?> crearSucursal(@Valid @RequestBody SucursalCreateDTO dto) {
         try {
-            SucursalDTO sucursalGuardada = sucursalService.crearSucursal(dto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(sucursalGuardada);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+            Sucursal sucursal = sucursalMapper.toEntity(dto);
+            Sucursal guardada = sucursalService.save(sucursal);
+            return ResponseEntity.status(HttpStatus.CREATED).body(sucursalMapper.toResponseDto(guardada));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("{\"error\":\"Error inesperado al crear la sucursal.\"}");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"Error al crear la sucursal.\"}");
         }
     }
 
@@ -58,7 +57,7 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
     @GetMapping("/listar")
     public ResponseEntity<?> findAllSucursales() {
         try {
-            List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAll());
+            List<SucursalResponseDTO> dtos = sucursalMapper.toResponseDtoList(sucursalService.findAll());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -70,7 +69,7 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
     @GetMapping("")
     public ResponseEntity<?> findAllSucursalesExistentes() {
         try {
-            List<SucursalDTO> dtos = sucursalMapper.toDtoList(sucursalService.findAllExistente());
+            List<SucursalResponseDTO> dtos = sucursalMapper.toResponseDtoList(sucursalService.findAllExistente());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -87,7 +86,7 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Sucursal no encontrada.\"}");
             }
-            return ResponseEntity.ok(sucursalMapper.toDto(sucursal));
+            return ResponseEntity.ok(sucursalMapper.toResponseDto(sucursal));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"Error al obtener la sucursal.\"}");
@@ -96,9 +95,20 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
 
     @Operation(summary = "Actualizar una sucursal")
     @PutMapping("/{id}")
-    public ResponseEntity<SucursalDTO> actualizarSucursal(@PathVariable Long id, @RequestBody SucursalDTO dto) {
-        SucursalDTO actualizada = sucursalService.actualizarSucursal(id, dto);
-        return ResponseEntity.ok(actualizada);
+    public ResponseEntity<?> actualizarSucursal(@PathVariable Long id, @Valid @RequestBody SucursalUpdateDTO dto) {
+        try {
+            Sucursal sucursal = sucursalService.findById(id);
+            if (sucursal == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Sucursal no encontrada.\"}");
+            }
+            sucursalMapper.updateFromDto(dto, sucursal);
+            Sucursal actualizada = sucursalService.save(sucursal);
+            return ResponseEntity.ok(sucursalMapper.toResponseDto(actualizada));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"Error al actualizar la sucursal.\"}");
+        }
     }
 
     @Operation(summary = "Eliminar una sucursal")
@@ -125,8 +135,8 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
             @RequestParam(defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<SucursalDTO> dtoPage = sucursalService.findAll(pageable)
-                    .map(sucursalMapper::toDto);
+            Page<SucursalResponseDTO> dtoPage = sucursalService.findAll(pageable)
+                    .map(sucursalMapper::toResponseDto);
             return ResponseEntity.ok(dtoPage);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
