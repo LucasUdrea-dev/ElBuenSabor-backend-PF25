@@ -16,5 +16,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubcategoriaResponseDTO {
+     
+    private Long id;
     
+    private String denominacion;
+    
+    private Long categoriaId;
 }

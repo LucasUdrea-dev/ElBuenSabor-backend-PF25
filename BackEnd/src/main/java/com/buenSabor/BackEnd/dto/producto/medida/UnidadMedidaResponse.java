@@ -17,4 +17,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UnidadMedidaResponse {
     
+       private String unidad;
+    
 }

@@ -4,17 +4,27 @@
  */
 package com.buenSabor.BackEnd.dto.producto.insumo;
 
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloCadenaSimpleDTO;
+import com.buenSabor.BackEnd.dto.producto.stock.StockCadenaSimpleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author oscarloha
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InsumoCadenaSimpleDTO {
+public class InsumoCadenaSimpleDTO extends ArticuloCadenaSimpleDTO{
+    
+    private Double precioCompra;
+
+    private StockCadenaSimpleDTO stockArticuloInsumo;
+
     
 }

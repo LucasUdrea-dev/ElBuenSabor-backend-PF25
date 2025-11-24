@@ -16,5 +16,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockResponseDTO {
+    private Long id;
+    private Integer cantidad;
+    private Integer minStock;
     
+    
+    private String sucursalNombre; 
+    private Long sucursalId;
+    
+    
+    private String articuloInsumoDenominacion;
+    private Long articuloInsumoId;
 }

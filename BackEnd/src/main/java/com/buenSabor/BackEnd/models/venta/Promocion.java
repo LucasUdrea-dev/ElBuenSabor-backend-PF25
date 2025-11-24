@@ -46,7 +46,7 @@ public class Promocion extends Bean {
     private TipoPromocion TipoPromocion;
 
     @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PromocionArticulo> promocionArticuloList == new ArrayList<>();
+    private List<PromocionArticulo> promocionArticuloList = new ArrayList<>();
 
     @OneToMany(mappedBy = "promocion", fetch = FetchType.LAZY)
     @JsonIgnore

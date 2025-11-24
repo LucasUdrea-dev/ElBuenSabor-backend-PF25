@@ -4,17 +4,30 @@
  */
 package com.buenSabor.BackEnd.dto.producto.manufacturado;
 
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloUpdateDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleUpdateDTO;
+import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author oscarloha
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticuloManufacturadoUpdateDTO {
+public class ArticuloManufacturadoUpdateDTO extends ArticuloUpdateDTO{
+    
+    private String tiempoEstimado;
+    
+    private String preparacion;
+    
+    private Long sucursalId;
+    
+    private List<ArticuloManufacturadoDetalleUpdateDTO> insumos;
     
 }

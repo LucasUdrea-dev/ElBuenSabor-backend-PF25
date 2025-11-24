@@ -4,6 +4,10 @@
  */
 package com.buenSabor.BackEnd.dto.producto.categoria;
 
+import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaCreateDTO;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +20,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoriaCreateDTO {
+    
+    @NotBlank(message = "La denominacion de la categoria es obligatorio")
+    private String denominacion;
+    
+    @NotBlank(message = "La imagen de la categoria es obligatorio")
+    private String imagen;
+    
+    private List<SubcategoriaCreateDTO> subcategorias;
+
+    @NotNull(message = "es para elaborar es obligatorio")
+    private boolean esParaElaborar;
     
 }

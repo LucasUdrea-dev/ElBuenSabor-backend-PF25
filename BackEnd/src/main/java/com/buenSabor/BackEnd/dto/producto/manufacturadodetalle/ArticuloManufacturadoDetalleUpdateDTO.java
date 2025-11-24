@@ -2,10 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.buenSabor.BackEnd.dto.producto.categoria;
+package com.buenSabor.BackEnd.dto.producto.manufacturadodetalle;
 
-import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaUpdateDTO;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,14 +15,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoriaUpdateDTO {
+public class ArticuloManufacturadoDetalleUpdateDTO {
     
-    private String denominacion;
+    private Long insumoId;
     
-    private String imagen;
-    
-    private List<SubcategoriaUpdateDTO> subcategorias;
-
-    private boolean esParaElaborar;
+    private int cantidad;
     
 }

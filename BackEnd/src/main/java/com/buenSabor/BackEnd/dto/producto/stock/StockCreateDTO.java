@@ -4,6 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.producto.stock;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockCreateDTO {
+    
+    @NotNull(message = "El min stock es obligatorio")
+    private Integer minStock;
+    
+    @NotNull(message = "La cantidad Stock es obligatorio")
+    private Integer cantidad;
+
+    @NotNull(message = "El id de articulo Insumo es obligatorio")
+    private Long articuloInsumoId;
+
+    @NotNull(message = "El id sucursa les obligatorio es obligatorio")
+    private Long sucursalId;
+
     
 }

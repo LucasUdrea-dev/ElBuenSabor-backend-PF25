@@ -4,17 +4,32 @@
  */
 package com.buenSabor.BackEnd.dto.producto.manufacturado;
 
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalCadenaSimpleDTO;
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloCadenaSimpleDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleCadenaSimpleDTO;
+import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
  * @author oscarloha
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticuloManufacturadoCadenaSimpleDTO {
+public class ArticuloManufacturadoCadenaSimpleDTO extends ArticuloCadenaSimpleDTO{
+    
+
+    private String tiempoEstimado;
+    
+    private String preparacion;
+    
+    private SucursalCadenaSimpleDTO sucursal;
+    
+    private List<ArticuloManufacturadoDetalleCadenaSimpleDTO> insumos;
     
 }

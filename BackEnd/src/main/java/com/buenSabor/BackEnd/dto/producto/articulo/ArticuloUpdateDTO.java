@@ -4,6 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.producto.articulo;
 
+import com.buenSabor.BackEnd.dto.producto.medida.UnidadMedidaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticuloUpdateDTO {
+    
+    protected String nombre;
+   
+    protected String descripcion;
+    
+    protected Double precio;
+   
+    protected Boolean existe;
+   
+    protected Boolean esParaElaborar;
+    
+    protected String imagenArticulo;
+
+    protected UnidadMedidaDTO unidadMedida;
+
     
 }

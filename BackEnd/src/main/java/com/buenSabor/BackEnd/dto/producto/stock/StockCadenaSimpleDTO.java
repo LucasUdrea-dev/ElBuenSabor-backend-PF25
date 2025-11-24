@@ -4,6 +4,8 @@
  */
 package com.buenSabor.BackEnd.dto.producto.stock;
 
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalCadenaSimpleDTO;
+import com.buenSabor.BackEnd.dto.producto.insumo.InsumoResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +18,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockCadenaSimpleDTO {
+   
+    private Long id;
+   
+    private Integer minStock;
+    
+    private Integer cantidad;
+
+    private InsumoResponseDTO articuloInsumo;
+
+    private SucursalCadenaSimpleDTO sucursal;
     
 }

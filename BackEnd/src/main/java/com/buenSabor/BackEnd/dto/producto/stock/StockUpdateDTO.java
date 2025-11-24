@@ -17,4 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class StockUpdateDTO {
     
+    private Integer cantidad;
+    
+    private Integer minStock;
+    
 }

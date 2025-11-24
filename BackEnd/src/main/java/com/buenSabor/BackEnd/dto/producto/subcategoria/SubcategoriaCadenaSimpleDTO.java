@@ -4,6 +4,7 @@
  */
 package com.buenSabor.BackEnd.dto.producto.subcategoria;
 
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloCadenaSimpleDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubcategoriaCadenaSimpleDTO {
+    
+    private Long id; 
+    
+    private String denominacion;
+    
+    private ArticuloCadenaSimpleDTO categoriaId;
     
 }

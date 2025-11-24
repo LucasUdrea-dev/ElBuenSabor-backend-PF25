@@ -17,4 +17,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoriaResponseDTO {
     
+    private Long id;
+    
+    private String denominacion;
+    
+    private String imagen;
+
+    private boolean esParaElaborar;
+    
 }
