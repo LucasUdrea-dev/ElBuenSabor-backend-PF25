@@ -28,23 +28,37 @@ public class StockArticuloInsumoListener {
     @PreUpdate
     public void beforeUpdate(StockArticuloInsumo stock) {
         if (historicoRepository != null) {
-            HistoricoStockArticuloInsumo ultimoHistorico = 
-                historicoRepository.findTopByIdstockarticuloInsumoOrderByFechaActualizacionDesc(stock);
-            
-            if (ultimoHistorico == null || 
-                !ultimoHistorico.getCantidad().equals(stock.getCantidad())) {
-                guardarHistoricoStock(stock);
+            try {
+                HistoricoStockArticuloInsumo ultimoHistorico = historicoRepository
+                        .findTopByIdstockarticuloInsumoOrderByFechaActualizacionDesc(stock);
+
+                if (ultimoHistorico == null ||
+                        !ultimoHistorico.getCantidad().equals(stock.getCantidad())) {
+                    guardarHistoricoStock(stock);
+                }
+            } catch (Exception e) {
+                System.err.println("Error al intentar guardar histórico en PreUpdate: " + e.getMessage());
+                e.printStackTrace();
             }
+        } else {
+            System.err.println("ADVERTENCIA: historicoRepository es nulo en StockArticuloInsumoListener (PreUpdate)");
         }
     }
 
     private void guardarHistoricoStock(StockArticuloInsumo stock) {
         if (historicoRepository != null) {
-            HistoricoStockArticuloInsumo historico = new HistoricoStockArticuloInsumo();
-            historico.setCantidad(stock.getCantidad());
-            historico.setFechaActualizacion(new Date());
-            historico.setIdstockarticuloInsumo(stock);
-            historicoRepository.save(historico);
+            try {
+                HistoricoStockArticuloInsumo historico = new HistoricoStockArticuloInsumo();
+                historico.setCantidad(stock.getCantidad());
+                historico.setFechaActualizacion(new Date());
+                historico.setIdstockarticuloInsumo(stock);
+                historicoRepository.save(historico);
+            } catch (Exception e) {
+                System.err.println("Error al guardar histórico de stock: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("ADVERTENCIA: historicoRepository es nulo al intentar guardar histórico");
         }
     }
 }

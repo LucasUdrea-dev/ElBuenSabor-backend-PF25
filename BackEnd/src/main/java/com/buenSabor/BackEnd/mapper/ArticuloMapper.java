@@ -126,6 +126,7 @@ public interface ArticuloMapper {
     @org.mapstruct.Mapping(target = "detalleManufacturas", ignore = true)
     @org.mapstruct.Mapping(target = "subcategoria", source = "subcategoria")
     @org.mapstruct.Mapping(target = "unidadMedida", source = "unidadMedida")
+    @org.mapstruct.Mapping(target = "stockArticuloInsumo", ignore = true)
     void updateFromDto(InsumoDTO dto, @org.mapstruct.MappingTarget ArticuloInsumo entity);
 
     // <--[ArticuloManufacturadoDTO dto, ArticuloManufacturado entity]--

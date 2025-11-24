@@ -36,8 +36,6 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
     private UnidadMedidaRepository unidadMedidaRepository;
 
     @Autowired
-    private StockArticuloInsumoRepository stockArticuloInsumoRepository;
-    @Autowired
     private com.buenSabor.BackEnd.repositories.company.SucursalRepository sucursalRepository;
 
     public ArticuloInsumoService(ArticuloInsumoRepository articuloInsumoRepository) {
@@ -48,6 +46,14 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
     @Transactional
     public ArticuloInsumo crearInsumo(InsumoDTO dto, Long sucursalId) {
         try {
+            // Validar que el stock venga en el DTO
+            if (dto.getStockArticuloInsumo() == null) {
+                throw new IllegalArgumentException("El stock del insumo es requerido");
+            }
+            if (sucursalId == null) {
+                throw new IllegalArgumentException("El ID de la sucursal es requerido");
+            }
+
             // Mapea DTO → entidad
             ArticuloInsumo insumo = articuloMapper.toEntity(dto);
 
@@ -63,11 +69,26 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
 
             insumo.setPrecioCompra(dto.getPrecioCompra());
 
+            // Manejo del Stock
             StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
-            Long sucId = dto.getStockArticuloInsumo().getSucursalId();
-            Sucursal sucManaged = sucursalRepository.findById(sucId)
+            if (stock == null) {
+                stock = new StockArticuloInsumo();
+            }
+
+            // Validar que la cantidad no sea negativa
+            if (dto.getStockArticuloInsumo().getCantidad() < 0) {
+                throw new IllegalArgumentException("El stock no puede ser negativo");
+            }
+
+            // Asignar valores del stock desde el DTO
+            stock.setCantidad(dto.getStockArticuloInsumo().getCantidad());
+            stock.setMinStock(dto.getStockArticuloInsumo().getMinStock());
+
+            Sucursal sucManaged = sucursalRepository.findById(sucursalId)
                     .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
             stock.setSucursal(sucManaged);
+
+            // Establecer relación bidireccional
             stock.setArticuloInsumo(insumo);
             insumo.setStockArticuloInsumo(stock);
 
@@ -84,37 +105,44 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             ArticuloInsumo insumo = articuloInsumoRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Insumo con id " + id + " no existe"));
 
-            // Actualiza campos básicos
-            insumo.setNombre(dto.getNombre());
-            insumo.setDescripcion(dto.getDescripcion());
-            insumo.setPrecio(dto.getPrecio());
-            insumo.setExiste(dto.getExiste());
-            insumo.setEsParaElaborar(dto.getEsParaElaborar());
-            insumo.setImagenArticulo(dto.getImagenArticulo());
-            insumo.setPrecioCompra(dto.getPrecioCompra());
+            // Actualiza campos básicos usando el mapper
+            articuloMapper.updateFromDto(dto, insumo);
 
-            // Reemplaza subcategoría y unidadMedida
-            Subcategoria subManaged = subcategorioRepository.findById(dto.getSubcategoria().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Subcategoria no encontrada"));
-            insumo.setSubcategoria(subManaged);
+            if (dto.getSubcategoria() != null && dto.getSubcategoria().getId() != null) {
+                Subcategoria subManaged = subcategorioRepository.findById(dto.getSubcategoria().getId())
+                        .orElseThrow(() -> new EntityNotFoundException("Subcategoria no encontrada"));
+                insumo.setSubcategoria(subManaged);
+            }
 
-            UnidadMedida umManaged = unidadMedidaRepository.findById(dto.getUnidadMedida().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
-            insumo.setUnidadMedida(umManaged);
+            if (dto.getUnidadMedida() != null && dto.getUnidadMedida().getId() != null) {
+                UnidadMedida umManaged = unidadMedidaRepository.findById(dto.getUnidadMedida().getId())
+                        .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
+                insumo.setUnidadMedida(umManaged);
+            }
 
             // actualizo o creo stock
-            StockDTO stockDto = dto.getStockArticuloInsumo();
-            StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
-            if (stock == null) {
-                stock = new StockArticuloInsumo();
+            if (dto.getStockArticuloInsumo() != null) {
+                if (dto.getStockArticuloInsumo().getCantidad() < 0) {
+                    throw new IllegalArgumentException("El stock no puede ser negativo");
+                }
+
+                StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
+                if (stock == null) {
+                    stock = new StockArticuloInsumo();
+                    stock.setArticuloInsumo(insumo);
+                    insumo.setStockArticuloInsumo(stock);
+                }
+
+                stock.setMinStock(dto.getStockArticuloInsumo().getMinStock());
+                stock.setCantidad(dto.getStockArticuloInsumo().getCantidad());
+
+                Long sucursalId = dto.getStockArticuloInsumo().getSucursalId();
+                if (sucursalId != null) {
+                    Sucursal sucManaged = sucursalRepository.findById(sucursalId)
+                            .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
+                    stock.setSucursal(sucManaged);
+                }
             }
-            stock.setMinStock(dto.getStockArticuloInsumo().getMinStock());
-            stock.setCantidad(dto.getStockArticuloInsumo().getCantidad());
-            Sucursal sucManaged = sucursalRepository.findById(dto.getStockArticuloInsumo().getSucursalId())
-                    .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
-            stock.setSucursal(sucManaged);
-            stock.setArticuloInsumo(insumo);
-            insumo.setStockArticuloInsumo(stock);
 
             // Guarda cambios
             return articuloInsumoRepository.save(insumo);
