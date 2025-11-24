@@ -1,6 +1,11 @@
 package com.buenSabor.BackEnd.services.user;
 
-import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioCreateDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioCreateDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioUpdateDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioUpdateDTO;
 import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.mapper.TelefonoMapper;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
@@ -52,44 +57,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO dto) {
-        Usuario existente = usuarioRepository.findById(id)
+    public UsuarioResponseDTO actualizarUsuario(Long id, UsuarioUpdateDTO dto) {
+        Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        // Mapea el DTO a entidad para obtener valores actualizados
-        Usuario actualizado = usuarioMapper.toEntity(dto);
-
-        // Actualiza campos básicos
-        existente.setNombre(actualizado.getNombre());
-        existente.setApellido(actualizado.getApellido());
-        existente.setEmail(actualizado.getEmail());
-        existente.setImagenUsuario(actualizado.getImagenUsuario());
-        existente.setExiste(actualizado.getExiste());
-
-        // Actualiza Rol si viene con ID
-        if (dto.getRol() != null && dto.getRol().getId() != null) {
-            Rol rol = rolRepository.findById(dto.getRol().getId())
-                    .orElseThrow(() -> new RuntimeException("Rol no encontrado con id: " + dto.getRol().getId()));
-            existente.setRol(rol);
-        }
-
-        // Actualiza UserAuthentication si viene con ID
-        if (dto.getUserAuthentication() != null && dto.getUserAuthentication().getId() != null) {
-            UserAuthentication auth = authRepository.findById(dto.getUserAuthentication().getId())
-                    .orElseThrow(() -> new RuntimeException(
-                            "UserAuth no encontrado con id: " + dto.getUserAuthentication().getId()));
-            existente.setUserAuthentication(auth);
-        }
-
-        // Actualiza listas completas (reemplazo simple)
-        if (dto.getTelefonoList() != null) {
-            existente.setTelefonoList(telefonoMapper.telefonoDtoListToEntityList(dto.getTelefonoList()));
-        }
-
-        // Las direcciones se manejan a través de DireccionService
-
-        Usuario guardado = usuarioRepository.save(existente);
-        return usuarioMapper.toDto(guardado);
+        usuarioMapper.updateFromUpdateDto(dto, usuario);
+        usuario = usuarioRepository.save(usuario);
+        return usuarioMapper.toResponseDto(usuario);
     }
 
     @Override
@@ -103,23 +76,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public UsuarioDTO crearUsuario(UsuarioDTO dto) {
-        throw new UnsupportedOperationException("Unimplemented method 'crearUsuario'");
+    public UsuarioResponseDTO crearUsuario(UsuarioCreateDTO dto) {
+        Usuario usuario = usuarioMapper.toEntity(dto);
+        usuario = usuarioRepository.save(usuario);
+        return usuarioMapper.toResponseDto(usuario);
     }
-
-    /*
-     * @Override
-     * public UsuarioDTO crearUsuario(UsuarioDTO dto) {
-     * Usuario entity = usuarioMapper.toEntity(dto);
-     * 
-     * UserAuthentication userAuth = entity.getUserAuthentication();
-     * 
-     * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-     * userAuth.setPassword(encoder.encode(userAuth.getPassword()));
-     * 
-     * usuarioRepository.save(entity);
-     * return usuarioMapper.toDto(entity);
-     * }
-     */
-
 }

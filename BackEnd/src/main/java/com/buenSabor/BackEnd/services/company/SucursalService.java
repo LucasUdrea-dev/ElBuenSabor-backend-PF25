@@ -1,6 +1,8 @@
 package com.buenSabor.BackEnd.services.company;
 
-import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalCreateDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalResponseDTO;
+import com.buenSabor.BackEnd.dto.company.sucursal.SucursalUpdateDTO;
 import com.buenSabor.BackEnd.mapper.SucursalMapper;
 import com.buenSabor.BackEnd.models.company.Empresa;
 import com.buenSabor.BackEnd.models.company.Sucursal;
@@ -62,7 +64,7 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
     }
 
     @Transactional
-    public SucursalDTO crearSucursal(SucursalDTO dto) {
+    public SucursalResponseDTO crearSucursal(SucursalCreateDTO dto) {
         // Obtener la empresa existente por ID (única entidad que debe existir
         // previamente)
         Empresa empresa = empresaRepository.findById(dto.getEmpresa().getId())
@@ -92,12 +94,12 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         // Guardar la sucursal completa
         Sucursal sucursalGuardada = sucursalRepository.save(sucursal);
 
-        return sucursalMapper.toDto(sucursalGuardada);
+        return sucursalMapper.toResponseDto(sucursalGuardada);
     }
 
     @SuppressWarnings("unused")
     @Transactional
-    public SucursalDTO actualizarSucursal(Long id, SucursalDTO dto) {
+    public SucursalResponseDTO actualizarSucursal(Long id, SucursalUpdateDTO dto) {
 
         Sucursal sucursalExistente = sucursalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
@@ -105,28 +107,27 @@ public class SucursalService extends BeanServiceImpl<Sucursal, Long> {
         Empresa empresa = empresaRepository.findById(dto.getEmpresa().getId())
                 .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
 
-        Sucursal sucursalActualizada = sucursalMapper.toEntity(dto);
-        sucursalActualizada.setId(id);
-        sucursalActualizada.setEmpresa(empresa);
+        sucursalMapper.updateFromUpdateDto(dto, sucursalExistente);
+        sucursalExistente.setEmpresa(empresa);
 
         // Guardar la jerarquía completa desde cero (País → Provincia → Ciudad →
         // Dirección)
-        Pais pais = paisRepository.save(sucursalActualizada.getDireccion().getCiudad().getProvincia().getPais());
-        Provincia provincia = sucursalActualizada.getDireccion().getCiudad().getProvincia();
+        Pais pais = paisRepository.save(sucursalExistente.getDireccion().getCiudad().getProvincia().getPais());
+        Provincia provincia = sucursalExistente.getDireccion().getCiudad().getProvincia();
         provincia.setPais(pais);
         provincia = provinciaRepository.save(provincia);
 
-        Ciudad ciudad = sucursalActualizada.getDireccion().getCiudad();
+        Ciudad ciudad = sucursalExistente.getDireccion().getCiudad();
         ciudad.setProvincia(provincia);
         ciudad = ciudadRepository.save(ciudad);
 
-        Direccion direccion = sucursalActualizada.getDireccion();
+        Direccion direccion = sucursalExistente.getDireccion();
         direccion.setCiudad(ciudad);
-        sucursalActualizada.setDireccion(direccion);
+        sucursalExistente.setDireccion(direccion);
 
         // Persistir sucursal actualizada
-        Sucursal actualizada = sucursalRepository.save(sucursalActualizada);
-        return sucursalMapper.toDto(actualizada);
+        Sucursal actualizada = sucursalRepository.save(sucursalExistente);
+        return sucursalMapper.toResponseDto(sucursalExistente);
     }
 
     @Transactional

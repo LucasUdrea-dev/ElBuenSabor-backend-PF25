@@ -1,5 +1,6 @@
 package com.buenSabor.BackEnd.mapper;
 
+import com.buenSabor.BackEnd.config.mapperConfig;
 import com.buenSabor.BackEnd.dto.venta.pedido.DireccionPedidoDTO;
 import com.buenSabor.BackEnd.models.venta.DireccionPedido;
 import org.mapstruct.Mapper;
@@ -7,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", uses = {
+@Mapper(config = mapperConfig.class, componentModel = "spring", uses = {
         DireccionMapper.class }, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DireccionPedidoMapper {
 

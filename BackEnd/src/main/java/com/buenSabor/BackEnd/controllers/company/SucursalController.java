@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -102,7 +101,7 @@ public class SucursalController extends BeanControllerImpl<Sucursal, SucursalSer
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Sucursal no encontrada.\"}");
             }
-            sucursalMapper.updateFromDto(dto, sucursal);
+            sucursalMapper.updateFromUpdateDto(dto, sucursal);
             Sucursal actualizada = sucursalService.save(sucursal);
             return ResponseEntity.ok(sucursalMapper.toResponseDto(actualizada));
         } catch (Exception e) {

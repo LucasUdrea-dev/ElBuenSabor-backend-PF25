@@ -3,7 +3,7 @@ package com.buenSabor.BackEnd.controllers.seguridad;
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.UsuarioRegistroDTO;
-import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import com.buenSabor.BackEnd.services.seguridad.UserAuthenticationService;
@@ -31,7 +31,7 @@ public class UserAuthenticationController {
     @PostMapping("/crear")
     public ResponseEntity<?> crearUsuario(@RequestBody UsuarioRegistroDTO dto) {
         try {
-            UsuarioDTO guardado = userAuthService.crearUsuario(dto);
+            UsuarioResponseDTO guardado = userAuthService.crearUsuario(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("{\"error\":\"" + e.getMessage() + "\"}");
@@ -43,7 +43,7 @@ public class UserAuthenticationController {
 
     @PostMapping("/login")
     public UserAuthenticationResponseDTO login(
-            @RequestBody @Valid UserAuthenticationRequestDTO authRequest){
+            @RequestBody @Valid UserAuthenticationRequestDTO authRequest) {
 
         UserAuthenticationResponseDTO jwtDto = userAuthService.login(authRequest);
 
@@ -55,14 +55,13 @@ public class UserAuthenticationController {
         try {
             UserAuthentication updated = userAuthService.update(id, userAuthMapper.toEntity(dto));
             return ResponseEntity.ok(userAuthMapper.toDto(updated));
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 
     }
 
-    @Operation(summary = "Login con Token de Firebase",
-            description = "Recibe el ID Token de Firebase y devuelve un JWT propio.")
+    @Operation(summary = "Login con Token de Firebase", description = "Recibe el ID Token de Firebase y devuelve un JWT propio.")
     @PostMapping("/firebase-login")
     public ResponseEntity<?> firebaseLogin(@RequestHeader("Firebase-Token") String firebaseToken) {
         if (firebaseToken == null || firebaseToken.isBlank()) {

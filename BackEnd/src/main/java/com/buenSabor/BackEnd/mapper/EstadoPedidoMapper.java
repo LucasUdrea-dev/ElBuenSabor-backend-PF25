@@ -1,5 +1,6 @@
 package com.buenSabor.BackEnd.mapper;
 
+import com.buenSabor.BackEnd.config.mapperConfig;
 import com.buenSabor.BackEnd.dto.venta.estado.EstadoPedidoDTO;
 import com.buenSabor.BackEnd.models.venta.EstadoPedido;
 import java.util.List;
@@ -8,19 +9,17 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", config = mapperConfig.class)
 public interface EstadoPedidoMapper {
 
     // <--[EstadoPedido estadoPedido]--
     // ==>{EstadoPedidoDTO dto, y lo que ignora *-*}
-    @Mapping(source = "nombreEstado", target = "nombreEstado")
     EstadoPedidoDTO toDto(EstadoPedido estadoPedido);
 
     // <--[EstadoPedidoDTO dto]--
     // ==>{EstadoPedido entity, y lo que ignora *pedidoList*}
     // IMPORTANTE: NO ignorar el ID - EstadoPedido está precargado en BD por
     // EstadoPedidoInitializer
-    @Mapping(source = "nombreEstado", target = "nombreEstado")
     @Mapping(target = "pedidoList", ignore = true)
     EstadoPedido toEntity(EstadoPedidoDTO dto);
 
@@ -28,7 +27,7 @@ public interface EstadoPedidoMapper {
     // ==>{void, y lo que ignora *id,pedidoList*}
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "pedidoList", ignore = true)
-    void updateEstadoPedidoFromDto(EstadoPedidoDTO dto, @MappingTarget EstadoPedido entity);
+    void updateFromDto(EstadoPedidoDTO dto, @MappingTarget EstadoPedido entity);
 
     // <--[List<EstadoPedido> estadoPedidos]--
     // ==>{List<EstadoPedidoDTO> list, y lo que ignora *-*}

@@ -5,7 +5,6 @@
 package com.buenSabor.BackEnd.dto.venta.promocion;
 
 import com.buenSabor.BackEnd.dto.venta.promocionArticulo.PromocionArticuloCreateDTO;
-import com.buenSabor.BackEnd.dto.venta.promocionArticulo.PromocionArticuloDTO;
 import com.buenSabor.BackEnd.dto.venta.tipopromo.TipoPromocionDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

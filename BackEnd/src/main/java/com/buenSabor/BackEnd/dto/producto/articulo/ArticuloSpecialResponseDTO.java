@@ -1,8 +1,8 @@
 package com.buenSabor.BackEnd.dto.producto.articulo;
 
-import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleInsumoDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleCadenaSimpleDTO;
 import com.buenSabor.BackEnd.dto.producto.medida.UnidadMedidaDTO;
-import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaDTO;
+import com.buenSabor.BackEnd.dto.producto.subcategoria.SubcategoriaCadenaSimpleDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,11 +23,11 @@ public class ArticuloSpecialResponseDTO {
     private Boolean esParaElaborar;
     private String imagenArticulo;
 
-    private SubcategoriaDTO subcategoria;
+    private SubcategoriaCadenaSimpleDTO subcategoria;
     private UnidadMedidaDTO unidadMedida;
 
     // MANUFACTURADO
     private String tiempoEstimado;
-    private List<ArticuloManufacturadoDetalleInsumoDTO> detalleInsumos;
+    private List<ArticuloManufacturadoDetalleCadenaSimpleDTO> detalleInsumos;
 
 }

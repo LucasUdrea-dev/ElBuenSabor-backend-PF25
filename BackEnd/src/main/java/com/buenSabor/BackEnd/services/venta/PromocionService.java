@@ -1,6 +1,7 @@
 package com.buenSabor.BackEnd.services.venta;
 
-import com.buenSabor.BackEnd.dto.venta.promocion.PromocionDTO;
+import com.buenSabor.BackEnd.dto.venta.promocion.PromocionCreateDTO;
+import com.buenSabor.BackEnd.dto.venta.promocion.PromocionResponseDTO;
 import com.buenSabor.BackEnd.dto.venta.promocion.PromocionLiteDTO;
 import com.buenSabor.BackEnd.dto.venta.promocionArticulo.PromocionArticuloDTO;
 import com.buenSabor.BackEnd.mapper.PromocionMapper;
@@ -53,7 +54,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     }
 
     @Transactional
-    public PromocionDTO findPromocionDTOById(Long id) throws Exception {
+    public PromocionResponseDTO findPromocionDTOById(Long id) throws Exception {
         Promocion promocion = findById(id);
         if (promocion == null) {
             return null;
@@ -62,19 +63,19 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     }
 
     @Transactional
-    public List<PromocionDTO> findAllPromocionesDTO() throws Exception {
+    public List<PromocionResponseDTO> findAllPromocionesDTO() throws Exception {
         List<Promocion> promociones = findAll(); // Using the BeanServiceImpl's findAll
         return promocionMapper.toDtoList(promociones);
     }
 
     @Transactional
-    public Page<PromocionDTO> findAllPromocionesDTO(Pageable pageable) throws Exception {
+    public Page<PromocionResponseDTO> findAllPromocionesDTO(Pageable pageable) throws Exception {
         Page<Promocion> promocionesPage = findAll(pageable); // Using the BeanServiceImpl's findAll
         return promocionesPage.map(promocionMapper::toDto);
     }
 
     @Transactional
-    public PromocionDTO crearPromocion(PromocionDTO dto) {
+    public PromocionResponseDTO crearPromocion(PromocionCreateDTO dto) {
         logger.info("Creando nueva promoción: {}", dto.getDenominacion());
 
         // Asegurar que es una nueva promoción
@@ -151,7 +152,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     }
 
     @Transactional
-    public PromocionDTO actualizarPromocion(Long id, PromocionDTO dto) {
+    public PromocionResponseDTO actualizarPromocion(Long id, PromocionCreateDTO dto) {
         logger.info("Actualizando promoción con ID: {}", id);
 
         // 1. Buscar la promoción existente
@@ -268,7 +269,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     // return promocionMapper.toDtoList(promociones);
     // }
     @Transactional
-    public List<PromocionDTO> findPromocionesByDenominacion(String denominacion) {
+    public List<PromocionResponseDTO> findPromocionesByDenominacion(String denominacion) {
         List<Promocion> promociones = promocionRepository.findByDenominacionContainingIgnoreCase(denominacion);
         return promocionMapper.toDtoList(promociones);
     }
@@ -293,7 +294,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     }
 
     @Transactional
-    public List<PromocionDTO> findAllPromocionesExistentesDTO() {
+    public List<PromocionResponseDTO> findAllPromocionesExistentesDTO() {
         List<Promocion> promociones = promocionRepository.findByExisteTrue();
         return promocionMapper.toDtoList(promociones);
     }
@@ -305,7 +306,7 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
     }
 
     @Transactional
-    public List<PromocionDTO> findPromocionesExistentesDTOBySucursal(Long sucursalId) {
+    public List<PromocionResponseDTO> findPromocionesExistentesDTOBySucursal(Long sucursalId) {
         List<Promocion> promociones = promocionRepository.findByExisteTrueAndSucursalId(sucursalId);
         return promocionMapper.toDtoList(promociones);
     }

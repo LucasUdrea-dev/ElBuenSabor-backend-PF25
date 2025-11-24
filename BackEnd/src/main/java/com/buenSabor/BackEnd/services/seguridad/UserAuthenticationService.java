@@ -3,7 +3,7 @@ package com.buenSabor.BackEnd.services.seguridad;
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.UsuarioRegistroDTO;
-import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
 import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.mapper.UsuarioMapper;
 import com.buenSabor.BackEnd.models.seguridad.Rol;
@@ -49,7 +49,7 @@ public class UserAuthenticationService {
     @Autowired
     private FirebaseAuth firebaseAuth;
 
-    public UsuarioDTO crearUsuario(UsuarioRegistroDTO registroDTO) {
+    public UsuarioResponseDTO crearUsuario(UsuarioRegistroDTO registroDTO) {
 
         // Validar que el email no exista
         if (userAuthenticationRepository.findByUsername(
@@ -94,7 +94,6 @@ public class UserAuthenticationService {
 
         usuario.setRol(rolCliente);
 
-
         // Crear UserAuthentication
         UserAuthentication userAuth = new UserAuthentication();
         userAuth.setUsername(registroDTO.getEmail());
@@ -112,14 +111,14 @@ public class UserAuthenticationService {
 
     public UserAuthentication update(Long id, UserAuthentication newData) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " +id));
+                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id: " + id));
 
         UserAuthentication userAuth = usuario.getUserAuthentication();
         if (userAuth == null) {
             throw new EntityNotFoundException("El usuario no tiene credenciales asociadas");
         }
 
-        //userAuth.setPassword(passwordEncoder.encode(registroDTO.getUserAuth().getPassword()));
+        // userAuth.setPassword(passwordEncoder.encode(registroDTO.getUserAuth().getPassword()));
         userAuth.setUsername(newData.getUsername());
         userAuth.setPassword(passwordEncoder.encode(newData.getPassword()));
 
@@ -275,7 +274,7 @@ public class UserAuthenticationService {
         // Crear UserAuthentication
         UserAuthentication userAuth = new UserAuthentication();
         userAuth.setUsername(email);
-        //  NO NECESITA CONTRASEÑA ENCRIPTADA para Firebase, usamos null o un marcador
+        // NO NECESITA CONTRASEÑA ENCRIPTADA para Firebase, usamos null o un marcador
         userAuth.setPassword(null);
         userAuth.setFirebaseUid(firebaseUid); // ⬅️ GUARDAR EL UID
         userAuth.setUsuario(usuario);

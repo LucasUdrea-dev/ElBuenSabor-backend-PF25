@@ -119,20 +119,20 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     @Transactional(readOnly = true)
     public PedidoConDireccionDTO findPedidoConDireccionDTOById(Long id) throws Exception {
         return pedidoRepository.findById(id)
-                .map(pedidoMapper::toPedidoConDireccionDto)
+                .map(pedidoMapper::toResponseDto)
                 .orElse(null);
     }
 
     @Transactional(readOnly = true)
     public List<PedidoConDireccionDTO> findAllPedidosConDireccionDTO() throws Exception {
         List<Pedido> pedidos = pedidoRepository.findAll();
-        return pedidoMapper.toPedidoConDireccionDtoList(pedidos);
+        return pedidoMapper.toResponseDtoList(pedidos);
     }
 
     @Transactional(readOnly = true)
     public Page<PedidoConDireccionDTO> findAllPedidosConDireccionDTO(Pageable pageable) throws Exception {
         Page<Pedido> pedidosPage = pedidoRepository.findAll(pageable);
-        return pedidosPage.map(pedidoMapper::toPedidoConDireccionDto);
+        return pedidosPage.map(pedidoMapper::toResponseDto);
     }
 
     @Transactional
@@ -532,7 +532,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
         // Mapeamos la lista de entidades a una lista de DTOs
         return pedidos.stream()
-                .map(pedidoMapper::toPedidoConDireccionDto)
+                .map(pedidoMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
 

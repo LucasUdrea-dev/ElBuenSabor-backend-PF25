@@ -1,7 +1,9 @@
 package com.buenSabor.BackEnd.controllers.user;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
-import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoCreateDTO;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoResponseDTO;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoUpdateDTO;
 import com.buenSabor.BackEnd.models.user.Telefono;
 import com.buenSabor.BackEnd.services.user.TelefonoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,9 +36,9 @@ public class TelefonoController extends BeanControllerImpl<Telefono, TelefonoSer
 
     @Operation(summary = "Obtener todos los teléfonos de un usuario por su ID")
     @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<?> getTelefonosByUserId(@PathVariable Long idUsuario) {
+    public ResponseEntity<?> findTelefonosByUserId(@PathVariable Long idUsuario) {
         try {
-            List<TelefonoDTO> telefonos = telefonoService.findTelefonosByUserId(idUsuario);
+            List<TelefonoResponseDTO> telefonos = telefonoService.findTelefonosByUserId(idUsuario);
             return ResponseEntity.ok(telefonos);
         } catch (Exception e) {
             if (e.getMessage().contains("no encontrado")) {
@@ -50,9 +52,10 @@ public class TelefonoController extends BeanControllerImpl<Telefono, TelefonoSer
 
     @Operation(summary = "Crear un teléfono para un usuario")
     @PostMapping("/usuario/{idUsuario}")
-    public ResponseEntity<?> crearTelefono(@PathVariable Long idUsuario, @RequestBody TelefonoDTO dto) {
+    public ResponseEntity<?> crearTelefonoParaUsuario(@PathVariable Long idUsuario,
+            @RequestBody TelefonoCreateDTO dto) {
         try {
-            TelefonoDTO creado = telefonoService.crearTelefonoParaUsuario(idUsuario, dto);
+            TelefonoResponseDTO creado = telefonoService.crearTelefonoParaUsuario(idUsuario, dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(creado);
         } catch (Exception e) {
             if (e.getMessage().contains("no encontrado")) {
@@ -66,9 +69,9 @@ public class TelefonoController extends BeanControllerImpl<Telefono, TelefonoSer
 
     @Operation(summary = "Obtener un teléfono específico de un usuario")
     @GetMapping("/usuario/{idUsuario}/{idTelefono}")
-    public ResponseEntity<?> obtenerTelefono(@PathVariable Long idUsuario, @PathVariable Long idTelefono) {
+    public ResponseEntity<?> obtenerTelefonoDeUsuario(@PathVariable Long idUsuario, @PathVariable Long idTelefono) {
         try {
-            TelefonoDTO dto = telefonoService.obtenerTelefonoDeUsuario(idUsuario, idTelefono);
+            TelefonoResponseDTO dto = telefonoService.obtenerTelefonoDeUsuario(idUsuario, idTelefono);
             return ResponseEntity.ok(dto);
         } catch (Exception e) {
             if (e.getMessage().contains("no encontrado") || e.getMessage().contains("no pertenece")) {
@@ -82,11 +85,10 @@ public class TelefonoController extends BeanControllerImpl<Telefono, TelefonoSer
 
     @Operation(summary = "Actualizar un teléfono de un usuario")
     @PutMapping("/usuario/{idUsuario}/{idTelefono}")
-    public ResponseEntity<?> actualizarTelefono(@PathVariable Long idUsuario,
-            @PathVariable Long idTelefono,
-            @RequestBody TelefonoDTO dto) {
+    public ResponseEntity<?> actualizarTelefonoDeUsuario(@PathVariable Long idUsuario, @PathVariable Long idTelefono,
+            @RequestBody TelefonoUpdateDTO dto) {
         try {
-            TelefonoDTO actualizado = telefonoService.actualizarTelefonoDeUsuario(idUsuario, idTelefono, dto);
+            TelefonoResponseDTO actualizado = telefonoService.actualizarTelefonoDeUsuario(idUsuario, idTelefono, dto);
             return ResponseEntity.ok(actualizado);
         } catch (Exception e) {
             if (e.getMessage().contains("no encontrado") || e.getMessage().contains("no pertenece")) {

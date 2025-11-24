@@ -1,11 +1,12 @@
 package com.buenSabor.BackEnd.mapper;
 
+import com.buenSabor.BackEnd.config.mapperConfig;
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", config = mapperConfig.class)
 public interface UserAuthenticationMapper {
 
     // <--[UserAuthenticationRequestDTO dto]--

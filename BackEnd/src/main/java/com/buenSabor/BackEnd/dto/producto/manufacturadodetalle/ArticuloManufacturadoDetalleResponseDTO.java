@@ -6,6 +6,7 @@ package com.buenSabor.BackEnd.dto.producto.manufacturadodetalle;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -22,5 +23,7 @@ public class ArticuloManufacturadoDetalleResponseDTO {
     private Long insumoId;
     
     private int cantidad; 
+
+  
     
 }

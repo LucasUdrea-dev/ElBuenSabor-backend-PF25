@@ -128,9 +128,7 @@ public class EmpresaController extends BeanControllerImpl<Empresa, EmpresaServic
             Pageable pageable = PageRequest.of(page, size);
             Page<EmpresaResponseDTO> pageResult;
             pageResult = empresaService.findAll(pageable)
-                    .map(() -> {
-                return empresaMapper.toDto();
-            });
+                    .map(empresaMapper::toResponseDto);
             return ResponseEntity.ok(pageResult);
         } catch (Exception e) {
             return ResponseEntity.badRequest()

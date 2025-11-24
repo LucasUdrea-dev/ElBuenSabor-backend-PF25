@@ -1,31 +1,40 @@
 package com.buenSabor.BackEnd.mapper;
 
-import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
+import com.buenSabor.BackEnd.config.mapperConfig;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoCadenaSimpleDTO;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoCreateDTO;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoResponseDTO;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoUpdateDTO;
+import com.buenSabor.BackEnd.mapper.bean.BeanMapper;
 import com.buenSabor.BackEnd.models.user.Telefono;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
-public interface TelefonoMapper {
+@Mapper(componentModel = "spring", config = mapperConfig.class)
+public interface TelefonoMapper extends
+        BeanMapper<Telefono, TelefonoResponseDTO, TelefonoCreateDTO, TelefonoUpdateDTO, TelefonoCadenaSimpleDTO> {
 
     // <--[TelefonoDTO dto]--
     // ==>{Telefono entity, y lo que ignora *usuario,id*}
+    @Override
     @Mapping(target = "usuario", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    Telefono toEntity(TelefonoDTO dto);
+    Telefono toEntity(TelefonoCreateDTO createDto);
 
     // <--[Telefono entity]--
     // ==>{TelefonoDTO dto, y lo que ignora *-*}
-    TelefonoDTO toDto(Telefono entity);
+    @Override
+    TelefonoResponseDTO toResponseDto(Telefono entity);
 
     // <--[List<TelefonoDTO> telefonoList]--
     // ==>{List<Telefono> list, y lo que ignora *-*}
-    public List<Telefono> telefonoDtoListToEntityList(List<TelefonoDTO> telefonoList);
+    @Override
+    List<Telefono> toEntityList(List<TelefonoCreateDTO> createDtoList);
 
     // <--[TelefonoDTO dto, Telefono entity]--
     // ==>{void, y lo que ignora *id,usuario*}
-    @org.mapstruct.Mapping(target = "id", ignore = true)
-    @org.mapstruct.Mapping(target = "usuario", ignore = true)
-    void updateFromDto(TelefonoDTO dto, @org.mapstruct.MappingTarget Telefono entity);
+    @Override
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "usuario", ignore = true)
+    void updateFromUpdateDto(TelefonoUpdateDTO updateDto, @org.mapstruct.MappingTarget Telefono entity);
 }

@@ -34,7 +34,6 @@ public class DireccionCadenaSimpleDTO {
 
     private Long idUsuario;
 
-    // manejar en el servicio
-    private boolean isSucursal;
+    private Long isSucursal;
     
 }

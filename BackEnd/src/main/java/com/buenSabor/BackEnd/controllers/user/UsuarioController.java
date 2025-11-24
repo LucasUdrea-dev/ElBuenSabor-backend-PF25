@@ -1,6 +1,6 @@
 package com.buenSabor.BackEnd.controllers.user;
 
-import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioResponseDTO;
 import com.buenSabor.BackEnd.mapper.UsuarioMapper;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.services.ubicacion.DireccionService;
@@ -55,10 +55,10 @@ public class UsuarioController {
     })
     @PostMapping
     public ResponseEntity<?> crearUsuario(
-            @Parameter(description = "Datos del usuario a crear", required = true) @Valid @RequestBody UsuarioDTO dto) {
+            @Parameter(description = "Datos del usuario a crear", required = true) @Valid @RequestBody UsuarioCreateDTO dto) {
         try {
             logger.info("Creando nuevo usuario con email: {}", dto.getEmail());
-            UsuarioDTO guardado = usuarioService.crearUsuario(dto);
+            UsuarioResponseDTO guardado = usuarioService.crearUsuario(dto);
             logger.info("Usuario creado exitosamente con ID: {}", guardado.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(guardado);
         } catch (RuntimeException e) {
@@ -79,7 +79,7 @@ public class UsuarioController {
     @GetMapping("/activos")
     public ResponseEntity<?> listarExistentes() {
         try {
-            List<UsuarioDTO> dtos = usuarioMapper.toDtoList(usuarioService.findAllExistente());
+            List<UsuarioResponseDTO> dtos = usuarioMapper.toResponseDtoList(usuarioService.findAllExistente());
             logger.info("Se obtuvieron {} usuarios activos", dtos.size());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
@@ -97,7 +97,7 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<?> listar() {
         try {
-            List<UsuarioDTO> dtos = usuarioMapper.toDtoList(usuarioService.findAll());
+            List<UsuarioResponseDTO> dtos = usuarioMapper.toResponseDtoList(usuarioService.findAll());
             logger.info("Se obtuvieron {} usuarios en total", dtos.size());
             return ResponseEntity.ok(dtos);
         } catch (Exception e) {
@@ -114,7 +114,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(
+    public ResponseEntity<?> getUsuarioById(
             @Parameter(description = "ID del usuario a buscar", required = true) @PathVariable Long id) {
         try {
             Usuario usuario = usuarioService.findById(id);
@@ -123,7 +123,7 @@ public class UsuarioController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Usuario no encontrado.\"}");
             }
-            return ResponseEntity.ok(usuarioMapper.toDto(usuario));
+            return ResponseEntity.ok(usuarioMapper.toResponseDto(usuario));
         } catch (Exception e) {
             logger.error("Error al obtener usuario ID {}: {}", id, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -141,10 +141,10 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(
             @Parameter(description = "ID del usuario a actualizar", required = true) @PathVariable Long id,
-            @Parameter(description = "Datos actualizados del usuario", required = true) @Valid @RequestBody UsuarioDTO dto) {
+            @Parameter(description = "Datos actualizados del usuario", required = true) @Valid @RequestBody UsuarioResponseDTO dto) {
         try {
             logger.info("Actualizando usuario con ID: {}", id);
-            UsuarioDTO actualizado = usuarioService.actualizarUsuario(id, dto);
+            UsuarioResponseDTO actualizado = usuarioService.actualizarUsuario(id, dto);
             logger.info("Usuario con ID {} actualizado exitosamente", id);
             return ResponseEntity.ok(actualizado);
         } catch (RuntimeException e) {
@@ -184,8 +184,8 @@ public class UsuarioController {
     }
 
     @GetMapping("/customer")
-    public ResponseEntity<List<Usuario>> getUsuariosCustomer() {
+    public ResponseEntity<List<UsuarioResponseDTO>> getAllUsuarios() {
         List<Usuario> customers = usuarioService.getUsuariosCustomer();
-        return ResponseEntity.ok(customers);
+        return ResponseEntity.ok(usuarioMapper.toResponseDtoList(customers));
     }
 }

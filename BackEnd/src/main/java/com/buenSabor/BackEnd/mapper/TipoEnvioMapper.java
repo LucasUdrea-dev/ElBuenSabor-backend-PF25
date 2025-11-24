@@ -4,6 +4,7 @@
  */
 package com.buenSabor.BackEnd.mapper;
 
+import com.buenSabor.BackEnd.config.mapperConfig;
 import com.buenSabor.BackEnd.dto.venta.envio.TipoEnvioDTO;
 import com.buenSabor.BackEnd.models.venta.TipoEnvio;
 import java.util.List;
@@ -17,30 +18,27 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
  * @author oscarloha
  */
 
-@Mapper(componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", config = mapperConfig.class)
 public interface TipoEnvioMapper {
 
     // Map entity to DTO
     // <--[TipoEnvio tipoEnvio]--
     // ==>{TipoEnvioDTO dto, y lo que ignora *-*}
-    @Mapping(source = "tipoDelivery", target = "tipoDelivery") 
     TipoEnvioDTO toDto(TipoEnvio tipoEnvio);
 
     // Map DTO to entity
     // <--[TipoEnvioDTO dto]--
     // ==>{TipoEnvio entity, y lo que ignora *pedidoList*}
-    // IMPORTANTE: NO ignorar el ID - TipoEnvio está precargado en BD por TypeDeliveryInitializer
-    @Mapping(source = "tipoDelivery", target = "tipoDelivery") 
-    @Mapping(target = "pedidoList", ignore = true) 
+    // IMPORTANTE: NO ignorar el ID - TipoEnvio está precargado en BD por
+    // TypeDeliveryInitializer
+    @Mapping(target = "pedidoList", ignore = true)
     TipoEnvio toEntity(TipoEnvioDTO dto);
 
-   
     // <--[TipoEnvioDTO dto, TipoEnvio entity]--
     // ==>{void, y lo que ignora *id,pedidoList*}
-    @Mapping(target = "id", ignore = true) 
-    @Mapping(target = "pedidoList", ignore = true) 
-    void updateTipoEnvioFromDto(TipoEnvioDTO dto, @MappingTarget TipoEnvio entity);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "pedidoList", ignore = true)
+    void updateFromDto(TipoEnvioDTO dto, @MappingTarget TipoEnvio entity);
 
     // <--[List<TipoEnvio> tipoEnvios]--
     // ==>{List<TipoEnvioDTO> list, y lo que ignora *-*}

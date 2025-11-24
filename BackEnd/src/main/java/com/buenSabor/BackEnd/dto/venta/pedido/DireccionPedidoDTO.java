@@ -1,6 +1,6 @@
 package com.buenSabor.BackEnd.dto.venta.pedido;
 
-import com.buenSabor.BackEnd.dto.ubicacion.direccion.DireccionDTO;
+import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +12,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DireccionPedidoDTO {
     private Long id;
-    private DireccionDTO direccion;
+    private Direccion direccion;
 }

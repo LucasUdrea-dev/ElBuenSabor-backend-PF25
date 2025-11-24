@@ -5,7 +5,7 @@
 package com.buenSabor.BackEnd.controllers.producto;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
-import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloDTO;
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloResponseDTO;
 import com.buenSabor.BackEnd.mapper.ArticuloMapper;
 
 import com.buenSabor.BackEnd.models.producto.Articulo;
@@ -34,8 +34,8 @@ public class ArticuloController extends BeanControllerImpl<Articulo, ArticuloSer
     @GetMapping("/existentes")
     public ResponseEntity<?> getArticulosExistentes() {
         try {
-            List<ArticuloDTO> dtos = articuloService.findByExisteTrue().stream()
-                    .map(articuloMapper::toArticuloDTO)
+            List<ArticuloResponseDTO> dtos = articuloService.findByExisteTrue().stream()
+                    .map(articuloMapper::toResponseDto)
                     .collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.OK).body(dtos);
         } catch (Exception e) {
@@ -48,8 +48,8 @@ public class ArticuloController extends BeanControllerImpl<Articulo, ArticuloSer
     @GetMapping("/para_elaborar")
     public ResponseEntity<?> getArticulosParaElaborar() {
         try {
-            List<ArticuloDTO> dtos = articuloService.findByEsParaElaborarTrue().stream()
-                    .map(articuloMapper::toArticuloDTO)
+            List<ArticuloResponseDTO> dtos = articuloService.findByEsParaElaborarTrue().stream()
+                    .map(articuloMapper::toResponseDto)
                     .collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.OK).body(dtos);
         } catch (Exception e) {
@@ -62,8 +62,8 @@ public class ArticuloController extends BeanControllerImpl<Articulo, ArticuloSer
     @GetMapping("/para_elaborar_y_existentes")
     public ResponseEntity<?> getArticulosParaElaborarExistentes() {
         try {
-            List<ArticuloDTO> dtos = articuloService.buscarArticuloSiEsParaElaborarYExiste().stream()
-                    .map(articuloMapper::toArticuloDTO)
+            List<ArticuloResponseDTO> dtos = articuloService.buscarArticuloSiEsParaElaborarYExiste().stream()
+                    .map(articuloMapper::toResponseDto)
                     .collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.OK).body(dtos);
         } catch (Exception e) {

@@ -1,143 +1,105 @@
 package com.buenSabor.BackEnd.mapper;
 
-import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloDTO;
-import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
-import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoDTO;
-import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleInsumoDTO;
+import com.buenSabor.BackEnd.config.mapperConfig;
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloCadenaSimpleDTO;
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloCreateDTO;
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloResponseDTO;
+import com.buenSabor.BackEnd.dto.producto.articulo.ArticuloUpdateDTO;
+import com.buenSabor.BackEnd.dto.producto.insumo.InsumoCreateDTO;
+import com.buenSabor.BackEnd.dto.producto.insumo.InsumoResponseDTO;
+import com.buenSabor.BackEnd.dto.producto.insumo.InsumoUpdateDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoCreateDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoResponseDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturado.ArticuloManufacturadoUpdateDTO;
+import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufacturadoDetalleResponseDTO;
+import com.buenSabor.BackEnd.mapper.bean.BeanMapper;
 import com.buenSabor.BackEnd.models.producto.Articulo;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
-import com.buenSabor.BackEnd.models.producto.ArticuloManufacturadoDetalleInsumo;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.SubclassMapping;
-import org.mapstruct.factory.Mappers;
-import java.util.ArrayList;
 import java.util.List;
-
-@Mapper(componentModel = "spring", uses = { SubcategoriaMapper.class, UnidadMedidaMapper.class,
-        StockArticuloInsumoMapper.class })
-public interface ArticuloMapper {
-
-    ArticuloMapper mapper = Mappers.getMapper(ArticuloMapper.class);
-
-    // <--[Articulo articulo]--
-    // ==>{ArticuloDTO dto, y lo que ignora *-*}
-    @SubclassMapping(source = ArticuloInsumo.class, target = InsumoDTO.class)
-    @SubclassMapping(source = ArticuloManufacturado.class, target = ArticuloManufacturadoDTO.class)
-    @Mapping(target = "subcategoria", source = "subcategoria")
-    @Mapping(target = "unidadMedida", source = "unidadMedida")
-    ArticuloDTO toArticuloDTO(Articulo articulo);
-
-    // <--[ArticuloInsumo entity]--
-    // ==>{InsumoDTO dto, y lo que ignora *-*}
-    @Mapping(target = "subcategoria", source = "subcategoria")
-    @Mapping(target = "unidadMedida", source = "unidadMedida")
-    @Mapping(target = "stockArticuloInsumo", source = "stockArticuloInsumo")
-    InsumoDTO toInsumoDTO(ArticuloInsumo entity);
-
-    // <--[ArticuloManufacturado entity]--
-    // ==>{ArticuloManufacturadoDTO dto, y lo que ignora *-*}
-    @Mapping(target = "subcategoria", source = "subcategoria")
-    @Mapping(target = "unidadMedida", source = "unidadMedida")
-    @Mapping(target = "insumos", ignore = true) // Mapeo manual para evitar ciclo
-    @Mapping(target = "sucursalId", source = "sucursal.id")
-    ArticuloManufacturadoDTO toArticuloManufacturadoDTO(ArticuloManufacturado entity);
-
-    @AfterMapping
-    default void mapInsumos(ArticuloManufacturado entity, @MappingTarget ArticuloManufacturadoDTO dto) {
-        if (entity.getDetalleInsumos() != null && !entity.getDetalleInsumos().isEmpty()) {
-            List<ArticuloManufacturadoDetalleInsumoDTO> insumosDTO = new ArrayList<>();
-            for (ArticuloManufacturadoDetalleInsumo detalle : entity.getDetalleInsumos()) {
-                ArticuloManufacturadoDetalleInsumoDTO detalleDTO = new ArticuloManufacturadoDetalleInsumoDTO();
-                detalleDTO.setId(detalle.getId());
-                detalleDTO.setCantidad(detalle.getCantidad());
-
-                // Mapear el insumo manualmente
-                if (detalle.getArticuloInsumo() != null) {
-                    detalleDTO.setArticuloInsumo(toInsumoDTO(detalle.getArticuloInsumo()));
-                }
-                insumosDTO.add(detalleDTO);
-            }
-            dto.setInsumos(insumosDTO);
-        }
+import java.util.stream.Collectors;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+@Mapper(
+    componentModel = "spring",
+    config = mapperConfig.class,
+    uses = {
+        SubcategoriaMapper.class,
+        UnidadMedidaMapper.class,
+        StockArticuloInsumoMapper.class,
+        ArticuloManufacturadoDetalleInsumoMapper.class 
     }
+)
+public interface ArticuloMapper extends BeanMapper<
+    Articulo,               // Entidad Padre
+    ArticuloResponseDTO,    // DTO Respuesta Padre (o genérico)
+    ArticuloCreateDTO,      // DTO Crear Padre
+    ArticuloUpdateDTO,      // DTO Actualizar Padre
+    ArticuloCadenaSimpleDTO // DTO Simple
+> {
 
-    // <--[ArticuloDTO dto]--
-    // ==>{Articulo entity, y lo que ignora
-    // *promocionArticuloList,historicoPrecioVentaArticuloList,detallePedidoList,id*}
-    @SubclassMapping(source = InsumoDTO.class, target = ArticuloInsumo.class)
-    @SubclassMapping(source = ArticuloManufacturadoDTO.class, target = ArticuloManufacturado.class)
-    @Mapping(target = "promocionArticuloList", ignore = true)
-    @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
-    @Mapping(target = "detallePedidoList", ignore = true)
-    @Mapping(target = "subcategoria", source = "subcategoria")
-    @Mapping(target = "unidadMedida", source = "unidadMedida")
-    @Mapping(target = "id", ignore = true)
-    Articulo toArticulo(ArticuloDTO dto);
+    // =================================================================
+    // 1. DE ENTIDAD A RESPONSE DTO (Lectura)
+    // =================================================================
 
-    // <--[InsumoDTO dto]--
-    // ==>{ArticuloInsumo entity, y lo que ignora
-    // *detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,historicoPrecioCostoArticuloInsumoList,detalleManufacturas,id*}
-    @Mapping(target = "detallePedidoList", ignore = true)
-    @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
-    @Mapping(target = "promocionArticuloList", ignore = true)
-    @Mapping(target = "historicoPrecioCostoArticuloInsumoList", ignore = true)
-    @Mapping(target = "detalleManufacturas", ignore = true)
-    @Mapping(target = "subcategoria", source = "subcategoria")
-    @Mapping(target = "unidadMedida", source = "unidadMedida")
-    @Mapping(target = "id", ignore = true)
-    ArticuloInsumo toEntity(InsumoDTO dto);
+    @Override
+    @SubclassMapping(source = ArticuloInsumo.class, target = InsumoResponseDTO.class)
+    @SubclassMapping(source = ArticuloManufacturado.class, target = ArticuloManufacturadoResponseDTO.class)
+    ArticuloResponseDTO toResponseDto(Articulo entity);
 
-    // <--[ArticuloManufacturadoDTO dto]--
-    // ==>{ArticuloManufacturado entity, y lo que ignora
-    // *detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,detalleInsumos,sucursal,id*}
-    @Mapping(target = "detallePedidoList", ignore = true)
-    @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
-    @Mapping(target = "promocionArticuloList", ignore = true)
-    @Mapping(target = "detalleInsumos", ignore = true)
+    // --- Métodos específicos para las subclases (MapStruct los usa internamente) ---
+
+    
+    InsumoResponseDTO toInsumoResponseDto(ArticuloInsumo entity);
+
+   
+    ArticuloManufacturadoResponseDTO toManufacturadoResponseDto(ArticuloManufacturado entity);
+
+
+    // =================================================================
+    // 2. DE CREATE DTO A ENTIDAD (Creación)
+    // =================================================================
+
+    @Override
+    @SubclassMapping(source = InsumoCreateDTO.class, target = ArticuloInsumo.class)
+    @SubclassMapping(source = ArticuloManufacturadoCreateDTO.class, target = ArticuloManufacturado.class)
+    // NOTA: He quitado @Mapping(target="id", ignore=true) porque tu error indicaba que Articulo no tiene ID visible.
+    Articulo toEntity(ArticuloCreateDTO createDto);
+
+    // Mapeo específico para Insumo
+    // (MapStruct ignorará automáticamente los campos que no coinciden gracias a tu mapperConfig)
+    ArticuloInsumo toEntity(InsumoCreateDTO dto);
+
+    // Mapeo específico para Manufacturado
+    @Mapping(target = "detalleInsumos", ignore = true) // Se suelen crear en un paso posterior o service
+    @Mapping(target = "sucursal", ignore = true)       // Se suele asignar en el service
+    ArticuloManufacturado toEntity(ArticuloManufacturadoCreateDTO dto);
+
+
+    // =================================================================
+    // 3. DE UPDATE DTO A ENTIDAD (Actualización)
+    // =================================================================
+
+    @Override
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    // He quitado el ignore de ID para evitar el error "Unknown property id"
+    void updateFromUpdateDto(ArticuloUpdateDTO updateDto, @MappingTarget Articulo entity);
+
+    // Métodos específicos para redirigir el cast
+    
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateInsumoFromDto(InsumoUpdateDTO dto, @MappingTarget ArticuloInsumo entity);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "detalleInsumos", ignore = true) // Manejar lista manualmente si es necesario
     @Mapping(target = "sucursal", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "subcategoria", source = "subcategoria")
-    @Mapping(target = "unidadMedida", source = "unidadMedida")
-    ArticuloManufacturado toEntity(ArticuloManufacturadoDTO dto);
+    void updateManufacturadoFromDto(ArticuloManufacturadoUpdateDTO dto, @MappingTarget ArticuloManufacturado entity);
 
-    // <--[ArticuloDTO dto, Articulo entity]--
-    // ==>{void, y lo que ignora
-    // *id,promocionArticuloList,historicoPrecioVentaArticuloList,detallePedidoList*}
-    @org.mapstruct.Mapping(target = "id", ignore = true)
-    @org.mapstruct.Mapping(target = "promocionArticuloList", ignore = true)
-    @org.mapstruct.Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
-    @org.mapstruct.Mapping(target = "detallePedidoList", ignore = true)
-    @org.mapstruct.Mapping(target = "subcategoria", source = "subcategoria")
-    @org.mapstruct.Mapping(target = "unidadMedida", source = "unidadMedida")
-    void updateFromDto(ArticuloDTO dto, @org.mapstruct.MappingTarget Articulo entity);
 
-    // <--[InsumoDTO dto, ArticuloInsumo entity]--
-    // ==>{void, y lo que ignora
-    // *id,detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,historicoPrecioCostoArticuloInsumoList,detalleManufacturas*}
-    @org.mapstruct.Mapping(target = "id", ignore = true)
-    @org.mapstruct.Mapping(target = "detallePedidoList", ignore = true)
-    @org.mapstruct.Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
-    @org.mapstruct.Mapping(target = "promocionArticuloList", ignore = true)
-    @org.mapstruct.Mapping(target = "historicoPrecioCostoArticuloInsumoList", ignore = true)
-    @org.mapstruct.Mapping(target = "detalleManufacturas", ignore = true)
-    @org.mapstruct.Mapping(target = "subcategoria", source = "subcategoria")
-    @org.mapstruct.Mapping(target = "unidadMedida", source = "unidadMedida")
-    void updateFromDto(InsumoDTO dto, @org.mapstruct.MappingTarget ArticuloInsumo entity);
 
-    // <--[ArticuloManufacturadoDTO dto, ArticuloManufacturado entity]--
-    // ==>{void, y lo que ignora
-    // *id,detallePedidoList,historicoPrecioVentaArticuloList,promocionArticuloList,detalleInsumos,sucursal*}
-    @org.mapstruct.Mapping(target = "id", ignore = true)
-    @org.mapstruct.Mapping(target = "detallePedidoList", ignore = true)
-    @org.mapstruct.Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
-    @org.mapstruct.Mapping(target = "promocionArticuloList", ignore = true)
-    @org.mapstruct.Mapping(target = "detalleInsumos", ignore = true)
-    @org.mapstruct.Mapping(target = "sucursal", ignore = true)
-    @org.mapstruct.Mapping(target = "subcategoria", source = "subcategoria")
-    @org.mapstruct.Mapping(target = "unidadMedida", source = "unidadMedida")
-    void updateFromDto(ArticuloManufacturadoDTO dto, @org.mapstruct.MappingTarget ArticuloManufacturado entity);
 }

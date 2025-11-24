@@ -1,6 +1,8 @@
 package com.buenSabor.BackEnd.controllers.venta;
 
-import com.buenSabor.BackEnd.dto.venta.promocion.PromocionDTO;
+import com.buenSabor.BackEnd.dto.venta.promocion.PromocionCreateDTO;
+import com.buenSabor.BackEnd.dto.venta.promocion.PromocionLiteDTO;
+import com.buenSabor.BackEnd.dto.venta.promocion.PromocionResponseDTO;
 import com.buenSabor.BackEnd.dto.venta.promocion.PromocionLiteDTO;
 import com.buenSabor.BackEnd.services.venta.PromocionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +40,7 @@ public class PromocionController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try {
-            PromocionDTO promocionDTO = promocionService.findPromocionDTOById(id);
+            PromocionResponseDTO promocionDTO = promocionService.findPromocionDTOById(id);
             if (promocionDTO == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("{\"error\":\"Promoción no encontrada.\"}");
@@ -54,7 +56,7 @@ public class PromocionController {
     @GetMapping("")
     public ResponseEntity<?> getAll() {
         try {
-            List<PromocionDTO> promociones = promocionService.findAllPromocionesDTO();
+            List<PromocionResponseDTO> promociones = promocionService.findAllPromocionesDTO();
             return ResponseEntity.ok(promociones);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -64,9 +66,9 @@ public class PromocionController {
 
     @Operation(summary = "Guardar una nueva promoción")
     @PostMapping("")
-    public ResponseEntity<?> save(@RequestBody PromocionDTO dto) {
+    public ResponseEntity<?> save(@RequestBody PromocionCreateDTO dto) {
         try {
-            PromocionDTO savedDto = promocionService.crearPromocion(dto);
+            PromocionResponseDTO savedDto = promocionService.crearPromocion(dto);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(savedDto);
         } catch (RuntimeException e) {
@@ -96,10 +98,10 @@ public class PromocionController {
 
     @Operation(summary = "Actualizar una promoción")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PromocionDTO dto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody PromocionCreateDTO dto) {
         try {
 
-            PromocionDTO updatedDto = promocionService.actualizarPromocion(id, dto);
+            PromocionResponseDTO updatedDto = promocionService.actualizarPromocion(id, dto);
             return ResponseEntity.ok(updatedDto);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -117,7 +119,7 @@ public class PromocionController {
             @RequestParam(defaultValue = "10") int size) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<PromocionDTO> pageResult = promocionService.findAllPromocionesDTO(pageable);
+            Page<PromocionResponseDTO> pageResult = promocionService.findAllPromocionesDTO(pageable);
             return ResponseEntity.ok(pageResult);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -130,7 +132,7 @@ public class PromocionController {
     public ResponseEntity<?> searchByDenominacion(@RequestParam String denominacion) {
         try {
 
-            List<PromocionDTO> promocionesDto = promocionService.findPromocionesByDenominacion(denominacion);
+            List<PromocionResponseDTO> promocionesDto = promocionService.findPromocionesByDenominacion(denominacion);
             return ResponseEntity.ok(promocionesDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -182,7 +184,7 @@ public class PromocionController {
     @GetMapping("/existente") // New endpoint path for lite version
     public ResponseEntity<?> getAllExist() {
         try {
-            List<PromocionDTO> promociones = promocionService.findAllPromocionesExistentesDTO();
+            List<PromocionResponseDTO> promociones = promocionService.findAllPromocionesExistentesDTO();
             return ResponseEntity.ok(promociones);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
