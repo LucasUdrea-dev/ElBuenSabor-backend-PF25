@@ -23,9 +23,9 @@ public class PromocionArticulo extends Bean {
     private int cantidad;
     @JoinColumn(name = "id_articulo", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Articulo idArticulo;
+    private Articulo articulo;
     @JoinColumn(name = "id_promocion", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Promocion idPromocion;
+    private Promocion promocion;
 
 }

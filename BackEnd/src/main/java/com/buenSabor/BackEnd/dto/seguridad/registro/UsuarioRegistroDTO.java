@@ -2,7 +2,7 @@ package com.buenSabor.BackEnd.dto.seguridad.registro;
 
 
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
-import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoCreateDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,9 @@ public class UsuarioRegistroDTO {
 
     protected String urlImagen;
 
-    protected List<TelefonoDTO> telefonoList;
+    // este create no fue probado
+    
+    protected List<TelefonoCreateDTO> telefonoList;
 
     protected UserAuthenticationRequestDTO userAuth;
 }
