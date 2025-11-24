@@ -104,13 +104,8 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
 
             // actualizo o creo stock
             StockDTO stockDto = dto.getStockArticuloInsumo();
-            StockArticuloInsumo stock;
-            if (stockDto.getId() != null && stockDto.getId() > 0) {
-
-                stock = stockArticuloInsumoRepository.findById(stockDto.getId())
-                        .orElseThrow(() -> new EntityNotFoundException(
-                                "Stock con id " + stockDto.getId() + " no existe"));
-            } else {
+            StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
+            if (stock == null) {
                 stock = new StockArticuloInsumo();
             }
             stock.setMinStock(dto.getStockArticuloInsumo().getMinStock());
@@ -118,6 +113,7 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             Sucursal sucManaged = sucursalRepository.findById(dto.getStockArticuloInsumo().getSucursalId())
                     .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
             stock.setSucursal(sucManaged);
+            stock.setArticuloInsumo(insumo);
             insumo.setStockArticuloInsumo(stock);
 
             // Guarda cambios
