@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class ProvinciaResponseDTO {
     
     private Long id;
+    
     private String nombre;
     
 }

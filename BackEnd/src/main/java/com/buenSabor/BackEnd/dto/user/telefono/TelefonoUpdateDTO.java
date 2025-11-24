@@ -4,10 +4,20 @@
  */
 package com.buenSabor.BackEnd.dto.user.telefono;
 
+import java.math.BigInteger;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  *
  * @author oscarloha
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TelefonoUpdateDTO {
+    
+    private BigInteger numero;
     
 }

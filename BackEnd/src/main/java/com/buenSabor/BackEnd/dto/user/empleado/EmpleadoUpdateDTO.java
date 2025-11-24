@@ -4,10 +4,26 @@
  */
 package com.buenSabor.BackEnd.dto.user.empleado;
 
+import com.buenSabor.BackEnd.dto.user.usuario.UsuarioUpdateDTO;
+import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  *
  * @author oscarloha
  */
-public class EmpleadoUpdateDTO {
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EmpleadoUpdateDTO extends UsuarioUpdateDTO{
     
+    
+    private Double sueldo;
+
+    private Date fechaAlta;
 }
