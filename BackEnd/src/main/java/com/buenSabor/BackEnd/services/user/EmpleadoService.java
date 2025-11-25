@@ -2,16 +2,19 @@ package com.buenSabor.BackEnd.services.user;
 
 import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
 import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoDTO;
+import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoUpdateDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
 import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.mapper.EmpleadoMapper;
 import com.buenSabor.BackEnd.mapper.TelefonoMapper;
 import com.buenSabor.BackEnd.models.seguridad.Rol;
+import com.buenSabor.BackEnd.models.seguridad.TipoRol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import com.buenSabor.BackEnd.models.user.Empleado;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.seguridad.RolRepository;
+import com.buenSabor.BackEnd.repositories.seguridad.TipoRolRepository;
 import com.buenSabor.BackEnd.repositories.seguridad.UserAuthenticationRepository;
 import com.buenSabor.BackEnd.repositories.user.EmpleadoRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
@@ -32,6 +35,8 @@ public class EmpleadoService extends BeanServiceImpl<Empleado, Long> {
     @Autowired
     private TelefonoMapper telefonoMapper;
     @Autowired
+    private TipoRolRepository tipoRolRepository;
+    @Autowired
     private RolRepository rolRepository;
     @Autowired
     private UserAuthenticationRepository authenticationRepository;
@@ -46,38 +51,40 @@ public class EmpleadoService extends BeanServiceImpl<Empleado, Long> {
         return empleadoRepository.findByTiposRol(roles);
     }
 
-    public EmpleadoDTO updateEmpleado(Long id, @Valid EmpleadoDTO dto) {
+    public EmpleadoDTO updateEmpleado(Long id, @Valid EmpleadoUpdateDTO dto) {
         Empleado existente = empleadoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Empleado con ID: "+id+" no encontrado"));
 
-        // Mapea el DTO a entidad para obtener valores actualizados
-        Empleado actualizado = empleadoMapper.toEntity(dto);
+        existente.setNombre(dto.getNombre());
+        existente.setApellido(dto.getApellido());
 
-        // Actualiza campos básicos
-        existente.setNombre(actualizado.getNombre());
-        existente.setApellido(actualizado.getApellido());
-        existente.setEmail(actualizado.getEmail());
-        existente.setImagenUsuario(actualizado.getImagenUsuario());
-        existente.setExiste(actualizado.getExiste());
-        existente.setSueldo(actualizado.getSueldo());
-        existente.setFechaAlta(actualizado.getFechaAlta());
+        // Asignar tipo rol
+        TipoRol tipoRol = tipoRolRepository.findById(dto.getIdRol())
+                .orElseThrow(() -> new RuntimeException("No existe rol con id: " + dto.getIdRol()));
 
-        // Actualiza Rol si viene con ID
-        if (dto.getRol() != null && dto.getRol().getId() != null) {
-            Rol rol = rolRepository.findById(dto.getRol().getId())
-                    .orElseThrow(() -> new RuntimeException("Rol no encontrado con id: " + dto.getRol().getId()));
-            existente.setRol(rol);
-        }
+        Rol nuevoRol = new Rol();
+        nuevoRol.setTipoRol(tipoRol);
+        nuevoRol.setFechaAlta(new Date());
+        rolRepository.save(nuevoRol);
 
-        // Actualiza UserAuthentication si viene con ID
-        if (dto.getUserAuthentication() != null && dto.getUserAuthentication().getId() != null) {
-            UserAuthentication auth = authenticationRepository.findById(dto.getUserAuthentication().getId())
+        existente.setRol(nuevoRol);
+
+        // Actualiza UserAuthentication
+        existente.setEmail(dto.getEmail());
+
+        if (existente.getUserAuthentication() != null && existente.getUserAuthentication().getId() != null) {
+            UserAuthentication auth = authenticationRepository.findById(existente.getUserAuthentication().getId())
                     .orElseThrow(() -> new RuntimeException(
-                            "UserAuth no encontrado con id: " + dto.getUserAuthentication().getId()));
+                            "UserAuth no encontrado con id: " + existente.getUserAuthentication().getId()));
+
+            auth.setUsername(dto.getEmail());
+            authenticationRepository.save(auth);
+
             existente.setUserAuthentication(auth);
+
         }
 
-        // Actualiza listas completas (reemplazo simple)
+        // Actualiza listas completas
         if (dto.getTelefonoList() != null) {
             existente.setTelefonoList(telefonoMapper.telefonoDtoListToEntityList(dto.getTelefonoList()));
         }

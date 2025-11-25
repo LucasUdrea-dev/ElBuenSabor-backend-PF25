@@ -1,15 +1,21 @@
 package com.buenSabor.BackEnd.controllers.user;
 
 import com.buenSabor.BackEnd.controllers.bean.BeanControllerImpl;
+import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.EmpleadoRegistroDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.UsuarioRegistroDTO;
 import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoDTO;
+import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoUpdateDTO;
+import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoUpdateResponseDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
 import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
+import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import com.buenSabor.BackEnd.models.user.Empleado;
 import com.buenSabor.BackEnd.models.user.Usuario;
+import com.buenSabor.BackEnd.repositories.seguridad.UserAuthenticationRepository;
 import com.buenSabor.BackEnd.repositories.user.EmpleadoRepository;
+import com.buenSabor.BackEnd.services.seguridad.JwtService;
 import com.buenSabor.BackEnd.services.seguridad.UserAuthenticationService;
 import com.buenSabor.BackEnd.services.user.EmpleadoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +31,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/empleados")
@@ -38,6 +46,10 @@ public class EmpleadoController extends BeanControllerImpl<Empleado, EmpleadoSer
     private EmpleadoService empleadoService;
     @Autowired
     private UserAuthenticationService userAuthService;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private UserAuthenticationRepository authenticationRepository;
 
     @Operation(summary = "Obtener todos los empleados (Cocinero, Cajero y Delivery)")
     @GetMapping("/getEmpleados")
@@ -74,13 +86,24 @@ public class EmpleadoController extends BeanControllerImpl<Empleado, EmpleadoSer
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizar(
             @Parameter(description = "ID del empleado a actualizar", required = true) @PathVariable Long id,
-            @Parameter(description = "Datos actualizados del empleado", required = true) @Valid @RequestBody EmpleadoDTO dto) {
+            @Parameter(description = "Datos actualizados del empleado", required = true) @Valid @RequestBody EmpleadoUpdateDTO dto) {
         try {
             logger.info("Actualizando empleado con ID: {}", id);
             EmpleadoDTO actualizado = empleadoService.updateEmpleado(id,dto);
 
+            // Generar nuevo token porque se cambió email/username
+            UserAuthentication usuario = authenticationRepository
+                    .findById(actualizado.getUserAuthentication().getId())
+                    .orElseThrow(() -> new RuntimeException("UserAuth no encontrado"));
+
+            UserAuthenticationResponseDTO authResponse = userAuthService.generarRespuestaDeLogin(usuario);
+
+            EmpleadoUpdateResponseDTO response = new EmpleadoUpdateResponseDTO();
+            response.setEmpleadoUpdateDTO(actualizado);
+            response.setToken(authResponse.getJwt());
+
             logger.info("Usuario con ID {} actualizado exitosamente", id);
-            return ResponseEntity.ok(actualizado);
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             logger.warn("Error al actualizar empleado ID {}: {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

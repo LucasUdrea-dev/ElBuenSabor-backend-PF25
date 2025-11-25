@@ -124,7 +124,6 @@ public class UserAuthenticationService {
             throw new EntityNotFoundException("El usuario no tiene credenciales asociadas");
         }
 
-        //userAuth.setPassword(passwordEncoder.encode(registroDTO.getUserAuth().getPassword()));
         userAuth.setUsername(newData.getUsername());
         userAuth.setPassword(passwordEncoder.encode(newData.getPassword()));
 
@@ -142,6 +141,11 @@ public class UserAuthenticationService {
         UserAuthentication usuario = userAuthenticationRepository
                 .findByUsername(authenticationRequestDTO.getUsername())
                 .get();
+
+        return generarRespuestaDeLogin(usuario);
+    }
+
+    public UserAuthenticationResponseDTO generarRespuestaDeLogin(UserAuthentication usuario) {
 
         String jwt = jwtService.generateToken(usuario, generateExtraClaims(usuario));
 
