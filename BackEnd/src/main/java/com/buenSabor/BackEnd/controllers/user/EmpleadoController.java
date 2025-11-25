@@ -6,7 +6,6 @@ import com.buenSabor.BackEnd.dto.seguridad.registro.EmpleadoRegistroDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.UsuarioRegistroDTO;
 import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoDTO;
 import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoUpdateDTO;
-import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoUpdateResponseDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
 import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
@@ -91,19 +90,8 @@ public class EmpleadoController extends BeanControllerImpl<Empleado, EmpleadoSer
             logger.info("Actualizando empleado con ID: {}", id);
             EmpleadoDTO actualizado = empleadoService.updateEmpleado(id,dto);
 
-            // Generar nuevo token porque se cambió email/username
-            UserAuthentication usuario = authenticationRepository
-                    .findById(actualizado.getUserAuthentication().getId())
-                    .orElseThrow(() -> new RuntimeException("UserAuth no encontrado"));
-
-            UserAuthenticationResponseDTO authResponse = userAuthService.generarRespuestaDeLogin(usuario);
-
-            EmpleadoUpdateResponseDTO response = new EmpleadoUpdateResponseDTO();
-            response.setEmpleadoUpdateDTO(actualizado);
-            response.setToken(authResponse.getJwt());
-
             logger.info("Usuario con ID {} actualizado exitosamente", id);
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(actualizado);
         } catch (RuntimeException e) {
             logger.warn("Error al actualizar empleado ID {}: {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

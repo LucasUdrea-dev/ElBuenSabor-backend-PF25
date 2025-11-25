@@ -6,7 +6,6 @@ import com.buenSabor.BackEnd.dto.seguridad.registro.UpdatePasswordDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.UpdateResponseDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.UpdateUsernameDTO;
 import com.buenSabor.BackEnd.dto.seguridad.registro.UsuarioRegistroDTO;
-import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoUpdateResponseDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
 import com.buenSabor.BackEnd.mapper.UserAuthenticationMapper;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
