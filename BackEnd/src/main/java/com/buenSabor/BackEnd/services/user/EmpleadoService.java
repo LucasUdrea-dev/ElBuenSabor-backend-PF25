@@ -129,7 +129,6 @@ public class EmpleadoService extends BeanServiceImpl<Empleado, Long> {
         return empleadoMapper.toDto(guardado);
     }
 
-
     public void eliminarEmpleado(Long id) {
         Empleado empleado = empleadoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Empleado con ID: "+id+" no encontrado"));

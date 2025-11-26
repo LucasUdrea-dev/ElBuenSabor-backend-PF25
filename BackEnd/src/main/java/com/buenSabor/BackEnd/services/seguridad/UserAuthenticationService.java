@@ -132,16 +132,24 @@ public class UserAuthenticationService {
 
     public UserAuthenticationResponseDTO login(UserAuthenticationRequestDTO authenticationRequestDTO) {
 
+        UserAuthentication usuario = userAuthenticationRepository
+                .findByUsername(authenticationRequestDTO.getUsername())
+                .orElseThrow(()  -> new RuntimeException("Usuario " + authenticationRequestDTO.getUsername() + " no encontrado!"));
+
+        if(!usuario.getUsuario().getExiste()){
+            throw new RuntimeException("El usuario no está activo");
+        }
+
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 authenticationRequestDTO.getUsername(), authenticationRequestDTO.getPassword());
 
         authenticationManager.authenticate(authToken);
 
         // Si logro pasar authenticate, quiere decir que si existe un usuario
-        UserAuthentication usuario = userAuthenticationRepository
+        /*UserAuthentication usuario = userAuthenticationRepository
                 .findByUsername(authenticationRequestDTO.getUsername())
                 .get();
-
+        */
         return generarRespuestaDeLogin(usuario);
     }
 
@@ -205,6 +213,12 @@ public class UserAuthenticationService {
         } else {
             // 4. Si existe, actualizar el firebaseUid por si acaso y obtener el objeto
             userAuth = userAuthOptional.get();
+
+            //Validamos que sea un usuario activo
+            if(!userAuth.getUsuario().getExiste()){
+                throw new RuntimeException("El usuario no está activo");
+            }
+
             // Aseguramos que el campo firebaseUid esté sincronizado
             if (userAuth.getFirebaseUid() == null || !userAuth.getFirebaseUid().equals(firebaseUid)) {
                 userAuth.setFirebaseUid(firebaseUid);

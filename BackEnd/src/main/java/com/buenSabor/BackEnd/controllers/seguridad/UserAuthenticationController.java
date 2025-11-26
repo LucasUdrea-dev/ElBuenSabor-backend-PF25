@@ -50,12 +50,14 @@ public class UserAuthenticationController {
 
     @Operation(summary = "Login con correo y contraseña")
     @PostMapping("/login")
-    public UserAuthenticationResponseDTO login(
+    public ResponseEntity<?> login(
             @RequestBody @Valid UserAuthenticationRequestDTO authRequest){
-
-        UserAuthenticationResponseDTO jwtDto = userAuthService.login(authRequest);
-
-        return jwtDto;
+        try {
+            UserAuthenticationResponseDTO jwtDto = userAuthService.login(authRequest);
+            return ResponseEntity.ok(jwtDto);
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
     }
 
     @Operation(summary = "Actualizar usuario y contraseña")
@@ -152,9 +154,7 @@ public class UserAuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("{\"error\":\"Autenticación de Firebase fallida: " + e.getMessage() + "\"}");
         } catch (RuntimeException e) {
-            // Errores de la DB (ej: Rol CUSTOMER no encontrado)
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("{\"error\":\"Error de la aplicación al procesar el usuario: " + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 
