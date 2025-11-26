@@ -134,7 +134,7 @@ public class EmpleadoService extends BeanServiceImpl<Empleado, Long> {
         Empleado empleado = empleadoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Empleado con ID: "+id+" no encontrado"));
 
-        empleado.setExiste(false);
+        empleado.setExiste(!empleado.getExiste());
         empleadoRepository.save(empleado);
     }
 }
