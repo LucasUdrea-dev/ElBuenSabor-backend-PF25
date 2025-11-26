@@ -3,6 +3,7 @@ package com.buenSabor.BackEnd.services.user;
 import com.buenSabor.BackEnd.dto.company.sucursal.SucursalDTO;
 import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoDTO;
 import com.buenSabor.BackEnd.dto.user.empleado.EmpleadoUpdateDTO;
+import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
 import com.buenSabor.BackEnd.dto.user.usuario.UsuarioDTO;
 import com.buenSabor.BackEnd.enums.TypeRol;
 import com.buenSabor.BackEnd.mapper.EmpleadoMapper;
@@ -11,19 +12,21 @@ import com.buenSabor.BackEnd.models.seguridad.Rol;
 import com.buenSabor.BackEnd.models.seguridad.TipoRol;
 import com.buenSabor.BackEnd.models.seguridad.UserAuthentication;
 import com.buenSabor.BackEnd.models.user.Empleado;
+import com.buenSabor.BackEnd.models.user.Telefono;
 import com.buenSabor.BackEnd.models.user.Usuario;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.seguridad.RolRepository;
 import com.buenSabor.BackEnd.repositories.seguridad.TipoRolRepository;
 import com.buenSabor.BackEnd.repositories.seguridad.UserAuthenticationRepository;
 import com.buenSabor.BackEnd.repositories.user.EmpleadoRepository;
+import com.buenSabor.BackEnd.repositories.user.TelefonoRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EmpleadoService extends BeanServiceImpl<Empleado, Long> {
@@ -40,6 +43,8 @@ public class EmpleadoService extends BeanServiceImpl<Empleado, Long> {
     private RolRepository rolRepository;
     @Autowired
     private UserAuthenticationRepository authenticationRepository;
+    @Autowired
+    private TelefonoRepository telefonoRepository;
 
 
     public EmpleadoService(BeanRepository<Empleado, Long> beanRepository) {
@@ -86,7 +91,35 @@ public class EmpleadoService extends BeanServiceImpl<Empleado, Long> {
 
         // Actualiza listas completas
         if (dto.getTelefonoList() != null) {
-            existente.setTelefonoList(telefonoMapper.telefonoDtoListToEntityList(dto.getTelefonoList()));
+
+            // Lista actual de telefonos del empleado
+            List<Telefono> telefonosActuales = existente.getTelefonoList();
+
+            // IDs que vienen en el DTO
+            Set<Long> idsRecibidos = dto.getTelefonoList().stream()
+                    .map(TelefonoDTO::getId)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+
+            //Actualizar existentes o agregar nuevos
+            for (TelefonoDTO telDto : dto.getTelefonoList()) {
+
+                if (telDto.getId() != null) {
+                    // Buscar en la lista actual (evita tocar la DB dos veces)
+                    Telefono existenteTel = telefonosActuales.stream()
+                            .filter(t -> t.getId().equals(telDto.getId()))
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Teléfono no encontrado: " + telDto.getId()));
+
+                    existenteTel.setNumero(telDto.getNumero());
+                    existenteTel.setUsuario(existente);
+                } else {
+                    // Nuevo teléfono 9
+                    Telefono nuevo = telefonoMapper.toEntity(telDto);
+                    nuevo.setUsuario(existente);
+                    telefonosActuales.add(nuevo);
+                }
+            }
         }
 
         // Las direcciones se manejan a través de DireccionService
