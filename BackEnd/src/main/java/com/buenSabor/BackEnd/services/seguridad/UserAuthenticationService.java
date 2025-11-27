@@ -215,7 +215,9 @@ public class UserAuthenticationService {
             userAuth = userAuthOptional.get();
 
             //Validamos que sea un usuario activo
-            if(!userAuth.getUsuario().getExiste()){
+            if (userAuth.getUsuario() == null) {
+                throw new RuntimeException("El usuario no tiene un perfil asociado (Usuario es null)");
+            } else if(!userAuth.getUsuario().getExiste()){
                 throw new RuntimeException("El usuario no está activo");
             }
 
