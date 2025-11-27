@@ -98,7 +98,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (usuario == null) {
             throw new RuntimeException("Usuario no encontrado");
         }
-        usuario.setExiste(false);
+        usuario.setExiste(!usuario.getExiste());
         usuarioRepository.save(usuario);
     }
 

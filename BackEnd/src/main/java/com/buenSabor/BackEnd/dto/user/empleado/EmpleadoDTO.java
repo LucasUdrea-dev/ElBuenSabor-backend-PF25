@@ -13,11 +13,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmpleadoDTO extends UsuarioDTO {
-
     private Double sueldo;
 
     private Date fechaAlta;
 
     private SucursalDTO sucursal;
+
 
 }

@@ -183,6 +183,7 @@ public class UsuarioController {
         }
     }
 
+
     @GetMapping("/customer")
     public ResponseEntity<List<Usuario>> getUsuariosCustomer() {
         List<Usuario> customers = usuarioService.getUsuariosCustomer();

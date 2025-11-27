@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,22 +44,7 @@ public abstract class BeanControllerImpl<E extends Bean, S extends BeanServiceIm
         }
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String,String>> handlerGenericException(Exception exception, HttpServletRequest request){
-        Map<String,String> apiError = new HashMap<>();
-        apiError.put("message", exception.getLocalizedMessage());
-        apiError.put("timestamp" ,new Date().toString());
-        apiError.put("url", request.getRequestURL().toString());
-        apiError.put("http-method", request.getMethod());
 
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-
-        if(exception instanceof AccessDeniedException){
-            status = HttpStatus.FORBIDDEN;
-        }
-
-        return ResponseEntity.status(status).body(apiError);
-    }
 
     @Operation(summary = "Guardar un nuevo registro")
     @PostMapping("/full/save")
