@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/Categoria")
+@RequestMapping("api/categoria")
 @Tag(name = "Categoria", description = "Operaciones relacionadas con entidad Categoria")
 public class CategoriaController extends BeanControllerImpl<Categoria, CategoriaService> {
     @Autowired

@@ -1,5 +1,4 @@
-package com.buenSabor.BackEnd.dto.seguridad.registro;
-
+package com.buenSabor.BackEnd.dto.user.empleado;
 
 import com.buenSabor.BackEnd.dto.seguridad.autenticacion.UserAuthenticationRequestDTO;
 import com.buenSabor.BackEnd.dto.user.telefono.TelefonoDTO;
@@ -13,23 +12,22 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioRegistroDTO {
-    protected String nombre;
+@Getter
+@Setter
+public class EmpleadoUpdateDTO {
+    private String nombre;
 
-    protected String apellido;
+    private String apellido;
 
     @NotBlank(message = "El nombre de usuario no puede estar vacio")
     @Email(message = "El nombre de usuario debe tener formato de correo")
-    protected String email;
+    private String email;
 
-    protected String urlImagen;
+    private List<TelefonoDTO> telefonoList;
 
-    protected List<TelefonoDTO> telefonoList;
+    private Long idRol;
 
-    @Valid
-    protected UserAuthenticationRequestDTO userAuth;
+    protected UserAuthenticationRequestDTO userAuthentication;
 }

@@ -1,4 +1,4 @@
-package com.buenSabor.BackEnd.dto.seguridad.autenticacion;
+package com.buenSabor.BackEnd.dto.seguridad.registro;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,9 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserAuthenticationRequestDTO {
-    private Long id;
-    private String password;
+public class UpdateUsernameDTO {
 
     @NotBlank(message = "El nombre de usuario no puede estar vacio")
     @Email(message = "El nombre de usuario debe tener formato de correo")

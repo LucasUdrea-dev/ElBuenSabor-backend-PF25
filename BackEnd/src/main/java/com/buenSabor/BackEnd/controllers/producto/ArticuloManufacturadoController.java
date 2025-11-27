@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/ArticuloManufacturado")
+@RequestMapping("api/articuloManufacturado")
 @Tag(name = "ArticuloManufacturado", description = "Operaciones relacionadas con entidad ArticuloManufacturado")
 public class ArticuloManufacturadoController extends
         BeanControllerImpl<ArticuloManufacturado, ArticuloManufacturadoService> {
