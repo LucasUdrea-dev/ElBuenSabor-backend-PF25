@@ -182,12 +182,14 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                     for (ArticuloManufacturadoDetalleInsumo detalle : manufacturado.getDetalleInsumos()) {
                         Long insumoId = detalle.getArticuloInsumo().getId();
                         int cantidadNecesaria = detalle.getCantidad() * detalleDto.getCantidad();
-                        insumosNecesarios.merge(insumoId, cantidadNecesaria, Integer::sum);
+                        insumosNecesarios.merge(insumoId, cantidadNecesaria,
+                                (oldValue, newValue) -> oldValue + newValue);
                     }
                 } else if (articulo instanceof ArticuloInsumo) {
                     // Insumo directo
                     Long insumoId = articulo.getId();
-                    insumosNecesarios.merge(insumoId, detalleDto.getCantidad(), Integer::sum);
+                    insumosNecesarios.merge(insumoId, detalleDto.getCantidad(),
+                            (oldValue, newValue) -> oldValue + newValue);
                 }
             }
         }
@@ -209,11 +211,12 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                         for (ArticuloManufacturadoDetalleInsumo detalle : manufacturado.getDetalleInsumos()) {
                             Long insumoId = detalle.getArticuloInsumo().getId();
                             int cantidadNecesaria = detalle.getCantidad() * cantidadPromo;
-                            insumosNecesarios.merge(insumoId, cantidadNecesaria, Integer::sum);
+                            insumosNecesarios.merge(insumoId, cantidadNecesaria,
+                                    (oldValue, newValue) -> oldValue + newValue);
                         }
                     } else if (articulo instanceof ArticuloInsumo) {
                         Long insumoId = articulo.getId();
-                        insumosNecesarios.merge(insumoId, cantidadPromo, Integer::sum);
+                        insumosNecesarios.merge(insumoId, cantidadPromo, (oldValue, newValue) -> oldValue + newValue);
                     }
                 }
             }
