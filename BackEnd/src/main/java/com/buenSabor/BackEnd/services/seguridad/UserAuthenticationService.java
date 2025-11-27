@@ -27,10 +27,12 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -216,9 +218,12 @@ public class UserAuthenticationService {
 
             //Validamos que sea un usuario activo
             if (userAuth.getUsuario() == null) {
-                throw new RuntimeException("El usuario no tiene un perfil asociado (Usuario es null)");
+                throw new ResponseStatusException(
+                        HttpStatus.CONFLICT,
+                        "El usuario no tiene un perfil asociado (Usuario es null)"
+                );
             } else if(!userAuth.getUsuario().getExiste()){
-                throw new RuntimeException("El usuario no está activo");
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "El usuario no está activo");
             }
 
             // Aseguramos que el campo firebaseUid esté sincronizado

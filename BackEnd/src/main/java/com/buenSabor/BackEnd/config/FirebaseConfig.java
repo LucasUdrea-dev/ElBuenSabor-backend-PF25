@@ -13,7 +13,7 @@ import java.util.List;
 
 @Configuration
 public class FirebaseConfig {
-
+/*
     @Bean
     public FirebaseApp initializeFirebase() {
         try {
@@ -26,7 +26,7 @@ public class FirebaseConfig {
             throw new RuntimeException("Error al inicializar Firebase. Asegúrate de que GOOGLE_APPLICATION_CREDENTIALS esté configurada.", e);
         }
     }
-    
+*/
     @Bean
     public FirebaseApp firebaseApp() throws IOException {
         // Verificar si Firebase ya está inicializado

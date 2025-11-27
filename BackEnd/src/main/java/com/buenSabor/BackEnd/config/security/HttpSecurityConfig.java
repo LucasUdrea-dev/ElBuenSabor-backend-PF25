@@ -119,11 +119,11 @@ public class HttpSecurityConfig {
                     // =======================================================================================
 
                     // Usuarios
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/usuarios/customer").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/usuarios/**").authenticated();
+                    authConfig.requestMatchers(HttpMethod.GET, "/api/usuarios/**").hasAnyRole("ADMIN", "COCINERO","CAJERO");
                     authConfig.requestMatchers(HttpMethod.POST, "/api/usuarios/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasRole("ADMIN");
+                    authConfig.requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasAnyRole("ADMIN", "CUSTOMER");
                     authConfig.requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMIN");
+
 
                     // Empleados
                     authConfig.requestMatchers("/api/empleados/**").hasRole("ADMIN");

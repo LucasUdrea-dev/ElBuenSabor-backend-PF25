@@ -153,8 +153,6 @@ public class UserAuthenticationController {
             // Error específico de Firebase (ej: token expirado, inválido)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("{\"error\":\"Autenticación de Firebase fallida: " + e.getMessage() + "\"}");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 
