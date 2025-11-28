@@ -226,7 +226,7 @@ public class HttpSecurityConfig {
                     authConfig.requestMatchers(HttpMethod.GET, "/api/imagenes/**").permitAll();
                     authConfig.requestMatchers(HttpMethod.POST, "/api/imagenes/**").authenticated();
                     authConfig.requestMatchers(HttpMethod.DELETE, "/api/imagenes/**").authenticated();
-
+                    authConfig.requestMatchers("/api/public/ping").permitAll();
                     // =======================================================================================
                     // CONFIGURACIÓN POR DEFECTO
                     // =======================================================================================
@@ -235,7 +235,7 @@ public class HttpSecurityConfig {
                     // autenticado
                     // authConfig.anyRequest().authenticated();
                     authConfig.anyRequest().permitAll();
-                    authConfig.requestMatchers("/api/public/ping").permitAll();
+                  
                 });
 
         return httpSecurity.build();
