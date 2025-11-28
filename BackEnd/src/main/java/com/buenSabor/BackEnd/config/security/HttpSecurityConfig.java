@@ -235,6 +235,7 @@ public class HttpSecurityConfig {
                     // autenticado
                     // authConfig.anyRequest().authenticated();
                     authConfig.anyRequest().permitAll();
+                    authConfig.requestMatchers("/api/public/ping").permitAll();
                 });
 
         return httpSecurity.build();
