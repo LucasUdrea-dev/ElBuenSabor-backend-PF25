@@ -1,13 +1,11 @@
 package com.buenSabor.BackEnd.models.producto;
 
-import com.buenSabor.BackEnd.listeners.StockArticuloInsumoListener;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -27,7 +25,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Stock_ArticuloInsumo")
-@EntityListeners(StockArticuloInsumoListener.class)
 public class StockArticuloInsumo extends Bean {
 
     @Column(name = "min_stock")

@@ -1,10 +1,8 @@
 package com.buenSabor.BackEnd.models.producto;
 
-import com.buenSabor.BackEnd.listeners.ArticuloInsumoListener;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -23,7 +21,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ArticuloInsumo")
-@EntityListeners(ArticuloInsumoListener.class)
 public class ArticuloInsumo extends Articulo {
 
     @Column(name = "precio_compra")
@@ -48,4 +45,8 @@ public class ArticuloInsumo extends Articulo {
         }
     }
     
+    
+    @OneToMany(mappedBy = "idArticuloInsumo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<HistoricoPrecioCostoArticuloInsumo> historicoPrecioCosto = new ArrayList<>();
 }
