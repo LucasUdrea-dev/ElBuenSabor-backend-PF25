@@ -40,4 +40,12 @@ public class ArticuloInsumo extends Articulo {
     @JsonIgnore
     private List<ArticuloManufacturadoDetalleInsumo> detalleManufacturas = new ArrayList<>();
 
+    
+    public void setStockAndLink(StockArticuloInsumo stock) {
+        this.stockArticuloInsumo = stock;
+        if (stock != null) {
+            stock.setArticuloInsumo(this); 
+        }
+    }
+    
 }

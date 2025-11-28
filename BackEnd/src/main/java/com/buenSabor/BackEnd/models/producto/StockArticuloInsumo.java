@@ -36,7 +36,7 @@ public class StockArticuloInsumo extends Bean {
     @Column(name = "cantidad")
     private Integer cantidad;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_articulo_insumo", referencedColumnName = "id")
     @JsonIgnore
     private ArticuloInsumo articuloInsumo;
