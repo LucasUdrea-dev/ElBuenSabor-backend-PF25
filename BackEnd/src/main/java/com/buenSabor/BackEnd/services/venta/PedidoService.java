@@ -6,6 +6,7 @@ import com.buenSabor.BackEnd.dto.venta.detallepromocion.DetallePromocionDTO;
 import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
 
 import com.buenSabor.BackEnd.enums.TypeDelivery;
+import com.buenSabor.BackEnd.enums.TypeState;
 import com.buenSabor.BackEnd.mapper.PedidoMapper;
 import com.buenSabor.BackEnd.mapper.DetallePedidoMapper;
 import com.buenSabor.BackEnd.mapper.DetallePromocionMapper;
@@ -30,6 +31,7 @@ import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
 import com.buenSabor.BackEnd.repositories.venta.*;
+import com.buenSabor.BackEnd.services.WebSocketService;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import com.buenSabor.BackEnd.dto.stock.StockCheckResponse;
 import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
@@ -74,8 +76,8 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     private final DetallePromocionMapper detallePromocionMapper;
     private final DireccionPedidoMapper direccionPedidoMapper;
     private final DireccionMapper direccionMapper;
+    private final WebSocketService webSocketService;
 
-    @Autowired
     public PedidoService(
             BeanRepository<Pedido, Long> beanRepository,
             PedidoRepository pedidoRepository,
@@ -94,7 +96,8 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             DetallePedidoMapper detallePedidoMapper,
             DetallePromocionMapper detallePromocionMapper,
             DireccionPedidoMapper direccionPedidoMapper,
-            DireccionMapper direccionMapper) {
+            DireccionMapper direccionMapper,
+            WebSocketService webSocketService) {
         super(beanRepository);
         this.pedidoRepository = pedidoRepository;
         this.estadoPedidoRepository = estadoPedidoRepository;
@@ -113,6 +116,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         this.detallePromocionMapper = detallePromocionMapper;
         this.direccionPedidoMapper = direccionPedidoMapper;
         this.direccionMapper = direccionMapper;
+        this.webSocketService = webSocketService;
     }
 
     // --- Read Operations ---
@@ -297,7 +301,22 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         Pedido finalPedido = pedidoRepository.save(savedPedido);
         logger.info("Pedido creado exitosamente con ID: {}", finalPedido.getId());
 
-        return pedidoMapper.toPedidoConDireccionDto(finalPedido);
+        PedidoConDireccionDTO pedidoFinalDto = pedidoMapper.toPedidoConDireccionDto(finalPedido);
+
+        // ------------------------------------------------------------
+        // NOTIFICACIÓN WEBSOCKET - NUEVO PEDIDO
+        // ------------------------------------------------------------
+        try {
+            TypeState estadoEnum = finalPedido.getEstadoPedido().getNombreEstado();
+
+            webSocketService.notifyStatusChange(finalPedido.getId(), estadoEnum, pedidoFinalDto);
+        } catch (Exception e) {
+            logger.error("Error al enviar notificación WebSocket para pedido ID {}", finalPedido.getId(), e);
+            System.err.println("Error al enviar notificación WebSocket para pedido ID " + finalPedido.getId() + ": "
+                    + e.getMessage());
+        }
+
+        return pedidoFinalDto;
     }
 
     /**
@@ -511,8 +530,24 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         // 6. Guardar la entidad padre actualizada (cascading se encargará de los hijos)
         Pedido updatedPedido = pedidoRepository.save(existingPedido);
 
-        // 7. Devolver el DTO del pedido actualizado
-        return pedidoMapper.toPedidoConDireccionDto(updatedPedido);
+        PedidoConDireccionDTO pedidoActualizadoDto = pedidoMapper.toPedidoConDireccionDto(updatedPedido);
+
+        // ------------------------------------------------------------
+        // NOTIFICACIÓN WEBSOCKET - CAMBIO DE ESTADO
+        // ------------------------------------------------------------
+        try {
+
+            TypeState estadoEnum = updatedPedido.getEstadoPedido().getNombreEstado();
+
+            webSocketService.notifyStatusChange(updatedPedido.getId(), estadoEnum, pedidoActualizadoDto);
+        } catch (IllegalArgumentException e) {
+            logger.warn("El estado '{}' no existe en el enum TypeState, no se envió notificación.",
+                    updatedPedido.getEstadoPedido().toString());
+        } catch (Exception e) {
+            logger.error("Error al enviar notificación WebSocket en actualización de pedido ID {}", id, e);
+        }
+
+        return pedidoActualizadoDto;
     }
 
     @Transactional
