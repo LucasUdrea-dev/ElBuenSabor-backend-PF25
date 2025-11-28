@@ -7,9 +7,11 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
 
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class StockCheckResponse {
@@ -28,6 +30,7 @@ public class StockCheckResponse {
 
     @Getter
     @Setter
+    @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ProductoFaltante {

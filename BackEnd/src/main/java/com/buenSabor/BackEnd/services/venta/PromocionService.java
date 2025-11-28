@@ -132,10 +132,10 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
                 }
 
                 PromocionArticulo promocionArticulo = new PromocionArticulo();
-                promocionArticulo.setId(null); // Asegurar que es nuevo
+                promocionArticulo.setId(null); 
                 promocionArticulo.setCantidad(paDto.getCantidad());
                 promocionArticulo.setIdArticulo(articulo);
-                promocionArticulo.setIdPromocion(promocion); // Establecer relación bidireccional
+                promocionArticulo.setIdPromocion(promocion); 
 
                 promocionArticulos.add(promocionArticulo);
             }

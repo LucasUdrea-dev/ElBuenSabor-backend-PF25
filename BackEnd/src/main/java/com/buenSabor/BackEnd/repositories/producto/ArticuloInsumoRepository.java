@@ -14,4 +14,6 @@ public interface ArticuloInsumoRepository extends BeanRepository<ArticuloInsumo,
 
     List<ArticuloInsumo> findByExisteTrue();
 
+    
+    
 }

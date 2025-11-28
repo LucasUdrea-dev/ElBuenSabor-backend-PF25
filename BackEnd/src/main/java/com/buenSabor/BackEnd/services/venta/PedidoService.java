@@ -1,29 +1,17 @@
 package com.buenSabor.BackEnd.services.venta;
 
+import com.buenSabor.BackEnd.dto.stock.StockCheckResponse;
 import com.buenSabor.BackEnd.dto.venta.detallepedido.DetallePedidoDTO;
 import com.buenSabor.BackEnd.dto.venta.detallepromocion.DetallePromocionDTO;
 import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
-
 import com.buenSabor.BackEnd.enums.TypeDelivery;
 import com.buenSabor.BackEnd.enums.TypeState;
-import com.buenSabor.BackEnd.mapper.PedidoMapper;
-import com.buenSabor.BackEnd.mapper.DetallePedidoMapper;
-import com.buenSabor.BackEnd.mapper.DetallePromocionMapper;
-import com.buenSabor.BackEnd.mapper.DireccionPedidoMapper;
-import com.buenSabor.BackEnd.mapper.DireccionMapper;
+import com.buenSabor.BackEnd.mapper.*;
 import com.buenSabor.BackEnd.models.company.Sucursal;
-import com.buenSabor.BackEnd.models.producto.Articulo;
+import com.buenSabor.BackEnd.models.producto.*;
 import com.buenSabor.BackEnd.models.ubicacion.Direccion;
 import com.buenSabor.BackEnd.models.user.Usuario;
-import com.buenSabor.BackEnd.models.venta.DetallePedido;
-import com.buenSabor.BackEnd.models.venta.DetallePromocion;
-import com.buenSabor.BackEnd.models.venta.DireccionPedido;
-import com.buenSabor.BackEnd.models.venta.EstadoPedido;
-import com.buenSabor.BackEnd.models.venta.Pedido;
-import com.buenSabor.BackEnd.models.venta.Promocion;
-import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
-import com.buenSabor.BackEnd.models.venta.TipoEnvio;
-import com.buenSabor.BackEnd.models.venta.TipoPago;
+import com.buenSabor.BackEnd.models.venta.*;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
@@ -32,13 +20,7 @@ import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
 import com.buenSabor.BackEnd.repositories.venta.*;
 import com.buenSabor.BackEnd.services.WebSocketService;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
-import com.buenSabor.BackEnd.dto.stock.StockCheckResponse;
-import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
-import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
-import com.buenSabor.BackEnd.models.producto.ArticuloManufacturadoDetalleInsumo;
-import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
-import com.buenSabor.BackEnd.models.venta.HistoricoEstadoPedido;
-import java.lang.RuntimeException;
+import com.buenSabor.BackEnd.services.stock.StockService; // IMPORTANTE: Importar el servicio de stock
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -46,12 +28,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+
 @Service
 public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
@@ -66,6 +45,9 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     private final ArticuloRepository articuloRepository;
     private final PromocionRepository promocionRepository;
     private final DireccionRepository direccionRepository;
+    
+    // REFACTOR: Usamos StockService en lugar del Repositorio directo
+    private final StockService stockService;
 
     private final PedidoMapper pedidoMapper;
     private final DetallePedidoMapper detallePedidoMapper;
@@ -85,6 +67,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             ArticuloRepository articuloRepository,
             PromocionRepository promocionRepository,
             DireccionRepository direccionRepository,
+            StockService stockService, // Inyección del servicio
             PedidoMapper pedidoMapper,
             DetallePedidoMapper detallePedidoMapper,
             DetallePromocionMapper detallePromocionMapper,
@@ -101,6 +84,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         this.articuloRepository = articuloRepository;
         this.promocionRepository = promocionRepository;
         this.direccionRepository = direccionRepository;
+        this.stockService = stockService;
         this.pedidoMapper = pedidoMapper;
         this.detallePedidoMapper = detallePedidoMapper;
         this.detallePromocionMapper = detallePromocionMapper;
@@ -135,43 +119,38 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
         // 1. Validar entidades relacionadas
         EstadoPedido estadoPedido = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Estado de Pedido con ID " + dto.getEstadoPedido().getId() + " no encontrado."));
+                .orElseThrow(() -> new RuntimeException("Estado de Pedido no encontrado."));
         Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
-                .orElseThrow(
-                        () -> new RuntimeException("Sucursal con ID " + dto.getSucursal().getId() + " no encontrada."));
+                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada."));
         TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Tipo de Envío con ID " + dto.getTipoEnvio().getId() + " no encontrado."));
+                .orElseThrow(() -> new RuntimeException("Tipo de Envío no encontrado."));
         TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Tipo de Pago con ID " + dto.getTipoPago().getId() + " no encontrado."));
+                .orElseThrow(() -> new RuntimeException("Tipo de Pago no encontrado."));
         Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
-                .orElseThrow(
-                        () -> new RuntimeException("Usuario con ID " + dto.getUsuario().getId() + " no encontrado."));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
 
         // 2. Validar contenido
         boolean tieneArticulos = dto.getDetallePedidoList() != null && !dto.getDetallePedidoList().isEmpty();
         boolean tienePromociones = dto.getDetallePromocionList() != null && !dto.getDetallePromocionList().isEmpty();
 
         if (!tieneArticulos && !tienePromociones) {
-            logger.warn("Intento de crear pedido sin artículos ni promociones para usuario ID: {}",
-                    dto.getUsuario().getId());
             throw new RuntimeException("El pedido debe contener al menos un artículo o una promoción.");
         }
 
-        // 3. VALIDACIÓN DE STOCK
+        // 3. VALIDACIÓN DE STOCK (Delegada a StockService)
+        // Transformamos el DTO de Pedido a un Mapa de Insumos Necesarios
         Map<Long, Integer> insumosNecesarios = calcularInsumosNecesarios(dto);
         
-        StockCheckResponse stockResponse = verificarYValidarStock(insumosNecesarios, sucursal.getId());
+        // Llamada al servicio externo
+        StockCheckResponse stockResponse = stockService.validarStock(insumosNecesarios, sucursal.getId());
 
         if (!stockResponse.isHayStockSuficiente()) {
-            logger.warn("Stock insuficiente. Faltantes: {}", stockResponse.getProductosFaltantes().size());
+            logger.warn("Stock insuficiente en sucursal {}. Faltantes: {}", sucursal.getId(), stockResponse.getProductosFaltantes());
             throw new RuntimeException("Stock insuficiente: " + stockResponse.getMensaje() +
                     ". Productos faltantes: " + stockResponse.getProductosFaltantes());
         }
 
-        logger.info("Stock validado. Creando pedido.");
+        logger.info("Stock validado correctamente. Procediendo a crear pedido.");
 
         // 4. Crear entidad Pedido
         Pedido pedido = pedidoMapper.toEntity(dto);
@@ -183,44 +162,35 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         pedido.setDetallePedidoList(new ArrayList<>());
         pedido.setDetallePromocionList(new ArrayList<>());
         
-        // --- HISTÓRICO ESTADO INICIAL ---
-        // Al crear, guardamos el primer estado en el histórico
+        // Histórico Estado Inicial
         HistoricoEstadoPedido historicoInicial = new HistoricoEstadoPedido();
         historicoInicial.setEstadoPedido(estadoPedido);
         historicoInicial.setPedido(pedido);
         historicoInicial.setFechaCambio(new Date());
-        
-        if (pedido.getHistoricoEstados() == null) {
-            pedido.setHistoricoEstados(new ArrayList<>());
-        }
+        if (pedido.getHistoricoEstados() == null) pedido.setHistoricoEstados(new ArrayList<>());
         pedido.getHistoricoEstados().add(historicoInicial);
-        // --------------------------------
 
         // 5. Manejar Dirección
         manejarDireccionPedido(pedido, dto, tipoEnvio);
 
-        // 6. Guardar pedido (para generar ID y propagar cascade)
+        // 6. Guardar pedido inicial
         Pedido savedPedido = pedidoRepository.save(pedido);
 
-        // 7. Agregar Detalles (Artículos y Promociones)
+        // 7. Agregar Detalles
         agregarDetallesAlPedido(savedPedido, dto);
 
-        // 8. REDUCIR STOCK
-        reducirStockYActualizarExistencia(insumosNecesarios, sucursal.getId());
+        // 8. REDUCIR STOCK (Delegado a StockService)
+        // Ya que el pedido se guardó parcialmente bien, ejecutamos la resta de stock
+        stockService.descontarStock(insumosNecesarios, sucursal.getId());
 
-        // 9. Guardar cambios finales (con detalles vinculados)
+        // 9. Guardar cambios finales
         Pedido finalPedido = pedidoRepository.save(savedPedido);
         logger.info("Pedido creado exitosamente con ID: {}", finalPedido.getId());
 
         PedidoConDireccionDTO pedidoFinalDto = pedidoMapper.toPedidoConDireccionDto(finalPedido);
 
-        // 10. NOTIFICACIÓN WEBSOCKET
-        try {
-            TypeState estadoEnum = finalPedido.getEstadoPedido().getNombreEstado();
-            webSocketService.notifyStatusChange(finalPedido.getId(), estadoEnum, pedidoFinalDto);
-        } catch (Exception e) {
-            logger.error("Error al enviar notificación WebSocket para pedido ID {}", finalPedido.getId(), e);
-        }
+        // 10. Notificación WebSocket
+        enviarNotificacionWebSocket(finalPedido, pedidoFinalDto);
 
         return pedidoFinalDto;
     }
@@ -228,92 +198,68 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     @Transactional
     public PedidoConDireccionDTO actualizarPedido(Long id, PedidoConDireccionDTO dto) throws Exception {
         Pedido existingPedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido con ID " + id + " no encontrado para actualizar."));
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado para actualizar."));
 
-        // 1. Guardar estado anterior para comparar
         EstadoPedido estadoAnterior = existingPedido.getEstadoPedido();
 
-        // 2. Obtener nuevas entidades relacionadas
         EstadoPedido nuevoEstado = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
                 .orElseThrow(() -> new RuntimeException("Estado de Pedido no encontrado."));
-        
         Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
                 .orElseThrow(() -> new RuntimeException("Sucursal no encontrada."));
-        
         TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
                 .orElseThrow(() -> new RuntimeException("Tipo de Envío no encontrado."));
-        
         TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
                 .orElseThrow(() -> new RuntimeException("Tipo de Pago no encontrado."));
-        
         Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
 
-        // 3. Actualizar campos básicos
         pedidoMapper.updatePedidoFromDto(dto, existingPedido);
         existingPedido.setTiempoEstimado(dto.getTiempoEstimado());
-
-        // 4. Asignar relaciones
         existingPedido.setEstadoPedido(nuevoEstado);
         existingPedido.setSucursal(sucursal);
         existingPedido.setTipoEnvio(tipoEnvio);
         existingPedido.setTipoPago(tipoPago);
         existingPedido.setUsuario(usuario);
 
-        // --- 5. LÓGICA DE HISTÓRICO DE ESTADO ---
-        // Si el estado cambió, guardamos el histórico manualmente (sin listeners)
+        // Histórico de estados
         if (!nuevoEstado.getId().equals(estadoAnterior.getId())) {
             HistoricoEstadoPedido historico = new HistoricoEstadoPedido();
             historico.setEstadoPedido(nuevoEstado);
             historico.setPedido(existingPedido);
             historico.setFechaCambio(new Date());
-            
-            if (existingPedido.getHistoricoEstados() == null) {
-                existingPedido.setHistoricoEstados(new ArrayList<>());
-            }
+            if (existingPedido.getHistoricoEstados() == null) existingPedido.setHistoricoEstados(new ArrayList<>());
             existingPedido.getHistoricoEstados().add(historico);
         }
-        // ---------------------------------------
 
-        // 6. Manejar Dirección
         manejarDireccionPedidoUpdate(existingPedido, dto, tipoEnvio);
-
-        // 7. Manejar Detalles (Reemplazo completo)
         actualizarDetallesPedido(existingPedido, dto);
 
-        // 8. Guardar todo
         Pedido updatedPedido = pedidoRepository.save(existingPedido);
         PedidoConDireccionDTO pedidoActualizadoDto = pedidoMapper.toPedidoConDireccionDto(updatedPedido);
 
-        // 9. NOTIFICACIÓN WEBSOCKET
-        try {
-            TypeState estadoEnum = updatedPedido.getEstadoPedido().getNombreEstado();
-            webSocketService.notifyStatusChange(updatedPedido.getId(), estadoEnum, pedidoActualizadoDto);
-        } catch (IllegalArgumentException e) {
-            logger.warn("El estado '{}' no existe en TypeState.", updatedPedido.getEstadoPedido().getNombreEstado());
-        } catch (Exception e) {
-            logger.error("Error WebSocket update pedido ID {}", id, e);
-        }
+        enviarNotificacionWebSocket(updatedPedido, pedidoActualizadoDto);
 
         return pedidoActualizadoDto;
     }
 
-    // --- Helper Methods para limpiar el código principal ---
+    // --- Helper Methods ---
 
+    // Este método sigue siendo necesario aquí porque transforma el DTO del Pedido
+    // en una lista plana de ingredientes necesarios, que es lo que entiende StockService.
     private Map<Long, Integer> calcularInsumosNecesarios(PedidoConDireccionDTO dto) {
         Map<Long, Integer> insumos = new HashMap<>();
         
-        // Artículos
         if (dto.getDetallePedidoList() != null) {
             for (DetallePedidoDTO d : dto.getDetallePedidoList()) {
-                Articulo art = articuloRepository.findById(d.getArticulo().getId()).orElseThrow();
+                Articulo art = articuloRepository.findById(d.getArticulo().getId())
+                    .orElseThrow(() -> new RuntimeException("Artículo no encontrado: " + d.getArticulo().getId()));
                 procesarArticuloParaStock(art, d.getCantidad(), insumos);
             }
         }
-        // Promociones
         if (dto.getDetallePromocionList() != null) {
             for (DetallePromocionDTO d : dto.getDetallePromocionList()) {
-                Promocion promo = promocionRepository.findById(d.getPromocion().getId()).orElseThrow();
+                Promocion promo = promocionRepository.findById(d.getPromocion().getId())
+                    .orElseThrow(() -> new RuntimeException("Promoción no encontrada"));
                 for (PromocionArticulo pa : promo.getPromocionArticuloList()) {
                     procesarArticuloParaStock(pa.getIdArticulo(), pa.getCantidad() * d.getCantidad(), insumos);
                 }
@@ -332,10 +278,12 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         }
     }
 
+    // --- Gestión de Direcciones y Otros ---
+
     private void manejarDireccionPedido(Pedido pedido, PedidoConDireccionDTO dto, TipoEnvio tipoEnvio) {
-        if (tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY) {
+        if (esEnvioConDireccion(tipoEnvio)) {
             if (dto.getDireccion() == null || dto.getDireccion().getDireccion() == null) {
-                throw new RuntimeException("Dirección requerida para " + tipoEnvio.getTipoDelivery());
+                throw new RuntimeException("Dirección requerida para el tipo de envío seleccionado.");
             }
             Direccion dir = direccionMapper.toEntity(dto.getDireccion().getDireccion());
             direccionRepository.save(dir);
@@ -349,14 +297,12 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     }
 
     private void manejarDireccionPedidoUpdate(Pedido pedido, PedidoConDireccionDTO dto, TipoEnvio tipoEnvio) {
-        // Misma lógica que crear, pero considerando si ya existe para actualizar
-        if (tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY) {
+        if (esEnvioConDireccion(tipoEnvio)) {
             if (dto.getDireccion() == null) throw new RuntimeException("Dirección requerida");
             
             if (pedido.getDireccionPedido() == null) {
-                manejarDireccionPedido(pedido, dto, tipoEnvio); // Crear nueva
+                manejarDireccionPedido(pedido, dto, tipoEnvio);
             } else {
-                // Actualizar existente
                 DireccionPedido currentDirPed = pedido.getDireccionPedido();
                 direccionMapper.updateDireccionFromDto(dto.getDireccion().getDireccion(), currentDirPed.getDireccion());
                 direccionRepository.save(currentDirPed.getDireccion());
@@ -364,13 +310,17 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             }
         } else {
             if (pedido.getDireccionPedido() != null) {
-                // Borrar si ya no es delivery
                 if(pedido.getDireccionPedido().getDireccion() != null) {
                     direccionRepository.delete(pedido.getDireccionPedido().getDireccion());
                 }
                 pedido.setDireccionPedido(null);
             }
         }
+    }
+    
+    private boolean esEnvioConDireccion(TipoEnvio tipoEnvio) {
+        return tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || 
+               tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY;
     }
 
     private void agregarDetallesAlPedido(Pedido pedido, PedidoConDireccionDTO dto) {
@@ -400,58 +350,22 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         agregarDetallesAlPedido(pedido, dto);
     }
 
-    // --- Métodos de Stock (Privados) ---
-    // (Mantienen la lógica original de verificación y reducción)
+    private void enviarNotificacionWebSocket(Pedido pedido, PedidoConDireccionDTO dto) {
+        try {
+            TypeState estadoEnum = pedido.getEstadoPedido().getNombreEstado();
+            webSocketService.notifyStatusChange(pedido.getId(), estadoEnum, dto);
+        } catch (Exception e) {
+            logger.error("Error al enviar notificación WebSocket para pedido ID {}", pedido.getId(), e);
+        }
+    }
     
-    private StockCheckResponse verificarYValidarStock(Map<Long, Integer> insumosNecesarios, Long sucursalId) {
-        StockCheckResponse response = new StockCheckResponse(true, "Stock suficiente");
-        for (Map.Entry<Long, Integer> entry : insumosNecesarios.entrySet()) {
-            Long insumoId = entry.getKey();
-            Integer cantidad = entry.getValue();
-            try {
-                ArticuloInsumo insumo = (ArticuloInsumo) articuloRepository.findById(insumoId).orElseThrow();
-                StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
-                
-                if (stock == null || !stock.getSucursal().getId().equals(sucursalId)) {
-                    response.agregarProductoFaltante(insumoId, insumo.getNombre(), cantidad);
-                    response.setHayStockSuficiente(false);
-                    continue;
-                }
-                if (stock.getCantidad() < cantidad) {
-                    response.agregarProductoFaltante(insumoId, insumo.getNombre(), cantidad - stock.getCantidad());
-                    response.setHayStockSuficiente(false);
-                }
-            } catch (Exception e) {
-                response.setHayStockSuficiente(false);
-            }
-        }
-        if (!response.isHayStockSuficiente()) response.setMensaje("Stock insuficiente");
-        return response;
-    }
-
-    private void reducirStockYActualizarExistencia(Map<Long, Integer> insumosNecesarios, Long sucursalId) {
-        for (Map.Entry<Long, Integer> entry : insumosNecesarios.entrySet()) {
-            Long insumoId = entry.getKey();
-            Integer cantidad = entry.getValue();
-            ArticuloInsumo insumo = (ArticuloInsumo) articuloRepository.findById(insumoId).orElseThrow();
-            StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
-            
-            if (stock != null && stock.getSucursal().getId().equals(sucursalId)) {
-                int nuevoStock = stock.getCantidad() - cantidad;
-                stock.setCantidad(nuevoStock);
-                if (nuevoStock < stock.getMinStock()) insumo.setExiste(false);
-                articuloRepository.save(insumo);
-            }
-        }
-    }
-
     @Transactional
     public void eliminarPedido(Long id) throws Exception {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("No encontrado"));
         pedido.setExiste(Boolean.FALSE);
         pedidoRepository.save(pedido);
     }
-
+    
     public List<PedidoConDireccionDTO> findAllExistentes() {
         return pedidoRepository.findAllByExisteTrue().stream()
                 .map(pedidoMapper::toPedidoConDireccionDto)
@@ -460,11 +374,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
     @Transactional(readOnly = true)
     public PedidoConDireccionDTO findByIdExistente(Long id) {
-        try {
-            Pedido pedido = (Pedido) pedidoRepository.findByIdAndExisteTrue(id);
-            return pedidoMapper.toPedidoConDireccionDto(pedido);
-        } catch (Exception e) {
-            throw new RuntimeException("Error al buscar pedido", e);
-        }
+        Pedido pedido = (Pedido) pedidoRepository.findByIdAndExisteTrue(id);
+        return pedidoMapper.toPedidoConDireccionDto(pedido);
     }
 }

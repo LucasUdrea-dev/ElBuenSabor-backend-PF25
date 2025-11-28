@@ -15,7 +15,9 @@ import java.util.Optional;
 public interface StockArticuloInsumoRepository extends BeanRepository<StockArticuloInsumo, Long> {
 
     Optional<StockArticuloInsumo> findByArticuloInsumoId(Long articuloInsumoId);
-
+    
+    StockArticuloInsumo findByArticuloInsumo_IdAndSucursal_Id(Long articuloInsumoId, Long sucursalId);
+    
     List<StockArticuloInsumo> findBySucursalId(Long sucursalId);
 
     @Query("SELECT s FROM StockArticuloInsumo s WHERE s.articuloInsumo.nombre LIKE %:nombre%")
