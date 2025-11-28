@@ -1,6 +1,5 @@
 package com.buenSabor.BackEnd.models.producto;
 
-import com.buenSabor.BackEnd.listeners.ArticuloListener;
 import com.buenSabor.BackEnd.models.bean.Bean;
 import com.buenSabor.BackEnd.models.venta.DetallePedido;
 import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
@@ -9,7 +8,6 @@ import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -30,7 +28,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Articulo")
-@EntityListeners(ArticuloListener.class)
 public class Articulo extends Bean {
 
     @Column(name = "nombre")
@@ -62,5 +59,9 @@ public class Articulo extends Bean {
     @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
     @JsonIgnore
     protected List<PromocionArticulo> promocionArticuloList;
+    
+    @OneToMany(mappedBy = "idArticulo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<HistoricoPrecioVentaArticulo> historicoPrecios = new ArrayList<>();
 
 }

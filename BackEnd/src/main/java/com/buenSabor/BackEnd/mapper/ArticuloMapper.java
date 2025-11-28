@@ -20,7 +20,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = { SubcategoriaMapper.class, UnidadMedidaMapper.class, StockArticuloInsumoMapper.class })
 public interface ArticuloMapper {
 
-    ArticuloMapper mapper = Mappers.getMapper(ArticuloMapper.class);
+  ArticuloMapper mapper = Mappers.getMapper(ArticuloMapper.class);
 
     // ------------------- ENTITY A DTO -------------------
 
@@ -51,9 +51,9 @@ public interface ArticuloMapper {
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "historicoPrecios", ignore = true) // <--- NUEVO
     Articulo toArticulo(ArticuloDTO dto);
 
-    
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
     @Mapping(target = "promocionArticuloList", ignore = true)
@@ -63,7 +63,9 @@ public interface ArticuloMapper {
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "stockArticuloInsumo", ignore = true)
-    @Mapping(target = "stockAndLink", ignore = true) 
+    @Mapping(target = "stockAndLink", ignore = true)
+    @Mapping(target = "historicoPrecios", ignore = true)     // <--- NUEVO
+    @Mapping(target = "historicoPrecioCosto", ignore = true) // <--- NUEVO
     ArticuloInsumo toEntity(InsumoDTO dto);
 
     @Mapping(target = "detallePedidoList", ignore = true)
@@ -74,6 +76,7 @@ public interface ArticuloMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "historicoPrecios", ignore = true) // <--- NUEVO
     ArticuloManufacturado toEntity(ArticuloManufacturadoDTO dto);
 
     // ------------------- UPDATE -------------------
@@ -84,6 +87,7 @@ public interface ArticuloMapper {
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "historicoPrecios", ignore = true) // <--- NUEVO
     void updateFromDto(ArticuloDTO dto, @MappingTarget Articulo entity);
 
     @Mapping(target = "id", ignore = true)
@@ -95,7 +99,9 @@ public interface ArticuloMapper {
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     @Mapping(target = "stockArticuloInsumo", ignore = true)
-    @Mapping(target = "stockAndLink", ignore = true) 
+    @Mapping(target = "stockAndLink", ignore = true)
+    @Mapping(target = "historicoPrecios", ignore = true)     // <--- NUEVO
+    @Mapping(target = "historicoPrecioCosto", ignore = true) // <--- NUEVO
     void updateFromDto(InsumoDTO dto, @MappingTarget ArticuloInsumo entity);
 
     @Mapping(target = "id", ignore = true)
@@ -106,6 +112,7 @@ public interface ArticuloMapper {
     @Mapping(target = "sucursal", ignore = true)
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "historicoPrecios", ignore = true) // <--- NUEVO
     void updateFromDto(ArticuloManufacturadoDTO dto, @MappingTarget ArticuloManufacturado entity);
 
     // Helper
