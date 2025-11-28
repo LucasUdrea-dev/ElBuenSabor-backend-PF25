@@ -17,7 +17,6 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Mapper(componentModel = "spring", uses = { SubcategoriaMapper.class, UnidadMedidaMapper.class, StockArticuloInsumoMapper.class })
 public interface ArticuloMapper {
 
@@ -31,7 +30,6 @@ public interface ArticuloMapper {
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     ArticuloDTO toArticuloDTO(Articulo articulo);
 
-    // Aquí SÍ mapeamos el stock para mostrarlo al cliente
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     @Mapping(target = "stockArticuloInsumo", source = "stockArticuloInsumo")
@@ -55,7 +53,7 @@ public interface ArticuloMapper {
     @Mapping(target = "id", ignore = true)
     Articulo toArticulo(ArticuloDTO dto);
 
-    // ¡CRÍTICO! Ignoramos el stock aquí para que el Service lo maneje manualmente
+    
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
     @Mapping(target = "promocionArticuloList", ignore = true)
@@ -64,7 +62,8 @@ public interface ArticuloMapper {
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "stockArticuloInsumo", ignore = true) 
+    @Mapping(target = "stockArticuloInsumo", ignore = true)
+    @Mapping(target = "stockAndLink", ignore = true) 
     ArticuloInsumo toEntity(InsumoDTO dto);
 
     @Mapping(target = "detallePedidoList", ignore = true)
@@ -87,7 +86,6 @@ public interface ArticuloMapper {
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     void updateFromDto(ArticuloDTO dto, @MappingTarget Articulo entity);
 
-    // ¡CRÍTICO! Ignoramos stock aquí también
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "historicoPrecioVentaArticuloList", ignore = true)
@@ -97,6 +95,7 @@ public interface ArticuloMapper {
     @Mapping(target = "subcategoria", source = "subcategoria")
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     @Mapping(target = "stockArticuloInsumo", ignore = true)
+    @Mapping(target = "stockAndLink", ignore = true) 
     void updateFromDto(InsumoDTO dto, @MappingTarget ArticuloInsumo entity);
 
     @Mapping(target = "id", ignore = true)
@@ -109,7 +108,7 @@ public interface ArticuloMapper {
     @Mapping(target = "unidadMedida", source = "unidadMedida")
     void updateFromDto(ArticuloManufacturadoDTO dto, @MappingTarget ArticuloManufacturado entity);
 
-    // Helper para Manufacturados
+    // Helper
     @AfterMapping
     default void mapInsumos(ArticuloManufacturado entity, @MappingTarget ArticuloManufacturadoDTO dto) {
         if (entity.getDetalleInsumos() != null && !entity.getDetalleInsumos().isEmpty()) {
