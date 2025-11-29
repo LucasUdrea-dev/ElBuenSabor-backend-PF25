@@ -316,4 +316,34 @@ public class StockService {
             return null;
         }
     }
+    
+    
+    @Transactional
+public void reponerStock(Map<Long, Integer> insumosADevolver, Long sucursalId) {
+    for (Map.Entry<Long, Integer> entry : insumosADevolver.entrySet()) {
+        Long insumoId = entry.getKey();
+        Integer cantidadADevolver = entry.getValue();
+
+        StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(insumoId, sucursalId);
+
+        if (stock != null) {
+            int nuevoStock = stock.getCantidad() + cantidadADevolver;
+            stock.setCantidad(nuevoStock);
+            
+            // Si el stock vuelve a estar por encima del mínimo, reactivamos el insumo si estaba deshabilitado
+            if (nuevoStock >= stock.getMinStock() && !stock.getArticuloInsumo().getExiste()) {
+                ArticuloInsumo insumo = stock.getArticuloInsumo();
+                insumo.setExiste(true);
+                insumoRepository.save(insumo);
+            }
+            
+            stockRepository.save(stock);
+            
+             log.info("Stock repuesto. Insumo: {}, Cantidad: {}", insumoId, cantidadADevolver);
+        } else {
+            
+             log.warn("Intento de devolver stock a un insumo sin registro en sucursal. ID: {}", insumoId);
+        }
+    }
+}
 }

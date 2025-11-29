@@ -49,7 +49,6 @@ public class EstadisticasService {
                 dto.setNombre(insumo.getNombre());
                 dto.setNivelActual(stock.getCantidad());
                 dto.setNivelMinimo(stock.getMinStock());
-                dto.setNivelMaximo(100);
                 dto.setUnidad(insumo.getUnidadMedida() != null ? 
                     insumo.getUnidadMedida().getUnidad().toString() : "unidad");
                 
