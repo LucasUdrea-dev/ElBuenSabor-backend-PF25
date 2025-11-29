@@ -45,7 +45,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     private final ArticuloRepository articuloRepository;
     private final PromocionRepository promocionRepository;
     private final DireccionRepository direccionRepository;
-    
+
     // REFACTOR: Usamos StockService en lugar del Repositorio directo
     private final StockService stockService;
 
@@ -140,12 +140,13 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         // 3. VALIDACIÓN DE STOCK (Delegada a StockService)
         // Transformamos el DTO de Pedido a un Mapa de Insumos Necesarios
         Map<Long, Integer> insumosNecesarios = calcularInsumosNecesarios(dto);
-        
+
         // Llamada al servicio externo
         StockCheckResponse stockResponse = stockService.validarStock(insumosNecesarios, sucursal.getId());
 
         if (!stockResponse.isHayStockSuficiente()) {
-            logger.warn("Stock insuficiente en sucursal {}. Faltantes: {}", sucursal.getId(), stockResponse.getProductosFaltantes());
+            logger.warn("Stock insuficiente en sucursal {}. Faltantes: {}", sucursal.getId(),
+                    stockResponse.getProductosFaltantes());
             throw new RuntimeException("Stock insuficiente: " + stockResponse.getMensaje() +
                     ". Productos faltantes: " + stockResponse.getProductosFaltantes());
         }
@@ -161,13 +162,14 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         pedido.setUsuario(usuario);
         pedido.setDetallePedidoList(new ArrayList<>());
         pedido.setDetallePromocionList(new ArrayList<>());
-        
+
         // Histórico Estado Inicial
         HistoricoEstadoPedido historicoInicial = new HistoricoEstadoPedido();
         historicoInicial.setEstadoPedido(estadoPedido);
         historicoInicial.setPedido(pedido);
         historicoInicial.setFechaCambio(new Date());
-        if (pedido.getHistoricoEstados() == null) pedido.setHistoricoEstados(new ArrayList<>());
+        if (pedido.getHistoricoEstados() == null)
+            pedido.setHistoricoEstados(new ArrayList<>());
         pedido.getHistoricoEstados().add(historicoInicial);
 
         // 5. Manejar Dirección
@@ -227,7 +229,8 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             historico.setEstadoPedido(nuevoEstado);
             historico.setPedido(existingPedido);
             historico.setFechaCambio(new Date());
-            if (existingPedido.getHistoricoEstados() == null) existingPedido.setHistoricoEstados(new ArrayList<>());
+            if (existingPedido.getHistoricoEstados() == null)
+                existingPedido.setHistoricoEstados(new ArrayList<>());
             existingPedido.getHistoricoEstados().add(historico);
         }
 
@@ -245,21 +248,22 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     // --- Helper Methods ---
 
     // Este método sigue siendo necesario aquí porque transforma el DTO del Pedido
-    // en una lista plana de ingredientes necesarios, que es lo que entiende StockService.
+    // en una lista plana de ingredientes necesarios, que es lo que entiende
+    // StockService.
     private Map<Long, Integer> calcularInsumosNecesarios(PedidoConDireccionDTO dto) {
         Map<Long, Integer> insumos = new HashMap<>();
-        
+
         if (dto.getDetallePedidoList() != null) {
             for (DetallePedidoDTO d : dto.getDetallePedidoList()) {
                 Articulo art = articuloRepository.findById(d.getArticulo().getId())
-                    .orElseThrow(() -> new RuntimeException("Artículo no encontrado: " + d.getArticulo().getId()));
+                        .orElseThrow(() -> new RuntimeException("Artículo no encontrado: " + d.getArticulo().getId()));
                 procesarArticuloParaStock(art, d.getCantidad(), insumos);
             }
         }
         if (dto.getDetallePromocionList() != null) {
             for (DetallePromocionDTO d : dto.getDetallePromocionList()) {
                 Promocion promo = promocionRepository.findById(d.getPromocion().getId())
-                    .orElseThrow(() -> new RuntimeException("Promoción no encontrada"));
+                        .orElseThrow(() -> new RuntimeException("Promoción no encontrada"));
                 for (PromocionArticulo pa : promo.getPromocionArticuloList()) {
                     procesarArticuloParaStock(pa.getIdArticulo(), pa.getCantidad() * d.getCantidad(), insumos);
                 }
@@ -298,8 +302,9 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
     private void manejarDireccionPedidoUpdate(Pedido pedido, PedidoConDireccionDTO dto, TipoEnvio tipoEnvio) {
         if (esEnvioConDireccion(tipoEnvio)) {
-            if (dto.getDireccion() == null) throw new RuntimeException("Dirección requerida");
-            
+            if (dto.getDireccion() == null)
+                throw new RuntimeException("Dirección requerida");
+
             if (pedido.getDireccionPedido() == null) {
                 manejarDireccionPedido(pedido, dto, tipoEnvio);
             } else {
@@ -310,17 +315,16 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             }
         } else {
             if (pedido.getDireccionPedido() != null) {
-                if(pedido.getDireccionPedido().getDireccion() != null) {
+                if (pedido.getDireccionPedido().getDireccion() != null) {
                     direccionRepository.delete(pedido.getDireccionPedido().getDireccion());
                 }
                 pedido.setDireccionPedido(null);
             }
         }
     }
-    
+
     private boolean esEnvioConDireccion(TipoEnvio tipoEnvio) {
-        return tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || 
-               tipoEnvio.getTipoDelivery() == TypeDelivery.TAKEAWAY;
+        return tipoEnvio.getTipoDelivery() == TypeDelivery.DELIVERY || false;
     }
 
     private void agregarDetallesAlPedido(Pedido pedido, PedidoConDireccionDTO dto) {
@@ -358,14 +362,14 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             logger.error("Error al enviar notificación WebSocket para pedido ID {}", pedido.getId(), e);
         }
     }
-    
+
     @Transactional
     public void eliminarPedido(Long id) throws Exception {
         Pedido pedido = pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("No encontrado"));
         pedido.setExiste(Boolean.FALSE);
         pedidoRepository.save(pedido);
     }
-    
+
     public List<PedidoConDireccionDTO> findAllExistentes() {
         return pedidoRepository.findAllByExisteTrue().stream()
                 .map(pedidoMapper::toPedidoConDireccionDto)
