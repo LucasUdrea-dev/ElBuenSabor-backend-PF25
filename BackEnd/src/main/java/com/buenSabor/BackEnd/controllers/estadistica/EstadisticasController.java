@@ -39,7 +39,7 @@ public class EstadisticasController {
                 estadisticasService.getTopProductosVendidos(sucursalId, limite);
             return ResponseEntity.ok(productos);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\":\"Error de datos de productos más vendidos: " + e.getMessage() + "\"}");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\":\"Error de datos de productos más vendidos: " + e.toString() + "\"}");
         }
     }
 
