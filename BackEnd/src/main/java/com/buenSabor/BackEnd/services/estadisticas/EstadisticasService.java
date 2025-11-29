@@ -110,44 +110,54 @@ public class EstadisticasService {
                 Map<String, List<VentaRegistro>> ventasPorArticulo = new HashMap<>();
         
         for (Pedido pedido : pedidos) {
-            if (pedido.getFecha() == null) continue;
-            
-            LocalDate fechaPedido = pedido.getFecha().toInstant()
-                    .atZone(ZoneId.systemDefault()).toLocalDate();
+            try {
+                if (pedido.getFecha() == null) continue;
+                
+                // Fix for java.sql.Date throwing UnsupportedOperationException on toInstant()
+                LocalDate fechaPedido;
+                if (pedido.getFecha() instanceof java.sql.Date) {
+                    fechaPedido = ((java.sql.Date) pedido.getFecha()).toLocalDate();
+                } else {
+                    fechaPedido = pedido.getFecha().toInstant()
+                            .atZone(ZoneId.systemDefault()).toLocalDate();
+                }
 
-            // 1. Procesa Ventas Directas 
-            if (pedido.getDetallePedidoList() != null) {
-                for (DetallePedido detalle : pedido.getDetallePedidoList()) {
-                    if (detalle.getArticulo() != null && detalle.getArticulo().getNombre() != null) {
-                        String nombre = detalle.getArticulo().getNombre();
-                        int cantidad = detalle.getCantidad() != null ? detalle.getCantidad() : 0;
-                        
-                        ventasPorArticulo.computeIfAbsent(nombre, k -> new ArrayList<>())
-                            .add(new VentaRegistro(fechaPedido, cantidad));
+                // 1. Procesa Ventas Directas 
+                if (pedido.getDetallePedidoList() != null) {
+                    for (DetallePedido detalle : pedido.getDetallePedidoList()) {
+                        if (detalle.getArticulo() != null && detalle.getArticulo().getNombre() != null) {
+                            String nombre = detalle.getArticulo().getNombre();
+                            int cantidad = detalle.getCantidad() != null ? detalle.getCantidad() : 0;
+                            
+                            ventasPorArticulo.computeIfAbsent(nombre, k -> new ArrayList<>())
+                                .add(new VentaRegistro(fechaPedido, cantidad));
+                        }
                     }
                 }
-            }
 
-            // 2. Procesar Promociones (DetallePromocion -> Desglosar Artículos)
-            if (pedido.getDetallePromocionList() != null) {
-                for (DetallePromocion detallePromo : pedido.getDetallePromocionList()) {
-                    Promocion promocion = detallePromo.getPromocion();
-                    int cantidadPromosVendidas = detallePromo.getCantidad();
+                // 2. Procesar Promociones (DetallePromocion -> Desglosar Artículos)
+                if (pedido.getDetallePromocionList() != null) {
+                    for (DetallePromocion detallePromo : pedido.getDetallePromocionList()) {
+                        Promocion promocion = detallePromo.getPromocion();
+                        int cantidadPromosVendidas = detallePromo.getCantidad();
 
-                    if (promocion != null && promocion.getPromocionArticuloList() != null) {
-                        // Recorremos la "receta" de la promoción
-                        for (PromocionArticulo promoArticulo : promocion.getPromocionArticuloList()) {
-                            if (promoArticulo.getIdArticulo() != null) {
-                                String nombreArticulo = promoArticulo.getIdArticulo().getNombre();
-                                // Cantidad total = (cantidad de promos vendidas) * (cantidad del artículo dentro de esa promo)
-                                int cantidadTotalArticulo = cantidadPromosVendidas * promoArticulo.getCantidad();
+                        if (promocion != null && promocion.getPromocionArticuloList() != null) {
+                            // Recorremos la "receta" de la promoción
+                            for (PromocionArticulo promoArticulo : promocion.getPromocionArticuloList()) {
+                                if (promoArticulo.getIdArticulo() != null) {
+                                    String nombreArticulo = promoArticulo.getIdArticulo().getNombre();
+                                    // Cantidad total = (cantidad de promos vendidas) * (cantidad del artículo dentro de esa promo)
+                                    int cantidadTotalArticulo = cantidadPromosVendidas * promoArticulo.getCantidad();
 
-                                ventasPorArticulo.computeIfAbsent(nombreArticulo, k -> new ArrayList<>())
-                                    .add(new VentaRegistro(fechaPedido, cantidadTotalArticulo));
+                                    ventasPorArticulo.computeIfAbsent(nombreArticulo, k -> new ArrayList<>())
+                                        .add(new VentaRegistro(fechaPedido, cantidadTotalArticulo));
+                                }
                             }
                         }
                     }
                 }
+            } catch (Exception e) {
+                throw new RuntimeException("Error procesando pedido ID " + pedido.getId() + ": " + e.toString(), e);
             }
         }
         
@@ -166,13 +176,16 @@ public class EstadisticasService {
                 String nombreArticulo = entry.getKey();
                 List<VentaRegistro> registros = entry.getValue();
                 
-                ProductoVendidoDTO dto = new ProductoVendidoDTO();
-                dto.setNombre(nombreArticulo);
-                dto.setVentasDiarias(calcularVentasDiarias(registros, ahora));
-                dto.setVentasSemanales(calcularVentasSemanales(registros, ahora));
-                dto.setVentasMensuales(calcularVentasMensuales(registros, ahora));
-                
-                return dto;
+                try {
+                    ProductoVendidoDTO dto = new ProductoVendidoDTO();
+                    dto.setNombre(nombreArticulo);
+                    dto.setVentasDiarias(calcularVentasDiarias(registros, ahora));
+                    dto.setVentasSemanales(calcularVentasSemanales(registros, ahora));
+                    dto.setVentasMensuales(calcularVentasMensuales(registros, ahora));
+                    return dto;
+                } catch (Exception e) {
+                    throw new RuntimeException("Error al procesar el artículo '" + nombreArticulo + "': " + e.toString(), e);
+                }
             })
             .collect(Collectors.toList());
     }
