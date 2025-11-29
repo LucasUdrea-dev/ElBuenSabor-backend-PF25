@@ -42,10 +42,10 @@ public class Usuario extends Bean {
     protected Boolean existe;
     protected String imagenUsuario;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     protected List<Telefono> telefonoList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "id_rol", referencedColumnName = "id")
     protected Rol rol;
 
@@ -58,7 +58,7 @@ public class Usuario extends Bean {
     @JsonIgnore
     protected UserAuthentication userAuthentication;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JsonIgnore
     protected List<Pedido> pedidoList;
 

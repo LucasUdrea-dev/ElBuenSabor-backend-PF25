@@ -26,10 +26,10 @@ public class ArticuloInsumo extends Articulo {
     @Column(name = "precio_compra")
     private Double precioCompra;
 
-    @OneToOne(mappedBy = "articuloInsumo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "articuloInsumo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private StockArticuloInsumo stockArticuloInsumo;
 
-    @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idArticuloInsumo", fetch = FetchType.LAZY)
     @JsonIgnore
     private List<HistoricoPrecioCostoArticuloInsumo> historicoPrecioCostoArticuloInsumoList;
 

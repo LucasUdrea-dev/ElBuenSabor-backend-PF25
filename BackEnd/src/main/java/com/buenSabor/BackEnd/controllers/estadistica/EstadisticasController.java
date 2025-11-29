@@ -3,6 +3,7 @@ package com.buenSabor.BackEnd.controllers.estadistica;
 import com.buenSabor.BackEnd.dto.estadisticas.IngresoDataDTO;
 import com.buenSabor.BackEnd.dto.estadisticas.InsumoStockDTO;
 import com.buenSabor.BackEnd.dto.estadisticas.ProductoVendidoDTO;
+import com.buenSabor.BackEnd.dto.producto.articulo.TopProductoDTO;
 import com.buenSabor.BackEnd.services.estadisticas.EstadisticasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,8 @@ public class EstadisticasController {
             @RequestParam(required = false) Long sucursalId,
             @RequestParam(required = false, defaultValue = "3") Integer limite) {
         try {
-            List<ProductoVendidoDTO> productos = 
-                estadisticasService.obtenerProductosMasVendidos(sucursalId, limite);
+            List<TopProductoDTO> productos = 
+                estadisticasService.getTopProductosVendidos(sucursalId, limite);
             return ResponseEntity.ok(productos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("{\"error\":\"Error de datos de productos más vendidos: " + e.toString() + "\"}");

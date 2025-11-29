@@ -2,16 +2,13 @@ package com.buenSabor.BackEnd.services.estadisticas;
 
 import com.buenSabor.BackEnd.dto.estadisticas.IngresoDataDTO;
 import com.buenSabor.BackEnd.dto.estadisticas.InsumoStockDTO;
-import com.buenSabor.BackEnd.dto.estadisticas.ProductoVendidoDTO;
+import com.buenSabor.BackEnd.dto.producto.articulo.TopProductoDTO;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.HistoricoStockArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
-import com.buenSabor.BackEnd.models.venta.DetallePedido;
-import com.buenSabor.BackEnd.models.venta.DetallePromocion;
 import com.buenSabor.BackEnd.models.venta.Pedido;
-import com.buenSabor.BackEnd.models.venta.Promocion;
-import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloInsumoRepository;
+import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
 import com.buenSabor.BackEnd.repositories.producto.HistoricoStockArticuloInsumoRepository;
 import com.buenSabor.BackEnd.repositories.venta.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +21,7 @@ import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.PageRequest;
 
 
 
@@ -34,6 +32,9 @@ public class EstadisticasService {
     @Autowired
     private ArticuloInsumoRepository articuloInsumoRepository;
 
+    @Autowired
+    private ArticuloRepository articuloRepository;
+    
     @Autowired
     private HistoricoStockArticuloInsumoRepository historicoStockRepository;
 
@@ -93,147 +94,8 @@ public class EstadisticasService {
             .collect(Collectors.toList());
     }
 
-    public List<ProductoVendidoDTO> obtenerProductosMasVendidos(Long sucursalId, Integer limite) {
-        LocalDate ahora = LocalDate.now();
-        LocalDate hace30Dias = ahora.minusDays(30);
-        
-        Date fechaInicio = Date.from(hace30Dias.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Date fechaFin = Date.from(ahora.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant()); 
-        
-        List<Pedido> pedidos = sucursalId != null ?
-            pedidoRepository.findBySucursal_IdAndFechaBetween(sucursalId, fechaInicio, fechaFin) :
-            pedidoRepository.findByFechaBetween(fechaInicio, fechaFin);
-        
-        if (pedidos == null || pedidos.isEmpty()) {
-            return new ArrayList<>();
-        }
-                Map<String, List<VentaRegistro>> ventasPorArticulo = new HashMap<>();
-        
-        for (Pedido pedido : pedidos) {
-            try {
-                if (pedido.getFecha() == null) continue;
-                
-                // Fix for java.sql.Date throwing UnsupportedOperationException on toInstant()
-                LocalDate fechaPedido;
-                if (pedido.getFecha() instanceof java.sql.Date) {
-                    fechaPedido = ((java.sql.Date) pedido.getFecha()).toLocalDate();
-                } else {
-                    fechaPedido = pedido.getFecha().toInstant()
-                            .atZone(ZoneId.systemDefault()).toLocalDate();
-                }
-
-                // 1. Procesa Ventas Directas 
-                if (pedido.getDetallePedidoList() != null) {
-                    for (DetallePedido detalle : pedido.getDetallePedidoList()) {
-                        if (detalle.getArticulo() != null && detalle.getArticulo().getNombre() != null) {
-                            String nombre = detalle.getArticulo().getNombre();
-                            int cantidad = detalle.getCantidad() != null ? detalle.getCantidad() : 0;
-                            
-                            ventasPorArticulo.computeIfAbsent(nombre, k -> new ArrayList<>())
-                                .add(new VentaRegistro(fechaPedido, cantidad));
-                        }
-                    }
-                }
-
-                // 2. Procesar Promociones (DetallePromocion -> Desglosar Artículos)
-                if (pedido.getDetallePromocionList() != null) {
-                    for (DetallePromocion detallePromo : pedido.getDetallePromocionList()) {
-                        Promocion promocion = detallePromo.getPromocion();
-                        int cantidadPromosVendidas = detallePromo.getCantidad();
-
-                        if (promocion != null && promocion.getPromocionArticuloList() != null) {
-                            // Recorremos la "receta" de la promoción
-                            for (PromocionArticulo promoArticulo : promocion.getPromocionArticuloList()) {
-                                if (promoArticulo.getIdArticulo() != null) {
-                                    String nombreArticulo = promoArticulo.getIdArticulo().getNombre();
-                                    // Cantidad total = (cantidad de promos vendidas) * (cantidad del artículo dentro de esa promo)
-                                    int cantidadTotalArticulo = cantidadPromosVendidas * promoArticulo.getCantidad();
-
-                                    ventasPorArticulo.computeIfAbsent(nombreArticulo, k -> new ArrayList<>())
-                                        .add(new VentaRegistro(fechaPedido, cantidadTotalArticulo));
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("Error procesando pedido ID " + pedido.getId() + ": " + e.toString(), e);
-            }
-        }
-        
-        if (ventasPorArticulo.isEmpty()) {
-            return new ArrayList<>();
-        }
-        
-        // Ordenar por cantidad total vendida y limitar
-        return ventasPorArticulo.entrySet().stream()
-            .sorted((e1, e2) -> Integer.compare(
-                e2.getValue().stream().mapToInt(VentaRegistro::getCantidad).sum(),
-                e1.getValue().stream().mapToInt(VentaRegistro::getCantidad).sum()
-            ))
-            .limit(limite != null ? limite : 3)
-            .map(entry -> {
-                String nombreArticulo = entry.getKey();
-                List<VentaRegistro> registros = entry.getValue();
-                
-                try {
-                    ProductoVendidoDTO dto = new ProductoVendidoDTO();
-                    dto.setNombre(nombreArticulo);
-                    dto.setVentasDiarias(calcularVentasDiarias(registros, ahora));
-                    dto.setVentasSemanales(calcularVentasSemanales(registros, ahora));
-                    dto.setVentasMensuales(calcularVentasMensuales(registros, ahora));
-                    return dto;
-                } catch (Exception e) {
-                    throw new RuntimeException("Error al procesar el artículo '" + nombreArticulo + "': " + e.toString(), e);
-                }
-            })
-            .collect(Collectors.toList());
-    }
-
-    // --- Métodos de cálculo de períodos actualizados para usar VentaRegistro ---
-
-    private List<Integer> calcularVentasDiarias(List<VentaRegistro> registros, LocalDate ahora) {
-        List<Integer> ventasDiarias = new ArrayList<>();
-        for (int i = 23; i >= 0; i--) {
-            LocalDate fechaObjetivo = ahora.minusDays(i);
-            int ventas = registros.stream()
-                .filter(r -> r.getFecha().equals(fechaObjetivo))
-                .mapToInt(VentaRegistro::getCantidad)
-                .sum();
-            ventasDiarias.add(ventas);
-        }
-        return ventasDiarias;
-    }
-
-    private List<Integer> calcularVentasSemanales(List<VentaRegistro> registros, LocalDate ahora) {
-        List<Integer> ventasSemanales = new ArrayList<>();
-        for (int i = 11; i >= 0; i--) {
-            LocalDate finSemana = ahora.minusWeeks(i);
-            LocalDate inicioSemana = finSemana.minusDays(6);
-            
-            int ventas = registros.stream()
-                .filter(r -> !r.getFecha().isBefore(inicioSemana) && !r.getFecha().isAfter(finSemana))
-                .mapToInt(VentaRegistro::getCantidad)
-                .sum();
-            ventasSemanales.add(ventas);
-        }
-        return ventasSemanales;
-    }
-
-    private List<Integer> calcularVentasMensuales(List<VentaRegistro> registros, LocalDate ahora) {
-        List<Integer> ventasMensuales = new ArrayList<>();
-        for (int i = 11; i >= 0; i--) {
-            LocalDate mes = ahora.minusMonths(i);
-            LocalDate inicioMes = mes.with(TemporalAdjusters.firstDayOfMonth());
-            LocalDate finMes = mes.with(TemporalAdjusters.lastDayOfMonth());
-            
-            int ventas = registros.stream()
-                .filter(r -> !r.getFecha().isBefore(inicioMes) && !r.getFecha().isAfter(finMes))
-                .mapToInt(VentaRegistro::getCantidad)
-                .sum();
-            ventasMensuales.add(ventas);
-        }
-        return ventasMensuales;
+  public List<TopProductoDTO> getTopProductosVendidos(Long sucursalId, int limite) {
+        return articuloRepository.obtenerTopProductosPorSucursal(sucursalId, PageRequest.of(0, limite));
     }
 
     // --- Métodos de Ingresos (Revenue) ---

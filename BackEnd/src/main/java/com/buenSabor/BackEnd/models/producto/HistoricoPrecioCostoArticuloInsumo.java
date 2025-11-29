@@ -29,7 +29,7 @@ public class HistoricoPrecioCostoArticuloInsumo extends Bean {
     @Column(name = "precio")
     private Double precio;
     @JoinColumn(name = "id_articulo_insumo", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private ArticuloInsumo idArticuloInsumo;
 
 }
