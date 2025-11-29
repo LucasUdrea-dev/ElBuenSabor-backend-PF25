@@ -33,7 +33,7 @@ public class StockArticuloInsumo extends Bean {
     @Column(name = "cantidad")
     private Integer cantidad;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_articulo_insumo", referencedColumnName = "id")
     @JsonIgnore
     private ArticuloInsumo articuloInsumo;
@@ -42,7 +42,7 @@ public class StockArticuloInsumo extends Bean {
     @JoinColumn(name = "sucursal_id") // O el nombre de la columna que tengas en tu DB
     private Sucursal sucursal;
 
-    @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<HistoricoStockArticuloInsumo> historicoStockArticuloInsumoList;
 

@@ -42,21 +42,21 @@ public class Articulo extends Bean {
     protected Boolean esParaElaborar;
     protected String imagenArticulo;
 
-    @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "articulo", fetch = FetchType.LAZY)
     @JsonIgnore
     protected List<DetallePedido> detallePedidoList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.LAZY)
     @JsonIgnore
     protected List<HistoricoPrecioVentaArticulo> historicoPrecioVentaArticuloList;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     protected Subcategoria subcategoria;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     protected UnidadMedida unidadMedida;
 
-    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idArticulo", fetch = FetchType.LAZY)
     @JsonIgnore
     protected List<PromocionArticulo> promocionArticuloList;
     

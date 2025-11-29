@@ -28,11 +28,11 @@ public class Subcategoria extends Bean {
     @Column(name = "denominacion")
     private String denominacion;
 
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH }, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categoria", referencedColumnName = "id")
     private Categoria categoria;
 
-    @OneToMany(mappedBy = "subcategoria", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JsonIgnore
     private List<Articulo> articuloList;
 

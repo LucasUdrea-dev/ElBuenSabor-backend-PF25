@@ -38,14 +38,14 @@ public class Promocion extends Bean {
     private String imagen;
 
     @JoinColumn(name = "sucursal_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Sucursal sucursal;
 
     @JoinColumn(name = "id_tipo_promocion", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private TipoPromocion TipoPromocion;
 
-    @OneToMany(mappedBy = "idPromocion", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "idPromocion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PromocionArticulo> promocionArticuloList;
 
     @OneToMany(mappedBy = "promocion", fetch = FetchType.LAZY)

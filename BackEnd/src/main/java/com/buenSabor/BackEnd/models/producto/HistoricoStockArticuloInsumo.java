@@ -29,7 +29,7 @@ public class HistoricoStockArticuloInsumo extends Bean {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaActualizacion;
     @JoinColumn(name = "id_stock_articuloInsumo", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private StockArticuloInsumo idstockarticuloInsumo;
 
 }
