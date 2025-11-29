@@ -29,7 +29,7 @@ public class Empleado extends Usuario {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaAlta;
     @JoinColumn(name = "id_sucursal", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Sucursal idSucursal;
 
 }

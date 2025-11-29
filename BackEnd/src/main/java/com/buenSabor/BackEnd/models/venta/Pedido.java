@@ -41,27 +41,27 @@ public class Pedido extends Bean {
     @Temporal(TemporalType.DATE)
     private Date fecha;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DetallePedido> detallePedidoList = new ArrayList<>();
 
     @JoinColumn(name = "id_estado_pedido", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private EstadoPedido estadoPedido;
 
     @JoinColumn(name = "id_sucursal", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Sucursal sucursal;
 
     @JoinColumn(name = "id_tipo_envio", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private TipoEnvio tipoEnvio;
 
     @JoinColumn(name = "id_tipo_pago", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private TipoPago tipoPago;
 
     @JoinColumn(name = "id_cliente", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     private Usuario usuario;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

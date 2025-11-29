@@ -23,7 +23,7 @@ public class Telefono extends Bean {
 
     @Column(name = "numero")
     private BigInteger numero;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Usuario usuario;
 

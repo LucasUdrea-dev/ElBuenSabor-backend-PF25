@@ -28,7 +28,7 @@ public class Empresa extends Bean {
     @Column(name = "cuil")
     private String cuil;
     private boolean existe;
-    @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Sucursal> sucursalList;
 
 }
