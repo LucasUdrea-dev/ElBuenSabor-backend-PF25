@@ -1,6 +1,7 @@
 package com.buenSabor.BackEnd.controllers.venta;
 
 import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
+import com.buenSabor.BackEnd.models.venta.Pedido;
 import com.buenSabor.BackEnd.services.venta.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -164,16 +165,16 @@ public class PedidoController {
         }
     }
 
-    /*
+    
     @Operation(summary = "Buscar pedidos por ID de usuario")
-    @GetMapping("/byUser/{userId}")
-    public ResponseEntity<?> getPedidosByUsuario(@PathVariable Long userId) {
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<?> getPedidosByUsuario(@PathVariable Long id) {
         try {
             // Assuming pedidoService has findPedidosByUsuario that returns List<PedidoConDireccionDTO>
-            List<PedidoConDireccionDTO> pedidos = pedidoService.findPedidosByUsuario(userId);
+            List<PedidoConDireccionDTO> pedidos = pedidoService.findByUserId(id);
             if (pedidos.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("{\"message\":\"No se encontraron pedidos para el usuario con ID: " + userId + "\"}");
+                        .body("{\"message\":\"No se encontraron pedidos para el usuario con ID: " + id + "\"}");
             }
             return ResponseEntity.ok(pedidos);
         } catch (Exception e) {
@@ -181,5 +182,4 @@ public class PedidoController {
                     .body("{\"error\":\"Error al buscar pedidos por usuario: " + e.getMessage() + "\"}");
         }
     }
-    */
 }
