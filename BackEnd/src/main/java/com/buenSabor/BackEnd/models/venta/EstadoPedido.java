@@ -25,7 +25,7 @@ import java.util.List;
 public class EstadoPedido extends Bean {
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "nombre_estado")
+    @Column(name = "nombre_estado", length = 50)
     private TypeState nombreEstado;
     @OneToMany(mappedBy = "estadoPedido", fetch = FetchType.EAGER)
     @JsonIgnore

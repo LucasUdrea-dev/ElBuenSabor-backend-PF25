@@ -7,5 +7,6 @@ public enum TypeState {
     REJECTED,
     INCOMING,
     DELIVERED,
-    READY
+    READY,
+    DELIVERING
 }

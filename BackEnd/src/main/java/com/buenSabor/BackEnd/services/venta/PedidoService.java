@@ -137,24 +137,23 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             throw new RuntimeException("El pedido debe contener al menos un artículo o una promoción.");
         }
 
-        // 3. VALIDACIÓN DE STOCK 
-Map<Long, Integer> insumosNecesarios = calcularInsumosNecesarios(dto);
-StockCheckResponse stockResponse = stockService.validarStock(insumosNecesarios, sucursal.getId());
+        // 3. VALIDACIÓN DE STOCK
+        Map<Long, Integer> insumosNecesarios = calcularInsumosNecesarios(dto);
+        StockCheckResponse stockResponse = stockService.validarStock(insumosNecesarios, sucursal.getId());
 
-if (!stockResponse.isHayStockSuficiente()) {
-    String detalleFaltantes = stockResponse.getProductosFaltantes().stream()
-            .map(p -> p.getNombre() + " (faltan " + p.getCantidadFaltante() + " unidades)")
-            .collect(Collectors.joining(", "));
+        if (!stockResponse.isHayStockSuficiente()) {
+            String detalleFaltantes = stockResponse.getProductosFaltantes().stream()
+                    .map(p -> p.getNombre() + " (faltan " + p.getCantidadFaltante() + " unidades)")
+                    .collect(Collectors.joining(", "));
 
-    String mensajeUsuario = String.format(
-            "No es posible completar el pedido debido a falta de stock. Los siguientes productos no están disponibles en las cantidades solicitadas: %s. Por favor, ajuste su pedido e intente nuevamente.",
-            detalleFaltantes
-    );
+            String mensajeUsuario = String.format(
+                    "No es posible completar el pedido debido a falta de stock. Los siguientes productos no están disponibles en las cantidades solicitadas: %s. Por favor, ajuste su pedido e intente nuevamente.",
+                    detalleFaltantes);
 
-    logger.warn("Stock insuficiente en sucursal {}. Faltantes: {}", sucursal.getId(), detalleFaltantes);
-    
-    throw new RuntimeException(mensajeUsuario);
-}
+            logger.warn("Stock insuficiente en sucursal {}. Faltantes: {}", sucursal.getId(), detalleFaltantes);
+
+            throw new RuntimeException(mensajeUsuario);
+        }
 
         logger.info("Stock validado correctamente. Procediendo a crear pedido.");
 
@@ -202,107 +201,179 @@ if (!stockResponse.isHayStockSuficiente()) {
         return pedidoFinalDto;
     }
 
-   @Transactional
-public PedidoConDireccionDTO actualizarPedido(Long id, PedidoConDireccionDTO dto) throws Exception {
-    Pedido existingPedido = pedidoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("El pedido que intenta actualizar no existe."));
+    @Transactional
+    public PedidoConDireccionDTO actualizarPedido(Long id, PedidoConDireccionDTO dto) throws Exception {
+        Pedido existingPedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("El pedido que intenta actualizar no existe."));
 
-    // --- 1. PREPARACIÓN DE DATOS ---
-    EstadoPedido estadoAnterior = existingPedido.getEstadoPedido();
-    EstadoPedido nuevoEstado = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
-            .orElseThrow(() -> new RuntimeException("Estado de Pedido no encontrado."));
-    Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
-            .orElseThrow(() -> new RuntimeException("Sucursal no encontrada."));
+        // --- 1. PREPARACIÓN DE DATOS ---
+        EstadoPedido estadoAnterior = existingPedido.getEstadoPedido();
+        EstadoPedido nuevoEstado = estadoPedidoRepository.findById(dto.getEstadoPedido().getId())
+                .orElseThrow(() -> new RuntimeException("Estado de Pedido no encontrado."));
+        Sucursal sucursal = sucursalRepository.findById(dto.getSucursal().getId())
+                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada."));
 
-    // --- 2. GESTIÓN DE STOCK ---
-    
-    // A. Liberar Stock Previo:
-    // Calculamos qué insumos tenía el pedido ANTES de la modificación y los devolvemos al inventario.
-    PedidoConDireccionDTO oldDto = pedidoMapper.toPedidoConDireccionDto(existingPedido);
-    Map<Long, Integer> insumosLiberados = calcularInsumosNecesarios(oldDto);
-    stockService.reponerStock(insumosLiberados, existingPedido.getSucursal().getId());
+        // --- 2. GESTIÓN DE STOCK ---
 
-    // B. Determinar si se requiere stock nuevo:
-    // Si el NUEVO estado es Cancelado o Rechazado, no descontamos nada 
-    boolean pedidoCancelado = isEstadoCanceladoORechazado(nuevoEstado.getNombreEstado());
-    
-    if (!pedidoCancelado) {
-        // C. Calcular nuevos requerimientos 
-        Map<Long, Integer> insumosNuevos = calcularInsumosNecesarios(dto);
+        // A. Liberar Stock Previo:
+        // Calculamos qué insumos tenía el pedido ANTES de la modificación y los
+        // devolvemos al inventario.
+        PedidoConDireccionDTO oldDto = pedidoMapper.toPedidoConDireccionDto(existingPedido);
+        Map<Long, Integer> insumosLiberados = calcularInsumosNecesarios(oldDto);
+        stockService.reponerStock(insumosLiberados, existingPedido.getSucursal().getId());
 
-        // D. Validar disponibilidad
-        StockCheckResponse stockResponse = stockService.validarStock(insumosNuevos, sucursal.getId());
+        // B. Determinar si se requiere stock nuevo:
+        // Si el NUEVO estado es Cancelado o Rechazado, no descontamos nada
+        boolean pedidoCancelado = isEstadoCanceladoORechazado(nuevoEstado.getNombreEstado());
 
-        if (!stockResponse.isHayStockSuficiente()) {
-            
-            String detalleFaltantes = stockResponse.getProductosFaltantes().stream()
-                    .map(p -> p.getNombre() + " (faltan " + p.getCantidadFaltante() + " unidades)")
-                    .collect(Collectors.joining(", "));
+        if (!pedidoCancelado) {
+            // C. Calcular nuevos requerimientos
+            Map<Long, Integer> insumosNuevos = calcularInsumosNecesarios(dto);
 
-            String mensajeUsuario = String.format(
-                    "No es posible actualizar el pedido debido a falta de stock. Los siguientes productos no están disponibles: %s. Por favor, revise las cantidades.",
-                    detalleFaltantes
-            );
+            // D. Validar disponibilidad
+            StockCheckResponse stockResponse = stockService.validarStock(insumosNuevos, sucursal.getId());
 
-        
-            // El "reponerStock" del paso A se deshace, por lo que el inventario vuelve a su estado original seguro
-            throw new RuntimeException(mensajeUsuario);
+            if (!stockResponse.isHayStockSuficiente()) {
+
+                String detalleFaltantes = stockResponse.getProductosFaltantes().stream()
+                        .map(p -> p.getNombre() + " (faltan " + p.getCantidadFaltante() + " unidades)")
+                        .collect(Collectors.joining(", "));
+
+                String mensajeUsuario = String.format(
+                        "No es posible actualizar el pedido debido a falta de stock. Los siguientes productos no están disponibles: %s. Por favor, revise las cantidades.",
+                        detalleFaltantes);
+
+                // El "reponerStock" del paso A se deshace, por lo que el inventario vuelve a su
+                // estado original seguro
+                throw new RuntimeException(mensajeUsuario);
+            }
+
+            // E. Descontar el stock nuevo
+            stockService.descontarStock(insumosNuevos, sucursal.getId());
+        } else {
+            logger.info(
+                    "El pedido ID {} pasa a estado {}, el stock ha sido liberado y no se realizarán nuevos descuentos.",
+                    id, nuevoEstado.getNombreEstado());
         }
 
-        // E. Descontar el stock nuevo
-        stockService.descontarStock(insumosNuevos, sucursal.getId());
-    } else {
-        logger.info("El pedido ID {} pasa a estado {}, el stock ha sido liberado y no se realizarán nuevos descuentos.", id, nuevoEstado.getNombreEstado());
+        // --- 3. ACTUALIZACIÓN DE ENTIDADES ---
+
+        // Validar otras entidades
+        TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
+                .orElseThrow(() -> new RuntimeException("Tipo de Envío no encontrado."));
+        TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
+                .orElseThrow(() -> new RuntimeException("Tipo de Pago no encontrado."));
+        Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
+
+        // Actualizar campos básicos
+        pedidoMapper.updatePedidoFromDto(dto, existingPedido);
+        existingPedido.setTiempoEstimado(dto.getTiempoEstimado());
+        existingPedido.setEstadoPedido(nuevoEstado);
+        existingPedido.setSucursal(sucursal);
+        existingPedido.setTipoEnvio(tipoEnvio);
+        existingPedido.setTipoPago(tipoPago);
+        existingPedido.setUsuario(usuario);
+
+        // Histórico de estados
+        if (!nuevoEstado.getId().equals(estadoAnterior.getId())) {
+            HistoricoEstadoPedido historico = new HistoricoEstadoPedido();
+            historico.setEstadoPedido(nuevoEstado);
+            historico.setPedido(existingPedido);
+            historico.setFechaCambio(new Date());
+            if (existingPedido.getHistoricoEstados() == null)
+                existingPedido.setHistoricoEstados(new ArrayList<>());
+            existingPedido.getHistoricoEstados().add(historico);
+        }
+
+        // Actualizar Direcciones y Detalles
+        manejarDireccionPedidoUpdate(existingPedido, dto, tipoEnvio);
+        actualizarDetallesPedido(existingPedido, dto);
+
+        // Guardar cambios finales
+        Pedido updatedPedido = pedidoRepository.save(existingPedido);
+        PedidoConDireccionDTO pedidoActualizadoDto = pedidoMapper.toPedidoConDireccionDto(updatedPedido);
+
+        // Notificación
+        enviarNotificacionWebSocket(updatedPedido, pedidoActualizadoDto);
+
+        return pedidoActualizadoDto;
     }
 
-    // --- 3. ACTUALIZACIÓN DE ENTIDADES ---
-    
-    // Validar otras entidades
-    TipoEnvio tipoEnvio = tipoEnvioRepository.findById(dto.getTipoEnvio().getId())
-            .orElseThrow(() -> new RuntimeException("Tipo de Envío no encontrado."));
-    TipoPago tipoPago = tipoPagoRepository.findById(dto.getTipoPago().getId())
-            .orElseThrow(() -> new RuntimeException("Tipo de Pago no encontrado."));
-    Usuario usuario = usuarioRepository.findById(dto.getUsuario().getId())
-            .orElseThrow(() -> new RuntimeException("Usuario no encontrado."));
+    @Transactional
+    public PedidoConDireccionDTO updatePedidoEstado(Long id, String estadoStr) throws Exception {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID: " + id));
 
-    // Actualizar campos básicos
-    pedidoMapper.updatePedidoFromDto(dto, existingPedido);
-    existingPedido.setTiempoEstimado(dto.getTiempoEstimado());
-    existingPedido.setEstadoPedido(nuevoEstado);
-    existingPedido.setSucursal(sucursal);
-    existingPedido.setTipoEnvio(tipoEnvio);
-    existingPedido.setTipoPago(tipoPago);
-    existingPedido.setUsuario(usuario);
+        TypeState nuevoEstadoEnum;
+        try {
+            nuevoEstadoEnum = TypeState.valueOf(estadoStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Estado inválido: " + estadoStr);
+        }
 
-    // Histórico de estados
-    if (!nuevoEstado.getId().equals(estadoAnterior.getId())) {
+        EstadoPedido nuevoEstado = estadoPedidoRepository.findByNombreEstado(nuevoEstadoEnum)
+                .orElseThrow(() -> new RuntimeException("EstadoPedido no encontrado para el enum: " + nuevoEstadoEnum));
+
+        EstadoPedido estadoAnterior = pedido.getEstadoPedido();
+        TypeState anteriorEstadoEnum = estadoAnterior.getNombreEstado();
+
+        if (anteriorEstadoEnum == nuevoEstadoEnum) {
+            return pedidoMapper.toPedidoConDireccionDto(pedido);
+        }
+
+        boolean isNuevoCancelado = isEstadoCanceladoORechazado(nuevoEstadoEnum);
+        boolean isAnteriorCancelado = isEstadoCanceladoORechazado(anteriorEstadoEnum);
+
+        // 1. Si el pedido estaba activo y pasa a cancelado/rechazado -> Devolver Stock
+        if (!isAnteriorCancelado && isNuevoCancelado) {
+            PedidoConDireccionDTO pedidoDTO = pedidoMapper.toPedidoConDireccionDto(pedido);
+            Map<Long, Integer> insumos = calcularInsumosNecesarios(pedidoDTO);
+            stockService.reponerStock(insumos, pedido.getSucursal().getId());
+            logger.info("Pedido {} cancelado/rechazado. Stock repuesto.", id);
+        }
+        // 2. Si el pedido estaba cancelado/rechazado y pasa a activo -> Descontar Stock (Validar primero)
+        else if (isAnteriorCancelado && !isNuevoCancelado) {
+            PedidoConDireccionDTO pedidoDTO = pedidoMapper.toPedidoConDireccionDto(pedido);
+            Map<Long, Integer> insumos = calcularInsumosNecesarios(pedidoDTO);
+            
+            StockCheckResponse stockResponse = stockService.validarStock(insumos, pedido.getSucursal().getId());
+            if (!stockResponse.isHayStockSuficiente()) {
+                 String detalleFaltantes = stockResponse.getProductosFaltantes().stream()
+                    .map(p -> p.getNombre() + " (faltan " + p.getCantidadFaltante() + " unidades)")
+                    .collect(Collectors.joining(", "));
+                throw new RuntimeException("No se puede reactivar el pedido por falta de stock: " + detalleFaltantes);
+            }
+            stockService.descontarStock(insumos, pedido.getSucursal().getId());
+            logger.info("Pedido {} reactivado. Stock descontado.", id);
+        }
+        // 3. Si cambia entre estados activos (ej: PREPARING -> READY) -> No tocar Stock
+
+        // Actualizar estado
+        pedido.setEstadoPedido(nuevoEstado);
+        
+        // Registrar Histórico
         HistoricoEstadoPedido historico = new HistoricoEstadoPedido();
         historico.setEstadoPedido(nuevoEstado);
-        historico.setPedido(existingPedido);
+        historico.setPedido(pedido);
         historico.setFechaCambio(new Date());
-        if (existingPedido.getHistoricoEstados() == null)
-            existingPedido.setHistoricoEstados(new ArrayList<>());
-        existingPedido.getHistoricoEstados().add(historico);
+        if (pedido.getHistoricoEstados() == null) {
+            pedido.setHistoricoEstados(new ArrayList<>());
+        }
+        pedido.getHistoricoEstados().add(historico);
+
+        Pedido savedPedido = pedidoRepository.save(pedido);
+        PedidoConDireccionDTO resultDTO = pedidoMapper.toPedidoConDireccionDto(savedPedido);
+
+        // Notificar WebSocket
+        enviarNotificacionWebSocket(savedPedido, resultDTO);
+
+        return resultDTO;
     }
 
-    // Actualizar Direcciones y Detalles
-    manejarDireccionPedidoUpdate(existingPedido, dto, tipoEnvio);
-    actualizarDetallesPedido(existingPedido, dto);
-
-    // Guardar cambios finales
-    Pedido updatedPedido = pedidoRepository.save(existingPedido);
-    PedidoConDireccionDTO pedidoActualizadoDto = pedidoMapper.toPedidoConDireccionDto(updatedPedido);
-
-    // Notificación
-    enviarNotificacionWebSocket(updatedPedido, pedidoActualizadoDto);
-
-    return pedidoActualizadoDto;
-}
-
-private boolean isEstadoCanceladoORechazado(TypeState estado) {
-    return estado == TypeState.CANCELLED || estado == TypeState.REJECTED;
-}
-
+    private boolean isEstadoCanceladoORechazado(TypeState estado) {
+        return estado == TypeState.CANCELLED || estado == TypeState.REJECTED;
+    }
 
     private Map<Long, Integer> calcularInsumosNecesarios(PedidoConDireccionDTO dto) {
         Map<Long, Integer> insumos = new HashMap<>();

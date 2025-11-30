@@ -17,10 +17,15 @@ public class EstadoPedidoInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (estadoPedidoRepository.count() == 0) {
-            Arrays.stream(TypeState.values())
-                    .map(estado -> new EstadoPedido(estado, new ArrayList<>()))
-                    .forEach(estadoPedidoRepository::save);
+        try {
+            for (TypeState estado : TypeState.values()) {
+                if (!estadoPedidoRepository.existsByNombreEstado(estado)) {
+                    estadoPedidoRepository.save(new EstadoPedido(estado, new ArrayList<>()));
+                    System.out.println("EstadoPedidoInitializer: Nuevo estado guardado: " + estado);
+                }
+            }
+        } catch (Exception e) {
+            throw e; // Re-throw the exception to be handled by the application's logging.
         }
     }
 }
