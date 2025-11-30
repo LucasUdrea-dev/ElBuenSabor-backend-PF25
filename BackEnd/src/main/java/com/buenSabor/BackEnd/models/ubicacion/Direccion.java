@@ -5,6 +5,7 @@ import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.user.UsuarioDireccion;
 import com.buenSabor.BackEnd.models.venta.DireccionPedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Table(name = "Direccion")
 public class Direccion extends Bean {
 
