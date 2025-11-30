@@ -36,7 +36,8 @@ public class WebSocketService {
             TypeState.STANDBY,
             TypeState.READY,
             TypeState.REJECTED,
-            TypeState.CANCELLED);
+            TypeState.CANCELLED,
+            TypeState.DELIVERED);
 
     // COCINERO: Ve pedidos para aceptar (STANDBY) y los que están en curso
     // (PREPARING)
