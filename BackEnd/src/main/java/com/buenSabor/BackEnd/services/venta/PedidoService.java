@@ -108,6 +108,12 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     }
 
     @Transactional(readOnly = true)
+    public List<PedidoConDireccionDTO> findByUserId(Long userId) throws Exception{
+        List<Pedido> pedidos = pedidoRepository.findByUsuarioId(userId);
+        return pedidoMapper.toPedidoConDireccionDtoList(pedidos);
+    }
+
+    @Transactional(readOnly = true)
     public Page<PedidoConDireccionDTO> findAllPedidosConDireccionDTO(Pageable pageable) throws Exception {
         Page<Pedido> pedidosPage = pedidoRepository.findAll(pageable);
         return pedidosPage.map(pedidoMapper::toPedidoConDireccionDto);

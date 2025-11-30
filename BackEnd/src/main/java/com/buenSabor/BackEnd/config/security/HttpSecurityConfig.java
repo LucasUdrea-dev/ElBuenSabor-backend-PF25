@@ -148,7 +148,7 @@ public class HttpSecurityConfig {
                                         authConfig.requestMatchers(HttpMethod.POST, "/api/usuarios/**")
                                                         .hasRole("ADMIN");
                                         authConfig.requestMatchers(HttpMethod.PUT, "/api/usuarios/**")
-                                                        .hasAnyRole("ADMIN", "CUSTOMER");
+                                                        .hasAnyRole("ADMIN", "CUSTOMER", "COCINERO", "CAJERO", "DELIVERY");
                                         authConfig.requestMatchers(HttpMethod.DELETE, "/api/usuarios/**")
                                                         .hasRole("ADMIN");
 
