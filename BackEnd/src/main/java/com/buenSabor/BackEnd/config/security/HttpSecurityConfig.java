@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -17,228 +18,290 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class HttpSecurityConfig {
 
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
-    @Autowired
-    private JwtAuthenticationFilter authenticationFilter;
+        @Autowired
+        private AuthenticationProvider authenticationProvider;
+        @Autowired
+        private JwtAuthenticationFilter authenticationFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf(crsfConfig -> crsfConfig.disable()) // Previene vulnerabilidades
-                .sessionManagement(
-                        sessionMangConfig -> sessionMangConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // Cada peticion sera autonoma e independiente del resto, con STATELESS Se crea
-                // sin seciones
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(authConfig -> {
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+                httpSecurity
+                                .csrf(crsfConfig -> crsfConfig.disable()) // Previene vulnerabilidades
+                                .cors(Customizer.withDefaults()) // Habilita configuración CORS definida en
+                                                                 // WebConfig/Beans
+                                .sessionManagement(
+                                                sessionMangConfig -> sessionMangConfig
+                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                // Cada peticion sera autonoma e independiente del resto, con STATELESS Se crea
+                                // sin seciones
+                                .authenticationProvider(authenticationProvider)
+                                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                                .authorizeHttpRequests(authConfig -> {
 
-                    // =======================================================================================
-                    // CONFIGURACIONES CORS
-                    // =======================================================================================
+                                        // =======================================================================================
+                                        // CONFIGURACIONES CORS
+                                        // =======================================================================================
 
-                    authConfig.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
 
-                    // =======================================================================================
-                    // ENDPOINTS PÚBLICOS
-                    // =======================================================================================
+                                        // =======================================================================================
+                                        // ENDPOINTS PÚBLICOS
+                                        // =======================================================================================
 
-                    // Login y autenticación
-                    authConfig.requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll();
+                                        // Login y autenticación
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll();
 
-                    authConfig.requestMatchers(
-                            "/v3/api-docs/**",
-                            "/swagger-ui/**",
-                            "/swagger-ui.html",
-                            "/swagger-resources/**",
-                            "/webjars/**",
-                            "/dev/doc", // Página principal del Swagger UI
-                            "/dev/doc/**", // Cualquier subruta
-                            "/error").permitAll();
+                                        authConfig.requestMatchers(
+                                                        "/v3/api-docs/**",
+                                                        "/swagger-ui/**",
+                                                        "/swagger-ui.html",
+                                                        "/swagger-resources/**",
+                                                        "/webjars/**",
+                                                        "/dev/doc", // Página principal del Swagger UI
+                                                        "/dev/doc/**", // Cualquier subruta
+                                                        "/error").permitAll();
 
-                    // =======================================================================================
-                    // ENDPOINTS DE EMPRESA Y SUCURSAL
-                    // =======================================================================================
+                                        // =======================================================================================
+                                        // ENDPOINTS DE EMPRESA Y SUCURSAL
+                                        // =======================================================================================
 
-                    // Empresas
-                    authConfig.requestMatchers("/api/empresas/**").hasRole("ADMIN");
+                                        // Empresas
+                                        authConfig.requestMatchers("/api/empresas/**").hasRole("ADMIN");
 
-                    // Sucursales
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/sucursales/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/sucursales/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/sucursales/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/sucursales/**").hasRole("ADMIN");
+                                        // Sucursales
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/sucursales/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/sucursales/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/sucursales/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/sucursales/**")
+                                                        .hasRole("ADMIN");
 
-                    // =======================================================================================
-                    // ENDPOINTS DE PRODUCTOS
-                    // =======================================================================================
+                                        // =======================================================================================
+                                        // ENDPOINTS DE PRODUCTOS
+                                        // =======================================================================================
 
-                    // Categorías
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/categoria/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/categoria/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/categoria/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/categoria/**").hasRole("ADMIN");
+                                        // Categorías
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/categoria/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/categoria/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/categoria/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/categoria/**")
+                                                        .hasRole("ADMIN");
 
-                    // Subcategorías
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/subcategoria/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/subcategoria/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/subcategoria/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/subcategoria/**").hasRole("ADMIN");
+                                        // Subcategorías
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/subcategoria/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/subcategoria/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/subcategoria/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/subcategoria/**")
+                                                        .hasRole("ADMIN");
 
-                    // Artículos
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/articulo/**").permitAll();
+                                        // Artículos
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/articulo/**").permitAll();
 
-                    // Insumos
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/insumos/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/insumos/**").hasAnyRole("ADMIN", "COCINERO");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/insumos/**").hasAnyRole("ADMIN", "COCINERO");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/insumos/**").hasAnyRole("ADMIN", "COCINERO");
+                                        // Insumos
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/insumos/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/insumos/**")
+                                                        .hasAnyRole("ADMIN", "COCINERO");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/insumos/**")
+                                                        .hasAnyRole("ADMIN", "COCINERO");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/insumos/**")
+                                                        .hasAnyRole("ADMIN", "COCINERO");
 
-                    // Artículos Manufacturados
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/articuloManufacturado/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/articuloManufacturado/**").hasAnyRole("ADMIN",
-                            "COCINERO");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/articuloManufacturado/**").hasAnyRole("ADMIN",
-                            "COCINERO");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/articuloManufacturado/**").hasAnyRole("ADMIN",
-                            "COCINERO");
+                                        // Artículos Manufacturados
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/articuloManufacturado/**")
+                                                        .permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/articuloManufacturado/**")
+                                                        .hasAnyRole("ADMIN",
+                                                                        "COCINERO");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/articuloManufacturado/**")
+                                                        .hasAnyRole("ADMIN",
+                                                                        "COCINERO");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/articuloManufacturado/**")
+                                                        .hasAnyRole("ADMIN",
+                                                                        "COCINERO");
 
-                    // =======================================================================================
-                    // ENDPOINTS DE STOCK
-                    // =======================================================================================
+                                        // =======================================================================================
+                                        // ENDPOINTS DE STOCK
+                                        // =======================================================================================
 
-                    // Stock
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/stock/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/stock/**").hasAnyRole("ADMIN", "COCINERO");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/stock/**").hasAnyRole("ADMIN", "COCINERO");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/stock/**").hasAnyRole("ADMIN", "COCINERO");
+                                        // Stock
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/stock/**").authenticated();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/stock/**").hasAnyRole("ADMIN",
+                                                        "COCINERO");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/stock/**").hasAnyRole("ADMIN",
+                                                        "COCINERO");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/stock/**")
+                                                        .hasAnyRole("ADMIN", "COCINERO");
 
-                    // =======================================================================================
-                    // ENDPOINTS DE USUARIOS
-                    // =======================================================================================
+                                        // =======================================================================================
+                                        // ENDPOINTS DE USUARIOS
+                                        // =======================================================================================
 
-                    // Usuarios
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/usuarios/**").hasAnyRole("ADMIN", "COCINERO","CAJERO");
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/usuarios/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/usuarios/**").hasAnyRole("ADMIN", "CUSTOMER");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/usuarios/**").hasRole("ADMIN");
+                                        // Usuarios
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/usuarios/**")
+                                                        .hasAnyRole("ADMIN", "COCINERO", "CAJERO");
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/usuarios/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/usuarios/**")
+                                                        .hasAnyRole("ADMIN", "CUSTOMER");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/usuarios/**")
+                                                        .hasRole("ADMIN");
 
+                                        // Empleados
+                                        authConfig.requestMatchers("/api/empleados/**").hasRole("ADMIN");
 
-                    // Empleados
-                    authConfig.requestMatchers("/api/empleados/**").hasRole("ADMIN");
+                                        // Teléfonos
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/telefonos/usuario/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/telefonos/usuario/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/telefonos/usuario/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/telefonos/usuario/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers("/api/telefonos/**").hasRole("ADMIN");
 
-                    // Teléfonos
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/telefonos/usuario/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/telefonos/usuario/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/telefonos/usuario/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/telefonos/usuario/**").authenticated();
-                    authConfig.requestMatchers("/api/telefonos/**").hasRole("ADMIN");
+                                        // Roles y Tipos de Rol
+                                        authConfig.requestMatchers("/api/roles/**").hasRole("ADMIN");
+                                        authConfig.requestMatchers("/api/tipos-rol/**").hasRole("ADMIN");
 
-                    // Roles y Tipos de Rol
-                    authConfig.requestMatchers("/api/roles/**").hasRole("ADMIN");
-                    authConfig.requestMatchers("/api/tipos-rol/**").hasRole("ADMIN");
+                                        // =======================================================================================
+                                        // ENDPOINTS DE VENTAS
+                                        // =======================================================================================
 
-                    // =======================================================================================
-                    // ENDPOINTS DE VENTAS
-                    // =======================================================================================
+                                        // Pedidos
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/pedidos/**").authenticated();
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/pedidos/activos/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/pedidos/all").hasAnyRole(
+                                                        "ADMIN", "CAJERO",
+                                                        "COCINERO", "DELIVERY");
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/pedidos/paged").hasAnyRole(
+                                                        "ADMIN", "CAJERO",
+                                                        "COCINERO", "DELIVERY");
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/pedidos/{id}").authenticated();
 
-                    // Pedidos
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/pedidos/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/pedidos/activos/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/pedidos/all").hasAnyRole("ADMIN", "CAJERO",
-                            "COCINERO", "DELIVERY");
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/pedidos/paged").hasAnyRole("ADMIN", "CAJERO",
-                            "COCINERO", "DELIVERY");
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/pedidos/{id}").authenticated();
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/pedidos/**").hasAnyRole("ADMIN", "CAJERO","CUSTOMER");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/pedidos/**").hasRole("ADMIN");
+                                        // Regla específica para cambio de estado (Debe ir ANTES de la regla general de
+                                        // PUT pedidos)
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/pedidos/*/estado").hasAnyRole(
+                                                        "ADMIN", "CAJERO", "CUSTOMER", "COCINERO", "DELIVERY");
 
-                    // Promociones
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/promociones/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/promociones/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/promociones/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/promociones/**").hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/pedidos/**")
+                                                        .hasAnyRole("ADMIN", "CAJERO", "CUSTOMER");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/pedidos/**")
+                                                        .hasRole("ADMIN");
 
-                    // Promoción Artículos
-                    authConfig.requestMatchers("/api/promocion-articulos/**").hasRole("ADMIN");
+                                        // Promociones
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/promociones/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/promociones/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/promociones/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/promociones/**")
+                                                        .hasRole("ADMIN");
 
-                    // Estados de Pedido
-                    authConfig.requestMatchers("/api/estadoPedidos/**").hasAnyRole("ADMIN", "CAJERO", "COCINERO",
-                            "DELIVERY");
+                                        // Promoción Artículos
+                                        authConfig.requestMatchers("/api/promocion-articulos/**").hasRole("ADMIN");
 
-                    // Tipos de Pago
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/tipos-pago/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/tipos-pago/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/tipos-pago/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/tipos-pago/**").hasRole("ADMIN");
+                                        // Estados de Pedido
+                                        authConfig.requestMatchers("/api/estadoPedidos/**").hasAnyRole("ADMIN",
+                                                        "CAJERO", "COCINERO",
+                                                        "DELIVERY");
 
-                    // Tipos de Envío
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/tipos-envio/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/tipos-envio/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/tipos-envio/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/tipos-envio/**").hasRole("ADMIN");
+                                        // Tipos de Pago
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/tipos-pago/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/tipos-pago/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/tipos-pago/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/tipos-pago/**")
+                                                        .hasRole("ADMIN");
 
-                    // Tipos de Promoción
-                    authConfig.requestMatchers("/api/tipos-promocion/**").hasRole("ADMIN");
+                                        // Tipos de Envío
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/tipos-envio/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/tipos-envio/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/tipos-envio/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/tipos-envio/**")
+                                                        .hasRole("ADMIN");
 
-                    // MercadoPago
-                    authConfig.requestMatchers("/api/mercadopago/**").permitAll();
+                                        // Tipos de Promoción
+                                        authConfig.requestMatchers("/api/tipos-promocion/**").hasRole("ADMIN");
 
-                    // =======================================================================================
-                    // ENDPOINTS DE UBICACIÓN
-                    // =======================================================================================
+                                        // MercadoPago
+                                        authConfig.requestMatchers("/api/mercadopago/**").permitAll();
 
-                    // Países
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/paises/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/paises/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/paises/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/paises/**").hasRole("ADMIN");
+                                        // =======================================================================================
+                                        // ENDPOINTS DE UBICACIÓN
+                                        // =======================================================================================
 
-                    // Provincias
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/provincias/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/provincias/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/provincias/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/provincias/**").hasRole("ADMIN");
+                                        // Países
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/paises/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/paises/**").hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/paises/**").hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/paises/**")
+                                                        .hasRole("ADMIN");
 
-                    // Ciudad
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/ciudades/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/ciudades/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/ciudades/**").hasRole("ADMIN");
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/ciudades/**").hasRole("ADMIN");
+                                        // Provincias
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/provincias/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/provincias/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/provincias/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/provincias/**")
+                                                        .hasRole("ADMIN");
 
-                    // Direcciones
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/direcciones/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/direcciones/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.PUT, "/api/direcciones/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/direcciones/**").authenticated();
+                                        // Ciudad
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/ciudades/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/ciudades/**")
+                                                        .hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/ciudades/**").hasRole("ADMIN");
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/ciudades/**")
+                                                        .hasRole("ADMIN");
 
-                    // =======================================================================================
-                    // ENDPOINTS DE SEGURIDAD
-                    // =======================================================================================
-                    authConfig.requestMatchers(HttpMethod.PUT,"/api/auth/**").authenticated();
+                                        // Direcciones
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/direcciones/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/direcciones/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/direcciones/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/direcciones/**")
+                                                        .authenticated();
 
-                    // =======================================================================================
-                    // ENDPOINTS DE IMÁGENES
-                    // =======================================================================================
+                                        // =======================================================================================
+                                        // ENDPOINTS DE SEGURIDAD
+                                        // =======================================================================================
+                                        authConfig.requestMatchers(HttpMethod.PUT, "/api/auth/**").authenticated();
 
-                    // Imágenes
-                    authConfig.requestMatchers(HttpMethod.GET, "/api/imagenes/**").permitAll();
-                    authConfig.requestMatchers(HttpMethod.POST, "/api/imagenes/**").authenticated();
-                    authConfig.requestMatchers(HttpMethod.DELETE, "/api/imagenes/**").authenticated();
-                    authConfig.requestMatchers("/api/public/ping").permitAll();
-                    // =======================================================================================
-                    // CONFIGURACIÓN POR DEFECTO
-                    // =======================================================================================
+                                        // =======================================================================================
+                                        // ENDPOINTS DE IMÁGENES
+                                        // =======================================================================================
 
-                    // Por defecto, cualquier endpoint no declarado anteriormente necesita ser
-                    // autenticado
-                    // authConfig.anyRequest().authenticated();
-                    authConfig.anyRequest().permitAll();
-                  
-                });
+                                        // Imágenes
+                                        authConfig.requestMatchers(HttpMethod.GET, "/api/imagenes/**").permitAll();
+                                        authConfig.requestMatchers(HttpMethod.POST, "/api/imagenes/**").authenticated();
+                                        authConfig.requestMatchers(HttpMethod.DELETE, "/api/imagenes/**")
+                                                        .authenticated();
+                                        authConfig.requestMatchers("/api/public/ping").permitAll();
+                                        // =======================================================================================
+                                        // CONFIGURACIÓN POR DEFECTO
+                                        // =======================================================================================
 
-        return httpSecurity.build();
-    }
+                                        // Por defecto, cualquier endpoint no declarado anteriormente necesita ser
+                                        // autenticado
+                                        // authConfig.anyRequest().authenticated();
+                                        authConfig.anyRequest().permitAll();
+
+                                });
+
+                return httpSecurity.build();
+        }
 
 }

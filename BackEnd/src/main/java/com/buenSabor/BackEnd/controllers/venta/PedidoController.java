@@ -117,6 +117,21 @@ public class PedidoController {
         }
     }
 
+    @Operation(summary = "Actualizar solo el estado de un pedido")
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<?> updateEstado(@PathVariable Long id, @RequestParam String estado) {
+        try {
+            PedidoConDireccionDTO updatedDto = pedidoService.updatePedidoEstado(id, estado);
+            return ResponseEntity.ok(updatedDto);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"Error al cambiar el estado del pedido: " + e.getMessage() + "\"}");
+        }
+    }
+
     @Operation(summary = "Eliminar un pedido por ID")
     @DeleteMapping("/{id}") // Maps to /api/pedidos/{id}
     public ResponseEntity<?> delete(@PathVariable Long id) {

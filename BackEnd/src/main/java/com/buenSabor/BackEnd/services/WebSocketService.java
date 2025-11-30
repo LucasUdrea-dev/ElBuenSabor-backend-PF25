@@ -32,9 +32,11 @@ public class WebSocketService {
     // CAJERO: Ve pedidos nuevos para confirmar, o cancelados/rechazados para
     // gestionar devoluciones
     private static final List<TypeState> STATES_FOR_CAJERO = List.of(
+            TypeState.INCOMING,
             TypeState.STANDBY,
-            TypeState.CANCELLED,
-            TypeState.REJECTED);
+            TypeState.READY,
+            TypeState.REJECTED,
+            TypeState.CANCELLED);
 
     // COCINERO: Ve pedidos para aceptar (STANDBY) y los que están en curso
     // (PREPARING)
@@ -44,8 +46,7 @@ public class WebSocketService {
 
     // DELIVERY: Ve cuando sale el pedido (INCOMING) o cuando se entrega (DELIVERED)
     private static final List<TypeState> STATES_FOR_DELIVERY = List.of(
-            TypeState.INCOMING,
-            TypeState.DELIVERED);
+            TypeState.DELIVERING);
 
     // ----------------------------------------------------------------------
     // LÓGICA DE ENVÍO

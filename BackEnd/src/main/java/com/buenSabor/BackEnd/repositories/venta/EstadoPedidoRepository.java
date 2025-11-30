@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface EstadoPedidoRepository extends BeanRepository<EstadoPedido, Long> {
     boolean existsByNombreEstado(TypeState nombreEstado);
 
+    java.util.Optional<EstadoPedido> findByNombreEstado(TypeState nombreEstado);
+
     public Object findById(int i);
 }
