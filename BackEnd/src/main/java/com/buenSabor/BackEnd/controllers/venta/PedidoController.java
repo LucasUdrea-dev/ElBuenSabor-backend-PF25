@@ -33,9 +33,7 @@ public class PedidoController {
         this.pedidoService = pedidoService;
     }
 
-    // --- Read Operations ---
-
-    @Operation(summary = "Ver un pedido por ID con detalles completos (incluye dirección)")
+    @Operation(summary = "Ver un pedido por ID con detalles completos")
     @GetMapping("/{id}")
     public ResponseEntity<?> getByIdFull(@PathVariable Long id) {
         try {
@@ -51,7 +49,7 @@ public class PedidoController {
         }
     }
 
-    @Operation(summary = "Listar todos los pedidos con detalles completos (incluye dirección)")
+    @Operation(summary = "Listar todos los pedidos con detalles completos")
     @GetMapping("/all") 
     public ResponseEntity<?> getAllFull() {
         try {
@@ -78,9 +76,7 @@ public class PedidoController {
         }
     }
 
-    // --- Write Operations ---
-
-    @Operation(summary = "Crear un nuevo pedido con dirección (si aplica)")
+    @Operation(summary = "Crear un nuevo pedido")
     @PostMapping("") // Maps to /api/pedidos
     public ResponseEntity<?> create(@RequestBody PedidoConDireccionDTO dto) {
         try {

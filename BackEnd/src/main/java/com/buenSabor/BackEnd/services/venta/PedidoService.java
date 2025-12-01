@@ -190,14 +190,13 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         // 5. Manejar Dirección
         manejarDireccionPedido(pedido, dto, tipoEnvio);
 
-        // 6. Guardar pedido inicial
+        // 6. Guardar 
         Pedido savedPedido = pedidoRepository.save(pedido);
 
         // 7. Agregar Detalles
         agregarDetallesAlPedido(savedPedido, dto);
 
-        // 8. REDUCIR STOCK (Delegado a StockService)
-        // Ya que el pedido se guardó parcialmente bien, ejecutamos la resta de stock
+        // 8. REDUCIR STOCK 
         stockService.descontarStock(insumosNecesarios, sucursal.getId());
 
         // 9. Guardar cambios finales
@@ -422,28 +421,34 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     // --- Gestión de Direcciones y Otros ---
 
     private void manejarDireccionPedido(Pedido pedido, PedidoConDireccionDTO dto, TipoEnvio tipoEnvio) {
-        if (esEnvioConDireccion(tipoEnvio)) {
-            if (dto.getDireccionPedido() == null || dto.getDireccionPedido().getDireccion() == null) {
-                throw new RuntimeException("Dirección requerida para el tipo de envío seleccionado.");
-            }
-            Direccion dir = direccionMapper.toEntity(dto.getDireccionPedido().getDireccion());
-
-            if (dir.getCiudad() != null && dir.getCiudad().getId() != null) {
-                Ciudad ciudadReal = ciudadRepository.findById(dir.getCiudad().getId())
-                        .orElseThrow(
-                                () -> new RuntimeException("Ciudad no encontrada con ID: " + dir.getCiudad().getId()));
-                dir.setCiudad(ciudadReal);
-            }
-
-            direccionRepository.save(dir);
-            DireccionPedido dirPed = direccionPedidoMapper.toEntity(dto.getDireccionPedido());
-            dirPed.setDireccion(dir);
-            dirPed.setPedido(pedido);
-            pedido.setDireccionPedido(dirPed);
-        } else {
-            pedido.setDireccionPedido(null);
+    if (esEnvioConDireccion(tipoEnvio)) {
+        if (dto.getDireccionPedido() == null || dto.getDireccionPedido().getDireccion() == null) {
+            throw new RuntimeException("Dirección requerida para el tipo de envío seleccionado.");
         }
+
+        Direccion dir = direccionMapper.toEntity(dto.getDireccionPedido().getDireccion());        
+    
+        if (dir.getCiudad() == null || dir.getCiudad().getId() == null) {
+            throw new RuntimeException("Error de datos: La dirección de envío debe pertenecer a una ciudad válida.");
+        }
+
+        Ciudad ciudadReal = ciudadRepository.findById(dir.getCiudad().getId())
+                .orElseThrow(() -> new RuntimeException("La ciudad indicada (ID: " + dir.getCiudad().getId() + ") no existe en el sistema."));
+        
+       
+        dir.setCiudad(ciudadReal);
+
+        
+        direccionRepository.save(dir);
+        DireccionPedido dirPed = direccionPedidoMapper.toEntity(dto.getDireccionPedido());
+        dirPed.setDireccion(dir);
+        dirPed.setPedido(pedido);
+        pedido.setDireccionPedido(dirPed);
+    } else {
+        
+        pedido.setDireccionPedido(null);
     }
+}
 
     private void manejarDireccionPedidoUpdate(Pedido pedido, PedidoConDireccionDTO dto, TipoEnvio tipoEnvio) {
         if (esEnvioConDireccion(tipoEnvio)) {
