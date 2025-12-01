@@ -32,19 +32,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/Direccion")
 @Tag(name = "Direccion", description = "Operaciones relacionadas con entidad Direccion")
-public class DireccionController extends BeanControllerImpl<Direccion,DireccionService> {
-    
-  private final DireccionService direccionService;
-  private final DireccionMapper direccionMapper;
+public class DireccionController extends BeanControllerImpl<Direccion, DireccionService> {
 
-    @Autowired 
+    private final DireccionService direccionService;
+    private final DireccionMapper direccionMapper;
+
+    @Autowired
     public DireccionController(DireccionService direccionService, DireccionMapper direccionMapper) {
         this.direccionService = direccionService;
         this.direccionMapper = direccionMapper;
     }
 
     @Operation(summary = "Obtener todas las direcciones de un usuario por su ID")
-    @GetMapping("/usuario/{idUsuario}") 
+    @GetMapping("/usuario/{idUsuario}")
     public ResponseEntity<?> getDireccionesByUserId(@PathVariable Long idUsuario) {
         try {
             List<Direccion> direcciones = direccionService.findDireccionesByUserId(idUsuario);
@@ -97,8 +97,8 @@ public class DireccionController extends BeanControllerImpl<Direccion,DireccionS
     @Operation(summary = "Actualizar una dirección de un usuario")
     @PutMapping("/usuario/{idUsuario}/{idDireccion}")
     public ResponseEntity<?> actualizarDireccion(@PathVariable Long idUsuario,
-                                                 @PathVariable Long idDireccion,
-                                                 @RequestBody DireccionDTO dto) {
+            @PathVariable Long idDireccion,
+            @RequestBody DireccionDTO dto) {
         try {
             DireccionDTO actualizada = direccionService.actualizarDireccionDeUsuario(idUsuario, idDireccion, dto);
             return ResponseEntity.ok(actualizada);

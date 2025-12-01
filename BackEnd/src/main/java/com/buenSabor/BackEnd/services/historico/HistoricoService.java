@@ -31,6 +31,9 @@ public class HistoricoService {
     @Autowired
     private HistoricoEstadoPedidoRepository historicoEstadoPedidoRepository;
 
+    @Autowired
+    private com.buenSabor.BackEnd.mapper.HistoricoMapper historicoMapper;
+
     public List<HistoricoPrecioCostoArticuloInsumo> obtenerHistoricoPrecioCostoInsumo(Long articuloInsumoId) {
         return historicoPrecioCostoRepository.findByIdArticuloInsumo_IdOrderByFechaDesc(articuloInsumoId);
     }
@@ -85,10 +88,10 @@ public class HistoricoService {
 
     public TodosHistoricosDTO obtenerTodosLosHistoricos() {
         TodosHistoricosDTO todosHistoricos = new TodosHistoricosDTO();
-        todosHistoricos.setHistoricosPrecioCosto(historicoPrecioCostoRepository.findAll());
-        todosHistoricos.setHistoricosPrecioVenta(historicoPrecioVentaRepository.findAll());
-        todosHistoricos.setHistoricosStock(historicoStockRepository.findAll());
-        todosHistoricos.setHistoricosEstadoPedido(historicoEstadoPedidoRepository.findAll());
+        todosHistoricos.setHistoricosPrecioCosto(historicoMapper.toPrecioCostoDTOList(historicoPrecioCostoRepository.findAll()));
+        todosHistoricos.setHistoricosPrecioVenta(historicoMapper.toPrecioVentaDTOList(historicoPrecioVentaRepository.findAll()));
+        todosHistoricos.setHistoricosStock(historicoMapper.toStockDTOList(historicoStockRepository.findAll()));
+        todosHistoricos.setHistoricosEstadoPedido(historicoMapper.toEstadoPedidoDTOList(historicoEstadoPedidoRepository.findAll()));
         return todosHistoricos;
     }
 }

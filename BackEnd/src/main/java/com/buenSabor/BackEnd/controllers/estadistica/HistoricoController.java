@@ -1,6 +1,7 @@
 package com.buenSabor.BackEnd.controllers.estadistica;
 
 import com.buenSabor.BackEnd.dto.estadisticas.TodosHistoricosDTO;
+import com.buenSabor.BackEnd.mapper.HistoricoMapper;
 import com.buenSabor.BackEnd.models.producto.HistoricoPrecioCostoArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.HistoricoPrecioVentaArticulo;
 import com.buenSabor.BackEnd.models.producto.HistoricoStockArticuloInsumo;
@@ -31,6 +32,9 @@ public class HistoricoController {
     @Autowired
     private HistoricoService historicoService;
 
+    @Autowired
+    private HistoricoMapper historicoMapper;
+
     @Operation(summary = "Obtener histórico de precio costo de un insumo", description = "Retorna el histórico completo de precios de costo de un artículo insumo específico ordenado por fecha descendente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Histórico obtenido exitosamente"),
@@ -48,7 +52,7 @@ public class HistoricoController {
             }
             List<HistoricoPrecioCostoArticuloInsumo> historico = historicoService
                     .obtenerHistoricoPrecioCostoInsumo(articuloInsumoId);
-            return ResponseEntity.ok(historico);
+            return ResponseEntity.ok(historicoMapper.toPrecioCostoDTOList(historico));
         } catch (Exception e) {
             logger.error("Error al obtener histórico de precio costo para insumo {}: {}", articuloInsumoId,
                     e.getMessage());
@@ -74,7 +78,7 @@ public class HistoricoController {
             }
             List<HistoricoPrecioVentaArticulo> historico = historicoService
                     .obtenerHistoricoPrecioVentaArticulo(articuloId);
-            return ResponseEntity.ok(historico);
+            return ResponseEntity.ok(historicoMapper.toPrecioVentaDTOList(historico));
         } catch (Exception e) {
             logger.error("Error al obtener histórico de precio venta para artículo {}: {}", articuloId, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -98,7 +102,7 @@ public class HistoricoController {
                         .body("{\"error\":\"ID de stock inválido\"}");
             }
             List<HistoricoStockArticuloInsumo> historico = historicoService.obtenerHistoricoStockInsumo(stockId);
-            return ResponseEntity.ok(historico);
+            return ResponseEntity.ok(historicoMapper.toStockDTOList(historico));
         } catch (Exception e) {
             logger.error("Error al obtener histórico de stock para stock {}: {}", stockId, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -122,7 +126,7 @@ public class HistoricoController {
                         .body("{\"error\":\"ID de pedido inválido\"}");
             }
             List<HistoricoEstadoPedido> historico = historicoService.obtenerHistoricoEstadosPedido(pedidoId);
-            return ResponseEntity.ok(historico);
+            return ResponseEntity.ok(historicoMapper.toEstadoPedidoDTOList(historico));
         } catch (Exception e) {
             logger.error("Error al obtener histórico de estados para pedido {}: {}", pedidoId, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -148,7 +152,7 @@ public class HistoricoController {
             }
             HistoricoEstadoPedido historico = historicoService.obtenerUltimoEstadoPedido(pedidoId);
             if (historico != null) {
-                return ResponseEntity.ok(historico);
+                return ResponseEntity.ok(historicoMapper.toEstadoPedidoDTO(historico));
             } else {
                 logger.warn("No se encontró histórico para el pedido {}", pedidoId);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -180,7 +184,7 @@ public class HistoricoController {
             HistoricoPrecioCostoArticuloInsumo historico = historicoService
                     .obtenerUltimoPrecioCostoInsumo(articuloInsumoId);
             if (historico != null) {
-                return ResponseEntity.ok(historico);
+                return ResponseEntity.ok(historicoMapper.toPrecioCostoDTO(historico));
             } else {
                 logger.warn("No se encontró histórico de precio costo para el insumo {}", articuloInsumoId);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -211,7 +215,7 @@ public class HistoricoController {
             }
             HistoricoPrecioVentaArticulo historico = historicoService.obtenerUltimoPrecioVentaArticulo(articuloId);
             if (historico != null) {
-                return ResponseEntity.ok(historico);
+                return ResponseEntity.ok(historicoMapper.toPrecioVentaDTO(historico));
             } else {
                 logger.warn("No se encontró histórico de precio venta para el artículo {}", articuloId);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -242,7 +246,7 @@ public class HistoricoController {
             }
             HistoricoStockArticuloInsumo historico = historicoService.obtenerUltimoStockInsumo(stockId);
             if (historico != null) {
-                return ResponseEntity.ok(historico);
+                return ResponseEntity.ok(historicoMapper.toStockDTO(historico));
             } else {
                 logger.warn("No se encontró histórico de stock para el stock {}", stockId);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -264,7 +268,7 @@ public class HistoricoController {
     public ResponseEntity<?> obtenerTodosHistoricosPrecioCosto() {
         try {
             List<HistoricoPrecioCostoArticuloInsumo> historicos = historicoService.obtenerTodosHistoricosPrecioCosto();
-            return ResponseEntity.ok(historicos);
+            return ResponseEntity.ok(historicoMapper.toPrecioCostoDTOList(historicos));
         } catch (Exception e) {
             logger.error("Error al obtener todos los históricos de precio costo: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -281,7 +285,7 @@ public class HistoricoController {
     public ResponseEntity<?> obtenerTodosHistoricosPrecioVenta() {
         try {
             List<HistoricoPrecioVentaArticulo> historicos = historicoService.obtenerTodosHistoricosPrecioVenta();
-            return ResponseEntity.ok(historicos);
+            return ResponseEntity.ok(historicoMapper.toPrecioVentaDTOList(historicos));
         } catch (Exception e) {
             logger.error("Error al obtener todos los históricos de precio venta: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -298,7 +302,7 @@ public class HistoricoController {
     public ResponseEntity<?> obtenerTodosHistoricosStock() {
         try {
             List<HistoricoStockArticuloInsumo> historicos = historicoService.obtenerTodosHistoricosStock();
-            return ResponseEntity.ok(historicos);
+            return ResponseEntity.ok(historicoMapper.toStockDTOList(historicos));
         } catch (Exception e) {
             logger.error("Error al obtener todos los históricos de stock: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -315,7 +319,7 @@ public class HistoricoController {
     public ResponseEntity<?> obtenerTodosHistoricosEstadoPedido() {
         try {
             List<HistoricoEstadoPedido> historicos = historicoService.obtenerTodosHistoricosEstadoPedido();
-            return ResponseEntity.ok(historicos);
+            return ResponseEntity.ok(historicoMapper.toEstadoPedidoDTOList(historicos));
         } catch (Exception e) {
             logger.error("Error al obtener todos los históricos de estados de pedido: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
