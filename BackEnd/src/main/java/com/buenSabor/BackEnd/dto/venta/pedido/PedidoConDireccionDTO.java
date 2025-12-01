@@ -33,6 +33,6 @@ public class PedidoConDireccionDTO {
     private UsuarioDTO usuario;
 
     private List<DetallePromocionDTO> detallePromocionList;
-    private DireccionPedidoDTO direccion;
+    private DireccionPedidoDTO direccionPedido;
 
 }
