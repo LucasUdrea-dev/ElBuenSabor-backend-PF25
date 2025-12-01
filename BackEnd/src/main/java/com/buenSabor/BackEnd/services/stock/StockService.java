@@ -18,21 +18,22 @@ import com.buenSabor.BackEnd.dto.stock.StockResponse;
 import com.buenSabor.BackEnd.dto.stock.UpdateStockRequest;
 import com.buenSabor.BackEnd.mapper.StockMapper;
 import com.buenSabor.BackEnd.models.company.Sucursal;
+import com.buenSabor.BackEnd.models.producto.HistoricoStockArticuloInsumo;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloInsumoRepository;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloManufacturadoRepository;
+import com.buenSabor.BackEnd.repositories.producto.HistoricoStockArticuloInsumoRepository;
 import com.buenSabor.BackEnd.repositories.producto.StockArticuloInsumoRepository;
 import com.buenSabor.BackEnd.services.company.SucursalService;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-
 @Slf4j
 @Service
 public class StockService {
 
     @Autowired
-    private ArticuloInsumoRepository insumoRepository; // Usar repositorio directamente suele ser mejor para evitar dependencias circulares
+    private ArticuloInsumoRepository insumoRepository;
 
     @Autowired
     private ArticuloManufacturadoRepository manufacturadoRepository;
@@ -46,12 +47,11 @@ public class StockService {
     @Autowired
     private StockMapper stockMapper;
 
+    @Autowired
+    private HistoricoStockArticuloInsumoRepository historicoStockRepository;
+
     // --- MÉTODOS PARA PEDIDOS (Lógica Centralizada) ---
 
-    /**
-     * Valida si hay stock suficiente en una sucursal específica.
-     * Usado por PedidoService antes de crear el pedido.
-     */
     @Transactional(readOnly = true)
     public StockCheckResponse validarStock(Map<Long, Integer> insumosNecesarios, Long sucursalId) {
         StockCheckResponse response = new StockCheckResponse(true, "Stock suficiente");
@@ -60,7 +60,6 @@ public class StockService {
             Long insumoId = entry.getKey();
             Integer cantidadRequerida = entry.getValue();
 
-            // FIX: Búsqueda específica por Sucursal e Insumo
             StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(insumoId, sucursalId);
 
             String nombreInsumo = insumoRepository.findById(insumoId)
@@ -81,45 +80,73 @@ public class StockService {
         return response;
     }
 
-    /**
-     * Descuenta el stock. Se asume que la validación ya pasó.
-     * Usado por PedidoService al guardar el pedido.
-     */
     @Transactional
     public void descontarStock(Map<Long, Integer> insumosNecesarios, Long sucursalId) {
         for (Map.Entry<Long, Integer> entry : insumosNecesarios.entrySet()) {
             Long insumoId = entry.getKey();
             Integer cantidadADescontar = entry.getValue();
 
-            // FIX: Búsqueda específica por Sucursal
             StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(insumoId, sucursalId);
 
             if (stock != null) {
                 int nuevoStock = stock.getCantidad() - cantidadADescontar;
                 if (nuevoStock < 0) {
-                     throw new RuntimeException("Stock negativo detectado al procesar insumo ID " + insumoId + ". Transacción abortada.");
+                    throw new RuntimeException("Stock negativo detectado al procesar insumo ID " + insumoId + ". Transacción abortada.");
                 }
                 stock.setCantidad(nuevoStock);
 
-                // Lógica "Existe": Si baja del mínimo, marcar globalmente o alertar
-                // Nota: insumo.setExiste(false) afecta a todas las sucursales si la entidad es compartida.
-                // Si la lógica de negocio es así, mantenemos esto:
+                // Lógica de "Existe" (MinStock)
                 if (nuevoStock < stock.getMinStock()) {
                     ArticuloInsumo insumo = stock.getArticuloInsumo();
                     insumo.setExiste(false);
-                    insumoRepository.save(insumo);
+                    // IMPORTANTE: No llamamos a insumoRepository.save(insumo) aquí.
+                    // Hibernate detectará el cambio y lo guardará al final de la transacción.
+                    // Esto evita el conflicto de versiones (OptimisticLockException).
                 }
 
-                stockRepository.save(stock);
+                // 1. Guardamos y CAPTURAMOS la instancia actualizada (con la nueva versión)
+                StockArticuloInsumo stockActualizado = stockRepository.save(stock);
+
+                // 2. Usamos el objeto actualizado para el histórico
+                registrarHistorico(stockActualizado);
+
                 log.info("Stock descontado. Insumo: {}, Sucursal: {}, Nuevo Stock: {}", insumoId, sucursalId, nuevoStock);
             } else {
-                // Esto es crítico: significa que entre la validación y el guardado, alguien borró el stock.
                 throw new EntityNotFoundException("El stock para el insumo " + insumoId + " en la sucursal " + sucursalId + " no existe.");
             }
         }
     }
 
-    // --- MÉTODOS DE GESTIÓN (CRUD) ---
+    @Transactional
+    public void reponerStock(Map<Long, Integer> insumosADevolver, Long sucursalId) {
+        for (Map.Entry<Long, Integer> entry : insumosADevolver.entrySet()) {
+            Long insumoId = entry.getKey();
+            Integer cantidadADevolver = entry.getValue();
+
+            StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(insumoId, sucursalId);
+
+            if (stock != null) {
+                int nuevoStock = stock.getCantidad() + cantidadADevolver;
+                stock.setCantidad(nuevoStock);
+
+                if (nuevoStock >= stock.getMinStock() && !stock.getArticuloInsumo().getExiste()) {
+                    ArticuloInsumo insumo = stock.getArticuloInsumo();
+                    insumo.setExiste(true);
+                    // No llamamos a save(insumo) explícitamente por la misma razón de concurrencia
+                }
+
+                // Capturamos el actualizado y registramos histórico
+                StockArticuloInsumo stockActualizado = stockRepository.save(stock);
+                registrarHistorico(stockActualizado);
+
+                log.info("Stock repuesto. Insumo: {}, Cantidad: {}", insumoId, cantidadADevolver);
+            } else {
+                log.warn("Intento de devolver stock a un insumo sin registro en sucursal. ID: {}", insumoId);
+            }
+        }
+    }
+
+    // --- MÉTODOS DE GESTIÓN (CRUD y Manuales) ---
 
     @Transactional(readOnly = true)
     public List<StockResponse> findAll() {
@@ -153,10 +180,14 @@ public class StockService {
         StockArticuloInsumo stock = stockRepository.findById(request.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Stock no encontrado con ID: " + request.getId()));
 
-        if (request.getCantidad() != null) stock.setCantidad(request.getCantidad());
-        if (request.getStockMinimo() != null) stock.setMinStock(request.getStockMinimo());
+        if (request.getCantidad() != null)
+            stock.setCantidad(request.getCantidad());
+        if (request.getStockMinimo() != null)
+            stock.setMinStock(request.getStockMinimo());
 
         StockArticuloInsumo updatedStock = stockRepository.save(stock);
+        registrarHistorico(updatedStock); // Agregamos histórico al editar manual
+
         return convertToDto(updatedStock);
     }
 
@@ -168,7 +199,7 @@ public class StockService {
         stockRepository.deleteById(id);
     }
 
-    // --- LOGICA DE ACTUALIZACIÓN MANUAL (Corregida) ---
+    // --- LÓGICA DE ACTUALIZACIÓN MANUAL (AGREGAR STOCK) ---
 
     private static final int MAX_RETRIES = 3;
 
@@ -180,24 +211,20 @@ public class StockService {
                 ArticuloInsumo insumo = insumoRepository.findById(request.getIdInsumo())
                         .orElseThrow(() -> new EntityNotFoundException("Insumo no encontrado con ID: " + request.getIdInsumo()));
 
-                // FIX: Buscar stock existente PARA ESTA SUCURSAL ESPECÍFICA
                 StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(request.getIdInsumo(), request.getSucursalId());
 
                 if (stock == null) {
-                    // Crear nuevo stock para esta sucursal
                     stock = new StockArticuloInsumo();
                     stock.setCantidad(0);
                     stock.setMinStock(0);
                     stock.setArticuloInsumo(insumo);
-                    Sucursal sucursal = sucursalService.findById(request.getSucursalId()); // Asegura que lanza excepción si no existe
+                    Sucursal sucursal = sucursalService.findById(request.getSucursalId());
                     stock.setSucursal(sucursal);
-                    // No hacemos insumo.setStock... porque es una lista OneToMany, simplemente guardamos el stock
                 }
 
                 double cantidadAAgregar = request.getCantidad();
-                // Conversión de unidad si aplica...
-
                 int nuevaCantidad = stock.getCantidad() + (int) Math.round(cantidadAAgregar);
+                
                 if (nuevaCantidad < 0) {
                     throw new IllegalStateException("Stock resultante no puede ser negativo.");
                 }
@@ -206,17 +233,25 @@ public class StockService {
 
                 if (nuevaCantidad >= stock.getMinStock() && !insumo.getExiste()) {
                     insumo.setExiste(true);
-                    insumoRepository.save(insumo);
+                    // No hacemos save explicito, dejamos que la transacción maneje el insumo
                 }
 
-                stockRepository.save(stock);
+                // Guardamos Stock y Histórico
+                StockArticuloInsumo stockActualizado = stockRepository.save(stock);
+                registrarHistorico(stockActualizado);
+
                 log.info("Stock actualizado (agregar). Insumo: {}, Sucursal: {}, Nuevo: {}", request.getIdInsumo(), request.getSucursalId(), nuevaCantidad);
                 return true;
 
             } catch (OptimisticLockException e) {
                 intento++;
-                if (intento >= MAX_RETRIES) throw new RuntimeException("Error concurrencia tras reintentos", e);
-                try { Thread.sleep(100); } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
+                if (intento >= MAX_RETRIES)
+                    throw new RuntimeException("Error concurrencia tras reintentos", e);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
             } catch (Exception e) {
                 log.error("Error al agregar stock", e);
                 throw new RuntimeException("Error al actualizar stock: " + e.getMessage(), e);
@@ -225,8 +260,7 @@ public class StockService {
         return false;
     }
 
-    // --- LÓGICA DE VERIFICACIÓN PRE-CHECKOUT (Corregida) ---
-    // Este método suele usarse desde el Controller para que el Frontend valide antes de enviar el pedido
+    // --- LÓGICA DE VERIFICACIÓN PRE-CHECKOUT ---
 
     @Transactional(readOnly = true)
     public StockCheckResponse verificarStock(StockCheckRequest request) {
@@ -248,10 +282,7 @@ public class StockService {
 
     private void verificarStockInsumo(StockCheckRequest.ProductoCheck producto, StockCheckResponse response, Long sucursalId) {
         try {
-            // FIX: Usar el repo de stock, no el insumo directamente
             StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(producto.getId(), sucursalId);
-            
-            // Para obtener el nombre, si buscamos el insumo
             ArticuloInsumo insumo = insumoRepository.findById(producto.getId()).orElse(null);
             String nombre = insumo != null ? insumo.getNombre() : "Desconocido";
 
@@ -276,9 +307,7 @@ public class StockService {
             ArticuloManufacturado manufacturado = manufacturadoRepository.findById(producto.getId())
                     .orElseThrow(() -> new EntityNotFoundException("Manufacturado no encontrado"));
 
-            // Verificar si el manufacturado pertenece a la sucursal (si aplica tu lógica de negocio)
             if (!manufacturado.getSucursal().getId().equals(sucursalId)) {
-                // Dependiendo de tu lógica, esto puede ser error o simplemente que no se vende ahí
                 response.agregarProductoFaltante(manufacturado.getId(), manufacturado.getNombre() + " (Sucursal incorrecta)", producto.getCantidad());
                 response.setHayStockSuficiente(false);
                 return;
@@ -286,14 +315,13 @@ public class StockService {
 
             for (var detalle : manufacturado.getDetalleInsumos()) {
                 ArticuloInsumo insumo = detalle.getArticuloInsumo();
-                int cantidadNecesariaTotal = (int) Math.ceil(detalle.getCantidad() * producto.getCantidad()); // Ojo con tipos de datos (Double vs Int)
+                int cantidadNecesariaTotal = (int) Math.ceil(detalle.getCantidad() * producto.getCantidad());
 
-                // FIX: Buscar stock del insumo EN LA SUCURSAL
                 StockArticuloInsumo stockInsumo = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(insumo.getId(), sucursalId);
 
                 if (stockInsumo == null) {
-                     response.agregarProductoFaltante(insumo.getId(), insumo.getNombre() + " (para " + manufacturado.getNombre() + ")", cantidadNecesariaTotal);
-                     response.setHayStockSuficiente(false);
+                    response.agregarProductoFaltante(insumo.getId(), insumo.getNombre() + " (para " + manufacturado.getNombre() + ")", cantidadNecesariaTotal);
+                    response.setHayStockSuficiente(false);
                 } else if (stockInsumo.getCantidad() < cantidadNecesariaTotal) {
                     int faltante = cantidadNecesariaTotal - stockInsumo.getCantidad();
                     response.agregarProductoFaltante(insumo.getId(), insumo.getNombre() + " (para " + manufacturado.getNombre() + ")", faltante);
@@ -306,7 +334,6 @@ public class StockService {
         }
     }
 
-    // Helper
     private StockResponse convertToDto(StockArticuloInsumo stock) {
         if (stock == null) return null;
         try {
@@ -316,34 +343,14 @@ public class StockService {
             return null;
         }
     }
-    
-    
-    @Transactional
-public void reponerStock(Map<Long, Integer> insumosADevolver, Long sucursalId) {
-    for (Map.Entry<Long, Integer> entry : insumosADevolver.entrySet()) {
-        Long insumoId = entry.getKey();
-        Integer cantidadADevolver = entry.getValue();
 
-        StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(insumoId, sucursalId);
+    // Método helper para registrar el histórico
+    private void registrarHistorico(StockArticuloInsumo stock) {
+        HistoricoStockArticuloInsumo historico = new HistoricoStockArticuloInsumo();
+        historico.setCantidad(stock.getCantidad());
+        historico.setFechaActualizacion(new Date());
+        historico.setIdstockarticuloInsumo(stock);
 
-        if (stock != null) {
-            int nuevoStock = stock.getCantidad() + cantidadADevolver;
-            stock.setCantidad(nuevoStock);
-            
-            // Si el stock vuelve a estar por encima del mínimo, reactivamos el insumo si estaba deshabilitado
-            if (nuevoStock >= stock.getMinStock() && !stock.getArticuloInsumo().getExiste()) {
-                ArticuloInsumo insumo = stock.getArticuloInsumo();
-                insumo.setExiste(true);
-                insumoRepository.save(insumo);
-            }
-            
-            stockRepository.save(stock);
-            
-             log.info("Stock repuesto. Insumo: {}, Cantidad: {}", insumoId, cantidadADevolver);
-        } else {
-            
-             log.warn("Intento de devolver stock a un insumo sin registro en sucursal. ID: {}", insumoId);
-        }
+        historicoStockRepository.save(historico);
     }
-}
 }
