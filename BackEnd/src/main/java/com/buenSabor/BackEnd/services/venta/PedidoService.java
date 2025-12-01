@@ -16,6 +16,8 @@ import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloRepository;
 import com.buenSabor.BackEnd.repositories.ubicacion.DireccionRepository;
+import com.buenSabor.BackEnd.repositories.ubicacion.CiudadRepository;
+import com.buenSabor.BackEnd.models.ubicacion.Ciudad;
 import com.buenSabor.BackEnd.repositories.user.UsuarioRepository;
 import com.buenSabor.BackEnd.repositories.venta.*;
 import com.buenSabor.BackEnd.services.WebSocketService;
@@ -45,6 +47,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     private final ArticuloRepository articuloRepository;
     private final PromocionRepository promocionRepository;
     private final DireccionRepository direccionRepository;
+    private final CiudadRepository ciudadRepository;
 
     // REFACTOR: Usamos StockService en lugar del Repositorio directo
     private final StockService stockService;
@@ -67,6 +70,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             ArticuloRepository articuloRepository,
             PromocionRepository promocionRepository,
             DireccionRepository direccionRepository,
+            CiudadRepository ciudadRepository,
             StockService stockService, // Inyección del servicio
             PedidoMapper pedidoMapper,
             DetallePedidoMapper detallePedidoMapper,
@@ -84,6 +88,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
         this.articuloRepository = articuloRepository;
         this.promocionRepository = promocionRepository;
         this.direccionRepository = direccionRepository;
+        this.ciudadRepository = ciudadRepository;
         this.stockService = stockService;
         this.pedidoMapper = pedidoMapper;
         this.detallePedidoMapper = detallePedidoMapper;
@@ -108,7 +113,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     }
 
     @Transactional(readOnly = true)
-    public List<PedidoConDireccionDTO> findByUserId(Long userId) throws Exception{
+    public List<PedidoConDireccionDTO> findByUserId(Long userId) throws Exception {
         List<Pedido> pedidos = pedidoRepository.findByUsuarioId(userId);
         return pedidoMapper.toPedidoConDireccionDtoList(pedidos);
     }
@@ -338,16 +343,17 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             stockService.reponerStock(insumos, pedido.getSucursal().getId());
             logger.info("Pedido {} cancelado/rechazado. Stock repuesto.", id);
         }
-        // 2. Si el pedido estaba cancelado/rechazado y pasa a activo -> Descontar Stock (Validar primero)
+        // 2. Si el pedido estaba cancelado/rechazado y pasa a activo -> Descontar Stock
+        // (Validar primero)
         else if (isAnteriorCancelado && !isNuevoCancelado) {
             PedidoConDireccionDTO pedidoDTO = pedidoMapper.toPedidoConDireccionDto(pedido);
             Map<Long, Integer> insumos = calcularInsumosNecesarios(pedidoDTO);
-            
+
             StockCheckResponse stockResponse = stockService.validarStock(insumos, pedido.getSucursal().getId());
             if (!stockResponse.isHayStockSuficiente()) {
-                 String detalleFaltantes = stockResponse.getProductosFaltantes().stream()
-                    .map(p -> p.getNombre() + " (faltan " + p.getCantidadFaltante() + " unidades)")
-                    .collect(Collectors.joining(", "));
+                String detalleFaltantes = stockResponse.getProductosFaltantes().stream()
+                        .map(p -> p.getNombre() + " (faltan " + p.getCantidadFaltante() + " unidades)")
+                        .collect(Collectors.joining(", "));
                 throw new RuntimeException("No se puede reactivar el pedido por falta de stock: " + detalleFaltantes);
             }
             stockService.descontarStock(insumos, pedido.getSucursal().getId());
@@ -357,7 +363,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
         // Actualizar estado
         pedido.setEstadoPedido(nuevoEstado);
-        
+
         // Registrar Histórico
         HistoricoEstadoPedido historico = new HistoricoEstadoPedido();
         historico.setEstadoPedido(nuevoEstado);
@@ -421,6 +427,14 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                 throw new RuntimeException("Dirección requerida para el tipo de envío seleccionado.");
             }
             Direccion dir = direccionMapper.toEntity(dto.getDireccionPedido().getDireccion());
+
+            if (dir.getCiudad() != null && dir.getCiudad().getId() != null) {
+                Ciudad ciudadReal = ciudadRepository.findById(dir.getCiudad().getId())
+                        .orElseThrow(
+                                () -> new RuntimeException("Ciudad no encontrada con ID: " + dir.getCiudad().getId()));
+                dir.setCiudad(ciudadReal);
+            }
+
             direccionRepository.save(dir);
             DireccionPedido dirPed = direccionPedidoMapper.toEntity(dto.getDireccionPedido());
             dirPed.setDireccion(dir);
@@ -440,7 +454,17 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
                 manejarDireccionPedido(pedido, dto, tipoEnvio);
             } else {
                 DireccionPedido currentDirPed = pedido.getDireccionPedido();
-                direccionMapper.updateDireccionFromDto(dto.getDireccionPedido().getDireccion(), currentDirPed.getDireccion());
+                direccionMapper.updateDireccionFromDto(dto.getDireccionPedido().getDireccion(),
+                        currentDirPed.getDireccion());
+
+                Direccion dir = currentDirPed.getDireccion();
+                if (dir.getCiudad() != null && dir.getCiudad().getId() != null) {
+                    Ciudad ciudadReal = ciudadRepository.findById(dir.getCiudad().getId())
+                            .orElseThrow(() -> new RuntimeException(
+                                    "Ciudad no encontrada con ID: " + dir.getCiudad().getId()));
+                    dir.setCiudad(ciudadReal);
+                }
+
                 direccionRepository.save(currentDirPed.getDireccion());
                 direccionPedidoMapper.updateDireccionPedidoFromDto(dto.getDireccionPedido(), currentDirPed);
             }
