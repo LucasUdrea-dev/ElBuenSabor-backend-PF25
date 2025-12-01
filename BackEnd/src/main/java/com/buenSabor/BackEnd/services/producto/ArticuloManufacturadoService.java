@@ -145,34 +145,46 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
                 sucursalRepository.findById(dto.getSucursalId())
                         .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada")));
 
-        // 4) Actualizar detalles de insumo (evitar duplicados)
+        // 4) Actualizar detalles de insumo
         List<ArticuloManufacturadoDetalleInsumo> actuales = manufacturado.getDetalleInsumos();
         List<ArticuloManufacturadoDetalleInsumoDTO> nuevosDTO = dto.getInsumos();
+        
+        // Recolectar IDs del request para identificar qué eliminar y qué procesar
         java.util.Set<Long> insumosEnRequest = new java.util.HashSet<>();
+        for (ArticuloManufacturadoDetalleInsumoDTO d : nuevosDTO) {
+            if (d.getArticuloInsumo() != null && d.getArticuloInsumo().getId() != null) {
+                insumosEnRequest.add(d.getArticuloInsumo().getId());
+            }
+        }
 
+        // A) ELIMINAR: quitar de la lista 'actuales' lo que NO venga en el DTO
+        // Al tener orphanRemoval=true, remover de la lista borra el registro de la tabla intermedia
+        actuales.removeIf(det -> !insumosEnRequest.contains(det.getArticuloInsumo().getId()));
+
+        // B) AGREGAR O ACTUALIZAR
+        java.util.Set<Long> procesados = new java.util.HashSet<>();
         for (ArticuloManufacturadoDetalleInsumoDTO d : nuevosDTO) {
             Long insumoId = d.getArticuloInsumo().getId();
 
-            // Verificar duplicados en el request
-            if (insumosEnRequest.contains(insumoId)) {
-                continue; // Omitir duplicado
+            // Evitar duplicados dentro del mismo JSON de entrada
+            if (procesados.contains(insumoId)) {
+                continue; 
             }
-            insumosEnRequest.add(insumoId);
+            procesados.add(insumoId);
 
             Optional<ArticuloManufacturadoDetalleInsumo> opt = actuales.stream()
                     .filter(det -> det.getArticuloInsumo().getId().equals(insumoId))
                     .findFirst();
 
             if (opt.isPresent()) {
-                // si ya existía, ACTUALIZO su cantidad
-                ArticuloManufacturadoDetalleInsumo detExistente = opt.get();
-                detExistente.setCantidad(d.getCantidad());
+                // Ya existe -> Actualizar
+                opt.get().setCantidad(d.getCantidad());
             } else {
-                // si no existía, lo CREO
+                // No existe -> Agregar
                 ArticuloManufacturadoDetalleInsumo nuevoDetalle = new ArticuloManufacturadoDetalleInsumo();
                 nuevoDetalle.setArticuloManufacturado(manufacturado);
                 nuevoDetalle.setArticuloInsumo(insumoRepository.findById(insumoId)
-                        .orElseThrow(() -> new EntityNotFoundException("Articulo insumo no encontrado")));
+                        .orElseThrow(() -> new EntityNotFoundException("Articulo insumo no encontrado con ID: " + insumoId)));
                 nuevoDetalle.setCantidad(d.getCantidad());
                 actuales.add(nuevoDetalle);
             }

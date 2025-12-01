@@ -111,6 +111,13 @@ public class DireccionService extends BeanServiceImpl<Direccion, Long> {
         if (!pertenece) {
             throw new Exception("La direccion no pertenece al usuario indicado.");
         }
+        
+        if (dto.getCiudad() != null && dto.getCiudad().getId() != null) {
+            Ciudad ciudad = ciudadRepository.findById(dto.getCiudad().getId())
+                    .orElseThrow(() -> new Exception("Ciudad con ID " + dto.getCiudad().getId() + " no encontrada."));
+            direccion.setCiudad(ciudad);
+        }
+
         direccionMapper.updateDireccionFromDto(dto, direccion);
         Direccion guardada = direccionRepository.save(direccion);
         return direccionMapper.toDto(guardada);

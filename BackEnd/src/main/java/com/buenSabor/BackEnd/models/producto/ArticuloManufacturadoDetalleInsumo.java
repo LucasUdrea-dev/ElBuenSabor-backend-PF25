@@ -28,7 +28,6 @@ public class ArticuloManufacturadoDetalleInsumo extends Bean {
 
     @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH })
     @JoinColumn(name = "id_articulo_insumo")
-    @JsonIgnore
     private ArticuloInsumo articuloInsumo;
 
     @Column(name = "cantidad")

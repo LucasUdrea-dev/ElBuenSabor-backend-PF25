@@ -31,6 +31,7 @@ public interface DireccionMapper {
     @Mapping(target = "usuarioDireccionList", ignore = true)
     @Mapping(target = "sucursal", ignore = true)
     @Mapping(target = "direccionPedidos", ignore = true)
+    @Mapping(target = "ciudad", ignore = true)
     void updateDireccionFromDto(DireccionDTO dto, @MappingTarget Direccion entity);
 
     // <--[List<DireccionDTO> direccionList]--
