@@ -10,7 +10,7 @@ public interface CiudadMapper {
     // <--[CiudadDTO dto]--
     // ==>{Ciudad entity, y lo que ignora *direccionList,id*}
     @Mapping(target = "direccionList", ignore = true)
-    @Mapping(target = "id", ignore = true)
+    //@Mapping(target = "id", ignore = true)
     Ciudad toEntity(CiudadDTO dto);
 
     // <--[Ciudad entity]--

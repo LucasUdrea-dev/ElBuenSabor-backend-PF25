@@ -18,7 +18,7 @@ public interface DireccionMapper {
     // <--[DireccionDTO dto]--
     // ==>{Direccion entity, y lo que ignora
     // *id,usuarioDireccionList,sucursal,direccionPedidos*}
-    @Mapping(target = "id", ignore = true)
+    //@Mapping(target = "id", ignore = true)
     @Mapping(target = "usuarioDireccionList", ignore = true)
     @Mapping(target = "sucursal", ignore = true)
     @Mapping(target = "direccionPedidos", ignore = true)
