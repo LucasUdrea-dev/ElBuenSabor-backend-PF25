@@ -29,7 +29,7 @@ public interface PedidoMapper {
     @Mapping(source = "usuario", target = "usuario")
     @Mapping(source = "detallePedidoList", target = "detallePedidoList")
     @Mapping(source = "detallePromocionList", target = "detallePromocionList")
-    @Mapping(source = "direccionPedido", target = "direccion")
+    @Mapping(source = "direccionPedido", target = "direccionPedido")
     PedidoConDireccionDTO toPedidoConDireccionDto(Pedido pedido);
 
     // --- toDto (Entity to DTO) ---

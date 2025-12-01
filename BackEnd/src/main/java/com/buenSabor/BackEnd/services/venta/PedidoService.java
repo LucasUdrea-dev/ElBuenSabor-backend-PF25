@@ -417,12 +417,12 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
     private void manejarDireccionPedido(Pedido pedido, PedidoConDireccionDTO dto, TipoEnvio tipoEnvio) {
         if (esEnvioConDireccion(tipoEnvio)) {
-            if (dto.getDireccion() == null || dto.getDireccion().getDireccion() == null) {
+            if (dto.getDireccionPedido() == null || dto.getDireccionPedido().getDireccion() == null) {
                 throw new RuntimeException("Dirección requerida para el tipo de envío seleccionado.");
             }
-            Direccion dir = direccionMapper.toEntity(dto.getDireccion().getDireccion());
+            Direccion dir = direccionMapper.toEntity(dto.getDireccionPedido().getDireccion());
             direccionRepository.save(dir);
-            DireccionPedido dirPed = direccionPedidoMapper.toEntity(dto.getDireccion());
+            DireccionPedido dirPed = direccionPedidoMapper.toEntity(dto.getDireccionPedido());
             dirPed.setDireccion(dir);
             dirPed.setPedido(pedido);
             pedido.setDireccionPedido(dirPed);
@@ -433,16 +433,16 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
 
     private void manejarDireccionPedidoUpdate(Pedido pedido, PedidoConDireccionDTO dto, TipoEnvio tipoEnvio) {
         if (esEnvioConDireccion(tipoEnvio)) {
-            if (dto.getDireccion() == null)
+            if (dto.getDireccionPedido() == null)
                 throw new RuntimeException("Dirección requerida");
 
             if (pedido.getDireccionPedido() == null) {
                 manejarDireccionPedido(pedido, dto, tipoEnvio);
             } else {
                 DireccionPedido currentDirPed = pedido.getDireccionPedido();
-                direccionMapper.updateDireccionFromDto(dto.getDireccion().getDireccion(), currentDirPed.getDireccion());
+                direccionMapper.updateDireccionFromDto(dto.getDireccionPedido().getDireccion(), currentDirPed.getDireccion());
                 direccionRepository.save(currentDirPed.getDireccion());
-                direccionPedidoMapper.updateDireccionPedidoFromDto(dto.getDireccion(), currentDirPed);
+                direccionPedidoMapper.updateDireccionPedidoFromDto(dto.getDireccionPedido(), currentDirPed);
             }
         } else {
             if (pedido.getDireccionPedido() != null) {
