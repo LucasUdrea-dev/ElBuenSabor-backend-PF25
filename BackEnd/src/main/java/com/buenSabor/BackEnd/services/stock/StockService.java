@@ -24,6 +24,8 @@ import com.buenSabor.BackEnd.repositories.producto.ArticuloManufacturadoReposito
 import com.buenSabor.BackEnd.repositories.producto.HistoricoStockArticuloInsumoRepository;
 import com.buenSabor.BackEnd.repositories.producto.StockArticuloInsumoRepository;
 import com.buenSabor.BackEnd.services.company.SucursalService;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -82,9 +84,13 @@ public class StockService {
 
     @Transactional
     public void descontarStock(Map<Long, Integer> insumosNecesarios, Long sucursalId) {
-        for (Map.Entry<Long, Integer> entry : insumosNecesarios.entrySet()) {
-            Long insumoId = entry.getKey();
-            Integer cantidadADescontar = entry.getValue();
+        // 1. ORDENAR LOS IDs PARA EVITAR DEADLOCKS
+        // Convertimos las llaves a una lista y ordenamos de menor a mayor.
+        List<Long> insumosOrdenados = new ArrayList<>(insumosNecesarios.keySet());
+        Collections.sort(insumosOrdenados);
+
+        for (Long insumoId : insumosOrdenados) {
+            Integer cantidadADescontar = insumosNecesarios.get(insumoId);
 
             StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(insumoId, sucursalId);
 
@@ -99,15 +105,14 @@ public class StockService {
                 if (nuevoStock < stock.getMinStock()) {
                     ArticuloInsumo insumo = stock.getArticuloInsumo();
                     insumo.setExiste(false);
-                    // IMPORTANTE: No llamamos a insumoRepository.save(insumo) aquí.
+                    // IMPORTANTE: No llamamos a insumoRepository.save(insumo).
                     // Hibernate detectará el cambio y lo guardará al final de la transacción.
-                    // Esto evita el conflicto de versiones (OptimisticLockException).
                 }
 
-                // 1. Guardamos y CAPTURAMOS la instancia actualizada (con la nueva versión)
+                // 2. Guardamos y CAPTURAMOS la instancia actualizada (con la nueva versión)
                 StockArticuloInsumo stockActualizado = stockRepository.save(stock);
 
-                // 2. Usamos el objeto actualizado para el histórico
+                // 3. Usamos el objeto actualizado para el histórico
                 registrarHistorico(stockActualizado);
 
                 log.info("Stock descontado. Insumo: {}, Sucursal: {}, Nuevo Stock: {}", insumoId, sucursalId, nuevoStock);
@@ -119,9 +124,12 @@ public class StockService {
 
     @Transactional
     public void reponerStock(Map<Long, Integer> insumosADevolver, Long sucursalId) {
-        for (Map.Entry<Long, Integer> entry : insumosADevolver.entrySet()) {
-            Long insumoId = entry.getKey();
-            Integer cantidadADevolver = entry.getValue();
+        // 1. ORDENAR LOS IDs PARA EVITAR DEADLOCKS
+        List<Long> insumosOrdenados = new ArrayList<>(insumosADevolver.keySet());
+        Collections.sort(insumosOrdenados);
+
+        for (Long insumoId : insumosOrdenados) {
+            Integer cantidadADevolver = insumosADevolver.get(insumoId);
 
             StockArticuloInsumo stock = stockRepository.findByArticuloInsumo_IdAndSucursal_Id(insumoId, sucursalId);
 
@@ -132,7 +140,6 @@ public class StockService {
                 if (nuevoStock >= stock.getMinStock() && !stock.getArticuloInsumo().getExiste()) {
                     ArticuloInsumo insumo = stock.getArticuloInsumo();
                     insumo.setExiste(true);
-                    // No llamamos a save(insumo) explícitamente por la misma razón de concurrencia
                 }
 
                 // Capturamos el actualizado y registramos histórico
@@ -186,7 +193,7 @@ public class StockService {
             stock.setMinStock(request.getStockMinimo());
 
         StockArticuloInsumo updatedStock = stockRepository.save(stock);
-        registrarHistorico(updatedStock); // Agregamos histórico al editar manual
+        registrarHistorico(updatedStock); 
 
         return convertToDto(updatedStock);
     }
@@ -233,10 +240,9 @@ public class StockService {
 
                 if (nuevaCantidad >= stock.getMinStock() && !insumo.getExiste()) {
                     insumo.setExiste(true);
-                    // No hacemos save explicito, dejamos que la transacción maneje el insumo
                 }
 
-                // Guardamos Stock y Histórico
+                // Guardamos Stock y Histórico (Capturando el objeto actualizado)
                 StockArticuloInsumo stockActualizado = stockRepository.save(stock);
                 registrarHistorico(stockActualizado);
 
