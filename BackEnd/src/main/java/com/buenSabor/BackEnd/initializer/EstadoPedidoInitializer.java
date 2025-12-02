@@ -25,7 +25,7 @@ public class EstadoPedidoInitializer implements CommandLineRunner {
                 }
             }
         } catch (Exception e) {
-            throw e; // Re-throw the exception to be handled by the application's logging.
+            throw e; 
         }
     }
 }

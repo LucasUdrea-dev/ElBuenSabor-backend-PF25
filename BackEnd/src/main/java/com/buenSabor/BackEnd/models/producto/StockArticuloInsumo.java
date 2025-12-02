@@ -39,7 +39,7 @@ public class StockArticuloInsumo extends Bean {
     private ArticuloInsumo articuloInsumo;
 
     @ManyToOne
-    @JoinColumn(name = "sucursal_id") // O el nombre de la columna que tengas en tu DB
+    @JoinColumn(name = "sucursal_id") 
     private Sucursal sucursal;
 
     @OneToMany(mappedBy = "idstockarticuloInsumo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -50,11 +50,6 @@ public class StockArticuloInsumo extends Bean {
     @Column(name = "version")
     private Long version;
 
-    /**
-     * Actualiza el stock de manera segura, verificando que no quede negativo
-     * @param cantidad Cantidad a sumar (puede ser negativa para restar)
-     * @return true si la operación fue exitosa, false si no hay suficiente stock
-     */
     public synchronized boolean actualizarStock(int cantidad) {
         if (this.cantidad + cantidad < 0) {
             return false; // No hay suficiente stock
@@ -63,11 +58,6 @@ public class StockArticuloInsumo extends Bean {
         return true;
     }
 
-    /**
-     * Verifica si hay suficiente stock disponible
-     * @param cantidadRequerida Cantidad a verificar
-     * @return true si hay suficiente stock, false en caso contrario
-     */
     public boolean tieneSuficienteStock(int cantidadRequerida) {
         return this.cantidad >= cantidadRequerida;
     }

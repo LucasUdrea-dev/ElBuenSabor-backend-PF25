@@ -86,7 +86,6 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
             // Vinculación bidireccional segura
             insumo.setStockAndLink(stock);
 
-            // Guardamos (Al crear no generamos histórico, el valor inicial es el primer histórico implícito)
             return articuloInsumoRepository.save(insumo);
 
         } catch (Exception e) {
@@ -141,7 +140,6 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
 
                 StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
 
-                // Caso defensivo: Si no tenía stock, lo creamos
                 if (stock == null) {
                     stock = new StockArticuloInsumo();
                     insumo.setStockAndLink(stock);

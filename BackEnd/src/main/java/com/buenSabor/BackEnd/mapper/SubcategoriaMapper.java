@@ -22,6 +22,6 @@ public interface SubcategoriaMapper {
     // ==>{void, y lo que ignora *id,articuloList,categoria*}
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "articuloList", ignore = true)
-    @Mapping(target = "categoria", ignore = true) // Ignorar la relación con Categoria
+    @Mapping(target = "categoria", ignore = true) 
     void updateFromDto(SubcategoriaDTO dto, @org.mapstruct.MappingTarget Subcategoria entity);
 }

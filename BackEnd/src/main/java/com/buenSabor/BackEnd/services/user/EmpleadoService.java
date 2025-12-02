@@ -95,7 +95,6 @@ public class EmpleadoService extends BeanServiceImpl<Empleado, Long> {
             // Lista actual de telefonos del empleado
             List<Telefono> telefonosActuales = existente.getTelefonoList();
 
-            // IDs que vienen en el DTO
             Set<Long> idsRecibidos = dto.getTelefonoList().stream()
                     .map(TelefonoDTO::getId)
                     .filter(Objects::nonNull)

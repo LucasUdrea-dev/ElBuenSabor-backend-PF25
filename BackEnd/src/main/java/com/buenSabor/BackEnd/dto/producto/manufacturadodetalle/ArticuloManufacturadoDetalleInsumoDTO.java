@@ -18,5 +18,4 @@ public class ArticuloManufacturadoDetalleInsumoDTO {
     private InsumoDTO articuloInsumo;
     private int cantidad;
 
-    // Relación omitida: articuloManufacturado (JsonIgnore en entidad)
 }

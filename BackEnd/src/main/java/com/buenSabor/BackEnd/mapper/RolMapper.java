@@ -9,7 +9,6 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring", uses = TipoRolMapper.class)
 public interface RolMapper {
 
-    // IMPORTANTE: NO ignorar el ID para evitar crear duplicados de Rol
     @Mapping(target = "usuarioList", ignore = true)
     Rol toEntity(RolDTO dto);
 
