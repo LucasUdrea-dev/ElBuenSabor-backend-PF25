@@ -32,6 +32,9 @@ public interface PromocionMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "detallePromocionList", ignore = true)
     @Mapping(target = "promocionArticuloList", ignore = true)
+    // Ignoramos las relaciones maestras para evitar side-effects
+    @Mapping(target = "sucursal", ignore = true)
+    @Mapping(target = "tipoPromocion", ignore = true)
     void updatePromocionFromDto(PromocionDTO dto, @MappingTarget Promocion entity);
 
     List<PromocionDTO> toDtoList(List<Promocion> findAll);

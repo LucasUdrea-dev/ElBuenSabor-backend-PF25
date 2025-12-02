@@ -54,22 +54,22 @@ public class WebSocketService {
     // LÓGICA DE ENVÍO
     // ----------------------------------------------------------------------
 
- 
     public void notifyStatusChange(Long orderId, TypeState state, PedidoConDireccionDTO orderDto) {
 
-        String clientMessage = MESSAGES_FOR_CLIENT.getOrDefault(state, "Estado actualizado");
+        // String clientMessage = MESSAGES_FOR_CLIENT.getOrDefault(state, "Estado
+        // actualizado");
 
-        Map<String, Object> response = Map.of(
-                "message", clientMessage,
-                "pedido", orderDto);
+        // // Map<String, Object> response = Map.of(
+        // // "message", clientMessage,
+        // // "pedido", orderDto);
 
-        //  cliente
+        // cliente
         if (orderDto.getUsuario() != null && orderDto.getUsuario().getId() != null) {
-        String userChannel = "/topic/usuarios/" + orderDto.getUsuario().getId();
-        messagingTemplate.convertAndSend(userChannel, response);
-    }
+            String userChannel = "/topic/usuarios/" + orderDto.getUsuario().getId();
+            messagingTemplate.convertAndSend(userChannel, orderDto);
+        }
 
-        //roles correspondientes según el estado
+        // roles correspondientes según el estado
         if (STATES_FOR_CAJERO.contains(state)) {
             messagingTemplate.convertAndSend("/topic/dashboard/cajero", orderDto);
         }
