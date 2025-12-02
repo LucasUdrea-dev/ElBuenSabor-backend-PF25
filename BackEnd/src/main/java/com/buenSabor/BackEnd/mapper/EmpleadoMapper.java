@@ -36,7 +36,7 @@ public interface EmpleadoMapper {
 
     // --- Update Entity from DTO ---
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "sucursal", target = "idSucursal")
+    @Mapping(target = "idSucursal", ignore = true) // Ignorar la relación con Sucursal
     @Mapping(target = "rol", ignore = true)
     @Mapping(target = "userAuthentication", ignore = true)
     @Mapping(target = "telefonoList", ignore = true)

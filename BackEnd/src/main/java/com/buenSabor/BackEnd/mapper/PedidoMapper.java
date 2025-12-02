@@ -68,15 +68,16 @@ public interface PedidoMapper {
     @Mapping(target = "detallePedidoList", ignore = true)
     @Mapping(target = "detallePromocionList", ignore = true)
     @Mapping(target = "direccionPedido", ignore = true)
-    @Mapping(target = "usuario", ignore = true)
+    @Mapping(target = "usuario", ignore = true) // Ya se ignora, pero lo dejo explícito
     @Mapping(source = "tiempoEstimado", target = "tiempoEstimado")
     @Mapping(source = "existe", target = "existe")
     @Mapping(source = "fecha", target = "fecha")
-    @Mapping(source = "estadoPedido", target = "estadoPedido")
-    @Mapping(source = "sucursal", target = "sucursal")
-    @Mapping(source = "tipoEnvio", target = "tipoEnvio")
-    @Mapping(source = "tipoPago", target = "tipoPago")
-    @Mapping(target = "historicoEstados", ignore = true) // <--- CORRECCIÓN AGREGADA
+    // IGNORAMOS las relaciones maestras para evitar side-effects
+    @Mapping(target = "estadoPedido", ignore = true)
+    @Mapping(target = "sucursal", ignore = true)
+    @Mapping(target = "tipoEnvio", ignore = true)
+    @Mapping(target = "tipoPago", ignore = true)
+    @Mapping(target = "historicoEstados", ignore = true) 
     void updatePedidoFromDto(PedidoDTO dto, @MappingTarget Pedido entity);
 
     // Updates an existing Pedido entity from a PedidoConDireccionDTO.
@@ -88,11 +89,12 @@ public interface PedidoMapper {
     @Mapping(source = "tiempoEstimado", target = "tiempoEstimado")
     @Mapping(source = "existe", target = "existe")
     @Mapping(source = "fecha", target = "fecha")
-    @Mapping(source = "estadoPedido", target = "estadoPedido")
-    @Mapping(source = "sucursal", target = "sucursal")
-    @Mapping(source = "tipoEnvio", target = "tipoEnvio")
-    @Mapping(source = "tipoPago", target = "tipoPago")
-    @Mapping(target = "historicoEstados", ignore = true) // <--- CORRECCIÓN AGREGADA
+    // IGNORAMOS las relaciones maestras para evitar side-effects
+    @Mapping(target = "estadoPedido", ignore = true)
+    @Mapping(target = "sucursal", ignore = true)
+    @Mapping(target = "tipoEnvio", ignore = true)
+    @Mapping(target = "tipoPago", ignore = true)
+    @Mapping(target = "historicoEstados", ignore = true) 
     void updatePedidoFromDto(PedidoConDireccionDTO dto, @MappingTarget Pedido entity);
 
     // --- Helpers / Conversiones Extra ---

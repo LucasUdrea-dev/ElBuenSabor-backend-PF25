@@ -96,8 +96,8 @@ public interface ArticuloMapper {
     @Mapping(target = "promocionArticuloList", ignore = true)
     @Mapping(target = "historicoPrecioCostoArticuloInsumoList", ignore = true)
     @Mapping(target = "detalleManufacturas", ignore = true)
-    @Mapping(target = "subcategoria", source = "subcategoria")
-    @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "subcategoria", ignore = true)
+    @Mapping(target = "unidadMedida", ignore = true)
     @Mapping(target = "stockArticuloInsumo", ignore = true)
     @Mapping(target = "stockAndLink", ignore = true)
     @Mapping(target = "historicoPrecios", ignore = true)     // <--- NUEVO
@@ -110,8 +110,8 @@ public interface ArticuloMapper {
     @Mapping(target = "promocionArticuloList", ignore = true)
     @Mapping(target = "detalleInsumos", ignore = true)
     @Mapping(target = "sucursal", ignore = true)
-    @Mapping(target = "subcategoria", source = "subcategoria")
-    @Mapping(target = "unidadMedida", source = "unidadMedida")
+    @Mapping(target = "subcategoria", ignore = true)
+    @Mapping(target = "unidadMedida", ignore = true)
     @Mapping(target = "historicoPrecios", ignore = true) // <--- NUEVO
     void updateFromDto(ArticuloManufacturadoDTO dto, @MappingTarget ArticuloManufacturado entity);
 
