@@ -18,5 +18,4 @@ public class SubcategoriaDTO {
     private String denominacion;
     private CategoriaDTO categoria;
 
-    // Relaciones omitidas: articuloList
 }

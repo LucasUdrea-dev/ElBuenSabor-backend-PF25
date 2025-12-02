@@ -25,7 +25,6 @@ public class PromocionDTO {
     private SucursalDTO sucursal;
     private TipoPromocionDTO tipoPromocion;
 
-    // Lista de DTOs para las relaciones 'ToMany'
     private List<PromocionArticuloDTO> promocionArticuloList;
 
 }

@@ -101,15 +101,13 @@ public class StockService {
                 }
                 stock.setCantidad(nuevoStock);
 
-                // Lógica de "Existe" (MinStock)
                 if (nuevoStock < stock.getMinStock()) {
                     ArticuloInsumo insumo = stock.getArticuloInsumo();
                     insumo.setExiste(false);
-                    // IMPORTANTE: No llamamos a insumoRepository.save(insumo).
-                    // Hibernate detectará el cambio y lo guardará al final de la transacción.
+                
                 }
 
-                // 2. Guardamos y CAPTURAMOS la instancia actualizada (con la nueva versión)
+                // 2. Guardamos y CAPTURAMOS la instancia actualizada 
                 StockArticuloInsumo stockActualizado = stockRepository.save(stock);
 
                 // 3. Usamos el objeto actualizado para el histórico
@@ -350,7 +348,6 @@ public class StockService {
         }
     }
 
-    // Método helper para registrar el histórico
     private void registrarHistorico(StockArticuloInsumo stock) {
         HistoricoStockArticuloInsumo historico = new HistoricoStockArticuloInsumo();
         historico.setCantidad(stock.getCantidad());

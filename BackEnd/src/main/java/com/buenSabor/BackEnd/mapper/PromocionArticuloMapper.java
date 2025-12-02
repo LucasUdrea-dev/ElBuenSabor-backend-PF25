@@ -18,13 +18,13 @@ public interface PromocionArticuloMapper {
     PromocionArticuloDTO toDto(PromocionArticulo entity);
 
     // Map DTO to entity
-    // @InheritInverseConfiguration // You can use this, but I'll explicitly map for
+    // @InheritInverseConfiguration 
     // clarity here
     // <--[PromocionArticuloDTO dto]--
     // ==> {PromocionArticulo entity, y lo que ignora *idPromocion*}
     @Mapping(target = "idArticulo", source = "articulo")
-    @Mapping(target = "idPromocion", ignore = true) // <--- ADD THIS LINE
-    @Mapping(target = "id", source = "id") // Assuming the ID mapping is correct from Bean
+    @Mapping(target = "idPromocion", ignore = true)
+    @Mapping(target = "id", source = "id") 
     PromocionArticulo toEntity(PromocionArticuloDTO dto);
 
     // <--[PromocionArticuloDTO dto, PromocionArticulo entity]--

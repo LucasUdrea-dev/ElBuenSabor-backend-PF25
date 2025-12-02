@@ -139,7 +139,7 @@ public class PromocionController {
     }
 
     @Operation(summary = "Ver una promoción por ID (versión lite)")
-    @GetMapping("/lite/{id}") // New endpoint path for lite version
+    @GetMapping("/lite/{id}") 
     public ResponseEntity<?> getLiteById(@PathVariable Long id) {
         try {
             PromocionLiteDTO promocionLiteDTO = promocionService.findPromocionLiteById(id);
@@ -155,7 +155,7 @@ public class PromocionController {
     }
 
     @Operation(summary = "Listar todas las promociones (versión lite)")
-    @GetMapping("/lite") // New endpoint path for lite version
+    @GetMapping("/lite") 
     public ResponseEntity<?> getAllLite() {
         try {
             List<PromocionLiteDTO> promocionesLite = promocionService.findAllPromocionesLite();
@@ -167,7 +167,7 @@ public class PromocionController {
     }
 
     @Operation(summary = "Listar todas las promociones (versión lite) y condicionadas por existe")
-    @GetMapping("/lite/existente") // New endpoint path for lite version
+    @GetMapping("/lite/existente") 
     public ResponseEntity<?> getAllLiteExist() {
         try {
             List<PromocionLiteDTO> promocionesLite = promocionService.findAllPromocionesExistentesLite();
@@ -179,7 +179,7 @@ public class PromocionController {
     }
 
     @Operation(summary = "Listar todas las promociones y condicionadas por existe")
-    @GetMapping("/existente") // New endpoint path for lite version
+    @GetMapping("/existente") 
     public ResponseEntity<?> getAllExist() {
         try {
             List<PromocionDTO> promociones = promocionService.findAllPromocionesExistentesDTO();

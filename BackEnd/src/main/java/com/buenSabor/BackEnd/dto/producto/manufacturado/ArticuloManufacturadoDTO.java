@@ -21,5 +21,4 @@ public class ArticuloManufacturadoDTO extends ArticuloDTO {
     private String preparacion;
     private Long sucursalId;
     private List<ArticuloManufacturadoDetalleInsumoDTO> insumos;
-    // Relaciones omitidas: detalleInsumos
 }

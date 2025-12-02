@@ -22,14 +22,14 @@ public class TipoPromocionService extends BeanServiceImpl<TipoPromocion, Long> {
     public TipoPromocionService(BeanRepository<TipoPromocion, Long> beanRepository,
             TipoPromocionRepository tipoPromocionRepository,
             TipoPromocionMapper tipoPromocionMapper) {
-        super(beanRepository); // Pass the base repository to the superclass constructor
+        super(beanRepository); 
         this.tipoPromocionRepository = tipoPromocionRepository;
         this.tipoPromocionMapper = tipoPromocionMapper;
     }
 
     @Transactional
     public List<TipoPromocionDTO> findAllTipoPromocionesDTO() {
-        // Use the specific repository or super.findAll() if exposed
+      
         List<TipoPromocion> tipoPromociones = tipoPromocionRepository.findAll();
         return tipoPromocionMapper.toDtoList(tipoPromociones);
     }

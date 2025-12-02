@@ -31,16 +31,12 @@ public class CategoriaService extends BeanServiceImpl<Categoria, Long> {
     @Transactional
     public CategoriaDTO crearCategoria(CategoriaDTO dto) {
 
-        // Mapear DTO → Entidad
         Categoria categoria = mapper.toEntity(dto);
 
-        // Persistir
         Categoria saved = categoriaRepository.save(categoria);
-        // Rellenar el DTO con los IDs generados
 
         dto = mapper.toDTO(saved);
 
-        // Devolver el DTO
         return dto;
     }
 
@@ -54,10 +50,8 @@ public class CategoriaService extends BeanServiceImpl<Categoria, Long> {
         categoria.setImagen(dto.getImagen());
         categoria.setEsParaElaborar(dto.isEsParaElaborar());
 
-        // Guardar cambios
         Categoria saved = categoriaRepository.save(categoria);
 
-        // Entity -> DTO
         dto = mapper.toDTO(saved);
 
         return dto;

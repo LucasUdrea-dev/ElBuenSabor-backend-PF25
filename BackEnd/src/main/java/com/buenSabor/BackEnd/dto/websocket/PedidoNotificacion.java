@@ -7,9 +7,7 @@ import lombok.Setter;
 
 import java.util.Date;
 
-/**
- * Notificación de cambio de estado de pedido que se envía via WebSocket
- */
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,6 +22,6 @@ public class PedidoNotificacion {
     private Long usuarioId;
     private String usuarioNombre;
     private Long sucursalId;
-    private String mensaje; // Mensaje descriptivo del cambio
+    private String mensaje;
     private Date timestamp;
 }

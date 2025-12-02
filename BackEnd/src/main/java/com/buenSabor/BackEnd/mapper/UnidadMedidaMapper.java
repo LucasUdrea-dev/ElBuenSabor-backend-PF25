@@ -9,8 +9,6 @@ import org.mapstruct.Mapping;
 public interface UnidadMedidaMapper {
     // <--[UnidadMedidaDTO dto]--
     // ==>{UnidadMedida entity, y lo que ignora *articuloList*}
-    // IMPORTANTE: NO ignorar el ID - UnidadMedida está precargada en BD por
-    // MeasumentInitializer
     @Mapping(target = "articuloList", ignore = true)
     UnidadMedida toEntity(UnidadMedidaDTO dto);
 

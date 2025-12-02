@@ -66,14 +66,12 @@ public class DireccionService extends BeanServiceImpl<Direccion, Long> {
             throw new Exception("La ciudad es obligatoria.");
         }
 
-        // CLAVE: Buscar la ciudad existente ANTES de mapear
         Ciudad ciudadExistente = ciudadRepository.findById(dto.getCiudad().getId())
                 .orElseThrow(() -> new Exception("Ciudad con ID " + dto.getCiudad().getId() + " no encontrada."));
 
         // Mapear el DTO a entidad (esto NO incluirá la ciudad correctamente)
         Direccion nueva = direccionMapper.toEntity(dto);
 
-        // CLAVE: Asignar manualmente la ciudad persistente
         nueva.setCiudad(ciudadExistente);
 
         // Guardar la dirección

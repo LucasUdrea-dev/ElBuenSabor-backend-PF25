@@ -74,10 +74,8 @@ public class SubcategoriaService extends BeanServiceImpl<Subcategoria, Long> {
             subcategoria.setCategoria(categoria);
         }
 
-        // Guardar cambios
         Subcategoria subcategoriaUpdated = subcategoriaRepository.save(subcategoria);
 
-        // Entity -> DTO
         dto = mapper.toDto(subcategoriaUpdated);
 
         return dto;

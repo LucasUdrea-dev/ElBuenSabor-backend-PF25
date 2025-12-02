@@ -49,7 +49,6 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
     private final DireccionRepository direccionRepository;
     private final CiudadRepository ciudadRepository;
 
-    // REFACTOR: Usamos StockService en lugar del Repositorio directo
     private final StockService stockService;
 
     private final PedidoMapper pedidoMapper;
@@ -71,7 +70,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             PromocionRepository promocionRepository,
             DireccionRepository direccionRepository,
             CiudadRepository ciudadRepository,
-            StockService stockService, // Inyección del servicio
+            StockService stockService, 
             PedidoMapper pedidoMapper,
             DetallePedidoMapper detallePedidoMapper,
             DetallePromocionMapper detallePromocionMapper,
@@ -358,7 +357,7 @@ public class PedidoService extends BeanServiceImpl<Pedido, Long> {
             stockService.descontarStock(insumos, pedido.getSucursal().getId());
             logger.info("Pedido {} reactivado. Stock descontado.", id);
         }
-        // 3. Si cambia entre estados activos (ej: PREPARING -> READY) -> No tocar Stock
+        // 3. Si cambia entre estados activos (ej: PREPARING -> READY) -> No toca Stock
 
         // Actualizar estado
         pedido.setEstadoPedido(nuevoEstado);

@@ -18,5 +18,4 @@ public class CategoriaDTO {
     private boolean esParaElaborar;
     private String imagen;
 
-    // Relaciones omitidas: subcategorias
 }

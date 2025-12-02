@@ -98,7 +98,6 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
 
         logger.debug("TipoPromocion encontrado: {} (ID: {})", tipoPromocion.getTipoPromocion(), tipoPromocion.getId());
 
-        // Mapear DTO a entidad (sin relaciones complejas)
         Promocion promocion = new Promocion();
         promocion.setDenominacion(dto.getDenominacion());
         promocion.setDescripcion(dto.getDescripcion());
@@ -195,8 +194,6 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         existingPromocion.setTipoPromocion(tipoPromocion);
 
         // 4. Manejar artículos de la promoción (evitar duplicados)
-        // Limpiar la lista existente (orphanRemoval se encargará de eliminar los
-        // huérfanos)
         existingPromocion.getPromocionArticuloList().clear();
 
         if (dto.getPromocionArticuloList() != null && !dto.getPromocionArticuloList().isEmpty()) {
@@ -234,7 +231,6 @@ public class PromocionService extends BeanServiceImpl<Promocion, Long> {
         Promocion updatedPromocion = promocionRepository.save(existingPromocion);
         logger.info("Promoción con ID {} actualizada exitosamente.", id);
 
-        // 6. Convertir a DTO para la respuesta
         return promocionMapper.toDto(updatedPromocion);
     }
 

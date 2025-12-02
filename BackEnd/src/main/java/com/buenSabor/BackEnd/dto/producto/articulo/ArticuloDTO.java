@@ -26,6 +26,5 @@ public class ArticuloDTO {
     protected SubcategoriaDTO subcategoria;
     protected UnidadMedidaDTO unidadMedida;
 
-    // Relaciones omitidas: detallePedidoList, historicoPrecioVentaArticuloList,
-    // promocionArticuloList
+    
 }
