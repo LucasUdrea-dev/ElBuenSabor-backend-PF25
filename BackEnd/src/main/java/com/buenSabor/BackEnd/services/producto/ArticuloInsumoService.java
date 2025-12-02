@@ -4,14 +4,20 @@ import com.buenSabor.BackEnd.dto.producto.insumo.InsumoDTO;
 import com.buenSabor.BackEnd.mapper.ArticuloMapper;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.producto.ArticuloInsumo;
+import com.buenSabor.BackEnd.models.producto.ArticuloManufacturado;
+import com.buenSabor.BackEnd.models.producto.ArticuloManufacturadoDetalleInsumo;
 import com.buenSabor.BackEnd.models.producto.HistoricoPrecioCostoArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.HistoricoStockArticuloInsumo;
 import com.buenSabor.BackEnd.models.producto.Subcategoria;
 import com.buenSabor.BackEnd.models.producto.UnidadMedida;
 import com.buenSabor.BackEnd.models.producto.StockArticuloInsumo;
+import com.buenSabor.BackEnd.models.venta.Promocion;
+import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
 import com.buenSabor.BackEnd.repositories.producto.ArticuloInsumoRepository;
+import com.buenSabor.BackEnd.repositories.producto.ArticuloManufacturadoDetalleInsumoRepository;
 import com.buenSabor.BackEnd.repositories.producto.SubcategorioRepository;
 import com.buenSabor.BackEnd.repositories.producto.UnidadMedidaRepository;
+import com.buenSabor.BackEnd.repositories.venta.PromocionRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -33,7 +39,10 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
 
     @Autowired
     private SubcategorioRepository subcategorioRepository;
-
+    @Autowired
+    private PromocionRepository promocionRepository;
+@Autowired
+    private ArticuloManufacturadoDetalleInsumoRepository manufacturadoDetalleRepository;
     @Autowired
     private UnidadMedidaRepository unidadMedidaRepository;
 
@@ -43,6 +52,7 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
     public ArticuloInsumoService(ArticuloInsumoRepository articuloInsumoRepository) {
         super(articuloInsumoRepository);
         this.articuloInsumoRepository = articuloInsumoRepository;
+        this.manufacturadoDetalleRepository = manufacturadoDetalleRepository;
     }
 
   @Transactional
@@ -93,26 +103,37 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
         }
     }
 
-    @Transactional
+  @Transactional
     public ArticuloInsumo actualizar(Long id, InsumoDTO dto) {
         try {
+           
             ArticuloInsumo insumo = articuloInsumoRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Insumo con id " + id + " no existe"));
 
-            // --- A. HISTÓRICO DE PRECIO ---
-            Double precioAnterior = insumo.getPrecioCompra();
-            Double precioNuevo = dto.getPrecioCompra();
+            // --- A. CAPTURA DE VALORES  ---
+            
+            // 1. Capturamos Precio de VENTA 
+            Double precioVentaAnterior = insumo.getPrecio() != null ? insumo.getPrecio() : 0.0;
+            Double precioVentaNuevo = dto.getPrecio() != null ? dto.getPrecio() : 0.0;
 
-            // 1. Actualizar campos básicos
+            Double precioCostoAnterior = insumo.getPrecioCompra() != null ? insumo.getPrecioCompra() : 0.0;
+            Double precioCostoNuevo = dto.getPrecioCompra() != null ? dto.getPrecioCompra() : 0.0;
+
+            System.out.println("--- ACTUALIZANDO INSUMO: " + insumo.getNombre() + " ---");
+            System.out.println("Precio Venta Anterior: $" + precioVentaAnterior + " -> Nuevo: $" + precioVentaNuevo);
+
+            // 3. Actualizar la entidad con el Mapper
             articuloMapper.updateFromDto(dto, insumo);
-            insumo.setPrecioCompra(precioNuevo);
+            
+            insumo.setPrecio(precioVentaNuevo); 
+            insumo.setPrecioCompra(precioCostoNuevo);
 
-            // Guardar histórico si el precio cambió
-            if (precioNuevo != null && !precioNuevo.equals(precioAnterior)) {
+            // --- B. HISTÓRICO DE PRECIO DE COSTO ---
+            if (!precioCostoNuevo.equals(precioCostoAnterior)) {
                 HistoricoPrecioCostoArticuloInsumo historicoPrecio = new HistoricoPrecioCostoArticuloInsumo();
-                historicoPrecio.setPrecio(precioNuevo);
+                historicoPrecio.setPrecio(precioCostoNuevo);
                 historicoPrecio.setFecha(new Date());
-                historicoPrecio.setIdArticuloInsumo(insumo); // Relación con el padre
+                historicoPrecio.setIdArticuloInsumo(insumo);
 
                 if (insumo.getHistoricoPrecioCosto() == null) {
                     insumo.setHistoricoPrecioCosto(new ArrayList<>());
@@ -120,69 +141,111 @@ public class ArticuloInsumoService extends BeanServiceImpl<ArticuloInsumo, Long>
                 insumo.getHistoricoPrecioCosto().add(historicoPrecio);
             }
 
-            // 2. Actualizar Relaciones Simples
+            // --- C. ACTUALIZACIÓN RELACIONES SIMPLES ---
             if (dto.getSubcategoria() != null && dto.getSubcategoria().getId() != null) {
-                Subcategoria sub = subcategorioRepository.findById(dto.getSubcategoria().getId())
-                        .orElseThrow(() -> new EntityNotFoundException("Subcategoria no encontrada"));
-                insumo.setSubcategoria(sub);
+                insumo.setSubcategoria(subcategorioRepository.findById(dto.getSubcategoria().getId())
+                        .orElseThrow(() -> new EntityNotFoundException("Subcategoria no encontrada")));
             }
             if (dto.getUnidadMedida() != null && dto.getUnidadMedida().getId() != null) {
-                UnidadMedida um = unidadMedidaRepository.findById(dto.getUnidadMedida().getId())
-                        .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada"));
-                insumo.setUnidadMedida(um);
+                insumo.setUnidadMedida(unidadMedidaRepository.findById(dto.getUnidadMedida().getId())
+                        .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada")));
             }
 
-            // 3. Actualización del Stock y su Histórico
+            // --- D. ACTUALIZACIÓN DE STOCK ---
             if (dto.getStockArticuloInsumo() != null) {
-                if (dto.getStockArticuloInsumo().getCantidad() < 0) {
-                    throw new IllegalArgumentException("El stock no puede ser negativo");
-                }
-
                 StockArticuloInsumo stock = insumo.getStockArticuloInsumo();
-
                 if (stock == null) {
                     stock = new StockArticuloInsumo();
                     insumo.setStockAndLink(stock);
                 }
-
-                // --- B. HISTÓRICO DE STOCK ---
-                Integer cantidadAnterior = stock.getCantidad() != null ? stock.getCantidad() : 0;
-                Integer cantidadNueva = dto.getStockArticuloInsumo().getCantidad();
-
-                // Guardar histórico si la cantidad cambió
-                if (!cantidadNueva.equals(cantidadAnterior)) {
-                    HistoricoStockArticuloInsumo historicoStock = new HistoricoStockArticuloInsumo();
-                    historicoStock.setCantidad(cantidadNueva);
-                    historicoStock.setFechaActualizacion(new Date());
-                    historicoStock.setIdstockarticuloInsumo(stock); // Relación con el padre (stock)
-
-                    if (stock.getHistoricoStockArticuloInsumoList() == null) {
+                
+                // Histórico de Stock
+                Integer stockAnt = stock.getCantidad() != null ? stock.getCantidad() : 0;
+                Integer stockNuevo = dto.getStockArticuloInsumo().getCantidad();
+                
+                if (!stockNuevo.equals(stockAnt)) {
+                    HistoricoStockArticuloInsumo hStock = new HistoricoStockArticuloInsumo();
+                    hStock.setCantidad(stockNuevo);
+                    hStock.setFechaActualizacion(new Date());
+                    hStock.setIdstockarticuloInsumo(stock);
+                    if (stock.getHistoricoStockArticuloInsumoList() == null) 
                         stock.setHistoricoStockArticuloInsumoList(new ArrayList<>());
-                    }
-                    stock.getHistoricoStockArticuloInsumoList().add(historicoStock);
+                    stock.getHistoricoStockArticuloInsumoList().add(hStock);
                 }
 
-                // Actualizar valores actuales del stock
+                stock.setCantidad(stockNuevo);
                 stock.setMinStock(dto.getStockArticuloInsumo().getMinStock());
-                stock.setCantidad(cantidadNueva);
+                
+                if (dto.getStockArticuloInsumo().getSucursalId() != null) {
+                     stock.setSucursal(sucursalRepository.findById(dto.getStockArticuloInsumo().getSucursalId())
+                            .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada")));
+                }
+            }
+            //seccion promp 
+            double diferenciaVenta = precioVentaNuevo - precioVentaAnterior;
 
-                // Verificar cambio de Sucursal
-                Long sucursalIdDto = dto.getStockArticuloInsumo().getSucursalId();
-                if (sucursalIdDto != null) {
-                    if (stock.getSucursal() == null || !stock.getSucursal().getId().equals(sucursalIdDto)) {
-                        Sucursal suc = sucursalRepository.findById(sucursalIdDto)
-                                .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada"));
-                        stock.setSucursal(suc);
+            if (Math.abs(diferenciaVenta) > 0.0001) {
+                System.out.println(">> DETECTADO CAMBIO EN PRECIO VENTA: $" + diferenciaVenta);
+
+                List<PromocionArticulo> promosDirectas = insumo.getPromocionArticuloList();
+                if (promosDirectas != null) {
+                    for (PromocionArticulo pa : promosDirectas) {
+                        actualizarPrecioPromo(pa.getIdPromocion(), diferenciaVenta, pa.getCantidad());
                     }
                 }
+
+              
+                List<ArticuloManufacturadoDetalleInsumo> usosEnRecetas = 
+                        manufacturadoDetalleRepository.findByArticuloInsumo_Id(insumo.getId());
+                
+                if (usosEnRecetas != null && !usosEnRecetas.isEmpty()) {
+                    System.out.println(">> El insumo afecta a " + usosEnRecetas.size() + " manufacturados padres.");
+
+                    for (ArticuloManufacturadoDetalleInsumo receta : usosEnRecetas) {
+                        int cantidadInsumoEnReceta = receta.getCantidad(); 
+                        
+                        double impactoEnManufacturado = diferenciaVenta * cantidadInsumoEnReceta;
+
+                        ArticuloManufacturado manufacturadoPadre = receta.getArticuloManufacturado();
+
+                        List<PromocionArticulo> promosDelManufacturado = manufacturadoPadre.getPromocionArticuloList();
+                        //se llama a la clase
+                        if (promosDelManufacturado != null) {
+                            for (PromocionArticulo paMan : promosDelManufacturado) {
+                                actualizarPrecioPromo(paMan.getIdPromocion(), impactoEnManufacturado, paMan.getCantidad());
+                            }
+                        }
+                    }
+                }
+            } else {
+                System.out.println(">> El precio de venta no cambi no se actualizan promociones.");
             }
 
             return articuloInsumoRepository.save(insumo);
+
         } catch (Exception e) {
+            e.printStackTrace(); 
             throw new RuntimeException("Error al actualizar el insumo: " + e.getMessage(), e);
         }
     }
 
+    private void actualizarPrecioPromo(Promocion promo, double impactoUnitario, double cantidadEnPromo) {
+        if (cantidadEnPromo <= 0) return;
+
+        double aumentoTotal = impactoUnitario * cantidadEnPromo;
+        double precioActual = promo.getPrecioRebajado() != null ? promo.getPrecioRebajado() : 0.0;
+        double nuevoPrecio = precioActual + aumentoTotal;
+
+        nuevoPrecio = Math.round(nuevoPrecio * 100.0) / 100.0;
+
+        promo.setPrecioRebajado(nuevoPrecio);
+        promocionRepository.save(promo);
+
+        System.out.println("   [AUTO-UPDATE] Promo '" + promo.getDenominacion() + "' actualizada.");
+        System.out.println("   Precio Venta Base: " + precioActual + " -> " + nuevoPrecio);
+    }
+
+    
     @Transactional
     public ArticuloInsumo eliminarLogico(Long id) {
         ArticuloInsumo insumo = articuloInsumoRepository.findById(id)

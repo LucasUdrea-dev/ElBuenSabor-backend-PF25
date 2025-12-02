@@ -5,12 +5,16 @@ import com.buenSabor.BackEnd.dto.producto.manufacturadodetalle.ArticuloManufactu
 import com.buenSabor.BackEnd.mapper.ArticuloMapper;
 import com.buenSabor.BackEnd.models.company.Sucursal;
 import com.buenSabor.BackEnd.models.producto.*;
+import com.buenSabor.BackEnd.models.venta.Promocion;
+import com.buenSabor.BackEnd.models.venta.PromocionArticulo;
 import com.buenSabor.BackEnd.repositories.bean.BeanRepository;
 import com.buenSabor.BackEnd.repositories.company.SucursalRepository;
 import com.buenSabor.BackEnd.repositories.producto.*;
+import com.buenSabor.BackEnd.repositories.venta.PromocionRepository;
 import com.buenSabor.BackEnd.services.bean.BeanServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +38,8 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
     CategoriaRepository categoriaRepository;
     @Autowired
     ArticuloMapper mapper;
+       @Autowired
+    private PromocionRepository promocionRepository;
     @Autowired
     private ArticuloManufacturadoRepository articuloManufacturadoRepository;
 
@@ -111,45 +117,51 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
     }
 
     @Transactional
-    public ArticuloManufacturadoDTO actualizarManufacturado(
-            Long id, ArticuloManufacturadoDTO dto) {
-        // Recuperar la entidad existente
+    public ArticuloManufacturadoDTO actualizarManufacturado(Long id, ArticuloManufacturadoDTO dto) {
+        
+        // 1. Recuperar la entidad existente
         ArticuloManufacturado manufacturado = manufacturadoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "ArticuloManufacturado con id " + id + " no existe"));
 
-        // 2) Actualizar campos simples
+        // --- A. CAPTURAR PRECIO ANTERIOR (Vital para calcular la diferencia) ---
+        Double precioAnterior = manufacturado.getPrecio();
+        Double precioNuevo = dto.getPrecio();
+
+        // 2. Actualizar campos simples
         manufacturado.setNombre(dto.getNombre());
         manufacturado.setDescripcion(dto.getDescripcion());
-        manufacturado.setPrecio(dto.getPrecio());
+        manufacturado.setPrecio(precioNuevo); 
         manufacturado.setExiste(dto.getExiste());
         manufacturado.setEsParaElaborar(dto.getEsParaElaborar());
         manufacturado.setImagenArticulo(dto.getImagenArticulo());
         manufacturado.setTiempoEstimado(dto.getTiempoEstimado());
         manufacturado.setPreparacion(dto.getPreparacion());
 
-        // 3) Sustituir referencias
+        // 3. Sustituir referencias (Subcategoria, Unidad, Sucursal)
         Subcategoria subcategoria = subcategorioRepository.findById(dto.getSubcategoria().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Subcategoria no encontrada"));
 
-        if (!subcategoria.getCategoria().getId().equals(dto.getSubcategoria().getCategoria().getId())) {
-            subcategoria.setCategoria(
+        if (dto.getSubcategoria().getCategoria() != null && 
+            !subcategoria.getCategoria().getId().equals(dto.getSubcategoria().getCategoria().getId())) {
+             subcategoria.setCategoria(
                     categoriaRepository.findById(dto.getSubcategoria().getCategoria().getId())
                             .orElseThrow(() -> new EntityNotFoundException("Categoria no encontrada")));
         }
         manufacturado.setSubcategoria(subcategoria);
+        
         manufacturado.setUnidadMedida(
                 unidadMedidaRepository.findById(dto.getUnidadMedida().getId())
                         .orElseThrow(() -> new EntityNotFoundException("Unidad de medida no encontrada")));
+        
         manufacturado.setSucursal(
                 sucursalRepository.findById(dto.getSucursalId())
                         .orElseThrow(() -> new EntityNotFoundException("Sucursal no encontrada")));
 
-        // 4) Actualizar detalles de insumo
+        // 4. Actualizar detalles de insumo (Logic de eliminar/agregar)
         List<ArticuloManufacturadoDetalleInsumo> actuales = manufacturado.getDetalleInsumos();
         List<ArticuloManufacturadoDetalleInsumoDTO> nuevosDTO = dto.getInsumos();
         
-        // Recolectar IDs del request para identificar qué eliminar y qué procesar
         java.util.Set<Long> insumosEnRequest = new java.util.HashSet<>();
         for (ArticuloManufacturadoDetalleInsumoDTO d : nuevosDTO) {
             if (d.getArticuloInsumo() != null && d.getArticuloInsumo().getId() != null) {
@@ -157,19 +169,13 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
             }
         }
 
-        // A) ELIMINAR: quitar de la lista 'actuales' lo que NO venga en el DTO
-        // Al tener orphanRemoval=true, remover de la lista borra el registro de la tabla intermedia
         actuales.removeIf(det -> !insumosEnRequest.contains(det.getArticuloInsumo().getId()));
 
-        // B) AGREGAR O ACTUALIZAR
         java.util.Set<Long> procesados = new java.util.HashSet<>();
         for (ArticuloManufacturadoDetalleInsumoDTO d : nuevosDTO) {
             Long insumoId = d.getArticuloInsumo().getId();
 
-            // Evitar duplicados dentro del mismo JSON de entrada
-            if (procesados.contains(insumoId)) {
-                continue; 
-            }
+            if (procesados.contains(insumoId)) continue; 
             procesados.add(insumoId);
 
             Optional<ArticuloManufacturadoDetalleInsumo> opt = actuales.stream()
@@ -177,10 +183,8 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
                     .findFirst();
 
             if (opt.isPresent()) {
-                // Ya existe -> Actualizar
                 opt.get().setCantidad(d.getCantidad());
             } else {
-                // No existe -> Agregar
                 ArticuloManufacturadoDetalleInsumo nuevoDetalle = new ArticuloManufacturadoDetalleInsumo();
                 nuevoDetalle.setArticuloManufacturado(manufacturado);
                 nuevoDetalle.setArticuloInsumo(insumoRepository.findById(insumoId)
@@ -190,24 +194,64 @@ public class ArticuloManufacturadoService extends BeanServiceImpl<ArticuloManufa
             }
         }
 
-        // 5) Guardar cambios
+       
+        if (precioNuevo != null && precioAnterior != null && !precioNuevo.equals(precioAnterior)) {
+            
+            
+            double diferencia = precioNuevo - precioAnterior;
+
+        
+            List<PromocionArticulo> promocionesRelacionadas = manufacturado.getPromocionArticuloList();
+
+            if (promocionesRelacionadas != null) {
+                for (PromocionArticulo pa : promocionesRelacionadas) {
+                    
+                    int cantidadEnPromo = pa.getCantidad(); 
+                    if (cantidadEnPromo > 0) {
+                        Promocion promo = pa.getIdPromocion(); 
+                        
+                        double impactoTotal = diferencia * cantidadEnPromo;
+                        
+                       
+                        double precioPromoActual = promo.getPrecioRebajado() != null ? promo.getPrecioRebajado() : 0.0;
+                        double nuevoPrecioFinal = precioPromoActual + impactoTotal;
+                        
+                        promo.setPrecioRebajado(nuevoPrecioFinal);
+                        
+                       
+                        promocionRepository.save(promo);
+                    }
+                }
+            }
+        }
+
+        // 5. Guardar cambios del manufacturado
         ArticuloManufacturado saved = manufacturadoRepository.save(manufacturado);
 
-        // 6) Rellenar DTO de respuesta con IDs nuevos
+        // 6. Rellenar DTO de respuesta
         dto.setId(saved.getId());
         dto.getSubcategoria().setDenominacion(saved.getSubcategoria().getDenominacion());
-        dto.getSubcategoria().getCategoria()
-                .setDenominacion(saved.getSubcategoria().getCategoria().getDenominacion());
-        dto.getSubcategoria().getCategoria().setId(saved.getSubcategoria().getCategoria().getId());
-        dto.setSucursalId(saved.getSucursal().getId());
-        for (int i = 0; i < dto.getInsumos().size(); i++) {
-            dto.getInsumos().get(i)
-                    .setId(saved.getDetalleInsumos().get(i).getId());
+        if (saved.getSubcategoria().getCategoria() != null) {
+            dto.getSubcategoria().getCategoria()
+                    .setDenominacion(saved.getSubcategoria().getCategoria().getDenominacion());
+            dto.getSubcategoria().getCategoria().setId(saved.getSubcategoria().getCategoria().getId());
         }
+        dto.setSucursalId(saved.getSucursal().getId());
+        
+        // Mapeo seguro de insumos de respuesta
+        List<ArticuloManufacturadoDetalleInsumoDTO> insumosRespuesta = new ArrayList<>();
+        for(ArticuloManufacturadoDetalleInsumo detalle : saved.getDetalleInsumos()){
+            ArticuloManufacturadoDetalleInsumoDTO detDto = new ArticuloManufacturadoDetalleInsumoDTO();
+            detDto.setId(detalle.getId());
+            detDto.setCantidad(detalle.getCantidad());
+            // Aquí deberías mapear también el InsumoDTO interno si lo necesitas en el front
+            insumosRespuesta.add(detDto);
+        }
+        dto.setInsumos(insumosRespuesta);
 
         return dto;
     }
-
+    
     @Transactional
     public ArticuloManufacturado eliminarLogico(Long id) {
         // Recupero articulo a eliminar
