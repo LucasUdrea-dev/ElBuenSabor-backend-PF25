@@ -1,5 +1,6 @@
 package com.buenSabor.BackEnd.services;
 
+import com.buenSabor.BackEnd.dto.venta.pedido.PedidoConDireccionDTO;
 import com.buenSabor.BackEnd.enums.TypeState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -53,15 +54,8 @@ public class WebSocketService {
     // LÓGICA DE ENVÍO
     // ----------------------------------------------------------------------
 
-    /**
-     * Notifica a todos los interesados sobre el cambio de estado de un pedido.
-     * 
-     * @param orderId  ID del pedido
-     * @param state    Enum del estado actual (TypeState)
-     * @param orderDto El objeto completo con los datos para actualizar las
-     *                 pantallas
-     */
-    public void notifyStatusChange(Long orderId, TypeState state, Object orderDto) {
+ 
+    public void notifyStatusChange(Long orderId, TypeState state, PedidoConDireccionDTO orderDto) {
 
         String clientMessage = MESSAGES_FOR_CLIENT.getOrDefault(state, "Estado actualizado");
 
@@ -69,10 +63,13 @@ public class WebSocketService {
                 "message", clientMessage,
                 "pedido", orderDto);
 
-        // Enviamos la respuesta compuesta al cliente
-        messagingTemplate.convertAndSend("/topic/pedidos/" + orderId, response);
+        //  cliente
+        if (orderDto.getUsuario() != null && orderDto.getUsuario().getId() != null) {
+        String userChannel = "/topic/usuarios/" + orderDto.getUsuario().getId();
+        messagingTemplate.convertAndSend(userChannel, response);
+    }
 
-        // Enviamos el pedido a los roles correspondientes según el estado
+        //roles correspondientes según el estado
         if (STATES_FOR_CAJERO.contains(state)) {
             messagingTemplate.convertAndSend("/topic/dashboard/cajero", orderDto);
         }
