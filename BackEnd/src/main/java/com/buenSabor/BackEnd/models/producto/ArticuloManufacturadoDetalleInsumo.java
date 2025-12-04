@@ -20,7 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticuloManufacturadoDetalleInsumo extends Bean {
-
+    //jsut for fun 
     @ManyToOne
     @JoinColumn(name = "id_articulo_manufacturado")
     @JsonIgnore
