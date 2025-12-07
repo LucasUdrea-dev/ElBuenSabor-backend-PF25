@@ -18,7 +18,10 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
-
+// configurations {
+//     runtimeClasspath {
+//         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+//     }
 repositories {
 	mavenCentral()
 }
